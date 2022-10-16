@@ -1,0 +1,3 @@
+[submodule "mystatapi-cs"]
+	path = mystatapi-cs
+	url = https://github.com/DDeenis/mystatapi-cs
