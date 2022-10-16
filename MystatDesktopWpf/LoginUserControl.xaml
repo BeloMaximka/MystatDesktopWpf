@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="MystatDesktopWpf.LoginUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
+             xmlns:local="clr-namespace:MystatDesktopWpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource MaterialDesignPaper}">
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Mystat Desktop"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
+            <materialDesign:Card MaxWidth="380"
+                             Height="Auto"
+                             Margin="4"
+                             VerticalAlignment="Center"
+                             Grid.Row="1">
+                <Grid Margin="32">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                <TextBox x:Name="LoginTextBox" Grid.Column="1" materialDesign:HintAssist.Hint="Login" Margin="8,0,0,16"
+                         materialDesign:ValidationAssist.Background="Transparent">
+                    <Binding ElementName="LoginTextBox" Path="Text">
+                        <Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox>
+                    <materialDesign:PackIcon Foreground="{Binding ElementName=LoginTextBox, Path=BorderBrush}"
+                                             Kind="Account"
+                                             Margin="8,0,0,16"
+                                             VerticalAlignment="Center"/>
+                <TextBox x:Name="PasswordTextBox" Grid.Row="1" Grid.Column="1" materialDesign:HintAssist.Hint="Password" 
+                         Margin="8,0,0,16" materialDesign:ValidationAssist.Background="Transparent">
+                    <Binding ElementName="PasswordTextBox" Path="Text">
+                        <Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox>
+                    <materialDesign:PackIcon Foreground="{Binding ElementName=PasswordTextBox, Path=BorderBrush}"
+                                             Kind="Key"
+                                             VerticalAlignment="Center"
+                                             Margin="8,0,0,16"
+                                             Grid.Row="1"/>
+                    <Button Content="Enter" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,16,0,0"/>
+                <TextBlock Style="{DynamicResource MaterialDesignHelperTextBlock}" Text="De" 
+                           Grid.Row="3" Grid.ColumnSpan="2"
+                           HorizontalAlignment="Center" Foreground="Red" Visibility="Collapsed"/>
+
+            </Grid>
+
+
+            </materialDesign:Card>
+        </Grid>
+</UserControl>

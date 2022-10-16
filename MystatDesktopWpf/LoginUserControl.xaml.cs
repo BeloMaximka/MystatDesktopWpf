@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace MystatDesktopWpf
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для LoginUserControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginUserControl : UserControl
     {
-        public MainWindow()
+        public LoginUserControl()
         {
             InitializeComponent();
         }
