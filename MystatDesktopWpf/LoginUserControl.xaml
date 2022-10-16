@@ -23,17 +23,17 @@
                              Margin="4"
                              VerticalAlignment="Center"
                              Grid.Row="1">
-                <Grid Margin="32">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+            <Grid Margin="32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 <TextBox x:Name="LoginTextBox" Grid.Column="1" materialDesign:HintAssist.Hint="Login" Margin="8,0,0,16"
                          materialDesign:ValidationAssist.Background="Transparent">
                     <Binding ElementName="LoginTextBox" Path="Text">
@@ -42,7 +42,7 @@
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>
-                    <materialDesign:PackIcon Foreground="{Binding ElementName=LoginTextBox, Path=BorderBrush}"
+                <materialDesign:PackIcon Foreground="{Binding ElementName=LoginTextBox, Path=BorderBrush}"
                                              Kind="Account"
                                              Margin="8,0,0,16"
                                              VerticalAlignment="Center"/>
@@ -54,19 +54,17 @@
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>
-                    <materialDesign:PackIcon Foreground="{Binding ElementName=PasswordTextBox, Path=BorderBrush}"
+                <materialDesign:PackIcon Foreground="{Binding ElementName=PasswordTextBox, Path=BorderBrush}"
                                              Kind="Key"
                                              VerticalAlignment="Center"
                                              Margin="8,0,0,16"
                                              Grid.Row="1"/>
-                    <Button Content="Enter" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,16,0,0"/>
+                <Button Content="Enter" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,16,0,0"
+                         Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"/>
                 <TextBlock Style="{DynamicResource MaterialDesignHelperTextBlock}" Text="De" 
                            Grid.Row="3" Grid.ColumnSpan="2"
                            HorizontalAlignment="Center" Foreground="Red" Visibility="Collapsed"/>
-
             </Grid>
-
-
-            </materialDesign:Card>
+        </materialDesign:Card>
         </Grid>
 </UserControl>

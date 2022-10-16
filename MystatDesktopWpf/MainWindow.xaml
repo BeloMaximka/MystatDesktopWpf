@@ -14,5 +14,16 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-    <local:LoginUserControl/>
+    <Grid>
+        <materialDesign:Transitioner AutoApplyTransitionOrigins="True" SelectedIndex="0">
+            <materialDesign:TransitionerSlide>
+                <local:LoginUserControl/>
+            </materialDesign:TransitionerSlide>
+            <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
+                <local:MainMenuUserControl/>
+            </materialDesign:TransitionerSlide>
+        </materialDesign:Transitioner>
+    </Grid>
+    
+    
 </Window>
