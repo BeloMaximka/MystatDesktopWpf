@@ -34,7 +34,20 @@ namespace MystatDesktopWpf
 
         async void LoginToMystat()
         {
-            var response = await Mystat.Login();
+            MystatAuthResponse response;
+            try
+            {
+                response = await Mystat.Login();
+            }
+            catch (Exception e)
+            {
+                ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
+                errorText.Text = "Cannot connect to server";
+                errorText.Visibility = Visibility.Visible;
+                MessageBox.Show(e.Message);
+                return;
+            }
+
             MystatAuthSuccess? responseSuccess = response as MystatAuthSuccess;
             ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
             if (responseSuccess != null)
@@ -47,7 +60,6 @@ namespace MystatDesktopWpf
                 errorText.Text = error.Message;
                 errorText.Visibility = Visibility.Visible;
             }
-
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
