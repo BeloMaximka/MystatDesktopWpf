@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MystatAPI.Entity;
+using MystatAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,16 @@ namespace MystatDesktopWpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        UserLoginData login;
+        MystatAPIClient mystat;
         public MainWindow()
         {
+            login = new UserLoginData();
+            mystat = new MystatAPIClient(login);
             InitializeComponent();
+            loginUserControl.Login = login;
+            loginUserControl.Mystat = mystat;
+            mainMenuUserControl.Mystat = mystat;
         }
     }
 }

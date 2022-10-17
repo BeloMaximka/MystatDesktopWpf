@@ -13,14 +13,15 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        x:Name="window">
     <Grid>
         <materialDesign:Transitioner AutoApplyTransitionOrigins="True" SelectedIndex="0">
             <materialDesign:TransitionerSlide>
-                <local:LoginUserControl/>
+                <local:LoginUserControl x:Name="loginUserControl"/>
             </materialDesign:TransitionerSlide>
             <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
-                <local:MainMenuUserControl/>
+                <local:MainMenuUserControl x:Name="mainMenuUserControl"/>
             </materialDesign:TransitionerSlide>
         </materialDesign:Transitioner>
     </Grid>

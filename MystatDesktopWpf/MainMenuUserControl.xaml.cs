@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MystatAPI;
+using MystatAPI.Entity;
 
 namespace MystatDesktopWpf
 {
@@ -20,9 +22,19 @@ namespace MystatDesktopWpf
     /// </summary>
     public partial class MainMenuUserControl : UserControl
     {
+        public MystatAPIClient Mystat { get; set; }
         public MainMenuUserControl()
         {
             InitializeComponent();
+        }
+        async void GetTestInfo()
+        {
+            var schedule = await Mystat.GetScheduleByDate(DateTime.Now);
+            MessageBox.Show(schedule[0].TeacherName);
+        }
+        private void TabControl_GotFocus(object sender, RoutedEventArgs e)
+        {
+            GetTestInfo();
         }
     }
 }

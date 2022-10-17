@@ -10,7 +10,8 @@
              Background="{DynamicResource MaterialDesignPaper}">
     <TabControl materialDesign:ColorZoneAssist.Mode="Standard"
                 materialDesign:ElevationAssist.Elevation="Dp12"
-                Style="{StaticResource MaterialDesignNavigationRailTabControl}">
+                Style="{StaticResource MaterialDesignNavigationRailTabControl}" 
+                GotFocus="TabControl_GotFocus">
         <TabItem>
             <TabItem.Header>
                 <StackPanel
@@ -26,8 +27,7 @@
             Text="Home" />
                 </StackPanel>
             </TabItem.Header>
-            <Grid
-        Width="100" />
+            <Grid/>
         </TabItem>
         <TabItem>
             <TabItem.Header>

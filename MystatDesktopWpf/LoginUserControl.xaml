@@ -10,19 +10,18 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Mystat Desktop"
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Mystat Desktop"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
                        Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
-            <materialDesign:Card MaxWidth="380"
-                             Height="Auto"
-                             Margin="4"
-                             VerticalAlignment="Center"
-                             Grid.Row="1">
+        <materialDesign:Card MaxWidth="380" Height="Auto" 
+                                 Margin="4"
+                                 VerticalAlignment="Center"
+                                 Grid.Row="1">
             <Grid Margin="32">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -34,37 +33,42 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="LoginTextBox" Grid.Column="1" materialDesign:HintAssist.Hint="Login" Margin="8,0,0,16"
-                         materialDesign:ValidationAssist.Background="Transparent">
-                    <Binding ElementName="LoginTextBox" Path="Text">
-                        <Binding.ValidationRules>
-                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-                <materialDesign:PackIcon Foreground="{Binding ElementName=LoginTextBox, Path=BorderBrush}"
-                                             Kind="Account"
-                                             Margin="8,0,0,16"
-                                             VerticalAlignment="Center"/>
-                <TextBox x:Name="PasswordTextBox" Grid.Row="1" Grid.Column="1" materialDesign:HintAssist.Hint="Password" 
-                         Margin="8,0,0,16" materialDesign:ValidationAssist.Background="Transparent">
-                    <Binding ElementName="PasswordTextBox" Path="Text">
-                        <Binding.ValidationRules>
-                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-                <materialDesign:PackIcon Foreground="{Binding ElementName=PasswordTextBox, Path=BorderBrush}"
-                                             Kind="Key"
-                                             VerticalAlignment="Center"
-                                             Margin="8,0,0,16"
-                                             Grid.Row="1"/>
-                <Button Content="Enter" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,16,0,0"
-                         Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"/>
-                <TextBlock Style="{DynamicResource MaterialDesignHelperTextBlock}" Text="De" 
-                           Grid.Row="3" Grid.ColumnSpan="2"
-                           HorizontalAlignment="Center" Foreground="Red" Visibility="Collapsed"/>
+                <TextBox x:Name="loginTextBox" 
+                         Grid.Column="1" 
+                         materialDesign:HintAssist.Hint="Login" 
+                         Margin="8,0,0,16"
+                         materialDesign:ValidationAssist.Background="Transparent"/>
+
+                <materialDesign:PackIcon Foreground="{Binding ElementName=loginTextBox, Path=BorderBrush}"
+                                         Kind="Account"
+                                         Margin="8,0,0,16"
+                                         VerticalAlignment="Center"/>
+                <PasswordBox x:Name="passwordTextBox" 
+                             Style="{StaticResource MaterialDesignRevealPasswordBox}"
+                             Grid.Row="1" Grid.Column="1" 
+                             materialDesign:HintAssist.Hint="Password" 
+                             Margin="8,0,0,16"/>
+
+                <materialDesign:PackIcon Foreground="{Binding ElementName=passwordTextBox, Path=BorderBrush}"
+                                         Kind="Key"
+                                         VerticalAlignment="Center"
+                                         Margin="8,0,0,16"
+                                         Grid.Row="1"/>
+                <Button x:Name="loginButton" 
+                        Content="Enter" 
+                        Grid.Row="2" Grid.ColumnSpan="2" 
+                        Margin="0,16,0,0"
+                        Click="Button_Click" 
+                        materialDesign:ButtonProgressAssist.Value="-1"
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"/>
+                <TextBlock x:Name="errorText" 
+                           Style="{DynamicResource MaterialDesignHelperTextBlock}"
+                           Grid.Row="3" Grid.ColumnSpan="2" 
+                           Margin="0,16,0,0"
+                           HorizontalAlignment="Center" 
+                           Foreground="{DynamicResource MaterialDesignValidationErrorBrush}" 
+                           Visibility="Collapsed"/>
             </Grid>
         </materialDesign:Card>
-        </Grid>
+    </Grid>
 </UserControl>
