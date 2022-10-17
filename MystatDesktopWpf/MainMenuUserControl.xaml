@@ -24,7 +24,7 @@
             Kind="Home" />
                     <TextBlock
             HorizontalAlignment="Center"
-            Text="Home" />
+            Text="Главная" />
                 </StackPanel>
             </TabItem.Header>
             <Grid/>
@@ -41,7 +41,7 @@
             Kind="CalendarMonth" />
                     <TextBlock
             HorizontalAlignment="Center"
-            Text="Schedule" />
+            Text="Расписание"/>
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
@@ -55,9 +55,9 @@
             Height="24"
             HorizontalAlignment="Center"
             Kind="Server" />
-                    <TextBlock
+                    <TextBlock TextAlignment="Center"
             HorizontalAlignment="Center"
-            Text="Homework" />
+            Text="Домашние&#x0a;задания" />
                 </StackPanel>
             </TabItem.Header>
         </TabItem>

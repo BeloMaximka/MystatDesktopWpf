@@ -35,7 +35,7 @@
                 </Grid.RowDefinitions>
                 <TextBox x:Name="loginTextBox" 
                          Grid.Column="1" 
-                         materialDesign:HintAssist.Hint="Login" 
+                         materialDesign:HintAssist.Hint="Логин" 
                          Margin="8,0,0,16"
                          materialDesign:ValidationAssist.Background="Transparent"/>
 
@@ -46,7 +46,7 @@
                 <PasswordBox x:Name="passwordTextBox" 
                              Style="{StaticResource MaterialDesignRevealPasswordBox}"
                              Grid.Row="1" Grid.Column="1" 
-                             materialDesign:HintAssist.Hint="Password" 
+                             materialDesign:HintAssist.Hint="Пароль" 
                              Margin="8,0,0,16"/>
 
                 <materialDesign:PackIcon Foreground="{Binding ElementName=passwordTextBox, Path=BorderBrush}"
@@ -55,7 +55,7 @@
                                          Margin="8,0,0,16"
                                          Grid.Row="1"/>
                 <Button x:Name="loginButton" 
-                        Content="Enter" 
+                        Content="Вход" 
                         Grid.Row="2" Grid.ColumnSpan="2" 
                         Margin="0,16,0,0"
                         Click="Button_Click" 
