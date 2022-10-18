@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="MystatDesktopWpf.MainMenuUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MystatDesktopWpf"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource MaterialDesignPaper}">
+    <TabControl materialDesign:ColorZoneAssist.Mode="Standard"
+                materialDesign:ElevationAssist.Elevation="Dp12"
+                Style="{StaticResource MaterialDesignNavigationRailTabControl}" 
+                GotFocus="TabControl_GotFocus">
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel
+          Width="auto"
+          Height="auto">
+                    <materialDesign:PackIcon
+            Width="24"
+            Height="24"
+            HorizontalAlignment="Center"
+            Kind="Home" />
+                    <TextBlock
+            HorizontalAlignment="Center"
+            Text="Главная" />
+                </StackPanel>
+            </TabItem.Header>
+            <Grid/>
+        </TabItem>
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel
+          Width="auto"
+          Height="auto">
+                    <materialDesign:PackIcon
+            Width="24"
+            Height="24"
+            HorizontalAlignment="Center"
+            Kind="CalendarMonth" />
+                    <TextBlock
+            HorizontalAlignment="Center"
+            Text="Расписание"/>
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem Width="90">
+            <TabItem.Header>
+                <StackPanel
+          Width="auto"
+          Height="auto">
+                    <materialDesign:PackIcon
+            Width="24"
+            Height="24"
+            HorizontalAlignment="Center"
+            Kind="Server" />
+                    <TextBlock TextAlignment="Center"
+            HorizontalAlignment="Center"
+            Text="Домашние&#x0a;задания" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+    </TabControl>
+</UserControl>
