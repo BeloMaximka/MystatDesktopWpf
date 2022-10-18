@@ -8,7 +8,7 @@ namespace MystatDesktopWpf.Domain
         static public MystatAPIClient mystatAPIClient { get; private set; }
         static MystatAPISingleton()
         {
-            mystatAPIClient = new MystatAPIClient(new UserLoginData());
+            mystatAPIClient = new MystatAPIClient();
         }
     }
 }
