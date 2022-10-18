@@ -22,16 +22,9 @@ namespace MystatDesktopWpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        UserLoginData login;
-        MystatAPIClient mystat;
         public MainWindow()
         {
-            login = new UserLoginData();
-            mystat = new MystatAPIClient(login);
             InitializeComponent();
-            loginUserControl.Login = login;
-            loginUserControl.Mystat = mystat;
-            mainMenuUserControl.Mystat = mystat;
         }
     }
 }

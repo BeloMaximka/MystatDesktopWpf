@@ -17,6 +17,7 @@ using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Transitions;
 using MystatAPI;
 using MystatAPI.Entity;
+using MystatDesktopWpf.Domain;
 
 namespace MystatDesktopWpf
 {
@@ -25,19 +26,18 @@ namespace MystatDesktopWpf
     /// </summary>
     public partial class LoginUserControl : UserControl
     {
-        public UserLoginData Login { get; set; }
-        public MystatAPIClient Mystat { get; set; }
         public LoginUserControl()
         {
             InitializeComponent();
         }
 
-        async void LoginToMystat()
+        async void LoginToMystat(string username, string password)
         {
             MystatAuthResponse response;
+            MystatAPISingleton.mystatAPIClient.SetLoginData(new UserLoginData(username, password));
             try
             {
-                response = await Mystat.Login();
+                response = await MystatAPISingleton.mystatAPIClient.Login();
             }
             catch (Exception e)
             {
@@ -66,11 +66,9 @@ namespace MystatDesktopWpf
             bool inputError = string.IsNullOrWhiteSpace((loginTextBox.Text ?? "").ToString()) || passwordTextBox.SecurePassword.Length == 0;
             if (!inputError)
             {
-                Login.Username = loginTextBox.Text;
-                Login.Password = passwordTextBox.Password;
                 ButtonProgressAssist.SetIsIndicatorVisible(loginButton, true);
                 errorText.Visibility = Visibility.Collapsed;
-                LoginToMystat();
+                LoginToMystat(loginTextBox.Text, passwordTextBox.Password);
             }
             else
             {

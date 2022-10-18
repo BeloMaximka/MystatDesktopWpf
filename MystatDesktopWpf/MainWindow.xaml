@@ -25,6 +25,4 @@
             </materialDesign:TransitionerSlide>
         </materialDesign:Transitioner>
     </Grid>
-    
-    
 </Window>
