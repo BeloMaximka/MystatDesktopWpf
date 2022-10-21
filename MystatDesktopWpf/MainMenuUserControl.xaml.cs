@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf.Transitions;
 using MystatDesktopWpf.Domain;
 
 namespace MystatDesktopWpf
@@ -23,23 +25,14 @@ namespace MystatDesktopWpf
     {
         public MainMenuUserControl()
         {
+            this.DataContext = new MainMenuViewModel();
             InitializeComponent();
         }
-        async void GetTestInfo()
+
+        private void Button_Exit_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var schedule = await MystatAPISingleton.mystatAPIClient.GetScheduleByDate(DateTime.Now);
-                MessageBox.Show(schedule[0].TeacherFullName);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Не получилось получить информацию");
-            }
-        }
-        private void TabControl_GotFocus(object sender, RoutedEventArgs e)
-        {
-            GetTestInfo();
+            // Back to login
+            Transitioner.MovePreviousCommand.Execute(null, null);
         }
     }
 }
