@@ -76,5 +76,13 @@ namespace MystatDesktopWpf
                 errorText.Visibility = Visibility.Visible;
             }
         }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Button_Click(loginButton, null);
+            }
+        }
     }
 }
