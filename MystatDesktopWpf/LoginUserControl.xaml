@@ -54,7 +54,7 @@
                                          VerticalAlignment="Center"
                                          Margin="8,0,0,16"
                                          Grid.Row="1"/>
-                <CheckBox Content="Запомнить меня" Grid.Row="2" Grid.ColumnSpan="2"/>
+                <CheckBox Content="Запомнить меня" Grid.Row="2" Grid.ColumnSpan="2" Margin="7,0,0,0"/>
                 <Button x:Name="loginButton" 
                         Content="Вход" 
                         Grid.Row="3" Grid.ColumnSpan="2" 
