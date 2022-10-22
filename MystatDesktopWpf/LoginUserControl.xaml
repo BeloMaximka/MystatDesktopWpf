@@ -8,7 +8,8 @@
              xmlns:local="clr-namespace:MystatDesktopWpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="{DynamicResource MaterialDesignPaper}">
+             Background="{DynamicResource MaterialDesignPaper}"
+             KeyDown="UserControl_KeyDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -38,7 +39,6 @@
                          materialDesign:HintAssist.Hint="Логин" 
                          Margin="8,0,0,16"
                          materialDesign:ValidationAssist.Background="Transparent"/>
-
                 <materialDesign:PackIcon Foreground="{Binding ElementName=loginTextBox, Path=BorderBrush}"
                                          Kind="Account"
                                          Margin="8,0,0,16"
@@ -48,7 +48,6 @@
                              Grid.Row="1" Grid.Column="1" 
                              materialDesign:HintAssist.Hint="Пароль" 
                              Margin="8,0,0,16"/>
-
                 <materialDesign:PackIcon Foreground="{Binding ElementName=passwordTextBox, Path=BorderBrush}"
                                          Kind="Key"
                                          VerticalAlignment="Center"

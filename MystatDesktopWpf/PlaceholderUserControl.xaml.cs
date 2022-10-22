@@ -12,27 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MaterialDesignThemes.Wpf;
-using MaterialDesignThemes.Wpf.Transitions;
-using MystatDesktopWpf.Domain;
 
 namespace MystatDesktopWpf
 {
     /// <summary>
-    /// Interaction logic for MainMenuUserControl.xaml
+    /// Interaction logic for PlaceholderUserControl.xaml
     /// </summary>
-    public partial class MainMenuUserControl : UserControl
+    public partial class PlaceholderUserControl : UserControl
     {
-        public MainMenuUserControl()
+        public PlaceholderUserControl()
         {
-            this.DataContext = new MainMenuViewModel();
             InitializeComponent();
-        }
-
-        private void Button_Exit_Click(object sender, RoutedEventArgs e)
-        {
-            // Back to login
-            Transitioner.MovePreviousCommand.Execute(null, null);
         }
     }
 }
