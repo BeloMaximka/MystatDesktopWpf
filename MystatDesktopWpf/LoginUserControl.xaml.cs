@@ -42,7 +42,7 @@ namespace MystatDesktopWpf
             catch (Exception e)
             {
                 ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
-                errorText.Text = "Cannot connect to server";
+                errorText.Text = "Не удалось подключиться к серверу";
                 errorText.Visibility = Visibility.Visible;
                 MessageBox.Show(e.Message);
                 return;
@@ -72,7 +72,7 @@ namespace MystatDesktopWpf
             }
             else
             {
-                errorText.Text = "All fields are required";
+                errorText.Text = "Все поля обязательны";
                 errorText.Visibility = Visibility.Visible;
             }
         }
