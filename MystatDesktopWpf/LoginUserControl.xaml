@@ -33,7 +33,6 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBox x:Name="loginTextBox" 
                          Grid.Column="1" 
@@ -54,17 +53,16 @@
                                          VerticalAlignment="Center"
                                          Margin="8,0,0,16"
                                          Grid.Row="1"/>
-                <CheckBox Content="Запомнить меня" Grid.Row="2" Grid.ColumnSpan="2" Margin="7,0,0,0"/>
                 <Button x:Name="loginButton" 
                         Content="Вход" 
-                        Grid.Row="3" Grid.ColumnSpan="2" 
+                        Grid.Row="2" Grid.ColumnSpan="2" 
                         Margin="0,16,0,0"
                         Click="Button_Click" 
                         materialDesign:ButtonProgressAssist.Value="-1"
                         materialDesign:ButtonProgressAssist.IsIndeterminate="True"/>
                 <TextBlock x:Name="errorText" 
                            Style="{DynamicResource MaterialDesignHelperTextBlock}"
-                           Grid.Row="4" Grid.ColumnSpan="2" 
+                           Grid.Row="3" Grid.ColumnSpan="2" 
                            Margin="0,16,0,0"
                            HorizontalAlignment="Center" 
                            Foreground="{DynamicResource MaterialDesignValidationErrorBrush}" 
