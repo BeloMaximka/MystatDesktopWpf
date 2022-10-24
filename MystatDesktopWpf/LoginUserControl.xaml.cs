@@ -34,7 +34,8 @@ namespace MystatDesktopWpf
         async void LoginToMystat(string username, string password)
         {
             MystatAuthResponse response;
-            MystatAPISingleton.mystatAPIClient.SetLoginData(new UserLoginData(username, password));
+            UserLoginData loginData = new UserLoginData(username, password);
+            MystatAPISingleton.mystatAPIClient.SetLoginData(loginData);
             try
             {
                 response = await MystatAPISingleton.mystatAPIClient.Login();
@@ -52,6 +53,7 @@ namespace MystatDesktopWpf
             ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
             if (responseSuccess != null)
             {
+                SettingsService.SetLoginData(loginData);
                 Transitioner.MoveNextCommand.Execute(null, null);
             }
             else
