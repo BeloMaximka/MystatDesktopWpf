@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Navigation;
+using System.Windows.Media;
 
 namespace MystatDesktopWpf.Domain
 {
@@ -18,6 +19,7 @@ namespace MystatDesktopWpf.Domain
         public SnackbarNotifier(Snackbar snackbar)
         {
             this.snackbar = snackbar;
+            snackbar.MouseDown += Snackbar_MouseDown;
 
             Grid grid = new();
             grid.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
@@ -33,10 +35,16 @@ namespace MystatDesktopWpf.Domain
             Grid.SetColumn(textBlock, 1);
             message = grid;
         }
+
+        private void Snackbar_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ((Snackbar)sender).IsActive = false;
+        }
+
         public void RaiseNotify(string text, string? sound = null, TimeSpan? duration = null)
         {
             textBlock.Text = text;
-            snackbar.MessageQueue?.Enqueue(message, "OK", (bool _) => { }, false, false, false, duration);
+            snackbar.MessageQueue?.Enqueue(message, null, null, false, false, false, duration);
             if (sound != null)
                 SoundCachingPlayer.Play(sound);
         }
