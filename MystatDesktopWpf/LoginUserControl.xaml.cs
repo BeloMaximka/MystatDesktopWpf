@@ -29,6 +29,8 @@ namespace MystatDesktopWpf
         public LoginUserControl()
         {
             InitializeComponent();
+            TaskService.ScheduleTask("lolkek", new TimeOnly(23, 57), () => MessageBox.Show("Hi"));
+            TaskService.CancelTask("lolkek");
         }
 
         async void LoginToMystat(string username, string password)
