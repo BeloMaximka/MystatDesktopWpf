@@ -11,8 +11,10 @@
              Background="{DynamicResource MaterialDesignPaper}">
     <Grid>
         <StackPanel Margin="24">
-            <Button Content="Notification" Margin="8" Click="Button_Snackbar_Click" HorizontalAlignment="Left"/>
-            <Button Content="Noification with 10 seconds timer" Margin="8" Click="Button_SnackbarTimer_Click" HorizontalAlignment="Left"/>
+            <Button Content="Snackbar" Margin="8" Click="Button_Snackbar_Click" HorizontalAlignment="Left"/>
+            <Button Content="Snackbar with 10 seconds timer" Margin="8" Click="Button_SnackbarTimer_Click" HorizontalAlignment="Left"/>
+            <Button Content="Noification dialog " Margin="8" Click="Button_Notification_Click" HorizontalAlignment="Left"/>
+            <Button Content="Noification dialog delayed" Margin="8" Click="Button_NotificationDelayed_Click" HorizontalAlignment="Left"/>
             
         </StackPanel>
         <materialDesign:Snackbar x:Name="notifySnackbar" MessageQueue="{materialDesign:MessageQueue}"
