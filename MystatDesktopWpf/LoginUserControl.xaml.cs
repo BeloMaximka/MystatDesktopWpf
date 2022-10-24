@@ -54,6 +54,7 @@ namespace MystatDesktopWpf
             if (responseSuccess != null)
             {
                 SettingsService.SetLoginData(loginData);
+                SettingsService.RemoveUserData();
                 Transitioner.MoveNextCommand.Execute(null, null);
             }
             else

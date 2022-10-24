@@ -68,6 +68,11 @@ namespace MystatDesktopWpf.Domain
             return SetPropertyValue(nameof(Settings.LoginData), copy);
         }
 
+        public static bool RemoveUserData()
+        {
+            return SetPropertyValue(nameof(Settings.LoginData), null);
+        }
+
         public static bool SetPropertyValue(string property, object value)
         {
             Type type = Settings.GetType();
