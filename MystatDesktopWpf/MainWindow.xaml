@@ -16,7 +16,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         x:Name="window">
     <Grid>
-        <materialDesign:Transitioner AutoApplyTransitionOrigins="True" SelectedIndex="0">
+        <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="False" SelectedIndex="0">
             <materialDesign:TransitionerSlide>
                 <local:LoginUserControl x:Name="loginUserControl"/>
             </materialDesign:TransitionerSlide>
