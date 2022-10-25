@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
+using System.Windows.Threading;
 
 namespace MystatDesktopWpf.Domain
 {
     internal static class TaskService
     {
-        static Dictionary<string, Timer> timers;
+        static Dictionary<string, DispatcherTimer> timers;
 
         static TaskService()
         {
@@ -27,8 +27,9 @@ namespace MystatDesktopWpf.Domain
             }
 
             TimeSpan duration = targetTimeSpan - currentTimeSpan;
-            var timer = new Timer(duration.TotalMilliseconds);
-            timer.Elapsed += (_, _) => OnTimerEnd(id, timer, callback);
+            var timer = new DispatcherTimer();
+            timer.Interval = duration;
+            timer.Tick += (_, _) => OnTimerEnd(id, timer, callback);
             timer.Start();
 
             timers.Add(id, timer);
@@ -45,16 +46,15 @@ namespace MystatDesktopWpf.Domain
             return true;
         }
 
-        static void OnTimerEnd(string id, Timer timer, Action callback)
+        static void OnTimerEnd(string id, DispatcherTimer timer, Action callback)
         {
             StopTimer(id, timer);
             callback();
         }
 
-        static void StopTimer(string id, Timer timer)
+        static void StopTimer(string id, DispatcherTimer timer)
         {
             timer.Stop();
-            timer.Close();
             timers.Remove(id);
         }
     }
