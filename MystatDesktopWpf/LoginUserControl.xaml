@@ -17,12 +17,12 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Text="Mystat Desktop"
-                       VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
         <materialDesign:Card MaxWidth="380" Height="Auto" 
-                                 Margin="4"
-                                 VerticalAlignment="Center"
-                                 Grid.Row="1">
+                             Margin="4"
+                             VerticalAlignment="Center"
+                             Grid.Row="1">
             <Grid Margin="32">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
