@@ -20,17 +20,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MystatDesktopWpf
+namespace MystatDesktopWpf.UserControls
 {
     /// <summary>
     /// Interaction logic for PlaceholderUserControl.xaml
     /// </summary>
-    public partial class ScheduleUserControl : UserControl
+    public partial class Schedule : UserControl
     {
         Dictionary<int, List<DaySchedule>> groupedSchedules = new();
         Button lastButtonHover;
         DateTime currentDate = DateTime.Now;
-        public ScheduleUserControl()
+        public Schedule()
         {
             InitializeComponent();
             GenerateButtons();
