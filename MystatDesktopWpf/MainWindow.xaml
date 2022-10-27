@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MystatDesktopWpf"
+        xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -18,10 +19,10 @@
     <Grid>
         <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="False" SelectedIndex="0">
             <materialDesign:TransitionerSlide>
-                <local:LoginUserControl x:Name="loginUserControl"/>
+                <controls:Login x:Name="login"/>
             </materialDesign:TransitionerSlide>
             <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
-                <local:MainMenuUserControl x:Name="mainMenuUserControl"/>
+                <controls:MainMenu x:Name="mainMenu"/>
             </materialDesign:TransitionerSlide>
         </materialDesign:Transitioner>
     </Grid>

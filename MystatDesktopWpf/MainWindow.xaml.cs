@@ -25,7 +25,7 @@ namespace MystatDesktopWpf
         public MainWindow()
         {
             InitializeComponent();
-            loginUserControl.ParentTransitioner = transitioner;
+            login.ParentTransitioner = transitioner;
         }
     }
 }
