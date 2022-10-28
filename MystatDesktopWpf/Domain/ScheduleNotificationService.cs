@@ -78,7 +78,9 @@ namespace MystatDesktopWpf.Domain
             var time = TimeOnly.Parse(item.DaySchedule.StartedAt).ToTimeSpan();
             time = withDelay ? time.Subtract(TimeSpan.FromMinutes(notificationDelay)) : time;
             string timerId = CreateId(item.DaySchedule);
-            return TaskService.ScheduleTask(timerId, time, () => OnTimerElapsed?.Invoke(item.DaySchedule, notificationDelay));
+            item.IsNotificationEnabled = TaskService.ScheduleTask(timerId, time, () => OnTimerElapsed?.Invoke(item.DaySchedule, notificationDelay));
+            
+            return item.IsNotificationEnabled;
         }
 
         public static bool EnableNotification(DaySchedule enableForItem, bool withDelay = false)
