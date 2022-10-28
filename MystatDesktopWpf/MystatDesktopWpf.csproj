@@ -15,4 +15,13 @@
     <ProjectReference Include="..\mystatapi-cs\MystatAPI\MystatAPI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\licenses.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\notification.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
