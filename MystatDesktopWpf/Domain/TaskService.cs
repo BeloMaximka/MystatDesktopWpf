@@ -11,6 +11,11 @@ namespace MystatDesktopWpf.Domain
     {
         static Dictionary<string, DispatcherTimer> timers;
 
+        public static Dictionary<string, DispatcherTimer>.KeyCollection TimersIds
+        {
+            get => timers.Keys;
+        }
+
         static TaskService()
         {
             timers = new();
