@@ -17,8 +17,9 @@ namespace MystatDesktopWpf.Domain
         public MainMenuViewModel()
         {
             MenuItems.Add(new MainMenuItem("Главная", typeof(PlaceholderUserControl), PackIconKind.Home, PackIconKind.Home));
-            MenuItems.Add(new MainMenuItem("Расписание", typeof(PlaceholderUserControl), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
+            MenuItems.Add(new MainMenuItem("Расписание", typeof(ScheduleUserControl), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
             MenuItems.Add(new MainMenuItem("Настройки", typeof(PlaceholderUserControl), PackIconKind.Cog, PackIconKind.Cog));
+            MenuItems.Add(new MainMenuItem("Debug", typeof(DebugUserControl), PackIconKind.Bug, PackIconKind.Bug));
             SelectedIndex = 0;
         }
         public MainMenuItem? SelectedItem

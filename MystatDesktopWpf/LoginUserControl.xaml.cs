@@ -26,13 +26,23 @@ namespace MystatDesktopWpf
     /// </summary>
     public partial class LoginUserControl : UserControl
     {
+        public Transitioner? ParentTransitioner { get; set; }
         public LoginUserControl()
         {
             InitializeComponent();
+            if (SettingsService.Settings.LoginData != null)
+            {
+                loginTextBox.Text = SettingsService.Settings.LoginData.Username;
+                passwordTextBox.Password = SettingsService.Settings.LoginData.Password;
+                LoginToMystat(loginTextBox.Text, passwordTextBox.Password);
+            }
         }
 
         async void LoginToMystat(string username, string password)
         {
+            ButtonProgressAssist.SetIsIndicatorVisible(loginButton, true);
+            errorText.Visibility = Visibility.Collapsed;
+
             MystatAuthResponse response;
             UserLoginData loginData = new UserLoginData(username, password);
             MystatAPISingleton.mystatAPIClient.SetLoginData(loginData);
@@ -45,7 +55,6 @@ namespace MystatDesktopWpf
                 ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
                 errorText.Text = "Не удалось подключиться к серверу";
                 errorText.Visibility = Visibility.Visible;
-                MessageBox.Show(e.Message);
                 return;
             }
 
@@ -69,8 +78,6 @@ namespace MystatDesktopWpf
             bool inputError = string.IsNullOrWhiteSpace((loginTextBox.Text ?? "").ToString()) || passwordTextBox.SecurePassword.Length == 0;
             if (!inputError)
             {
-                ButtonProgressAssist.SetIsIndicatorVisible(loginButton, true);
-                errorText.Visibility = Visibility.Collapsed;
                 LoginToMystat(loginTextBox.Text, passwordTextBox.Password);
             }
             else

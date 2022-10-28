@@ -32,6 +32,7 @@ namespace MystatDesktopWpf
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
         {
             // Back to login
+            SettingsService.RemoveUserData();
             Transitioner.MovePreviousCommand.Execute(null, null);
         }
     }

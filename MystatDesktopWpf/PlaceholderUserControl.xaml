@@ -9,12 +9,5 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
-    <Grid>
-        <materialDesign:Card Padding="32" Margin="32">
-            <StackPanel>
-                <TextBlock Text="I'm a placeholder" Style="{DynamicResource MaterialDesignDisplayLargeTextBlock}" HorizontalAlignment="Center"/>
-                <TextBox Margin="8" materialDesign:HintAssist.Hint="Change me"/>
-            </StackPanel>
-        </materialDesign:Card>
-    </Grid>
+    <Grid/>
 </UserControl>
