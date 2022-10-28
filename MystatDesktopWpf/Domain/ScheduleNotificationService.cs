@@ -12,6 +12,7 @@ namespace MystatDesktopWpf.Domain
         static List<DayScheduleForNotification> TodaySchedule;
         static int notificationDelay = 10;
         static bool notificationsConfigured = false;
+        static Random rand = new Random();
 
         public static event Action<DaySchedule, int>? OnTimerElapsed;
         public static event Action? OnTimersConfigured;
@@ -21,7 +22,7 @@ namespace MystatDesktopWpf.Domain
             TodaySchedule = new();
         }
 
-        public static async Task Configure()
+        public static async Task Configure(bool notificationsWithDelay = false)
         {
             if (notificationsConfigured)
             {
@@ -34,10 +35,10 @@ namespace MystatDesktopWpf.Domain
 
             if (!result) return;
 
-            EnableAllNotifications();
+            EnableAllNotifications(notificationsWithDelay);
 
             var nextDay = DateTime.Now.AddDays(1);
-            TaskService.ScheduleTask("daily-schedule-reload", nextDay, new TimeOnly(1, 0), async () => await Configure());
+            TaskService.ScheduleTask("daily-schedule-reload", nextDay, new TimeOnly(1, 0), async () => await Configure(notificationsWithDelay));
             OnTimersConfigured?.Invoke();
         }
 
@@ -60,26 +61,27 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        public static void EnableAllNotifications()
+        public static void EnableAllNotifications(bool withDelay = false)
         {
             foreach (var item in TodaySchedule)
             {
-                SetNotification(item);
+                SetNotification(item, withDelay);
             }
 
             notificationsConfigured = true;
         }
 
-        static bool SetNotification(DayScheduleForNotification item)
+        static bool SetNotification(DayScheduleForNotification item, bool withDelay)
         {
             if (!item.IsNotificationEnabled) return false;
 
             var time = TimeOnly.Parse(item.DaySchedule.StartedAt).ToTimeSpan();
-            time = time.Subtract(TimeSpan.FromMinutes(notificationDelay));
-            return TaskService.ScheduleTask(item.DaySchedule.StartedAt, time, () => OnTimerElapsed?.Invoke(item.DaySchedule, notificationDelay));
+            time = withDelay ? time.Subtract(TimeSpan.FromMinutes(notificationDelay)) : time;
+            string timerId = CreateId(item.DaySchedule);
+            return TaskService.ScheduleTask(timerId, time, () => OnTimerElapsed?.Invoke(item.DaySchedule, notificationDelay));
         }
 
-        public static bool EnableNotification(DaySchedule enableForItem)
+        public static bool EnableNotification(DaySchedule enableForItem, bool withDelay = false)
         {
             var item = TodaySchedule.FirstOrDefault(i => i.DaySchedule.StartedAt == enableForItem.StartedAt);
 
@@ -89,7 +91,7 @@ namespace MystatDesktopWpf.Domain
             }
 
             item.IsNotificationEnabled = true;
-            return SetNotification(item);
+            return SetNotification(item, withDelay);
         }
 
         public static bool DisableNotification(DaySchedule cancelForItem)
@@ -101,14 +103,25 @@ namespace MystatDesktopWpf.Domain
                 return false;
             }
 
-            item.IsNotificationEnabled = false;
-            return TaskService.CancelTask(cancelForItem.StartedAt);
+            return DisableNotification(item);
         }
 
         static bool DisableNotification(DayScheduleForNotification cancelForItem)
         {
+            var ids = TaskService.TimersIds.Where(id => id.StartsWith(cancelForItem.DaySchedule.StartedAt)).ToArray();
+
+            if (ids.Length == 0 || !cancelForItem.IsNotificationEnabled) return false;
+
+            foreach (var id in ids)
+            {
+                if (!TaskService.CancelTask(id))
+                {
+                    return false;
+                }
+            }
+
             cancelForItem.IsNotificationEnabled = false;
-            return TaskService.CancelTask(cancelForItem.DaySchedule.StartedAt);
+            return true;
         }
 
         public static void DisableAllNotifications()
@@ -119,17 +132,17 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        public static async Task SetNotificationDelay(int value)
+        public static void SetNotificationDelay(int value)
         {
             if(value > 0)
             {
                 notificationDelay = value;
-
-                if(notificationsConfigured)
-                {
-                    await Configure();
-                }
             }
+        }
+
+        static string CreateId(DaySchedule daySchedule)
+        {
+            return $"{daySchedule.StartedAt}_{rand.Next(100)}";
         }
     }
 
