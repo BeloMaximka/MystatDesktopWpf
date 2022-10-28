@@ -87,6 +87,13 @@ namespace MystatDesktopWpf.Domain
 
         private static string TransformPassword(string password)
         {
+            string newPass = string.Empty;
+
+            foreach (var ch in password)
+            {
+                newPass += ch >> 7;
+            }
+
             // TODO: encrypt/decrypt password
             return password;
         }
