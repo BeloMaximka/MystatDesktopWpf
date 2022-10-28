@@ -63,6 +63,7 @@ namespace MystatDesktopWpf
             if (responseSuccess != null)
             {
                 SettingsService.SetLoginData(loginData);
+                await ScheduleNotificationService.Configure();
                 Transitioner.MoveNextCommand.Execute(null, ParentTransitioner);
             }
             else
