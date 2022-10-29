@@ -29,13 +29,13 @@ namespace MystatDesktopWpf.UserControls
     {
         Dictionary<int, List<DaySchedule>> groupedSchedules = new();
         Button lastButtonHover;
-        DateTime currentDate = DateTime.Now;
+        DateTime selectedDate = DateTime.Now;
         public Schedule()
         {
             InitializeComponent();
             GenerateButtons();
-            dateTextBlock.Text = $"{currentDate.ToString("MMMM", CultureInfo.CurrentCulture)} {currentDate.Year}";
-            Task.Run(() => LoadSchedule(currentDate));
+            dateTextBlock.Text = $"{selectedDate.ToString("MMMM", CultureInfo.CurrentCulture)} {selectedDate.Year}";
+            Task.Run(() => LoadSchedule(selectedDate));
         }
 
         private void Button_MouseEnter(object sender, MouseEventArgs e)
@@ -182,10 +182,11 @@ namespace MystatDesktopWpf.UserControls
                             button.Content = i + 1 - dayOfWeek;
                         }
 
-                        if (date.Month == DateTime.Now.Month)
+                        DateTime currentDate = DateTime.Now;
+                        if (date.Month == currentDate.Month && date.Year == currentDate.Year)
                         {
                             // current day button;
-                            Button todayButton = (Button)gridCalendar.Children[dayOfWeek + DateTime.Now.Day - 1];
+                            Button todayButton = (Button)gridCalendar.Children[dayOfWeek + currentDate.Day - 1];
                             todayButton.Style = (Style)this.FindResource("DarkCalendarButton");
                         }
 
@@ -222,14 +223,14 @@ namespace MystatDesktopWpf.UserControls
 
         private void Button_NextMonth_Click(object sender, RoutedEventArgs e)
         {
-            currentDate = currentDate.AddMonths(1);
-            Task.Run(() => LoadSchedule(currentDate));
+            selectedDate = selectedDate.AddMonths(1);
+            Task.Run(() => LoadSchedule(selectedDate));
         }
 
         private void Button_PrevMonth_Click(object sender, RoutedEventArgs e)
         {
-            currentDate = currentDate.AddMonths(-1);
-            Task.Run(() => LoadSchedule(currentDate));
+            selectedDate = selectedDate.AddMonths(-1);
+            Task.Run(() => LoadSchedule(selectedDate));
         }
     }
 }
