@@ -161,7 +161,7 @@ namespace MystatDesktopWpf.UserControls
                     {
                         dateTextBlock.Text = date.ToString("MMMM", CultureInfo.CurrentCulture) + " " + date.Year;
                         Style outlined = (Style)this.FindResource("MaterialDesignOutlinedButton");
-                        Style normal = (Style)this.FindResource("MaterialDesignRaisedButton");
+                        Style normal = (Style)this.FindResource("CalendarButton");
 
                         DateTime prevDate = date.AddMonths(-1);
                         int prevMonthDays = DateTime.DaysInMonth(prevDate.Year, prevDate.Month);
@@ -180,6 +180,13 @@ namespace MystatDesktopWpf.UserControls
                             button.IsEnabled = false;
                             button.Style = normal;
                             button.Content = i + 1 - dayOfWeek;
+                        }
+
+                        if (date.Month == DateTime.Now.Month)
+                        {
+                            // current day button;
+                            Button todayButton = (Button)gridCalendar.Children[dayOfWeek + DateTime.Now.Day - 1];
+                            todayButton.Style = (Style)this.FindResource("DarkCalendarButton");
                         }
 
                         DateTime nextDate = date.AddMonths(-1);

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 
 namespace MystatDesktopWpf
 {
@@ -26,6 +27,17 @@ namespace MystatDesktopWpf
         {
             InitializeComponent();
             login.ParentTransitioner = transitioner;
+
+            PaletteHelper helper = new PaletteHelper();
+            Theme theme = (Theme)helper.GetTheme();
+
+            ColorAdjustment adjustment = new();
+            adjustment.Contrast = Contrast.Medium;
+            adjustment.DesiredContrastRatio = 3.0f;
+            adjustment.Colors = ColorSelection.All;
+
+            theme.ColorAdjustment = adjustment;
+            helper.SetTheme(theme);
         }
     }
 }
