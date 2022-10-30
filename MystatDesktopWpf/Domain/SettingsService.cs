@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.Domain
@@ -20,7 +21,23 @@ namespace MystatDesktopWpf.Domain
         static SettingsService()
         {
             Settings = Load() ?? new();
-            OnSettingsChange += () => Save();
+
+            CancellationTokenSource? cancelTokenSource = null;
+            var saveSettingsDelay = TimeSpan.FromSeconds(3);
+            OnSettingsChange += () =>
+            {
+                cancelTokenSource?.Cancel();
+                cancelTokenSource = new CancellationTokenSource();
+
+                Task.Delay(saveSettingsDelay, cancelTokenSource.Token)
+                    .ContinueWith(t =>
+                    {
+                        if (t.IsCompletedSuccessfully)
+                        {
+                            Save();
+                        }
+                    }, TaskScheduler.Default);
+            };
         }
 
         public static Settings? Load()
