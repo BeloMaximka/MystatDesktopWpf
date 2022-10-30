@@ -9,57 +9,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
-    <Grid>
-        <Grid Margin="16">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.ColumnSpan="7" Margin="8" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Style="{DynamicResource MaterialDesignIconButton}" VerticalAlignment="Center" Click="Button_PrevMonth_Click">
-                    <materialDesign:PackIcon Kind="ChevronLeft"/>
-                </Button>
-                <TextBlock x:Name="dateTextBlock" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-                <Button Style="{DynamicResource MaterialDesignIconButton}" VerticalAlignment="Center" Click="Button_NextMonth_Click">
-                    <materialDesign:PackIcon Kind="ChevronRight"/>
-                </Button>
-            </StackPanel>
-            <materialDesign:Card Grid.ColumnSpan="7" Margin="8" Grid.Row="1" Padding="0,8,0,8">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="ПН" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Grid.Row="1"/>
-                    <TextBlock Text="ВТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="1" Grid.Row="1"/>
-                    <TextBlock Text="СР" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="2" Grid.Row="1"/>
-                    <TextBlock Text="ЧТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="3" Grid.Row="1"/>
-                    <TextBlock Text="ПТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="4" Grid.Row="1"/>
-                    <TextBlock Text="СБ" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="5" Grid.Row="1"/>
-                    <TextBlock Text="ВС" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="6" Grid.Row="1"/>
-                </Grid>
-            </materialDesign:Card>
-            <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="True" SelectedIndex="0" Grid.Row="2">
-                <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=FadeIn}">
-                    <ProgressBar x:Name="loadingBar" Style="{StaticResource MaterialDesignCircularProgressBar}"
-                     Value="0" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2"
-                     IsIndeterminate="True"/>
-                </materialDesign:TransitionerSlide>
-                <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=FadeIn}">
-                    <Grid Grid.Row="2" x:Name="gridCalendar">
+    <materialDesign:DialogHost x:Name="scheduleDialog" CloseOnClickAway="True" DialogTheme="Inherit">
+        <Grid>
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.ColumnSpan="7" Margin="8" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Style="{DynamicResource MaterialDesignIconButton}" VerticalAlignment="Center" Click="Button_PrevMonth_Click">
+                        <materialDesign:PackIcon Kind="ChevronLeft"/>
+                    </Button>
+                    <TextBlock x:Name="dateTextBlock" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                    <Button Style="{DynamicResource MaterialDesignIconButton}" VerticalAlignment="Center" Click="Button_NextMonth_Click">
+                        <materialDesign:PackIcon Kind="ChevronRight"/>
+                    </Button>
+                </StackPanel>
+                <materialDesign:Card Grid.ColumnSpan="7" Margin="8" Grid.Row="1" Padding="0,8,0,8">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -69,20 +37,58 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+                        <TextBlock Text="ПН" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Grid.Row="1"/>
+                        <TextBlock Text="ВТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Grid.Column="1" Grid.Row="1"/>
+                        <TextBlock Text="СР" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Grid.Column="2" Grid.Row="1"/>
+                        <TextBlock Text="ЧТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Grid.Column="3" Grid.Row="1"/>
+                        <TextBlock Text="ПТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Grid.Column="4" Grid.Row="1"/>
+                        <TextBlock Text="СБ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Grid.Column="5" Grid.Row="1"/>
+                        <TextBlock Text="ВС" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Grid.Column="6" Grid.Row="1"/>
                     </Grid>
-                </materialDesign:TransitionerSlide>
-            </materialDesign:Transitioner>
-            <Popup x:Name="popup" StaysOpen="True" Placement="Mouse" AllowsTransparency="True" MouseMove="popup_MouseMove"/>
+                </materialDesign:Card>
+                <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="True" SelectedIndex="0" Grid.Row="2">
+                    <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=FadeIn}">
+                        <ProgressBar x:Name="loadingBar" Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2"
+                     IsIndeterminate="True"/>
+                    </materialDesign:TransitionerSlide>
+                    <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=FadeIn}">
+                        <Grid>
+                            <Grid Grid.Row="2" x:Name="gridCalendar">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                            </Grid>
+                        </Grid>
+
+                    </materialDesign:TransitionerSlide>
+                </materialDesign:Transitioner>
+                <Popup x:Name="popup" StaysOpen="True" Placement="Mouse" HorizontalOffset="8" VerticalOffset="8"
+                       AllowsTransparency="True" MouseMove="popup_MouseMove"/>
+            </Grid>
+            <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}"/>
         </Grid>
-        <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}"/>
-    </Grid>
+    </materialDesign:DialogHost>
 
 </UserControl>
