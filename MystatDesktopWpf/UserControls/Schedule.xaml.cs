@@ -41,9 +41,17 @@ namespace MystatDesktopWpf.UserControls
         private void Button_MouseEnter(object sender, MouseEventArgs e)
         {
             Button button = sender as Button;
-            popup.Child = CreateScheduleCard((int)button.Content);
+            List<DaySchedule> schedules = groupedSchedules[(int)button.Content];
+            popup.Child = ScheduleControlCreator.CreateScheduleCard(schedules);
             lastButtonHover = button;
             popup.IsOpen = true;
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            var schedules = groupedSchedules[(int)button.Content];
+            scheduleDialog.DialogContent = ScheduleControlCreator.CreateScheduleCardSelectable(schedules, scheduleDialog);
+            scheduleDialog.IsOpen = true;
         }
 
         private void Button_MouseLeave(object sender, MouseEventArgs e)
@@ -62,46 +70,7 @@ namespace MystatDesktopWpf.UserControls
                 return;
             popup.IsOpen = false;
         }
-
-        StackPanel CreateScheduleLine(PackIconKind kind, string text)
-        {
-            StackPanel stackPanel = new();
-            stackPanel.Orientation = Orientation.Horizontal;
-
-            Thickness margin = new(8, 0, 8, 0);
-            PackIcon icon = new();
-            icon.Kind = kind;
-            icon.Margin = margin;
-            TextBlock textBlock = new();
-            textBlock.Text = text;
-
-            stackPanel.Children.Add(icon);
-            stackPanel.Children.Add(textBlock);
-
-            return stackPanel;
-        }
-        Card CreateScheduleCard(int day)
-        {
-            Card card = new();
-            card.Padding = new Thickness(0, 8, 8, 8);
-            StackPanel mainStackPanel = new();
-            card.Content = mainStackPanel;
-
-            foreach (var item in groupedSchedules[day])
-            {
-                StackPanel stackPanel = new();
-                stackPanel.Orientation = Orientation.Horizontal;
-
-                var children = mainStackPanel.Children;
-                children.Add(CreateScheduleLine(PackIconKind.Book, item.SubjectName));
-                children.Add(CreateScheduleLine(PackIconKind.Account, item.TeacherFullName));
-                children.Add(CreateScheduleLine(PackIconKind.Door, $"Аудитория {item.RoomName}"));
-                children.Add(CreateScheduleLine(PackIconKind.Clock, $"{item.StartedAt} - {item.FinishedAt}"));
-                children.Add(new TextBlock());
-            }
-            mainStackPanel.Children.RemoveAt(mainStackPanel.Children.Count - 1);
-            return card;
-        }
+        
         void GenerateButtons()
         {
             int column = 0;
@@ -128,6 +97,7 @@ namespace MystatDesktopWpf.UserControls
                 button.Margin = border.Margin;
                 button.MouseEnter += Button_MouseEnter;
                 button.MouseLeave += Button_MouseLeave;
+                button.Click += Button_Click;
                 gridCalendar.Children.Add(button);
 
                 Grid.SetRow(button, row);
