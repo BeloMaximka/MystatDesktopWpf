@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MystatDesktopWpf.DebugUserControl"
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.Debug"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,11 +15,9 @@
             <Button Content="Snackbar with 10 seconds timer" Margin="8" Click="Button_SnackbarTimer_Click" HorizontalAlignment="Left"/>
             <Button Content="Noification dialog " Margin="8" Click="Button_Notification_Click" HorizontalAlignment="Left"/>
             <Button Content="Noification dialog delayed" Margin="8" Click="Button_NotificationDelayed_Click" HorizontalAlignment="Left"/>
-            
         </StackPanel>
         <materialDesign:Snackbar x:Name="notifySnackbar" MessageQueue="{materialDesign:MessageQueue}"
                                  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="32"
                                  VerticalContentAlignment="Bottom" Grid.RowSpan="3"/>
     </Grid>
-    
 </UserControl>
