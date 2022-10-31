@@ -11,6 +11,11 @@ namespace MystatDesktopWpf.Domain
     {
         static Dictionary<string, DispatcherTimer> timers;
 
+        public static Dictionary<string, DispatcherTimer>.KeyCollection TimersIds
+        {
+            get => timers.Keys;
+        }
+
         static TaskService()
         {
             timers = new();
@@ -18,29 +23,61 @@ namespace MystatDesktopWpf.Domain
 
         public static bool ScheduleTask(string id, TimeOnly time, Action callback)
         {
-            var currentTimeSpan = DateTime.Now.TimeOfDay;
-            var targetTimeSpan = time.ToTimeSpan();
+            return ScheduleTask(id, DateTime.Now, time.ToTimeSpan(), callback);
+        }
 
-            if (currentTimeSpan > targetTimeSpan)
+        public static bool ScheduleTask(string id, TimeSpan time, Action callback)
+        {
+            var currentTimeSpan = DateTime.Now.TimeOfDay;
+            var targetTimeSpan = time;
+
+            if (currentTimeSpan > targetTimeSpan || timers.ContainsKey(id))
             {
                 return false;
             }
 
             TimeSpan duration = targetTimeSpan - currentTimeSpan;
+            AddTimer(id, duration, callback);
+            return true;
+        }
+
+        public static bool ScheduleTask(string id, DateTime day, TimeOnly time, Action callback)
+        {
+            return ScheduleTask(id, day, time.ToTimeSpan(), callback);
+        }
+
+        public static bool ScheduleTask(string id, DateTime day, TimeSpan time, Action callback)
+        {
+            var now = DateTime.Now;
+            var currentTimeSpan = day.TimeOfDay;
+            var targetTimeSpan = time;
+
+            if (day <= now || timers.ContainsKey(id))
+            {
+                return false;
+            }
+
+            TimeSpan duration = currentTimeSpan - targetTimeSpan;
+
+            AddTimer(id, duration, callback);
+            return true;
+        }
+
+        static void AddTimer(string id, TimeSpan duration, Action callback)
+        {
             var timer = new DispatcherTimer();
             timer.Interval = duration;
             timer.Tick += (_, _) => OnTimerEnd(id, timer, callback);
             timer.Start();
 
             timers.Add(id, timer);
-            return true;
         }
 
         public static bool CancelTask(string id)
         {
-            var timer = timers.FirstOrDefault(kv => kv.Key == id).Value;
+            if (!timers.ContainsKey(id)) return false;
 
-            if (timer is null) return false;
+            var timer = timers[id];
 
             StopTimer(id, timer);
             return true;
