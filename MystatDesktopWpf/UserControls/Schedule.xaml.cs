@@ -20,30 +20,38 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MystatDesktopWpf
+namespace MystatDesktopWpf.UserControls
 {
     /// <summary>
     /// Interaction logic for PlaceholderUserControl.xaml
     /// </summary>
-    public partial class ScheduleUserControl : UserControl
+    public partial class Schedule : UserControl
     {
         Dictionary<int, List<DaySchedule>> groupedSchedules = new();
         Button lastButtonHover;
-        DateTime currentDate = DateTime.Now;
-        public ScheduleUserControl()
+        DateTime selectedDate = DateTime.Now;
+        public Schedule()
         {
             InitializeComponent();
             GenerateButtons();
-            dateTextBlock.Text = $"{currentDate.ToString("MMMM", CultureInfo.CurrentCulture)} {currentDate.Year}";
-            Task.Run(() => LoadSchedule(currentDate));
+            dateTextBlock.Text = $"{selectedDate.ToString("MMMM", CultureInfo.CurrentCulture)} {selectedDate.Year}";
+            Task.Run(() => LoadSchedule(selectedDate));
         }
 
         private void Button_MouseEnter(object sender, MouseEventArgs e)
         {
             Button button = sender as Button;
-            popup.Child = CreateScheduleCard((int)button.Content);
+            List<DaySchedule> schedules = groupedSchedules[(int)button.Content];
+            popup.Child = ScheduleControlCreator.CreateScheduleCard(schedules);
             lastButtonHover = button;
             popup.IsOpen = true;
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            var schedules = groupedSchedules[(int)button.Content];
+            scheduleDialog.DialogContent = ScheduleControlCreator.CreateScheduleCardSelectable(schedules, scheduleDialog);
+            scheduleDialog.IsOpen = true;
         }
 
         private void Button_MouseLeave(object sender, MouseEventArgs e)
@@ -62,46 +70,7 @@ namespace MystatDesktopWpf
                 return;
             popup.IsOpen = false;
         }
-
-        StackPanel CreateScheduleLine(PackIconKind kind, string text)
-        {
-            StackPanel stackPanel = new();
-            stackPanel.Orientation = Orientation.Horizontal;
-
-            Thickness margin = new(8, 0, 8, 0);
-            PackIcon icon = new();
-            icon.Kind = kind;
-            icon.Margin = margin;
-            TextBlock textBlock = new();
-            textBlock.Text = text;
-
-            stackPanel.Children.Add(icon);
-            stackPanel.Children.Add(textBlock);
-
-            return stackPanel;
-        }
-        Card CreateScheduleCard(int day)
-        {
-            Card card = new();
-            card.Padding = new Thickness(0, 8, 8, 8);
-            StackPanel mainStackPanel = new();
-            card.Content = mainStackPanel;
-
-            foreach (var item in groupedSchedules[day])
-            {
-                StackPanel stackPanel = new();
-                stackPanel.Orientation = Orientation.Horizontal;
-
-                var children = mainStackPanel.Children;
-                children.Add(CreateScheduleLine(PackIconKind.Book, item.SubjectName));
-                children.Add(CreateScheduleLine(PackIconKind.Account, item.TeacherFullName));
-                children.Add(CreateScheduleLine(PackIconKind.Door, $"Аудитория {item.RoomName}"));
-                children.Add(CreateScheduleLine(PackIconKind.Clock, $"{item.StartedAt} - {item.FinishedAt}"));
-                children.Add(new TextBlock());
-            }
-            mainStackPanel.Children.RemoveAt(mainStackPanel.Children.Count - 1);
-            return card;
-        }
+        
         void GenerateButtons()
         {
             int column = 0;
@@ -128,6 +97,7 @@ namespace MystatDesktopWpf
                 button.Margin = border.Margin;
                 button.MouseEnter += Button_MouseEnter;
                 button.MouseLeave += Button_MouseLeave;
+                button.Click += Button_Click;
                 gridCalendar.Children.Add(button);
 
                 Grid.SetRow(button, row);
@@ -161,7 +131,7 @@ namespace MystatDesktopWpf
                     {
                         dateTextBlock.Text = date.ToString("MMMM", CultureInfo.CurrentCulture) + " " + date.Year;
                         Style outlined = (Style)this.FindResource("MaterialDesignOutlinedButton");
-                        Style normal = (Style)this.FindResource("MaterialDesignRaisedButton");
+                        Style normal = (Style)this.FindResource("CalendarButton");
 
                         DateTime prevDate = date.AddMonths(-1);
                         int prevMonthDays = DateTime.DaysInMonth(prevDate.Year, prevDate.Month);
@@ -180,6 +150,14 @@ namespace MystatDesktopWpf
                             button.IsEnabled = false;
                             button.Style = normal;
                             button.Content = i + 1 - dayOfWeek;
+                        }
+
+                        DateTime currentDate = DateTime.Now;
+                        if (date.Month == currentDate.Month && date.Year == currentDate.Year)
+                        {
+                            // current day button;
+                            Button todayButton = (Button)gridCalendar.Children[dayOfWeek + currentDate.Day - 1];
+                            todayButton.Style = (Style)this.FindResource("DarkCalendarButton");
                         }
 
                         DateTime nextDate = date.AddMonths(-1);
@@ -215,14 +193,14 @@ namespace MystatDesktopWpf
 
         private void Button_NextMonth_Click(object sender, RoutedEventArgs e)
         {
-            currentDate = currentDate.AddMonths(1);
-            Task.Run(() => LoadSchedule(currentDate));
+            selectedDate = selectedDate.AddMonths(1);
+            Task.Run(() => LoadSchedule(selectedDate));
         }
 
         private void Button_PrevMonth_Click(object sender, RoutedEventArgs e)
         {
-            currentDate = currentDate.AddMonths(-1);
-            Task.Run(() => LoadSchedule(currentDate));
+            selectedDate = selectedDate.AddMonths(-1);
+            Task.Run(() => LoadSchedule(selectedDate));
         }
     }
 }

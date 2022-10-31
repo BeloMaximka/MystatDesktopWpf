@@ -18,15 +18,15 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace MystatDesktopWpf
+namespace MystatDesktopWpf.UserControls
 {
     /// <summary>
     /// Interaction logic for DebugUserControl.xaml
     /// </summary>
-    public partial class DebugUserControl : UserControl
+    public partial class Debug : UserControl
     {
         SnackbarNotifier notifier;
-        public DebugUserControl()
+        public Debug()
         {
             InitializeComponent();
             notifier = new(notifySnackbar);
