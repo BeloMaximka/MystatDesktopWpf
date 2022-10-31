@@ -19,15 +19,15 @@ using MystatAPI;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
 
-namespace MystatDesktopWpf
+namespace MystatDesktopWpf.UserControls
 {
     /// <summary>
     /// Логика взаимодействия для LoginUserControl.xaml
     /// </summary>
-    public partial class LoginUserControl : UserControl
+    public partial class Login : UserControl
     {
         public Transitioner? ParentTransitioner { get; set; }
-        public LoginUserControl()
+        public Login()
         {
             InitializeComponent();
             if (SettingsService.Settings.LoginData != null)

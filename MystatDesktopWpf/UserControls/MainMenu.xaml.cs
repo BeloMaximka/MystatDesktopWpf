@@ -16,14 +16,14 @@ using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Transitions;
 using MystatDesktopWpf.Domain;
 
-namespace MystatDesktopWpf
+namespace MystatDesktopWpf.UserControls
 {
     /// <summary>
     /// Interaction logic for MainMenuUserControl.xaml
     /// </summary>
-    public partial class MainMenuUserControl : UserControl
+    public partial class MainMenu : UserControl
     {
-        public MainMenuUserControl()
+        public MainMenu()
         {
             this.DataContext = new MainMenuViewModel();
             InitializeComponent();

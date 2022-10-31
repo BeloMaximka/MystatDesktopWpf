@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MystatDesktopWpf.UserControls;
 
 namespace MystatDesktopWpf.Domain
 {
@@ -16,10 +17,10 @@ namespace MystatDesktopWpf.Domain
         MainMenuItem selectedItem;
         public MainMenuViewModel()
         {
-            MenuItems.Add(new MainMenuItem("Главная", typeof(PlaceholderUserControl), PackIconKind.Home, PackIconKind.Home));
-            MenuItems.Add(new MainMenuItem("Расписание", typeof(ScheduleUserControl), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
-            MenuItems.Add(new MainMenuItem("Настройки", typeof(PlaceholderUserControl), PackIconKind.Cog, PackIconKind.Cog));
-            MenuItems.Add(new MainMenuItem("Debug", typeof(DebugUserControl), PackIconKind.Bug, PackIconKind.Bug));
+            MenuItems.Add(new MainMenuItem("Главная", typeof(Placeholder), PackIconKind.Home, PackIconKind.Home));
+            MenuItems.Add(new MainMenuItem("Расписание", typeof(Schedule), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
+            MenuItems.Add(new MainMenuItem("Настройки", typeof(Placeholder), PackIconKind.Cog, PackIconKind.Cog));
+            MenuItems.Add(new MainMenuItem("Debug", typeof(Debug), PackIconKind.Bug, PackIconKind.Bug));
             SelectedIndex = 0;
         }
         public MainMenuItem? SelectedItem
