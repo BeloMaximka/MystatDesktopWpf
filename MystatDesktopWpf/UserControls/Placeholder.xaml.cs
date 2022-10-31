@@ -20,14 +20,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MystatDesktopWpf
+namespace MystatDesktopWpf.UserControls
 {
     /// <summary>
     /// Interaction logic for PlaceholderUserControl.xaml
     /// </summary>
-    public partial class PlaceholderUserControl : UserControl
+    public partial class Placeholder : UserControl
     {
-        public PlaceholderUserControl()
+        public Placeholder()
         {
             InitializeComponent();
         }
