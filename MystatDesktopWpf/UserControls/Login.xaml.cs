@@ -18,6 +18,7 @@ using MaterialDesignThemes.Wpf.Transitions;
 using MystatAPI;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf.UserControls
 {

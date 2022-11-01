@@ -32,7 +32,7 @@ namespace MystatDesktopWpf
             Theme theme = (Theme)helper.GetTheme();
 
             ColorAdjustment adjustment = new();
-            adjustment.Contrast = Contrast.Medium;
+            adjustment.Contrast = Contrast.Low;
             adjustment.DesiredContrastRatio = 3.0f;
             adjustment.Colors = ColorSelection.All;
 
