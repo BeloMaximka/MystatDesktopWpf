@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Transitions;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf.UserControls
 {

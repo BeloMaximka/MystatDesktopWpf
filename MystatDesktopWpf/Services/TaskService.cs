@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.Services
 {
     internal static class TaskService
     {
