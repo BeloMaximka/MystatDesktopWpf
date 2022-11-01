@@ -1,11 +1,12 @@
 ﻿using MystatAPI.Entity;
+using MystatDesktopWpf.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.Services
 {
     internal static class ScheduleNotificationService
     {
