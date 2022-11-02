@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf
 {
@@ -27,6 +27,7 @@ namespace MystatDesktopWpf
         public MainWindow()
         {
             InitializeComponent();
+            Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             login.ParentTransitioner = transitioner;
 
             PaletteHelper helper = new PaletteHelper();
