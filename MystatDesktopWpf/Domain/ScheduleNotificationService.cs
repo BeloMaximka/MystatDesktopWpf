@@ -1,16 +1,20 @@
 ﻿using MystatAPI.Entity;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Ink;
 
 namespace MystatDesktopWpf.Domain
 {
     internal static class ScheduleNotificationService
     {
         public static List<DayScheduleForNotification> TodaySchedule { get; private set; }
+        public static bool OnlyFirstSchedule { get; set; } = true;
         static bool notificationsConfigured = false;
+        static bool serviceNotConfigured = true;
         static Random rand = new Random();
 
         public static event Action<DaySchedule, int>? OnTimerElapsed;
@@ -21,23 +25,44 @@ namespace MystatDesktopWpf.Domain
             TodaySchedule = new();
         }
 
-        public static async Task Configure(int delay = 0)
+        public static async Task Configure(int delay, NotificationDelayMode mode)
         {
+            if (serviceNotConfigured)
+            {
+                await LoadSchedule();
+                serviceNotConfigured = false;
+            }
+
             if (notificationsConfigured)
             {
                 DisableAllNotifications();
                 TaskService.CancelTask("daily-schedule-reload");
+                TaskService.CancelTask("daily-schedule-reconfigure");
                 notificationsConfigured = false;
             }
 
-            var result = await LoadSchedule();
-
-            if (!result) return;
-
-            EnableAllNotifications(delay);
+            if (TodaySchedule.Count != 0)
+            {
+                if (OnlyFirstSchedule)
+                {
+                    if (mode == NotificationDelayMode.Delayed || mode == NotificationDelayMode.Both)
+                        EnableNotification(TodaySchedule[0].DaySchedule, delay);
+                    if (mode == NotificationDelayMode.WithoutDelay || mode == NotificationDelayMode.Both)
+                        EnableNotification(TodaySchedule[0].DaySchedule, 0);
+                }
+                else
+                {
+                    if (mode == NotificationDelayMode.Delayed || mode == NotificationDelayMode.Both)
+                        EnableAllNotifications(delay);
+                    if (mode == NotificationDelayMode.WithoutDelay || mode == NotificationDelayMode.Both)
+                        EnableAllNotifications(0);
+                }
+            }
 
             var nextDay = DateTime.Now.AddDays(1);
-            TaskService.ScheduleTask("daily-schedule-reload", nextDay, new TimeOnly(1, 0), async () => await Configure(delay));
+            TaskService.ScheduleTask("daily-schedule-reload", nextDay, new TimeOnly(0, 30), async () => await LoadSchedule());
+            TaskService.ScheduleTask("daily-schedule-reconfigure", nextDay, new TimeOnly(1, 0),
+                async () => await Configure(delay, SettingsService.Settings.ScheduleNotification.Mode));
             OnTimersConfigured?.Invoke();
         }
 
@@ -62,9 +87,26 @@ namespace MystatDesktopWpf.Domain
 
         public static void EnableAllNotifications(int delay = 0)
         {
+            if (TodaySchedule.Count == 0) return;
+
+            DayScheduleForNotification prev = TodaySchedule[0];
             foreach (var item in TodaySchedule)
             {
-                SetNotification(item, delay);
+                // исключения:
+                // никаких напоминаний заранее, если между парами нет окон
+                var first = DateTime.Parse(prev.DaySchedule.FinishedAt);
+                var second = DateTime.Parse(item.DaySchedule.StartedAt);
+                bool hasWindow = delay > 0 && (second - first).TotalMinutes > 30; // 30 на запас
+                // никаких напоминаний, если следующая пара - тот же предмет
+                bool noEqualSubjects = item.DaySchedule.SubjectName != prev.DaySchedule.SubjectName;
+
+                if (item == prev || (delay > 0 && hasWindow) || noEqualSubjects)
+                {
+                    item.IsNotificationEnabled = true;
+                    SetNotification(item, delay);
+                }
+
+                prev = item;
             }
 
             notificationsConfigured = true;
@@ -78,7 +120,7 @@ namespace MystatDesktopWpf.Domain
             time = time.Subtract(TimeSpan.FromMinutes(delay));
             string timerId = CreateId(item.DaySchedule);
             item.IsNotificationEnabled = TaskService.ScheduleTask(timerId, time, () => OnTimerElapsed?.Invoke(item.DaySchedule, delay));
-            
+
             return item.IsNotificationEnabled;
         }
 
@@ -92,6 +134,7 @@ namespace MystatDesktopWpf.Domain
             }
 
             item.IsNotificationEnabled = true;
+            notificationsConfigured = true;
             return SetNotification(item, delay);
         }
 
@@ -99,7 +142,7 @@ namespace MystatDesktopWpf.Domain
         {
             var item = TodaySchedule.FirstOrDefault(i => i.DaySchedule.StartedAt == cancelForItem.StartedAt);
 
-            if(item is null)
+            if (item is null)
             {
                 return false;
             }
