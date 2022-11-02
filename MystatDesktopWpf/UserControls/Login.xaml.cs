@@ -66,12 +66,10 @@ namespace MystatDesktopWpf.UserControls
                 SettingsService.SetLoginData(loginData);
 
                 var schedule = SettingsService.Settings.ScheduleNotification;
+                ScheduleNotificationService.OnlyFirstSchedule = schedule.OnlyFirstSchedule;
+                ScheduleNotificationService.OnTimerElapsed += ShowNotification;
                 if (schedule.Enabled)
-                {
-                    ScheduleNotificationService.OnlyFirstSchedule = schedule.OnlyFirstSchedule;
                     await ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
-                    ScheduleNotificationService.OnTimerElapsed += ShowNotification;
-                }
 
                 Transitioner.MoveNextCommand.Execute(null, ParentTransitioner);
             }

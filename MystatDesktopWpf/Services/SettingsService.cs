@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using MystatDesktopWpf.Domain;
 
 namespace MystatDesktopWpf.Services
 {
@@ -120,6 +121,6 @@ namespace MystatDesktopWpf.Services
     {
         public UserLoginData? LoginData { get; set; }
         public ScheduleNotificationSettings? ScheduleNotification { get; set; } = new();
-        public double Volume { get; set; }
+        public double Volume { get; set; } = 1;
     }
 }

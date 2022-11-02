@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf.Domain
 {
@@ -32,6 +33,7 @@ namespace MystatDesktopWpf.Domain
                 OnPropertyChanged("DelayMode");
                 schedule.Mode = value;
                 SettingsService.SetPropertyValue("ScheduleNotification", schedule);
+                ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
             }
             get => schedule.Mode;
         }
