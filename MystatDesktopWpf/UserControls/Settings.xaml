@@ -53,7 +53,7 @@
                                          Content="Напоминать заранее за" Margin="0, 0, 0, 8" Grid.Row="1" GroupName="DelayMode"/>
                             <TextBox MaxLength="2" Margin="8, 0, 8, 0" Width="20" HorizontalContentAlignment="Center"
                                      materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed" x:Name="minutesTextBox"
-                                     Text="{Binding NotificationDelay, Mode=TwoWay}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="minutesTextBox_TextChanged" />
+                                     Text="{Binding NotificationDelay, Mode=OneTime}" PreviewTextInput="TextBox_PreviewTextInput" TextChanged="minutesTextBox_TextChanged" />
                             <Label x:Name="minutesLabel" Content="минут"/>
                         </StackPanel>
                         <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static domain:NotificationDelayMode.Both}}"

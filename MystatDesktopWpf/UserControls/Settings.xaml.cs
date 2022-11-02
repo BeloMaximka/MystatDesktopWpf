@@ -37,7 +37,9 @@ namespace MystatDesktopWpf.UserControls
         private void minutesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             SettingsViewModel settings = (SettingsViewModel)this.FindResource("SettingsViewModel");
-            settings.NotificationDelay = int.Parse(minutesTextBox.Text);
+            int result;
+            if (int.TryParse(minutesTextBox.Text, out result))
+                settings.NotificationDelay = result;
         }
     }
 }
