@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
+using MystatDesktopWpf.Domain;
 
 namespace MystatDesktopWpf
 {
@@ -38,6 +39,11 @@ namespace MystatDesktopWpf
 
             theme.ColorAdjustment = adjustment;
             helper.SetTheme(theme);
+        }
+
+        private void window_Closed(object sender, EventArgs e)
+        {
+            SettingsService.Save();
         }
     }
 }

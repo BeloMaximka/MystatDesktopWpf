@@ -63,7 +63,15 @@ namespace MystatDesktopWpf.UserControls
             if (responseSuccess != null)
             {
                 SettingsService.SetLoginData(loginData);
-                await ScheduleNotificationService.Configure();
+
+                var schedule = SettingsService.Settings.ScheduleNotification;
+                if (schedule.Enabled)
+                {
+                    ScheduleNotificationService.OnlyFirstSchedule = schedule.OnlyFirstSchedule;
+                    await ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
+                    ScheduleNotificationService.OnTimerElapsed += ShowNotification;
+                }
+
                 Transitioner.MoveNextCommand.Execute(null, ParentTransitioner);
             }
             else
@@ -72,6 +80,15 @@ namespace MystatDesktopWpf.UserControls
                 errorText.Text = error.Message;
                 errorText.Visibility = Visibility.Visible;
             }
+        }
+        void ShowNotification(DaySchedule schedule, int delay)
+        {
+            string message;
+            if (delay > 0)
+                message = $"Пара начнётся через {delay} минут!";
+            else
+                message = "Пара началась!";
+            new NotificationWindow(message, true).Show();
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
