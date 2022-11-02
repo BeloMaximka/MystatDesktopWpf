@@ -15,7 +15,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        x:Name="window">
+        x:Name="window" Closed="window_Closed">
     <Grid>
         <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="False" SelectedIndex="0">
             <materialDesign:TransitionerSlide>

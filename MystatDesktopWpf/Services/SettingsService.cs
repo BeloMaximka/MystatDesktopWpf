@@ -46,8 +46,8 @@ namespace MystatDesktopWpf.Services
             {
                 string? content = File.ReadAllText(settingsFilePath);
                 var settings = JsonSerializer.Deserialize<Settings>(content);
-                
-                if(settings?.LoginData is not null)
+
+                if (settings?.LoginData is not null)
                 {
                     settings.LoginData.Password = TransformPassword(settings.LoginData.Password);
                 }
@@ -119,6 +119,7 @@ namespace MystatDesktopWpf.Services
     internal class Settings
     {
         public UserLoginData? LoginData { get; set; }
-        public bool TimerEnabled { get; set; } = true;
+        public ScheduleNotificationSettings? ScheduleNotification { get; set; } = new();
+        public double Volume { get; set; }
     }
 }
