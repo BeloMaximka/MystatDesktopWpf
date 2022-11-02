@@ -14,8 +14,6 @@ namespace MystatDesktopWpf.Services
     {
         public static List<DayScheduleForNotification> TodaySchedule { get; private set; }
         public static bool OnlyFirstSchedule { get; set; } = true;
-        static bool notificationsConfigured = false;
-        static bool serviceNotConfigured = true;
         static Random rand = new Random();
 
         public static event Action<DaySchedule, int>? OnTimerElapsed;
@@ -28,19 +26,9 @@ namespace MystatDesktopWpf.Services
 
         public static async Task Configure(int delay, NotificationDelayMode mode)
         {
-            if (serviceNotConfigured)
-            {
-                await LoadSchedule();
-                serviceNotConfigured = false;
-            }
-
-            if (notificationsConfigured)
-            {
-                DisableAllNotifications();
-                TaskService.CancelTask("daily-schedule-reload");
-                TaskService.CancelTask("daily-schedule-reconfigure");
-                notificationsConfigured = false;
-            }
+            await LoadSchedule();
+            DisableAllNotifications();
+            TaskService.CancelTask("daily-schedule-reconfigure");
 
             if (TodaySchedule.Count != 0)
             {
@@ -61,7 +49,6 @@ namespace MystatDesktopWpf.Services
             }
 
             var nextDay = DateTime.Now.AddDays(1);
-            TaskService.ScheduleTask("daily-schedule-reload", nextDay, new TimeOnly(0, 30), async () => await LoadSchedule());
             TaskService.ScheduleTask("daily-schedule-reconfigure", nextDay, new TimeOnly(1, 0),
                 async () => await Configure(delay, SettingsService.Settings.ScheduleNotification.Mode));
             OnTimersConfigured?.Invoke();
@@ -95,22 +82,19 @@ namespace MystatDesktopWpf.Services
             {
                 // исключения:
                 // никаких напоминаний заранее, если между парами нет окон
-                var first = DateTime.Parse(prev.DaySchedule.FinishedAt);
-                var second = DateTime.Parse(item.DaySchedule.StartedAt);
+                var first = TimeOnly.Parse(prev.DaySchedule.FinishedAt);
+                var second = TimeOnly.Parse(item.DaySchedule.StartedAt);
                 bool hasWindow = delay > 0 && (second - first).TotalMinutes > 30; // 30 на запас
                 // никаких напоминаний, если следующая пара - тот же предмет
                 bool noEqualSubjects = item.DaySchedule.SubjectName != prev.DaySchedule.SubjectName;
 
                 if (item == prev || (delay > 0 && hasWindow) || noEqualSubjects)
                 {
-                    item.IsNotificationEnabled = true;
                     SetNotification(item, delay);
                 }
 
                 prev = item;
             }
-
-            notificationsConfigured = true;
         }
 
         static bool SetNotification(DayScheduleForNotification item, int delay)
@@ -134,8 +118,6 @@ namespace MystatDesktopWpf.Services
                 return false;
             }
 
-            item.IsNotificationEnabled = true;
-            notificationsConfigured = true;
             return SetNotification(item, delay);
         }
 

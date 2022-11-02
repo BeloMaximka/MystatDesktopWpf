@@ -57,7 +57,7 @@ namespace MystatDesktopWpf.Services
                 return false;
             }
 
-            TimeSpan duration = currentTimeSpan - targetTimeSpan;
+            TimeSpan duration = (currentTimeSpan - targetTimeSpan).Duration();
 
             AddTimer(id, duration, callback);
             return true;
