@@ -20,10 +20,11 @@ namespace MystatDesktopWpf.Domain
             set
             {
                 OnPropertyChanged("NotificationVolume");
-                SoundCachingPlayer.Volume = value;
-                SettingsService.SetPropertyValue("Volume", value);
+                schedule.Volume = value;
+                SoundCachingPlayer.SetVolume("notification.wav", value);
+                SettingsService.SetPropertyValue("ScheduleNotification", schedule);
             }
-            get => SettingsService.Settings.Volume;
+            get => schedule.Volume;
         }
 
         public NotificationDelayMode DelayMode
