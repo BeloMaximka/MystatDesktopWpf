@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,7 +65,14 @@ namespace MystatDesktopWpf.UserControls
             {
                 if (dontRememberMeCheckBox.IsChecked == false)
                     SettingsService.SetLoginData(loginData);
-                await ScheduleNotificationService.Configure();
+
+                var schedule = SettingsService.Settings.ScheduleNotification;
+                ScheduleNotificationService.OnlyFirstSchedule = schedule.OnlyFirstSchedule;
+                ScheduleNotificationService.OnTimerElapsed += ShowNotification;
+                SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
+                if (schedule.Enabled)
+                    await ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
+
                 Transitioner.MoveNextCommand.Execute(null, ParentTransitioner);
 
                 loginTextBox.Text = "";
@@ -77,6 +84,15 @@ namespace MystatDesktopWpf.UserControls
                 errorText.Text = error.Message;
                 errorText.Visibility = Visibility.Visible;
             }
+        }
+        void ShowNotification(DaySchedule schedule, int delay)
+        {
+            string message;
+            if (delay > 0)
+                message = $"Пара начнётся через {delay} минут!";
+            else
+                message = "Пара началась!";
+            new NotificationWindow(message, true).Show();
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {

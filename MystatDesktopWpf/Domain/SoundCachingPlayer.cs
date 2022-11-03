@@ -8,6 +8,11 @@ using System.Windows.Media;
 
 namespace MystatDesktopWpf.Domain
 {
+    /* TODO
+     * - группировка звуков
+     * - изменение звука для групп
+     * - решение проблемы с щелкающим звуком при вызовы метода Load()
+     */
     static class SoundCachingPlayer
     {
         static Dictionary<string, MediaPlayer> sounds = new();
@@ -26,10 +31,9 @@ namespace MystatDesktopWpf.Domain
         }
         public static void Play(string name)
         {
-            MediaPlayer player;
+            MediaPlayer? player;
             sounds.TryGetValue(name, out player);
-            if(player == null)
-                player = LoadSound(name);
+            player ??= LoadSound(name);
             player.Stop();
             player.Play();
             
