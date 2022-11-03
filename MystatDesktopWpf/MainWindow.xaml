@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MystatDesktopWpf"
         xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280"
+        Title="Mystat Desktop" Height="720" Width="1280" MinHeight="600" MinWidth="600"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
