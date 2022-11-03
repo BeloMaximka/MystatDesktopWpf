@@ -63,9 +63,13 @@ namespace MystatDesktopWpf.UserControls
             ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
             if (responseSuccess != null)
             {
-                SettingsService.SetLoginData(loginData);
+                if (dontRememberMeCheckBox.IsChecked == false)
+                    SettingsService.SetLoginData(loginData);
                 await ScheduleNotificationService.Configure();
                 Transitioner.MoveNextCommand.Execute(null, ParentTransitioner);
+
+                loginTextBox.Text = "";
+                passwordTextBox.Password = "";
             }
             else
             {
