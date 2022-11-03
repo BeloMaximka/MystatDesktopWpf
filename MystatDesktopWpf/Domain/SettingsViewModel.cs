@@ -21,7 +21,7 @@ namespace MystatDesktopWpf.Domain
             {
                 OnPropertyChanged("NotificationVolume");
                 schedule.Volume = value;
-                SoundCachingPlayer.SetVolume("notification.wav", value);
+                SoundCachingPlayer.Volume = schedule.Volume;
                 SettingsService.SetPropertyValue("ScheduleNotification", schedule);
             }
             get => schedule.Volume;

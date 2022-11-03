@@ -68,7 +68,7 @@ namespace MystatDesktopWpf.UserControls
                 var schedule = SettingsService.Settings.ScheduleNotification;
                 ScheduleNotificationService.OnlyFirstSchedule = schedule.OnlyFirstSchedule;
                 ScheduleNotificationService.OnTimerElapsed += ShowNotification;
-                SoundCachingPlayer.SetVolume("notification.wav", schedule.Volume);
+                SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
                 if (schedule.Enabled)
                     await ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
 
