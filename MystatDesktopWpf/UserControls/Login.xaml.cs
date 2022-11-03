@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,7 +63,8 @@ namespace MystatDesktopWpf.UserControls
             ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
             if (responseSuccess != null)
             {
-                SettingsService.SetLoginData(loginData);
+                if (dontRememberMeCheckBox.IsChecked == false)
+                    SettingsService.SetLoginData(loginData);
 
                 var schedule = SettingsService.Settings.ScheduleNotification;
                 ScheduleNotificationService.OnlyFirstSchedule = schedule.OnlyFirstSchedule;
@@ -73,6 +74,9 @@ namespace MystatDesktopWpf.UserControls
                     await ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
 
                 Transitioner.MoveNextCommand.Execute(null, ParentTransitioner);
+
+                loginTextBox.Text = "";
+                passwordTextBox.Password = "";
             }
             else
             {
