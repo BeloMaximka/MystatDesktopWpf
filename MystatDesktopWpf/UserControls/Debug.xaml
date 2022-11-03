@@ -9,15 +9,26 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
-    <Grid>
-        <StackPanel Margin="24">
-            <Button Content="Snackbar" Margin="8" Click="Button_Snackbar_Click" HorizontalAlignment="Left"/>
-            <Button Content="Snackbar with 10 seconds timer" Margin="8" Click="Button_SnackbarTimer_Click" HorizontalAlignment="Left"/>
-            <Button Content="Noification dialog " Margin="8" Click="Button_Notification_Click" HorizontalAlignment="Left"/>
-            <Button Content="Noification dialog delayed" Margin="8" Click="Button_NotificationDelayed_Click" HorizontalAlignment="Left"/>
-        </StackPanel>
+    <WrapPanel>
+        <materialDesign:Card Margin="16" Padding="24">
+            <StackPanel>
+                <Button Content="Snackbar" Margin="8" Click="Button_Snackbar_Click" HorizontalAlignment="Left"/>
+                <Button Content="Snackbar with 10 seconds timer" Margin="8" Click="Button_SnackbarTimer_Click" HorizontalAlignment="Left"/>
+                <Button Content="Noification dialog " Margin="8" Click="Button_Notification_Click" HorizontalAlignment="Left"/>
+                <Button Content="Noification dialog delayed" Margin="8" Click="Button_NotificationDelayed_Click" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </materialDesign:Card>
+        <materialDesign:Card Margin="0,16,16,16" Padding="24">
+            <StackPanel>
+                <Label Content="{DynamicResource m_DebugText}" Margin="8"/>
+                <Button Content="Change to EN" Margin="8" Click="Button_EN_Click"/>
+                <Button Content="Change to RU" Margin="8" Click="Button_RU_Click"/>
+            </StackPanel>
+            
+        </materialDesign:Card>
+        
         <materialDesign:Snackbar x:Name="notifySnackbar" MessageQueue="{materialDesign:MessageQueue}"
                                  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="32"
                                  VerticalContentAlignment="Bottom" Grid.RowSpan="3"/>
-    </Grid>
+    </WrapPanel>
 </UserControl>
