@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Domain;
 
 namespace MystatDesktopWpf
 {

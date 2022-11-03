@@ -120,7 +120,6 @@ namespace MystatDesktopWpf.Services
     internal class Settings
     {
         public UserLoginData? LoginData { get; set; }
-        public ScheduleNotificationSettings? ScheduleNotification { get; set; } = new();
-        public double Volume { get; set; } = 1;
+        public ScheduleNotificationSettings ScheduleNotification { get; set; } = new();
     }
 }
