@@ -62,15 +62,23 @@
 
                     </StackPanel>
                     <Rectangle VerticalAlignment="Stretch" Fill="{DynamicResource PrimaryHueMidForegroundBrush}" Width="1" Margin="8"/>
-                    
+
                     <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="8"
                             IsEnabled="{Binding ElementName=notifierCheckBox, Path=IsChecked}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Label Content="Звук уведомления:" FontSize="14" Margin="0,8,0,0" HorizontalAlignment="Center"/>
-                        <Slider Margin="8" VerticalAlignment="Center" Grid.Row="1" Value="{Binding NotificationVolume}" Maximum="1"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Звук уведомления:" FontSize="14" Margin="0,8,0,0" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
+                        <Slider Margin="8,8,8,8" VerticalAlignment="Center" Grid.Row="1" x:Name="notificationVolumeSlider"
+                                Grid.Column="1" Value="{Binding NotificationVolume}" Maximum="1"/>
+                        <Button x:Name="muteButton" Grid.Row="1" Grid.Column="0" Style="{DynamicResource MaterialDesignIconButton}" Width="24" Height="24" Click="Button_Mute_Click">
+                            <materialDesign:PackIcon x:Name="muteIcon" Kind="Mute" Foreground="{DynamicResource MaterialDesignCheckBoxOff}"/>
+                        </Button>
                     </Grid>
                 </WrapPanel>
             </Grid>
