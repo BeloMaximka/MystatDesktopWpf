@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using MystatDesktopWpf.Domain;
+using System.Globalization;
 
 namespace MystatDesktopWpf.Services
 {
@@ -121,5 +122,6 @@ namespace MystatDesktopWpf.Services
     {
         public UserLoginData? LoginData { get; set; }
         public ScheduleNotificationSettings ScheduleNotification { get; set; } = new();
+        public string Language { get; set; } = "en-US";
     }
 }

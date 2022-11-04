@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MystatDesktopWpf.Services;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -33,7 +34,7 @@ namespace MystatDesktopWpf
             languages.Add(new CultureInfo("en-US")); //Нейтральная культура для этого проекта
             languages.Add(new CultureInfo("ru-RU"));
 
-            Language = MystatDesktopWpf.Properties.Settings.Default.DefaultLanguage;
+            Language = new CultureInfo(SettingsService.Settings.Language);
         }
 
         //Евент для оповещения всех окон приложения
@@ -87,8 +88,7 @@ namespace MystatDesktopWpf
 
         private void App_LanguageChanged(Object sender, EventArgs e)
         {
-            MystatDesktopWpf.Properties.Settings.Default.DefaultLanguage = Language;
-            MystatDesktopWpf.Properties.Settings.Default.Save();
+            SettingsService.SetPropertyValue("Language", Language.Name);
         }
     }
 }
