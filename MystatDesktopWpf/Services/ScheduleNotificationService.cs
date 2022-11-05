@@ -28,6 +28,7 @@ namespace MystatDesktopWpf.Services
 
         public static async Task Configure(int delay, NotificationDelayMode mode)
         {
+            // загружаем расписание при первом запуске Configure
             if (serviceNotConfigured)
             {
                 await LoadSchedule();
@@ -42,7 +43,7 @@ namespace MystatDesktopWpf.Services
                 notificationsConfigured = false;
             }
 
-            if (TodaySchedule.Count != 0)
+            if (TodaySchedule.Count != 0) // чтобы не было исключения при обращении по 0 индексу
             {
                 if (OnlyFirstSchedule)
                 {
@@ -61,7 +62,9 @@ namespace MystatDesktopWpf.Services
             }
 
             var nextDay = DateTime.Now.AddDays(1);
+            // Загружаем новое расписание завтра в 0:30
             TaskService.ScheduleTask("daily-schedule-reload", nextDay, new TimeOnly(0, 30), async () => await LoadSchedule());
+            // Обновляем таймера под новое расписание завтра в 1:00
             TaskService.ScheduleTask("daily-schedule-reconfigure", nextDay, new TimeOnly(1, 0),
                 async () => await Configure(delay, SettingsService.Settings.ScheduleNotification.Mode));
             OnTimersConfigured?.Invoke();
