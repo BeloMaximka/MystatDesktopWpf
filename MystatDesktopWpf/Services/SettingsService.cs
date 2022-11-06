@@ -25,7 +25,7 @@ namespace MystatDesktopWpf.Services
 
             CancellationTokenSource? cancelTokenSource = null;
             var saveSettingsDelay = TimeSpan.FromSeconds(3);
-            OnSettingsChange += () =>
+            var saveDebounced = () =>
             {
                 cancelTokenSource?.Cancel();
                 cancelTokenSource = new CancellationTokenSource();
@@ -39,6 +39,9 @@ namespace MystatDesktopWpf.Services
                         }
                     }, TaskScheduler.Default);
             };
+
+            OnSettingsChange += saveDebounced;
+            Settings.ScheduleNotification.OnPropertyChanged += saveDebounced;
         }
 
         public static Settings? Load()
@@ -91,7 +94,7 @@ namespace MystatDesktopWpf.Services
             return SetPropertyValue(nameof(Settings.LoginData), null);
         }
 
-        public static bool SetPropertyValue(string property, object value)
+        public static bool SetPropertyValue(string property, object? value)
         {
             Type type = Settings.GetType();
             PropertyInfo? prop = type.GetProperty(property);
@@ -105,16 +108,15 @@ namespace MystatDesktopWpf.Services
 
         private static string TransformPassword(string password)
         {
-            string newPass = string.Empty;
-
-            foreach (var ch in password)
-            {
-                newPass += ch >> 7;
-            }
-
             // TODO: encrypt/decrypt password
             return password;
         }
+    }
+
+    internal interface ISettingsProperty
+    {
+        event Action? OnPropertyChanged;
+        void PropertyChanged();
     }
 
     internal class Settings
