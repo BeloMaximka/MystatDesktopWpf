@@ -2,6 +2,26 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:v="clr-namespace:System;assembly=mscorlib">
 
-    <v:String x:Key="m_DebugText">Некоторый текст</v:String>
+    <v:String x:Key="m_Login">Логін</v:String>
+    <v:String x:Key="m_Password">Пароль</v:String>
+    <v:String x:Key="m_LoginCheckBox">Не запам'ятовувати мене</v:String>
+    <v:String x:Key="m_LoginButton">Вхід</v:String>
+    <v:String x:Key="m_ExitPopUp">Вийти з облікового запису</v:String>
+    <v:String x:Key="m_SettingsOfNotification0">Нагадування про початок пари</v:String>
+    <v:String x:Key="m_SettingsOfNotification1">Про які пари нагадувати:</v:String>
+    <v:String x:Key="m_SettingsOfNotification1Radio0">Тільки перші пари</v:String>
+    <v:String x:Key="m_SettingsOfNotification1Radio1">Кожну пару</v:String>
+    <v:String x:Key="m_SettingsOfNotification1">Коли нагадувати:</v:String>
+    <v:String x:Key="m_SettingsOfNotification2Radio0">Нагадувати на початку пари</v:String>
+    <v:String x:Key="m_SettingsOfNotification2Radio1">Нагадувати заздалегідь за  хвилин</v:String>
+    <v:String x:Key="m_SettingsOfNotification2Radio2">Обидва варіанти</v:String>
+    <v:String x:Key="m_SettingsOfNotification2">Звук повідомлення:</v:String>
+    <v:String x:Key="m_СalendarDay0">ПН</v:String>
+    <v:String x:Key="m_СalendarDay1">ВТ</v:String>
+    <v:String x:Key="m_СalendarDay2">СР</v:String>
+    <v:String x:Key="m_СalendarDay3">ЧТ</v:String>
+    <v:String x:Key="m_СalendarDay4">ПТ</v:String>
+    <v:String x:Key="m_СalendarDay5">СБ</v:String>
+    <v:String x:Key="m_СalendarDay6">НД</v:String>
 
 </ResourceDictionary>
