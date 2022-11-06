@@ -22,7 +22,7 @@ namespace MystatDesktopWpf.Domain
                 OnPropertyChanged("NotificationVolume");
                 schedule.Volume = value;
                 SoundCachingPlayer.Volume = schedule.Volume;
-                SettingsService.SetPropertyValue("ScheduleNotification", schedule);
+                SettingsService.Settings.ScheduleNotification.Volume = value;
             }
             get => schedule.Volume;
         }
@@ -33,7 +33,7 @@ namespace MystatDesktopWpf.Domain
             {
                 OnPropertyChanged("DelayMode");
                 schedule.Mode = value;
-                SettingsService.SetPropertyValue("ScheduleNotification", schedule);
+                SettingsService.Settings.ScheduleNotification.Mode = value;
                 ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
             }
             get => schedule.Mode;
@@ -50,7 +50,7 @@ namespace MystatDesktopWpf.Domain
             {
                 OnPropertyChanged("OnlyFirstSchedule");
                 schedule.OnlyFirstSchedule = value;
-                SettingsService.SetPropertyValue("ScheduleNotification", schedule);
+                SettingsService.Settings.ScheduleNotification.OnlyFirstSchedule = value;
                 ScheduleNotificationService.OnlyFirstSchedule = value;
                 ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
             }
@@ -62,7 +62,7 @@ namespace MystatDesktopWpf.Domain
             {
                 OnPropertyChanged("NotificationDelay");
                 schedule.Delay = value;
-                SettingsService.SetPropertyValue("ScheduleNotification", schedule);
+                SettingsService.Settings.ScheduleNotification.Delay = value;
                 ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
             }
             get => SettingsService.Settings.ScheduleNotification.Delay;
@@ -73,7 +73,7 @@ namespace MystatDesktopWpf.Domain
             {
                 OnPropertyChanged("NotificationEnabled");
                 schedule.Enabled = value;
-                SettingsService.SetPropertyValue("ScheduleNotification", schedule);
+                SettingsService.Settings.ScheduleNotification.Enabled = value;
 
                 if (value)
                     ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
