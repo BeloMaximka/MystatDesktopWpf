@@ -15,25 +15,17 @@ namespace MystatDesktopWpf
     /// </summary>
     public partial class App : Application
     {
-        private static List<CultureInfo> languages = new List<CultureInfo>();
-
-        public static List<CultureInfo> Languages
-        {
-            get
-            {
-                return languages;
-            }
-        }
+        public static List<CultureInfo> Languages { get; private set; } = new List<CultureInfo>();
 
         public App()
         {
             InitializeComponent();
             App.LanguageChanged += App_LanguageChanged;
 
-            languages.Clear();
-            languages.Add(new CultureInfo("en-US")); //Нейтральная культура для этого проекта
-            languages.Add(new CultureInfo("ru-RU"));
-            languages.Add(new CultureInfo("ua-UA"));
+            Languages.Clear();
+            Languages.Add(new CultureInfo("en-US")); //Нейтральная культура для этого проекта
+            Languages.Add(new CultureInfo("ru-RU"));
+            Languages.Add(new CultureInfo("ua-UA"));
 
             Language = new CultureInfo(SettingsService.Settings.Language);
         }
@@ -57,20 +49,12 @@ namespace MystatDesktopWpf
 
                 //2. Создаём ResourceDictionary для новой культуры
                 ResourceDictionary dict = new ResourceDictionary();
-                switch (value.Name)
-                {
-                    case "en-US":
-                        dict.Source = new Uri("Languages/lang.xaml", UriKind.Relative);
-                        break;
-                    default:
-                        dict.Source = new Uri(String.Format("Languages/lang.{0}.xaml", value.Name), UriKind.Relative);
-                        break;
-                }
+                dict.Source = new Uri(String.Format("Languages/lang.{0}.xaml", value.Name), UriKind.Relative);
+                
 
                 //3. Находим старую ResourceDictionary и удаляем его и добавляем новую ResourceDictionary
-                ResourceDictionary oldDict = (from d in Application.Current.Resources.MergedDictionaries
-                                              where d.Source != null && d.Source.OriginalString.StartsWith("Languages/lang.")
-                                              select d).First();
+                ResourceDictionary oldDict = Application.Current.Resources.MergedDictionaries
+                                             .First(d => d.Source != null && d.Source.OriginalString.StartsWith("Languages/lang."));
                 if (oldDict != null)
                 {
                     int ind = Application.Current.Resources.MergedDictionaries.IndexOf(oldDict);

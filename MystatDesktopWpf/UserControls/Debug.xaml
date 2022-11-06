@@ -20,7 +20,7 @@
         </materialDesign:Card>
         <materialDesign:Card Margin="0,16,16,16" Padding="24">
             <StackPanel>
-                <Label Content="{DynamicResource m_DebugText}" Margin="8"/>
+                <Label Content="{DynamicResource m_Login}" Margin="8"/>
                 <Button Content="Change to EN" Margin="8" Click="Button_EN_Click"/>
                 <Button Content="Change to RU" Margin="8" Click="Button_RU_Click"/>
             </StackPanel>
