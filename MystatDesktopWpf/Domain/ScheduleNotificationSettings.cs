@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MystatDesktopWpf.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,65 @@ namespace MystatDesktopWpf.Domain
         WithoutDelay,
         Both
     }
-    public class ScheduleNotificationSettings
+    public class ScheduleNotificationSettings : ISettingsProperty
     {
-        public bool Enabled { get; set; } = false;
-        public int Delay { get; set; } = 5;
-        public bool OnlyFirstSchedule { get; set; } = false;
-        public NotificationDelayMode Mode { get; set; } = NotificationDelayMode.Both;
-        public double Volume { get; set; } = 1;
+        bool enabled = false;
+        int delay = 5;
+        bool onlyFirstSchedule = false;
+        NotificationDelayMode mode = NotificationDelayMode.Both;
+        double volume = 1;
+
+        public bool Enabled
+        {
+            get => enabled;
+            set
+            {
+                enabled = value;
+                PropertyChanged();
+            }
+        }
+        public int Delay
+        {
+            get => delay;
+            set
+            {
+                delay = value;
+                PropertyChanged();
+            }
+        }
+        public bool OnlyFirstSchedule
+        {
+            get => onlyFirstSchedule;
+            set
+            {
+                onlyFirstSchedule = value;
+                PropertyChanged();
+            }
+        }
+        public NotificationDelayMode Mode
+        {
+            get => mode;
+            set
+            {
+                mode = value;
+                PropertyChanged();
+            }
+        }
+        public double Volume
+        {
+            get => volume;
+            set
+            {
+                volume = value;
+                PropertyChanged();
+            }
+        }
+
+        public event Action? OnPropertyChanged;
+
+        public void PropertyChanged()
+        {
+            OnPropertyChanged?.Invoke();
+        }
     }
 }
