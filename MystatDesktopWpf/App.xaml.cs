@@ -33,6 +33,7 @@ namespace MystatDesktopWpf
             languages.Clear();
             languages.Add(new CultureInfo("en-US")); //Нейтральная культура для этого проекта
             languages.Add(new CultureInfo("ru-RU"));
+            languages.Add(new CultureInfo("ua-UA"));
 
             Language = new CultureInfo(SettingsService.Settings.Language);
         }
