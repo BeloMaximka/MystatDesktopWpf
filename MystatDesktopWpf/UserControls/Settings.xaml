@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MystatDesktopWpf"
+             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
              mc:Ignorable="d" 
@@ -13,10 +14,12 @@
     <UserControl.Resources>
         <domain:ComparisonConverter x:Key="ComparisonConverter"/>
         <domain:SettingsViewModel x:Key="SettingsViewModel"/>
+        <domain:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <domain:ThemeColorViewModel x:Key="ThemeColorViewModel"/>
     </UserControl.Resources>
-    
-    <StackPanel Margin="16" DataContext="{StaticResource SettingsViewModel}">
-        <materialDesign:Card>
+
+    <StackPanel Margin="16">
+        <materialDesign:Card Margin="8" DataContext="{StaticResource SettingsViewModel}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -82,6 +85,33 @@
                     </Grid>
                 </WrapPanel>
             </Grid>
+        </materialDesign:Card>
+        <materialDesign:Card Margin="8" Padding="8" DataContext="{StaticResource ThemeColorViewModel}">
+            <StackPanel>
+                <TextBlock Text="Настройки темы" HorizontalAlignment="Left"
+                           Style="{DynamicResource MaterialDesignBody1TextBlock}" Margin="0,8,8,8"/>
+                <controls:ThemeSettingsBar Margin="0,0,0,16"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+                    <TextBox Margin="2,0,10,2"
+                       materialDesign:HintAssist.Hint="HEX цвет"
+                       DockPanel.Dock="Top"
+                       Style="{StaticResource MaterialDesignFilledTextBox}"
+                       Text="{Binding Color, ElementName=ColorPicker, UpdateSourceTrigger=PropertyChanged}" />
+                    <Rectangle Grid.Row="1" Margin="2,0,10,2" Fill="{Binding Color, ElementName=ColorPicker, Converter={StaticResource ColorToBrushConverter}}" />
+                    <materialDesign:ColorPicker x:Name="ColorPicker"
+                                        Grid.Column="1" Grid.RowSpan="2"
+                                        Color="{Binding SelectedColor, Delay=25}" />
+                </Grid>
+            </StackPanel>
+            
         </materialDesign:Card>
     </StackPanel>
 </UserControl>

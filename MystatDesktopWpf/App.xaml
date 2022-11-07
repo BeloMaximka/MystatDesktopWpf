@@ -6,26 +6,26 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Purple.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
             <Style x:Key="CalendarButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#A686D9"/>
+                        <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
             <Style x:Key="DarkCalendarButton" TargetType="Button" BasedOn="{StaticResource CalendarButton}">
-                <Setter Property="Background" Value="#341D59"/>
-                <Setter Property="BorderBrush" Value="#251540" />
+                <Setter Property="Background" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkBrush}" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#A686D9"/>
+                        <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>

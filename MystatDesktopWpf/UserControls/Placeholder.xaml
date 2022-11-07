@@ -9,5 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
-    <Grid/>
+    <Grid>
+        <materialDesign:ColorPicker></materialDesign:ColorPicker>
+    </Grid>
 </UserControl>

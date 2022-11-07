@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.ThemeSettingsBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <domain:ThemeSettingsViewModel x:Key="ThemeSettingsViewModel"/>
+    </UserControl.Resources>
+    
+    <StackPanel Orientation="Horizontal" DataContext="{StaticResource ThemeSettingsViewModel}">
+        <Button Content="Вернуть базовые настройки"/>
+        
+        <TextBlock  Margin="50,0,0,0" VerticalAlignment="Center" Text="Светлая" />
+
+        <ToggleButton Margin="8,0,16,0" IsChecked="{Binding IsDarkTheme}" />
+
+        <TextBlock VerticalAlignment="Center" Text="Темная" />
+
+        <TextBlock Margin="50,0,0,0"
+               VerticalAlignment="Center"
+               Text="Коррекция цвета" />
+
+        <ToggleButton Margin="8,0,0,0" IsChecked="{Binding IsColorAdjusted}" />
+
+        <wpf:PopupBox StaysOpen="True">
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Margin="10"
+                   VerticalAlignment="Center"
+                   Text="Соотношение контраста" />
+                <Slider Grid.Row="0"
+                Grid.Column="1"
+                Width="150"
+                VerticalAlignment="Center"
+                IsSnapToTickEnabled="True"
+                Maximum="21"
+                Minimum="1"
+                TickFrequency="0.1"
+                Value="{Binding DesiredContrastRatio}" />
+                <TextBlock Grid.Row="0"
+                   Grid.Column="2"
+                   Width="40"
+                   Margin="8"
+                   VerticalAlignment="Center"
+                   Text="{Binding DesiredContrastRatio, StringFormat={}{0}:1}"
+                   TextAlignment="Right" />
+
+                <TextBlock Grid.Row="1"
+                   Grid.Column="0"
+                   Margin="10"
+                   VerticalAlignment="Center"
+                   Text="Контраст" />
+                <ComboBox Grid.Row="1"
+                  Grid.Column="1"
+                  ItemsSource="{Binding ContrastValues}"
+                  SelectedItem="{Binding ContrastValue}" />
+
+                <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   Margin="10"
+                   VerticalAlignment="Center"
+                   Text="Корректируемые цвета" />
+                <ComboBox Grid.Row="2"
+                  Grid.Column="1"
+                  ItemsSource="{Binding ColorSelectionValues}"
+                  SelectedItem="{Binding ColorSelectionValue}" />
+            </Grid>
+        </wpf:PopupBox>
+    </StackPanel>
+
+</UserControl>
