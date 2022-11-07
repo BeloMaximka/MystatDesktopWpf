@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MystatDesktopWpf.UserControls;
+using MystatDesktopWpf.Domain;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.ViewModels
 {
     internal class MainMenuViewModel : ViewModelBase
     {
@@ -19,7 +20,7 @@ namespace MystatDesktopWpf.Domain
         {
             //MenuItems.Add(new MainMenuItem("Главная", typeof(Placeholder), PackIconKind.Home, PackIconKind.Home));
             MenuItems.Add(new MainMenuItem("Расписание", typeof(Schedule), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
-            MenuItems.Add(new MainMenuItem("Настройки", typeof(UserControls.Settings), PackIconKind.Cog, PackIconKind.Cog));
+            MenuItems.Add(new MainMenuItem("Настройки", typeof(Settings), PackIconKind.Cog, PackIconKind.Cog));
             //MenuItems.Add(new MainMenuItem("Debug", typeof(Debug), PackIconKind.Bug, PackIconKind.Bug));
             SelectedIndex = 0;
         }

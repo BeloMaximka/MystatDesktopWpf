@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.Converters
 {
     [ValueConversion(typeof(Color), typeof(Brush))]
     public class ColorToBrushConverter : IValueConverter

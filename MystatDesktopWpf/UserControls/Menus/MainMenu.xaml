@@ -47,7 +47,7 @@
                      Margin="0,8,0,0">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesign3.NavigationRailListBoxItem}">
-                        <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                        <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
                         <Setter Property="materialDesign:BadgedAssist.Badge" Value="{Binding Notifications}" />
                         <Setter Property="materialDesign:BadgedAssist.BadgeBackground" Value="#930006" />
                         <Setter Property="materialDesign:BadgedAssist.BadgeForeground" Value="#FFDAD4" />

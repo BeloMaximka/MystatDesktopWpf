@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.ViewModels
 {
-    public class SettingsViewModel : ViewModelBase
+    public class NotificationSettingsViewModel : ViewModelBase
     {
         ScheduleNotificationSettings schedule;
-        public SettingsViewModel()
+        public NotificationSettingsViewModel()
         {
             schedule = SettingsService.Settings.ScheduleNotification;
         }
@@ -77,7 +78,7 @@ namespace MystatDesktopWpf.Domain
 
                 if (value)
                     ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
-                    
+
                 else
                     ScheduleNotificationService.DisableAllNotifications();
             }

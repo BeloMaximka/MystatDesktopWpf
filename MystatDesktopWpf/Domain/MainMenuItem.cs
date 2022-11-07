@@ -1,9 +1,9 @@
 ﻿using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.Domain;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows;
 using System;
+using MystatDesktopWpf.ViewModels;
 
 namespace MystatDesktopWpf.Domain
 {

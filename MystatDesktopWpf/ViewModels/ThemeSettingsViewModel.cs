@@ -8,9 +8,9 @@ using MaterialDesignColors;
 using MaterialDesignColors.ColorManipulation;
 using MaterialDesignThemes.Wpf;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.ViewModels
 {
-    internal class ThemeSettingsViewModel : ViewModelBase
+    public class ThemeSettingsViewModel : ViewModelBase
     {
         private readonly PaletteHelper paletteHelper = new();
 
@@ -24,7 +24,7 @@ namespace MystatDesktopWpf.Domain
                 OnPropertyChanged();
 
                 ITheme theme = paletteHelper.GetTheme();
-                IBaseTheme baseTheme = isDarkTheme ? new MaterialDesignDarkTheme() : (IBaseTheme)new MaterialDesignLightTheme();
+                IBaseTheme baseTheme = isDarkTheme ? new MaterialDesignDarkTheme() : new MaterialDesignLightTheme();
                 theme.SetBaseTheme(baseTheme);
                 paletteHelper.SetTheme(theme);
             }

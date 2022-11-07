@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.Converters
 {
     public class ComparisonConverter : IValueConverter
     {

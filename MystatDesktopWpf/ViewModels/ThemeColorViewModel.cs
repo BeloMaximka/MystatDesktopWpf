@@ -8,7 +8,7 @@ using MaterialDesignColors.ColorManipulation;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.ViewModels
 {
     internal class ThemeColorViewModel : ViewModelBase
     {
