@@ -17,6 +17,9 @@ using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Services;
 using MystatDesktopWpf.Domain;
+using MaterialDesignColors.ColorManipulation;
+using MaterialDesignColors;
+using MystatDesktopWpf.Converters;
 
 namespace MystatDesktopWpf
 {
@@ -28,18 +31,25 @@ namespace MystatDesktopWpf
         public MainWindow()
         {
             InitializeComponent();
+
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             login.ParentTransitioner = transitioner;
 
-            PaletteHelper helper = new PaletteHelper();
+            SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
+
+            PaletteHelper helper = new();
             Theme theme = (Theme)helper.GetTheme();
+
+            Color color = ColorToHexConverter.ConvertBack(SettingsService.Settings.Theme.ColorHex);
+            theme.PrimaryLight = new ColorPair(color.Lighten());
+            theme.PrimaryMid = new ColorPair(color);
+            theme.PrimaryDark = new ColorPair(color.Darken());
 
             ColorAdjustment adjustment = new();
             adjustment.Contrast = Contrast.Low;
             adjustment.DesiredContrastRatio = 3.0f;
             adjustment.Colors = ColorSelection.All;
 
-            theme.ColorAdjustment = adjustment;
             helper.SetTheme(theme);
         }
 

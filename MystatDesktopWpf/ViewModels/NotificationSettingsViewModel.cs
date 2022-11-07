@@ -10,7 +10,7 @@ namespace MystatDesktopWpf.ViewModels
 {
     public class NotificationSettingsViewModel : ViewModelBase
     {
-        ScheduleNotificationSettings schedule;
+        ScheduleNotificationSubSettings schedule;
         public NotificationSettingsViewModel()
         {
             schedule = SettingsService.Settings.ScheduleNotification;

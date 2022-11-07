@@ -13,7 +13,7 @@ namespace MystatDesktopWpf.Domain
         WithoutDelay,
         Both
     }
-    public class ScheduleNotificationSettings : ISettingsProperty
+    public class ScheduleNotificationSubSettings : ISettingsProperty
     {
         bool enabled = false;
         int delay = 5;

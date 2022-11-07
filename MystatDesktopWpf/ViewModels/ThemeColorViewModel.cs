@@ -7,6 +7,8 @@ using System.Windows.Media;
 using MaterialDesignColors.ColorManipulation;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
+using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Converters;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -14,8 +16,7 @@ namespace MystatDesktopWpf.ViewModels
     {
         public ThemeColorViewModel()
         {
-            ITheme theme = paletteHelper.GetTheme();
-            SelectedColor = theme.PrimaryMid.Color;
+            SelectedColor = ColorToHexConverter.ConvertBack(SettingsService.Settings.Theme.ColorHex);
         }
         private readonly PaletteHelper paletteHelper = new();
 
@@ -27,6 +28,8 @@ namespace MystatDesktopWpf.ViewModels
             {
                 selectedColor = value;
                 OnPropertyChanged();
+
+                SettingsService.Settings.Theme.ColorHex = ColorToHexConverter.Convert(value);
 
                 ITheme theme = paletteHelper.GetTheme();
 
