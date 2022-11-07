@@ -5,14 +5,12 @@
              xmlns:vm="clr-namespace:MystatDesktopWpf.ViewModels"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" 
+             d:DataContext="{d:DesignInstance Type=vm:ThemeSettingsViewModel}"
              mc:Ignorable="d"
              d:Background="{DynamicResource MaterialDesignPaper}">
-    <UserControl.Resources>
-        <vm:ThemeSettingsViewModel x:Key="ThemeSettingsViewModel"/>
-    </UserControl.Resources>
 
-    <StackPanel Orientation="Horizontal" DataContext="{StaticResource ThemeSettingsViewModel}">
-        <Button Content="Вернуть базовые настройки"/>
+    <StackPanel Orientation="Horizontal">
+        <Button Content="Вернуть базовые настройки" Click="Button_Click"/>
         
         <TextBlock  Margin="50,0,0,0" VerticalAlignment="Center" Text="Светлая" />
 

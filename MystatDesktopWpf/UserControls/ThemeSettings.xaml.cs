@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MystatDesktopWpf.Converters;
+using MystatDesktopWpf.Services;
+using MystatDesktopWpf.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +23,18 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class ThemeSettings : UserControl
     {
+        ThemeColorViewModel viewModel = new();
         public ThemeSettings()
         {
             InitializeComponent();
+            DataContext = viewModel;
+            settingsBar.OnResetThemeSettings += ResetTheme;
+        }
+
+        void ResetTheme()
+        {
+            
+            viewModel.SelectedColor= ColorToHexConverter.ConvertBack("#FF673AB7");
         }
     }
 }

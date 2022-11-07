@@ -7,6 +7,7 @@ using System.Windows.Media;
 using MaterialDesignColors;
 using MaterialDesignColors.ColorManipulation;
 using MaterialDesignThemes.Wpf;
+using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -14,30 +15,34 @@ namespace MystatDesktopWpf.ViewModels
     {
         private readonly PaletteHelper paletteHelper = new();
 
-        bool isDarkTheme = false;
         public bool IsDarkTheme
         {
-            get => isDarkTheme;
+            get => SettingsService.Settings.Theme.IsDarkTheme;
             set
             {
-                isDarkTheme = value;
-                OnPropertyChanged();
+                if (SettingsService.Settings.Theme.IsDarkTheme != value)
+                {
+                    SettingsService.Settings.Theme.IsDarkTheme = value;
+                    OnPropertyChanged();
 
-                ITheme theme = paletteHelper.GetTheme();
-                IBaseTheme baseTheme = isDarkTheme ? new MaterialDesignDarkTheme() : new MaterialDesignLightTheme();
-                theme.SetBaseTheme(baseTheme);
-                paletteHelper.SetTheme(theme);
+                    ITheme theme = paletteHelper.GetTheme();
+                    IBaseTheme baseTheme = value ? new MaterialDesignDarkTheme() : new MaterialDesignLightTheme();
+                    theme.SetBaseTheme(baseTheme);
+                    paletteHelper.SetTheme(theme);
+                }
             }
         }
 
-        private bool isColorAdjusted;
         public bool IsColorAdjusted
         {
-            get => isColorAdjusted;
+            get => SettingsService.Settings.Theme.IsColorAdjusted;
             set
             {
-                if (SetProperty(ref isColorAdjusted, value))
+                if (SettingsService.Settings.Theme.IsColorAdjusted != value)
                 {
+                    SettingsService.Settings.Theme.IsColorAdjusted = value;
+                    OnPropertyChanged();
+
                     Theme theme = (Theme)paletteHelper.GetTheme();
                     if (value)
                     {
@@ -53,14 +58,16 @@ namespace MystatDesktopWpf.ViewModels
                 }
             }
         }
-        private float desiredContrastRatio = 4.5f;
         public float DesiredContrastRatio
         {
-            get => desiredContrastRatio;
+            get => SettingsService.Settings.Theme.ContrastRatio;
             set
             {
-                if (SetProperty(ref desiredContrastRatio, value))
+                if (SettingsService.Settings.Theme.ContrastRatio != value)
                 {
+                    SettingsService.Settings.Theme.ContrastRatio = value;
+                    OnPropertyChanged();
+
                     Theme theme = (Theme)paletteHelper.GetTheme();
 
                     if (theme.ColorAdjustment != null)
@@ -74,14 +81,16 @@ namespace MystatDesktopWpf.ViewModels
 
         public IEnumerable<Contrast> ContrastValues => Enum.GetValues(typeof(Contrast)).Cast<Contrast>();
 
-        private Contrast contrastValue;
         public Contrast ContrastValue
         {
-            get => contrastValue;
+            get => SettingsService.Settings.Theme.Contrast;
             set
             {
-                if (SetProperty(ref contrastValue, value))
+                if (SettingsService.Settings.Theme.Contrast != value)
                 {
+                    SettingsService.Settings.Theme.Contrast = value;
+                    OnPropertyChanged();
+
                     Theme theme = (Theme)paletteHelper.GetTheme();
 
                     if (theme.ColorAdjustment != null)
@@ -95,14 +104,16 @@ namespace MystatDesktopWpf.ViewModels
 
         public IEnumerable<ColorSelection> ColorSelectionValues => Enum.GetValues(typeof(ColorSelection)).Cast<ColorSelection>();
 
-        private ColorSelection colorSelectionValue;
         public ColorSelection ColorSelectionValue
         {
-            get => colorSelectionValue;
+            get => SettingsService.Settings.Theme.Colors;
             set
             {
-                if (SetProperty(ref colorSelectionValue, value))
+                if (SettingsService.Settings.Theme.Colors != value)
                 {
+                    SettingsService.Settings.Theme.Colors = value;
+                    OnPropertyChanged();
+
                     Theme theme = (Theme)paletteHelper.GetTheme();
 
                     if (theme.ColorAdjustment != null)

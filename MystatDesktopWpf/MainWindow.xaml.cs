@@ -36,19 +36,28 @@ namespace MystatDesktopWpf
             login.ParentTransitioner = transitioner;
 
             SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
+            InitTheme();
+        }
 
+        void InitTheme()
+        {
             PaletteHelper helper = new();
             Theme theme = (Theme)helper.GetTheme();
+            ThemeSubSettings settings = SettingsService.Settings.Theme;
 
-            Color color = ColorToHexConverter.ConvertBack(SettingsService.Settings.Theme.ColorHex);
+            Color color = ColorToHexConverter.ConvertBack(settings.ColorHex);
             theme.PrimaryLight = new ColorPair(color.Lighten());
             theme.PrimaryMid = new ColorPair(color);
             theme.PrimaryDark = new ColorPair(color.Darken());
 
             ColorAdjustment adjustment = new();
-            adjustment.Contrast = Contrast.Low;
-            adjustment.DesiredContrastRatio = 3.0f;
-            adjustment.Colors = ColorSelection.All;
+            adjustment.Contrast = settings.Contrast;
+            adjustment.DesiredContrastRatio = settings.ContrastRatio;
+            adjustment.Colors = settings.Colors;
+            theme.ColorAdjustment = adjustment;
+
+            IBaseTheme baseTheme = settings.IsDarkTheme ? new MaterialDesignDarkTheme() : new MaterialDesignLightTheme();
+            theme.SetBaseTheme(baseTheme);
 
             helper.SetTheme(theme);
         }

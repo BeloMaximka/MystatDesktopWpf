@@ -17,6 +17,7 @@
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueLightBrush}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -26,6 +27,7 @@
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueLightBrush}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>

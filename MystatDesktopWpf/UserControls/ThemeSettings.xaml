@@ -7,20 +7,20 @@
              xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vm="clr-namespace:MystatDesktopWpf.ViewModels"
-             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters" 
+             d:DataContext="{d:DesignInstance Type=vm:ThemeColorViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
         <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
-        <vm:ThemeColorViewModel x:Key="ThemeColorViewModel"/>
     </UserControl.Resources>
 
-    <materialDesign:Card Padding="8" DataContext="{StaticResource ThemeColorViewModel}">
+    <materialDesign:Card Padding="8">
         <StackPanel>
             <TextBlock Text="Настройки темы" HorizontalAlignment="Left"
                            Style="{DynamicResource MaterialDesignBody1TextBlock}" Margin="0,0,8,8"/>
-            <controls:ThemeSettingsBar Margin="0,0,0,16"/>
+            <controls:ThemeSettingsBar x:Name="settingsBar" Margin="0,0,0,16"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110"/>
