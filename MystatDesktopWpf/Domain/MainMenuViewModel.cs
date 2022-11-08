@@ -32,7 +32,11 @@ namespace MystatDesktopWpf.Domain
         {
             for (int i = 0; i < MenuItems.Count; i++)
             {
-                MenuItems[i].Name = App.Current.FindResource(itemsTranslationKeys[i]) as string;
+                var res = App.Current.FindResource(itemsTranslationKeys[i]) as string;
+
+                if (res is null) return;
+
+                MenuItems[i].Name = res;
             }
         }
 
