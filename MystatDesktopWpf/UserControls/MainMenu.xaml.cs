@@ -28,6 +28,17 @@ namespace MystatDesktopWpf.UserControls
         {
             this.DataContext = new MainMenuViewModel();
             InitializeComponent();
+
+            int index = 0;
+            foreach (var lang in App.Languages)
+            {
+                var langItem = new ComboBoxItem();
+                langItem.Content = lang.TwoLetterISOLanguageName.ToUpper();
+                langItem.Tag = (index++).ToString();
+                langItem.IsSelected = lang.Name == App.Language.Name;
+                langItem.Selected += OnLanguageChange;
+                langsComboBox.Items.Add(langItem);
+            }
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
@@ -37,20 +48,14 @@ namespace MystatDesktopWpf.UserControls
             Transitioner.MovePreviousCommand.Execute(null, null);
         }
 
-        private void EN_Selected(object sender, RoutedEventArgs e)
+        private void OnLanguageChange(object sender, RoutedEventArgs e)
         {
-            // BUG: IsSelected attribute triggers it
-            App.Language = App.Languages[0];
-        }
+            var item = sender as ComboBoxItem;
 
-        private void RU_Selected(object sender, RoutedEventArgs e)
-        {
-            App.Language = App.Languages[1];
-        }
+            if (item is null) return;
 
-        private void UA_Selected(object sender, RoutedEventArgs e)
-        {
-            App.Language = App.Languages[2];
+            var index = int.Parse(item.Tag as string);
+            App.Language = App.Languages[index];
         }
     }
 }

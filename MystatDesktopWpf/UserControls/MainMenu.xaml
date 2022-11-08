@@ -35,10 +35,7 @@
             <Separator Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Collapsed"/>
             <ComboBox 
                   Grid.Column="1"
-                  Style="{StaticResource MaterialDesignFilledComboBox}" Margin="0,0,16,0" HorizontalAlignment="Right" Width="auto" >
-                <ComboBoxItem Content="EN" IsSelected="True" Selected="EN_Selected"/>
-                <ComboBoxItem Content="RU" Selected="RU_Selected"/>
-                <ComboBoxItem Content="UA" Selected="UA_Selected"/>
+                  Style="{StaticResource MaterialDesignFilledComboBox}" Margin="0,0,16,0" HorizontalAlignment="Right" Width="auto" x:Name="langsComboBox" >
             </ComboBox>
         </Grid>
 
