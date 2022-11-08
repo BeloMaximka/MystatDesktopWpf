@@ -60,7 +60,13 @@ namespace MystatDesktopWpf
                 switch (value.Name)
                 {
                     case "en-US":
-                        dict.Source = new Uri("Languages/lang.xaml", UriKind.Relative);
+                        dict.Source = new Uri("Languages/lang.en-US.xaml", UriKind.Relative);
+                        break;
+                    case "ru-RU":
+                        dict.Source = new Uri("Languages/lang.ru-RU.xaml", UriKind.Relative);
+                        break;
+                    case "ua-UA":
+                        dict.Source = new Uri("Languages/lang.ua-UA.xaml", UriKind.Relative);
                         break;
                     default:
                         dict.Source = new Uri(String.Format("Languages/lang.{0}.xaml", value.Name), UriKind.Relative);

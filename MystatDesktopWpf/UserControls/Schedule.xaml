@@ -37,19 +37,19 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="ПН" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        <TextBlock Text="{DynamicResource m_СalendarDay0}" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Grid.Row="1"/>
-                        <TextBlock Text="ВТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        <TextBlock Text="{DynamicResource m_СalendarDay1}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Grid.Column="1" Grid.Row="1"/>
-                        <TextBlock Text="СР" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        <TextBlock Text="{DynamicResource m_СalendarDay2}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Grid.Column="2" Grid.Row="1"/>
-                        <TextBlock Text="ЧТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        <TextBlock Text="{DynamicResource m_СalendarDay3}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Grid.Column="3" Grid.Row="1"/>
-                        <TextBlock Text="ПТ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        <TextBlock Text="{DynamicResource m_СalendarDay4}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Grid.Column="4" Grid.Row="1"/>
-                        <TextBlock Text="СБ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        <TextBlock Text="{DynamicResource m_СalendarDay5}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Grid.Column="5" Grid.Row="1"/>
-                        <TextBlock Text="ВС" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        <TextBlock Text="{DynamicResource m_СalendarDay6}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Grid.Column="6" Grid.Row="1"/>
                     </Grid>
                 </materialDesign:Card>
