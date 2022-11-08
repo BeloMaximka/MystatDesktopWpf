@@ -28,6 +28,10 @@
             </Grid.RowDefinitions>
             <ToggleButton Margin="0,5,0,5" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                <ComboBox 
+                  Grid.Column="1"
+                  Style="{StaticResource MaterialDesignFilledComboBox}" Margin="0,0,16,0" HorizontalAlignment="Right" Width="auto" x:Name="langsComboBox" >
+                </ComboBox>
                 <controls:DarkModeToggleButton x:Name="darkModeButton"/>
                 <Button Margin="8,0,16,0" Click="Button_Exit_Click"
                         materialDesign:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"

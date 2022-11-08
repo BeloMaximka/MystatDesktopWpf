@@ -85,11 +85,6 @@ namespace MystatDesktopWpf
 
         private void window_Closed(object sender, EventArgs e)
         {
-            SettingsService.Save();
-        }
-
-        private void window_Closed(object sender, EventArgs e)
-        {
             trayIcon.Dispose();
             SettingsService.Save();
         }
