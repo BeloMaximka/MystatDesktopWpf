@@ -50,11 +50,14 @@ namespace MystatDesktopWpf
             theme.PrimaryMid = new ColorPair(color);
             theme.PrimaryDark = new ColorPair(color.Darken());
 
-            ColorAdjustment adjustment = new();
-            adjustment.Contrast = settings.Contrast;
-            adjustment.DesiredContrastRatio = settings.ContrastRatio;
-            adjustment.Colors = settings.Colors;
-            theme.ColorAdjustment = adjustment;
+            if(settings.IsColorAdjusted)
+            {
+                ColorAdjustment adjustment = new();
+                adjustment.Contrast = settings.Contrast;
+                adjustment.DesiredContrastRatio = settings.ContrastRatio;
+                adjustment.Colors = settings.Colors;
+                theme.ColorAdjustment = adjustment;
+            }
 
             IBaseTheme baseTheme = settings.IsDarkTheme ? new MaterialDesignDarkTheme() : new MaterialDesignLightTheme();
             theme.SetBaseTheme(baseTheme);
