@@ -15,6 +15,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
+        Icon="pack://application:,,,/Resources/favicon.ico"
         x:Name="window" Closed="window_Closed" Closing="window_Closing">
     <Window.Resources>
         <ContextMenu x:Key="trayIconContextMenu">

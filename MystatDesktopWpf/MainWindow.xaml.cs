@@ -49,10 +49,9 @@ namespace MystatDesktopWpf
             // notification icon initialization
             trayIcon = new TaskbarIcon()
             {
-                ToolTipText = "Mystat Desktop",
                 IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/favicon.ico")),
                 Visibility = Visibility.Hidden,
-                ContextMenu = FindResource("trayIconContextMenu") as ContextMenu
+                ContextMenu = FindResource("trayIconContextMenu") as ContextMenu,
             };
             trayIcon.MouseDown += (_, _) => Show();
             trayIcon.DoubleClickCommand = new TrayDoubleClickCommand(() => MenuItem_Click_1(null, null));
