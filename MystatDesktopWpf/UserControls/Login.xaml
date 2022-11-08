@@ -37,7 +37,7 @@
                 </Grid.RowDefinitions>
                 <TextBox x:Name="loginTextBox" 
                          Grid.Column="1" 
-                         materialDesign:HintAssist.Hint="Логин" 
+                         materialDesign:HintAssist.Hint="{DynamicResource m_Login}" 
                          Margin="8,0,0,16"
                          materialDesign:ValidationAssist.Background="Transparent"/>
                 <materialDesign:PackIcon Foreground="{Binding ElementName=loginTextBox, Path=BorderBrush}"
@@ -47,7 +47,7 @@
                 <PasswordBox x:Name="passwordTextBox" 
                              Style="{StaticResource MaterialDesignRevealPasswordBox}"
                              Grid.Row="1" Grid.Column="1" 
-                             materialDesign:HintAssist.Hint="Пароль" 
+                             materialDesign:HintAssist.Hint="{DynamicResource m_Password}" 
                              Margin="8,0,0,16"/>
                 <materialDesign:PackIcon Foreground="{Binding ElementName=passwordTextBox, Path=BorderBrush}"
                                          Kind="Key"
@@ -55,13 +55,13 @@
                                          Margin="8,0,0,16"
                                          Grid.Row="1"/>
                 <Button x:Name="loginButton" 
-                        Content="Вход" 
+                        Content="{DynamicResource m_LoginButton}" 
                         Grid.Row="3" Grid.ColumnSpan="2" 
                         Margin="0,16,0,0"
                         Click="Button_Click" 
                         materialDesign:ButtonProgressAssist.Value="-1"
-                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"/>
-                <CheckBox x:Name="dontRememberMeCheckBox" Content="Не запоминать меня" 
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="True" Cursor="Hand"/>
+                <CheckBox x:Name="dontRememberMeCheckBox" Content="{DynamicResource m_LoginCheckBox}" 
                           Grid.Row="2" Grid.ColumnSpan="2" Margin="8,8,0,0"/>
                 <TextBlock x:Name="errorText" 
                            Style="{DynamicResource MaterialDesignHelperTextBlock}"

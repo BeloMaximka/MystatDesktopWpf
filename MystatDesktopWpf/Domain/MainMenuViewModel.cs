@@ -15,14 +15,31 @@ namespace MystatDesktopWpf.Domain
         public ObservableCollection<MainMenuItem> MenuItems { get; } = new();
         int selectedIndex;
         MainMenuItem selectedItem;
+        string[] itemsTranslationKeys = new string[] { "m_Settings", "m_Schedule" };
+
         public MainMenuViewModel()
         {
             //MenuItems.Add(new MainMenuItem("Главная", typeof(Placeholder), PackIconKind.Home, PackIconKind.Home));
             MenuItems.Add(new MainMenuItem("Расписание", typeof(Schedule), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
             MenuItems.Add(new MainMenuItem("Настройки", typeof(UserControls.Settings), PackIconKind.Cog, PackIconKind.Cog));
+            OnLangChange(null, null);
+            App.LanguageChanged += OnLangChange;
             //MenuItems.Add(new MainMenuItem("Debug", typeof(Debug), PackIconKind.Bug, PackIconKind.Bug));
             SelectedIndex = 0;
         }
+
+        private void OnLangChange(object? sender, EventArgs e)
+        {
+            for (int i = 0; i < MenuItems.Count; i++)
+            {
+                var res = App.Current.FindResource(itemsTranslationKeys[i]) as string;
+
+                if (res is null) return;
+
+                MenuItems[i].Name = res;
+            }
+        }
+
         public MainMenuItem? SelectedItem
         {
             get => selectedItem;
