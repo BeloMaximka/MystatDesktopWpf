@@ -43,6 +43,7 @@ namespace MystatDesktopWpf.Services
 
             OnSettingsChange += saveDebounced;
             Settings.ScheduleNotification.OnPropertyChanged += saveDebounced;
+            Settings.Theme.OnPropertyChanged += saveDebounced;
         }
 
         public static Settings? Load()
@@ -123,7 +124,8 @@ namespace MystatDesktopWpf.Services
     internal class Settings
     {
         public UserLoginData? LoginData { get; set; }
-        public ScheduleNotificationSettings ScheduleNotification { get; set; } = new();
+        public ScheduleNotificationSubSettings ScheduleNotification { get; set; } = new();
+        public ThemeSubSettings Theme { get; set; } = new();
         public string Language { get; set; } = CultureInfo.InstalledUICulture.Name;
     }
 }

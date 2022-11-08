@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
+             xmlns:local="clr-namespace:MystatDesktopWpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource MaterialDesignPaper}"
+             KeyDown="UserControl_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <controls:DarkModeToggleButton x:Name="darkModeButton" Margin="8"
+                                       HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <TextBlock Text="Mystat Desktop"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>
+        <materialDesign:Card MaxWidth="380" Height="Auto" 
+                             Margin="4"
+                             VerticalAlignment="Center"
+                             Grid.Row="1">
+            <Grid Margin="32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="loginTextBox" 
+                         Grid.Column="1" 
+                         materialDesign:HintAssist.Hint="Логин" 
+                         Margin="8,0,0,16"
+                         materialDesign:ValidationAssist.Background="Transparent"/>
+                <materialDesign:PackIcon Foreground="{Binding ElementName=loginTextBox, Path=BorderBrush}"
+                                         Kind="Account"
+                                         Margin="8,0,0,16"
+                                         VerticalAlignment="Center"/>
+                <PasswordBox x:Name="passwordTextBox" 
+                             Style="{StaticResource MaterialDesignRevealPasswordBox}"
+                             Grid.Row="1" Grid.Column="1" 
+                             materialDesign:HintAssist.Hint="Пароль" 
+                             Margin="8,0,0,16"/>
+                <materialDesign:PackIcon Foreground="{Binding ElementName=passwordTextBox, Path=BorderBrush}"
+                                         Kind="Key"
+                                         VerticalAlignment="Center"
+                                         Margin="8,0,0,16"
+                                         Grid.Row="1"/>
+                <Button x:Name="loginButton" 
+                        Content="Вход" 
+                        Grid.Row="3" Grid.ColumnSpan="2" 
+                        Margin="0,16,0,0"
+                        Click="Button_Click" 
+                        materialDesign:ButtonProgressAssist.Value="-1"
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"/>
+                <CheckBox x:Name="dontRememberMeCheckBox" Content="Не запоминать меня" 
+                          Grid.Row="2" Grid.ColumnSpan="2" Margin="8,8,0,0"/>
+                <TextBlock x:Name="errorText" 
+                           Style="{DynamicResource MaterialDesignHelperTextBlock}"
+                           Grid.Row="4" Grid.ColumnSpan="2" 
+                           Margin="0,16,0,0"
+                           HorizontalAlignment="Center" 
+                           Foreground="{DynamicResource MaterialDesignValidationErrorBrush}" 
+                           Visibility="Collapsed"/>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

@@ -1,9 +1,9 @@
 ﻿using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.Domain;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows;
 using System;
+using MystatDesktopWpf.ViewModels;
 
 namespace MystatDesktopWpf.Domain
 {
@@ -16,6 +16,7 @@ namespace MystatDesktopWpf.Domain
         private Thickness margin = new(16);
 
         private int notifications = 0;
+
         private string name;
 
         public MainMenuItem(string name, Type contentType, PackIconKind selectedIcon,
@@ -27,6 +28,7 @@ namespace MystatDesktopWpf.Domain
             SelectedIcon = selectedIcon;
             UnselectedIcon = unselectedIcon;
         }
+
 
         public string Name
         {
