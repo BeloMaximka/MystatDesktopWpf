@@ -15,7 +15,15 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        x:Name="window" Closed="window_Closed">
+        Icon="pack://application:,,,/Resources/favicon.ico"
+        x:Name="window" Closed="window_Closed" Closing="window_Closing">
+    <Window.Resources>
+        <ContextMenu x:Key="trayIconContextMenu">
+            <MenuItem Header="Open" Click="MenuItem_Click_1" />
+            <Separator />
+            <MenuItem Header="Close" Click="MenuItem_Click" />
+        </ContextMenu>
+    </Window.Resources>
     <Grid>
         <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="False" SelectedIndex="0">
             <materialDesign:TransitionerSlide>
