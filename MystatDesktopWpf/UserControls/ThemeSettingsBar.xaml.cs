@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MystatDesktopWpf.ViewModels;
+using MystatDesktopWpf.Domain;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -26,21 +27,20 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class ThemeSettingsBar : UserControl
     {
-        ThemeSettingsViewModel viewModel = new();
         public ThemeSettingsBar()
         {
             InitializeComponent();
-            DataContext = viewModel;
+            DataContext = ThemeSettingsVMSingleton.ViewModel;
 
         }
         public event Action? OnResetThemeSettings;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.IsDarkTheme = true;
-            viewModel.IsColorAdjusted = true;
-            viewModel.ContrastValue = Contrast.Low;
-            viewModel.DesiredContrastRatio = 3.0f;
-            viewModel.ColorSelectionValue = ColorSelection.All;
+            ThemeSettingsVMSingleton.ViewModel.IsDarkTheme = true;
+            ThemeSettingsVMSingleton.ViewModel.IsColorAdjusted = true;
+            ThemeSettingsVMSingleton.ViewModel.ContrastValue = Contrast.Low;
+            ThemeSettingsVMSingleton.ViewModel.DesiredContrastRatio = 3.0f;
+            ThemeSettingsVMSingleton.ViewModel.ColorSelectionValue = ColorSelection.All;
 
             OnResetThemeSettings?.Invoke();
         }

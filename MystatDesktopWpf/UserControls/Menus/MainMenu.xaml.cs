@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Transitions;
+using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 using MystatDesktopWpf.ViewModels;
 
@@ -28,6 +29,8 @@ namespace MystatDesktopWpf.UserControls
         {
             this.DataContext = new MainMenuViewModel();
             InitializeComponent();
+
+            darkModeButton.DataContext = ThemeSettingsVMSingleton.ViewModel;
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)

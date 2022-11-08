@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
+             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
              xmlns:local="clr-namespace:MystatDesktopWpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -16,6 +16,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <controls:DarkModeToggleButton x:Name="darkModeButton" Margin="8"
+                                       HorizontalAlignment="Right" VerticalAlignment="Top"/>
         <TextBlock Text="Mystat Desktop"
                    VerticalAlignment="Center" HorizontalAlignment="Center"
                    Style="{StaticResource MaterialDesignHeadline2TextBlock}"/>

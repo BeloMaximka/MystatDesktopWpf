@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MystatDesktopWpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain" 
+             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
@@ -26,12 +27,16 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ToggleButton Margin="0,5,0,5" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Center"/>
-            <Button Grid.Column="2" Margin="0,0,16,0" Click="Button_Exit_Click"
-                      materialDesign:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
-                      Content="{materialDesign:PackIcon Kind=ExitToApp, Size=24}"
-                      Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"
-                      Style="{StaticResource MaterialDesignToolButton}"
-                      ToolTip="Выйти из аккаунта" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                <controls:DarkModeToggleButton x:Name="darkModeButton"/>
+                <Button Margin="8,0,16,0" Click="Button_Exit_Click"
+                        materialDesign:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
+                        Content="{materialDesign:PackIcon Kind=ExitToApp, Size=24}"
+                        Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"
+                        Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Выйти из аккаунта" />
+            </StackPanel>
+            
             <Separator Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Collapsed"/>
         </Grid>
 

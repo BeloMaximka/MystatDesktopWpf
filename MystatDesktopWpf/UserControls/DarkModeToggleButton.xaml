@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.DarkModeToggleButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewmodels="clr-namespace:MystatDesktopWpf.ViewModels"
+             mc:Ignorable="d"
+             d:Background="{DynamicResource MaterialDesignPaper}">
+    <ToggleButton IsChecked="{Binding IsDarkTheme}"
+                  d:DataContext="{d:DesignInstance Type=viewmodels:ThemeSettingsViewModel}"
+                  Style="{StaticResource MaterialDesignActionToggleButton}"
+                  Background="Transparent" Foreground="{DynamicResource MaterialDesignBody}"
+                  Content="{materialDesign:PackIcon Kind=WhiteBalanceSunny}"
+                  materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=MoonWaningCrescent}" />
+</UserControl>
