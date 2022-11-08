@@ -16,6 +16,7 @@ namespace MystatDesktopWpf.Domain
         private Thickness margin = new(16);
 
         private int notifications = 0;
+        private string name;
 
         public MainMenuItem(string name, Type contentType, PackIconKind selectedIcon,
             PackIconKind unselectedIcon, object? dataContext = null)
@@ -27,7 +28,15 @@ namespace MystatDesktopWpf.Domain
             UnselectedIcon = unselectedIcon;
         }
 
-        public string Name { get; }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
         // Not to initialize all controls on startup
         public object? Content => content ??= CreateContent();
