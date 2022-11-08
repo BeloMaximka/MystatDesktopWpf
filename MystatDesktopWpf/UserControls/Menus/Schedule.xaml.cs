@@ -46,7 +46,10 @@ namespace MystatDesktopWpf.UserControls
 
         private string GetMonthName(DateTime date)
         {
-            return $"{date.ToString("MMMM", CultureInfo.CurrentUICulture)} {date.Year}";
+            StringBuilder builder = new();
+            builder.Append($"{date.ToString("MMMM", CultureInfo.CurrentUICulture)} {date.Year}");
+            builder[0] = builder[0].ToString().ToUpper()[0];
+            return builder.ToString();
         }
 
         private void Button_MouseEnter(object sender, MouseEventArgs e)

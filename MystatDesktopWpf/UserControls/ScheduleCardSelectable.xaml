@@ -17,7 +17,7 @@
                 <StackPanel x:Name="iconPanel" Margin="0, 36, 0 ,0"/>
                 <TextBox x:Name="textBox" Grid.Column="1" Margin="0, 6, 0, 0"
                          Style="{x:Null}" IsReadOnly="True" BorderThickness="0"
-                         Background="Transparent" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                         Background="Transparent" Foreground="{DynamicResource MaterialDesignBody}"/>
             </Grid>
             <Grid VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
@@ -27,12 +27,12 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 0, 0, 8">
                     <Button Height="24" Width="24" Click="Button_Copy_Click"
                             Style="{DynamicResource MaterialDesignIconButton}"
-                            Foreground="{DynamicResource PrimaryHueMidForegroundBrush}">
+                            Foreground="{DynamicResource MaterialDesignBody}">
                         <materialDesign:PackIcon Kind="ContentCopy" Height="16" Width="16"/>
                     </Button>
                     <Button x:Name="closeButton" Click="Button_Close_Click"
                             Style="{DynamicResource MaterialDesignIconButton}"  
-                            Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                            Foreground="{DynamicResource MaterialDesignBody}"
                             Height="24" Width="24" Margin="8, 0, 0, 0">
                         <materialDesign:PackIcon Kind="Close"/>
                     </Button>
