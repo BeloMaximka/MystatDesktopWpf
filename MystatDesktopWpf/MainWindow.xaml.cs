@@ -32,14 +32,15 @@ namespace MystatDesktopWpf
         {
             InitializeComponent();
 
+            // Предварительная настройка приложения находится здесь
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             login.ParentTransitioner = transitioner;
 
             SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
-            InitTheme();
+            InitTheme(); // Загрузка темы происходит здесь, ибо в App библиотека MaterialDesign не успевает подгрузиться
         }
 
-        void InitTheme()
+        void InitTheme() // Загрузка темы с настроек
         {
             PaletteHelper helper = new();
             Theme theme = (Theme)helper.GetTheme();
