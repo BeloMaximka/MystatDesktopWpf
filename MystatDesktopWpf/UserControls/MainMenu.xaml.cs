@@ -36,5 +36,21 @@ namespace MystatDesktopWpf.UserControls
             SettingsService.RemoveUserData();
             Transitioner.MovePreviousCommand.Execute(null, null);
         }
+
+        private void EN_Selected(object sender, RoutedEventArgs e)
+        {
+            // BUG: IsSelected attribute triggers it
+            App.Language = App.Languages[0];
+        }
+
+        private void RU_Selected(object sender, RoutedEventArgs e)
+        {
+            App.Language = App.Languages[1];
+        }
+
+        private void UA_Selected(object sender, RoutedEventArgs e)
+        {
+            App.Language = App.Languages[2];
+        }
     }
 }

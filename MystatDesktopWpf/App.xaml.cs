@@ -50,7 +50,6 @@ namespace MystatDesktopWpf
                 //2. Создаём ResourceDictionary для новой культуры
                 ResourceDictionary dict = new ResourceDictionary();
                 dict.Source = new Uri(String.Format("Languages/lang.{0}.xaml", value.Name), UriKind.Relative);
-                
 
                 //3. Находим старую ResourceDictionary и удаляем его и добавляем новую ResourceDictionary
                 ResourceDictionary oldDict = Application.Current.Resources.MergedDictionaries

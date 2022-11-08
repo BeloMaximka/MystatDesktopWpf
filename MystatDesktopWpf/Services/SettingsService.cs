@@ -124,7 +124,6 @@ namespace MystatDesktopWpf.Services
     {
         public UserLoginData? LoginData { get; set; }
         public ScheduleNotificationSettings ScheduleNotification { get; set; } = new();
-        //public string Language { get; set; } = "en_US";
         public string Language { get; set; } = CultureInfo.InstalledUICulture.Name;
     }
 }
