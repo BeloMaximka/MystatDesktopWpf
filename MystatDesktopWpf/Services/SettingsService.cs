@@ -125,6 +125,8 @@ namespace MystatDesktopWpf.Services
     {
         public Settings()
         {
+            /* Если у нас нет языка, который стоит у пользователя (например, японский),
+               то мы ставим анлийский*/
             if (App.Languages.Contains(CultureInfo.InstalledUICulture))
                 Language = CultureInfo.InstalledUICulture.Name;
             else
@@ -133,6 +135,6 @@ namespace MystatDesktopWpf.Services
         public UserLoginData? LoginData { get; set; }
         public ScheduleNotificationSubSettings ScheduleNotification { get; set; } = new();
         public ThemeSubSettings Theme { get; set; } = new();
-        public string Language { get; set; } = CultureInfo.InstalledUICulture.Name;
+        public string Language { get; set; }
     }
 }
