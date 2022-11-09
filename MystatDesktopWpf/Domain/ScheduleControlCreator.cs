@@ -47,7 +47,8 @@ namespace MystatDesktopWpf.Domain
                 card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Account });
                 card.textBox.Text += schedules[i].TeacherFullName + '\n';
                 card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Door });
-                card.textBox.Text += $"Аудитория {schedules[i].RoomName}" + '\n';
+                string classRoom = (string)App.Current.FindResource("m_Classroom");
+                card.textBox.Text += $"{classRoom} {schedules[i].RoomName}" + '\n';
                 card.textBox.Text += $"{schedules[i].StartedAt} - {schedules[i].FinishedAt}";
 
                 PackIcon icon = new PackIcon { Kind = PackIconKind.Clock };
@@ -77,7 +78,8 @@ namespace MystatDesktopWpf.Domain
                 var children = mainStackPanel.Children;
                 children.Add(CreateScheduleLine(PackIconKind.Book, item.SubjectName));
                 children.Add(CreateScheduleLine(PackIconKind.Account, item.TeacherFullName));
-                children.Add(CreateScheduleLine(PackIconKind.Door, $"Аудитория {item.RoomName}"));
+                string classRoom = (string)App.Current.FindResource("m_Classroom");
+                children.Add(CreateScheduleLine(PackIconKind.Door, $"{classRoom} {item.RoomName}"));
                 children.Add(CreateScheduleLine(PackIconKind.Clock, $"{item.StartedAt} - {item.FinishedAt}"));
                 children.Add(new TextBlock());
             }

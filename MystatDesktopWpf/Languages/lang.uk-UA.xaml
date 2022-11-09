@@ -9,6 +9,7 @@
     <v:String x:Key="m_ExitPopUp">Вийти з облікового запису</v:String>
     <v:String x:Key="m_Settings">Налаштуваня</v:String>
     <v:String x:Key="m_Schedule">Розклад</v:String>
+    
     <v:String x:Key="m_ParamOfNotification0">Нагадування про початок пари</v:String>
     <v:String x:Key="m_SettingsOfNotification0">Про які пари нагадувати:</v:String>
     <v:String x:Key="m_SettingsOfNotification0Radio0">Тільки перші пари</v:String>
@@ -19,6 +20,7 @@
     <v:String x:Key="m_SettingsOfNotification1Radio1p2">хвилин</v:String>
     <v:String x:Key="m_SettingsOfNotification1Radio2">Обидва варіанти</v:String>
     <v:String x:Key="m_SettingsOfNotification2">Звук повідомлення:</v:String>
+    
     <v:String x:Key="m_СalendarDay0">ПН</v:String>
     <v:String x:Key="m_СalendarDay1">ВТ</v:String>
     <v:String x:Key="m_СalendarDay2">СР</v:String>
@@ -26,5 +28,24 @@
     <v:String x:Key="m_СalendarDay4">ПТ</v:String>
     <v:String x:Key="m_СalendarDay5">СБ</v:String>
     <v:String x:Key="m_СalendarDay6">НД</v:String>
+
+    <v:String x:Key="m_Classroom">Аудиторія</v:String>
+
+    <v:String x:Key="m_AllFieldsRequired">Усі поля обов'язкові</v:String>
+    <v:String x:Key="m_LessonStarting0">Пара почнеться через</v:String>
+    <v:String x:Key="m_LessonStarting1">хвилин!</v:String>
+    <v:String x:Key="m_LessonStarted">Пара почалася!</v:String>
+    <v:String x:Key="m_ConnectionFailed">Не вдалося підключитися до сервера</v:String>
+
+    <v:String x:Key="m_ThemeSettings">Налаштування теми</v:String>
+    <v:String x:Key="m_HEXColor">HEX колір</v:String>
+
+    <v:String x:Key="m_ThemeReset">Скинути налаштування</v:String>
+    <v:String x:Key="m_LightTheme">Світла</v:String>
+    <v:String x:Key="m_DarkTheme">Темна</v:String>
+    <v:String x:Key="m_ColorAdjustment">Корекція кольору</v:String>
+    <v:String x:Key="m_ContrastRatio">Співвідношення контрасту</v:String>
+    <v:String x:Key="m_Contrast">Контраст</v:String>
+    <v:String x:Key="m_ColorSelection">Кориговані кольори</v:String>
 
 </ResourceDictionary>

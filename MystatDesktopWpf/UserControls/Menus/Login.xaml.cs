@@ -57,7 +57,7 @@ namespace MystatDesktopWpf.UserControls
             catch (Exception e)
             {
                 ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
-                errorText.Text = "Не удалось подключиться к серверу";
+                errorText.Text = (string)App.Current.FindResource("m_ConnectionFailed");
                 errorText.Visibility = Visibility.Visible;
                 return;
             }
@@ -92,9 +92,14 @@ namespace MystatDesktopWpf.UserControls
         {
             string message;
             if (delay > 0)
-                message = $"Пара начнётся через {delay} минут!";
+            {
+                string label1 = (string)App.Current.FindResource("m_LessonStarting0");
+                string label2 = (string)App.Current.FindResource("m_LessonStarting1");
+                message = $"{label1} {delay} {label2}";
+            }
+                
             else
-                message = "Пара началась!";
+                message = (string)App.Current.FindResource("m_LessonStarted"); ;
             new NotificationWindow(message, true).Show();
         }
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -106,7 +111,7 @@ namespace MystatDesktopWpf.UserControls
             }
             else
             {
-                errorText.Text = "Все поля обязательны";
+                errorText.Text = (string)App.Current.FindResource("m_AllFieldsRequired");
                 errorText.Visibility = Visibility.Visible;
             }
         }

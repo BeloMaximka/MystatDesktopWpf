@@ -33,7 +33,7 @@ namespace MystatDesktopWpf.ViewModels
         {
             for (int i = 0; i < MenuItems.Count; i++)
             {
-                var res = System.Windows.Application.Current.FindResource(itemsTranslationKeys[i]) as string;
+                var res = App.Current.FindResource(itemsTranslationKeys[i]) as string;
 
                 if (res is null) return;
 

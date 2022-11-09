@@ -1,4 +1,5 @@
-﻿using MystatDesktopWpf.Services;
+﻿using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -46,6 +47,7 @@ namespace MystatDesktopWpf
 
                 //1. Меняем язык приложения:
                 System.Threading.Thread.CurrentThread.CurrentUICulture = value;
+                MystatAPISingleton.mystatAPIClient.SetLanguage(value.TwoLetterISOLanguageName);
 
                 //2. Создаём ResourceDictionary для новой культуры
                 ResourceDictionary dict = new ResourceDictionary();
