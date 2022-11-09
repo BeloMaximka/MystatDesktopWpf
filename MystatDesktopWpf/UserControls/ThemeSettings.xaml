@@ -18,7 +18,7 @@
 
     <materialDesign:Card Padding="8">
         <StackPanel>
-            <TextBlock Text="Настройки темы" HorizontalAlignment="Left"
+            <TextBlock Text="{DynamicResource m_ThemeSettings}" HorizontalAlignment="Left"
                            Style="{DynamicResource MaterialDesignBody1TextBlock}" Margin="0,0,8,8"/>
             <controls:ThemeSettingsBar x:Name="settingsBar" Margin="0,0,0,16"/>
             <Grid>
@@ -31,7 +31,7 @@
                     <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 <TextBox Margin="2,0,10,2"
-                       materialDesign:HintAssist.Hint="HEX цвет"
+                       materialDesign:HintAssist.Hint="{DynamicResource m_HEXColor}"
                        DockPanel.Dock="Top"
                        Style="{StaticResource MaterialDesignFilledTextBox}"
                        Text="{Binding Color, ElementName=ColorPicker, UpdateSourceTrigger=PropertyChanged}" />

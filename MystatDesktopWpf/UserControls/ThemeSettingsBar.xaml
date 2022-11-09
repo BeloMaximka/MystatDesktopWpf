@@ -10,17 +10,17 @@
              d:Background="{DynamicResource MaterialDesignPaper}">
 
     <StackPanel Orientation="Horizontal">
-        <Button Content="Вернуть базовые настройки" Click="Button_Click"/>
+        <Button Content="{DynamicResource m_ThemeReset}" Click="Button_Click"/>
         
-        <TextBlock  Margin="50,0,0,0" VerticalAlignment="Center" Text="Светлая" />
+        <TextBlock  Margin="50,0,0,0" VerticalAlignment="Center" Text="{DynamicResource m_LightTheme}" />
 
         <ToggleButton Margin="8,0,16,0" IsChecked="{Binding IsDarkTheme}" />
 
-        <TextBlock VerticalAlignment="Center" Text="Темная" />
+        <TextBlock VerticalAlignment="Center" Text="{DynamicResource m_DarkTheme}" />
 
         <TextBlock Margin="50,0,0,0"
                VerticalAlignment="Center"
-               Text="Коррекция цвета" />
+               Text="{DynamicResource m_ColorAdjustment}" />
 
         <ToggleButton Margin="8,0,0,0" IsChecked="{Binding IsColorAdjusted}" />
 
@@ -42,7 +42,7 @@
                    Grid.Column="0"
                    Margin="10"
                    VerticalAlignment="Center"
-                   Text="Соотношение контраста" />
+                   Text="{DynamicResource m_ContrastRatio}" />
                 <Slider Grid.Row="0"
                 Grid.Column="1"
                 Width="150"
@@ -64,7 +64,7 @@
                    Grid.Column="0"
                    Margin="10"
                    VerticalAlignment="Center"
-                   Text="Контраст" />
+                   Text="{DynamicResource m_Contrast}" />
                 <ComboBox Grid.Row="1"
                   Grid.Column="1"
                   ItemsSource="{Binding ContrastValues}"
@@ -74,7 +74,7 @@
                    Grid.Column="0"
                    Margin="10"
                    VerticalAlignment="Center"
-                   Text="Корректируемые цвета" />
+                   Text="{DynamicResource m_ColorSelection}" />
                 <ComboBox Grid.Row="2"
                   Grid.Column="1"
                   ItemsSource="{Binding ColorSelectionValues}"

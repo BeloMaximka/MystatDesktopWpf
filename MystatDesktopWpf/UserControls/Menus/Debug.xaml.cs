@@ -57,5 +57,15 @@ namespace MystatDesktopWpf.UserControls
             new NotificationWindow("Пара начнётся через 15 минут!", true).Show();
             ((DispatcherTimer)sender).Stop();
         }
+
+        private void Button_EN_Click(object sender, RoutedEventArgs e)
+        {
+            App.Language = App.Languages[0];
+        }
+
+        private void Button_RU_Click(object sender, RoutedEventArgs e)
+        {
+            App.Language = App.Languages[1];
+        }
     }
 }

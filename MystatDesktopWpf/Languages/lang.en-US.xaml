@@ -9,6 +9,7 @@
     <v:String x:Key="m_ExitPopUp">Sign out</v:String>
     <v:String x:Key="m_Settings">Settings</v:String>
     <v:String x:Key="m_Schedule">Schedule</v:String>
+    
     <v:String x:Key="m_ParamOfNotification0">Class start reminders</v:String>
     <v:String x:Key="m_SettingsOfNotification0">What classes to remind about:</v:String>
     <v:String x:Key="m_SettingsOfNotification0Radio0">Only first lessons</v:String>
@@ -19,6 +20,7 @@
     <v:String x:Key="m_SettingsOfNotification1Radio1p2">minutes</v:String>
     <v:String x:Key="m_SettingsOfNotification1Radio2">Both variants</v:String>
     <v:String x:Key="m_SettingsOfNotification2">Notification sound:</v:String>
+    
     <v:String x:Key="m_СalendarDay0">MO</v:String>
     <v:String x:Key="m_СalendarDay1">TU</v:String>
     <v:String x:Key="m_СalendarDay2">WE</v:String>
@@ -26,5 +28,24 @@
     <v:String x:Key="m_СalendarDay4">FR</v:String>
     <v:String x:Key="m_СalendarDay5">SA</v:String>
     <v:String x:Key="m_СalendarDay6">SU</v:String>
+
+    <v:String x:Key="m_Classroom">Classroom</v:String>
+
+    <v:String x:Key="m_AllFieldsRequired">All fields are required</v:String>
+    <v:String x:Key="m_LessonStarting0">The lesson starts in</v:String>
+    <v:String x:Key="m_LessonStarting1">minutes!</v:String>
+    <v:String x:Key="m_LessonStarted">The lesson started!</v:String>
+    <v:String x:Key="m_ConnectionFailed">Failed to connect to server</v:String>
+
+    <v:String x:Key="m_ThemeSettings">Theme settings</v:String>
+    <v:String x:Key="m_HEXColor">HEX color</v:String>
+
+    <v:String x:Key="m_ThemeReset">Reset setting</v:String>
+    <v:String x:Key="m_LightTheme">Light</v:String>
+    <v:String x:Key="m_DarkTheme">Dark</v:String>
+    <v:String x:Key="m_ColorAdjustment">Color Adjustment</v:String>
+    <v:String x:Key="m_ContrastRatio">Contrast Ratio</v:String>
+    <v:String x:Key="m_Contrast">Contrast</v:String>
+    <v:String x:Key="m_ColorSelection">Color Selection</v:String>
 
 </ResourceDictionary>

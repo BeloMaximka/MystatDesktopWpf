@@ -31,6 +31,17 @@ namespace MystatDesktopWpf.UserControls
             InitializeComponent();
 
             darkModeButton.DataContext = ThemeSettingsVMSingleton.ViewModel;
+
+            int index = 0;
+            foreach (var lang in App.Languages)
+            {
+                var langItem = new ComboBoxItem();
+                langItem.Content = lang.TwoLetterISOLanguageName.ToUpper();
+                langItem.Tag = (index++).ToString();
+                langItem.IsSelected = lang.Name == App.Language.Name;
+                langItem.Selected += OnLanguageChange;
+                langsComboBox.Items.Add(langItem);
+            }
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
@@ -38,6 +49,15 @@ namespace MystatDesktopWpf.UserControls
             // Back to login
             SettingsService.RemoveUserData();
             Transitioner.MovePreviousCommand.Execute(null, null);
+        }
+        private void OnLanguageChange(object sender, RoutedEventArgs e)
+        {
+            var item = sender as ComboBoxItem;
+
+            if (item is null) return;
+
+            var index = int.Parse(item.Tag as string);
+            App.Language = App.Languages[index];
         }
     }
 }

@@ -34,8 +34,22 @@ namespace MystatDesktopWpf.UserControls
         {
             InitializeComponent();
             GenerateButtons();
-            dateTextBlock.Text = $"{selectedDate.ToString("MMMM", CultureInfo.CurrentCulture)} {selectedDate.Year}";
+            dateTextBlock.Text = GetMonthName(selectedDate);
+            App.LanguageChanged += HandleLangChange;
             Task.Run(() => LoadSchedule(selectedDate));
+        }
+
+        private void HandleLangChange(object? sender, EventArgs e)
+        {
+            dateTextBlock.Text = GetMonthName(selectedDate);
+        }
+
+        private string GetMonthName(DateTime date)
+        {
+            StringBuilder builder = new();
+            builder.Append($"{date.ToString("MMMM", CultureInfo.CurrentUICulture)} {date.Year}");
+            builder[0] = builder[0].ToString().ToUpper()[0];
+            return builder.ToString();
         }
 
         private void Button_MouseEnter(object sender, MouseEventArgs e)
@@ -127,9 +141,9 @@ namespace MystatDesktopWpf.UserControls
                     int dayOfWeek = ((int)date.DayOfWeek) - 1;
                     if (dayOfWeek == -1) dayOfWeek = 6; // sunday fix
 
-                    this.Dispatcher.Invoke((Action)delegate
+                    this.Dispatcher.Invoke(() =>
                     {
-                        dateTextBlock.Text = date.ToString("MMMM", CultureInfo.CurrentCulture) + " " + date.Year;
+                        dateTextBlock.Text = GetMonthName(date);
                         Style outlined = (Style)this.FindResource("MaterialDesignOutlinedButton");
                         Style normal = (Style)this.FindResource("CalendarButton");
 
