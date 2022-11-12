@@ -48,6 +48,7 @@ namespace MystatDesktopWpf.UserControls
         {
             // Back to login
             SettingsService.RemoveUserData();
+            ScheduleNotificationService.DisableAllNotifications();
             Transitioner.MovePreviousCommand.Execute(null, null);
         }
         private void OnLanguageChange(object sender, RoutedEventArgs e)

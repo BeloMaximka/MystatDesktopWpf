@@ -4,13 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace MystatDesktopWpf
 {
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -75,6 +78,21 @@ namespace MystatDesktopWpf
         private void App_LanguageChanged(Object sender, EventArgs e)
         {
             SettingsService.SetPropertyValue("Language", Language.Name);
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            var runningProcess = Process.GetProcesses().FirstOrDefault(p => p.Id != currentProcess.Id && p.ProcessName.Equals(currentProcess.ProcessName, StringComparison.Ordinal));
+
+            if (runningProcess != null)
+            {
+                MessageBox.Show(FindResource("m_AppRunningText") as string, FindResource("m_AppRunningTitle") as string);
+                Shutdown();
+                return;
+            }
+
+            base.OnStartup(e);
         }
     }
 }
