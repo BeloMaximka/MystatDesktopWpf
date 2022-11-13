@@ -16,7 +16,7 @@ namespace MystatDesktopWpf.ViewModels
         public ObservableCollection<MainMenuItem> MenuItems { get; } = new();
         int selectedIndex;
         MainMenuItem selectedItem;
-        string[] itemsTranslationKeys = new string[] { "m_Settings", "m_Schedule" };
+        string[] itemsTranslationKeys = new string[] { "m_Schedule", "m_Settings" };
 
         public MainMenuViewModel()
         {

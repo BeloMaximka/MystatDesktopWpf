@@ -4,13 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace MystatDesktopWpf
 {
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -75,6 +79,40 @@ namespace MystatDesktopWpf
         private void App_LanguageChanged(Object sender, EventArgs e)
         {
             SettingsService.SetPropertyValue("Language", Language.Name);
+        }
+
+        const string UniqueEventName = "4B41F251-D34D-419C-ACCC-4144EE501BD1";
+        const string UniqueMutexName = "C8C527A3-7439-47C3-9403-DF9539E62D8B";
+        EventWaitHandle eventWaitHandle;
+        Mutex mutex;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            mutex = new Mutex(true, UniqueMutexName, out bool isOwned);
+            eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
+
+            // So, R# would not give a warning that this variable is not used.
+            GC.KeepAlive(mutex);
+
+            if (isOwned)
+            {
+                var thread = new Thread(() =>
+                    {
+                        while (eventWaitHandle.WaitOne())
+                        {
+                            Current.Dispatcher.BeginInvoke(() => ((MainWindow)Current.MainWindow).BringToForeground());
+                        }
+                    });
+
+                // Чтобы поток на заблокировал закрытие приложение
+                thread.IsBackground = true;
+
+                thread.Start();
+                return;
+            }
+
+            eventWaitHandle.Set();
+            Shutdown();
         }
     }
 }
