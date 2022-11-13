@@ -16,12 +16,12 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Icon="pack://application:,,,/Resources/favicon.ico"
-        x:Name="window" Closed="window_Closed" Closing="window_Closing">
+        x:Name="window" Closed="WindowClosed" Closing="WindowClosing">
     <Window.Resources>
         <ContextMenu x:Key="trayIconContextMenu">
-            <MenuItem Header="Open" Click="MenuItem_Click_1" />
+            <MenuItem Header="{StaticResource m_ShowFromTray}" Click="MenuItemClickShow"/>
             <Separator />
-            <MenuItem Header="Close" Click="MenuItem_Click" />
+            <MenuItem Header="{StaticResource m_Exit}" Click="MenuItemClickExit" />
         </ContextMenu>
     </Window.Resources>
     <Grid>

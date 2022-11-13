@@ -51,10 +51,13 @@ namespace MystatDesktopWpf
                 ContextMenu = FindResource("trayIconContextMenu") as ContextMenu,
             };
             trayIcon.MouseDown += (_, _) => Show();
-            trayIcon.DoubleClickCommand = new TrayDoubleClickCommand(() => MenuItem_Click_1(null, null));
+            trayIcon.DoubleClickCommand = new TrayDoubleClickCommand(() => MenuItemClickShow(null, null));
 
             // on minimize
             StateChanged += OnStateChanged;
+
+            // Текст с трея через DynamicResource не обновляется, поэтому обновляем так
+            App.LanguageChanged += UpdateTrayText;
         }
 
         void InitTheme() // Загрузка темы с настроек
@@ -97,7 +100,7 @@ namespace MystatDesktopWpf
             this.Focus();
         }
 
-        private void window_Closed(object sender, EventArgs e)
+        private void WindowClosed(object sender, EventArgs e)
         {
             trayIcon.Dispose();
             SettingsService.Save();
@@ -122,7 +125,7 @@ namespace MystatDesktopWpf
             }
         }
 
-        private void window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var trayBehavior = SettingsService.Settings.Tray.TrayBehavior;
 
@@ -137,13 +140,21 @@ namespace MystatDesktopWpf
             e.Cancel = !realAppClose;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        #region Tray
+        private void UpdateTrayText(object? sender, EventArgs e)
+        {
+            var menu = (ContextMenu)FindResource("trayIconContextMenu");
+            ((MenuItem)menu.Items[0]).Header = (string)FindResource("m_ShowFromTray");
+            ((MenuItem)menu.Items[2]).Header = (string)FindResource("m_Exit");
+        }
+
+        private void MenuItemClickExit(object sender, RoutedEventArgs e)
         {
             realAppClose = true;
             Close();
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void MenuItemClickShow(object sender, RoutedEventArgs e)
         {
             Show();
             WindowState = WindowState.Normal;
@@ -153,6 +164,7 @@ namespace MystatDesktopWpf
 
             Focus();
         }
+        #endregion
     }
 
     internal class TrayDoubleClickCommand : ICommand
