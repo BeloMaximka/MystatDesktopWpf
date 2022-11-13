@@ -42,8 +42,9 @@ namespace MystatDesktopWpf.Services
             };
 
             OnSettingsChange += saveDebounced;
-            Settings.ScheduleNotification.OnPropertyChanged += saveDebounced;
-            Settings.Theme.OnPropertyChanged += saveDebounced;
+            Settings.ScheduleNotification.OnPropertyChanged += OnSettingsChange;
+            Settings.Theme.OnPropertyChanged += OnSettingsChange;
+            Settings.Tray.OnPropertyChanged += OnSettingsChange;
         }
 
         public static Settings? Load()
@@ -135,6 +136,7 @@ namespace MystatDesktopWpf.Services
         public UserLoginData? LoginData { get; set; }
         public ScheduleNotificationSubSettings ScheduleNotification { get; set; } = new();
         public ThemeSubSettings Theme { get; set; } = new();
+        public TraySubSettings Tray { get; set; } = new();
         public string Language { get; set; }
     }
 }

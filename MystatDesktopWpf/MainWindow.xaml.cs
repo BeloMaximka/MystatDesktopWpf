@@ -91,11 +91,16 @@ namespace MystatDesktopWpf
 
         private void OnStateChanged(object? sender, EventArgs e)
         {
+            var trayBehavior = SettingsService.Settings.Tray.TrayBehavior;
+
             switch (WindowState)
             {
                 case WindowState.Minimized:
-                    Hide();
-                    trayIcon.Visibility = Visibility.Visible;
+                    if(trayBehavior != TrayBehavior.NeverMove && trayBehavior != TrayBehavior.OnlyOnClose)
+                    {
+                        Hide();
+                        trayIcon.Visibility = Visibility.Visible;
+                    }
                     break;
                 default:
                     trayIcon.Visibility = Visibility.Collapsed;
@@ -105,6 +110,15 @@ namespace MystatDesktopWpf
 
         private void window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            var trayBehavior = SettingsService.Settings.Tray.TrayBehavior;
+
+            if (trayBehavior == TrayBehavior.NeverMove) return;
+            if (trayBehavior == TrayBehavior.OnlyOnClose)
+            {
+                Hide();
+                trayIcon.Visibility = Visibility.Visible;
+            }
+
             WindowState = WindowState.Minimized;
             e.Cancel = !realAppClose;
         }
