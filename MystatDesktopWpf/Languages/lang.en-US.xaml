@@ -48,4 +48,6 @@
     <v:String x:Key="m_Contrast">Contrast</v:String>
     <v:String x:Key="m_ColorSelection">Color Selection</v:String>
 
+    <v:String x:Key="m_ShowFromTray">Show</v:String>
+    <v:String x:Key="m_Exit">Exit</v:String>
 </ResourceDictionary>
