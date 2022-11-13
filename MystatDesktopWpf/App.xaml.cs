@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -80,19 +81,40 @@ namespace MystatDesktopWpf
             SettingsService.SetPropertyValue("Language", Language.Name);
         }
 
+        const string UniqueEventName = "4B41F251-D34D-419C-ACCC-4144EE501BD1";
+        const string UniqueMutexName = "C8C527A3-7439-47C3-9403-DF9539E62D8B";
+        EventWaitHandle eventWaitHandle;
+        Mutex mutex;
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            Process currentProcess = Process.GetCurrentProcess();
-            var runningProcess = Process.GetProcesses().FirstOrDefault(p => p.Id != currentProcess.Id && p.ProcessName.Equals(currentProcess.ProcessName, StringComparison.Ordinal));
+            bool isOwned;
+            this.mutex = new Mutex(true, UniqueMutexName, out isOwned);
+            this.eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
 
-            if (runningProcess != null)
+            // So, R# would not give a warning that this variable is not used.
+            GC.KeepAlive(this.mutex);
+
+            if (isOwned)
             {
-                MessageBox.Show(FindResource("m_AppRunningText") as string, FindResource("m_AppRunningTitle") as string);
-                Shutdown();
+                var thread = new Thread( () =>
+                    {
+                        while (this.eventWaitHandle.WaitOne())
+                        {
+                            Current.Dispatcher.BeginInvoke(
+                                (Action)(() => ((MainWindow)Current.MainWindow).BringToForeground()));
+                        }
+                    });
+
+                // Чтобы поток на заблокировал закрытие приложение
+                thread.IsBackground = true;
+
+                thread.Start();
                 return;
             }
 
-            base.OnStartup(e);
+            this.eventWaitHandle.Set();
+            this.Shutdown();
         }
     }
 }
