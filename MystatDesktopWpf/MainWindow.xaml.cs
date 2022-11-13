@@ -83,6 +83,20 @@ namespace MystatDesktopWpf
             helper.SetTheme(theme);
         }
 
+        public void BringToForeground()
+        {
+            if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
+            {
+                this.Show();
+                this.WindowState = WindowState.Normal;
+            }
+
+            this.Activate();
+            this.Topmost = true;
+            this.Topmost = false;
+            this.Focus();
+        }
+
         private void window_Closed(object sender, EventArgs e)
         {
             trayIcon.Dispose();
