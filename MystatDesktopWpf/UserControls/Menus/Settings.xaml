@@ -17,6 +17,7 @@
         <StackPanel Margin="16">
             <controls:NotificationSettings Margin="8"/>
             <controls:ThemeSettings Margin="8"/>
+            <controls:TraySettings Margin="8" />
         </StackPanel>
     </ScrollViewer>
     

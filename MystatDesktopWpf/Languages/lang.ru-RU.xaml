@@ -50,4 +50,10 @@
 
     <v:String x:Key="m_ShowFromTray">Развернуть</v:String>
     <v:String x:Key="m_Exit">Выйти</v:String>
+
+    <v:String x:Key="m_TraySettings">Настройки трея</v:String>
+    <v:String x:Key="m_MoveToTray">Когда сворачивать в трей:</v:String>
+    <v:String x:Key="m_AlwaysTray">Всегда</v:String>
+    <v:String x:Key="m_OnlyCloseTray">Только при закрытии приложения</v:String>
+    <v:String x:Key="m_NoTray">Никогда</v:String>
 </ResourceDictionary>
