@@ -88,21 +88,19 @@ namespace MystatDesktopWpf
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            bool isOwned;
-            this.mutex = new Mutex(true, UniqueMutexName, out isOwned);
-            this.eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
+            mutex = new Mutex(true, UniqueMutexName, out bool isOwned);
+            eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
 
             // So, R# would not give a warning that this variable is not used.
-            GC.KeepAlive(this.mutex);
+            GC.KeepAlive(mutex);
 
             if (isOwned)
             {
-                var thread = new Thread( () =>
+                var thread = new Thread(() =>
                     {
-                        while (this.eventWaitHandle.WaitOne())
+                        while (eventWaitHandle.WaitOne())
                         {
-                            Current.Dispatcher.BeginInvoke(
-                                (Action)(() => ((MainWindow)Current.MainWindow).BringToForeground()));
+                            Current.Dispatcher.BeginInvoke(() => ((MainWindow)Current.MainWindow).BringToForeground());
                         }
                     });
 
@@ -113,8 +111,8 @@ namespace MystatDesktopWpf
                 return;
             }
 
-            this.eventWaitHandle.Set();
-            this.Shutdown();
+            eventWaitHandle.Set();
+            Shutdown();
         }
     }
 }
