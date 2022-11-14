@@ -18,9 +18,9 @@ namespace MystatDesktopWpf.UserControls
     /// <summary>
     /// Interaction logic for LanguageSelectionPanel.xaml
     /// </summary>
-    public partial class LanguageSelectionPanel : UserControl
+    public partial class LanguageComboBox : UserControl
     {
-        public LanguageSelectionPanel()
+        public LanguageComboBox()
         {
             InitializeComponent();
         }
