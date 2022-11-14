@@ -6,16 +6,22 @@
              xmlns:local="clr-namespace:MystatDesktopWpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain="clr-namespace:MystatDesktopWpf.Domain" 
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
+             xmlns:viewmodels="clr-namespace:MystatDesktopWpf.ViewModels"
              xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
+    <UserControl.Resources>
+        <converters:ToUpperConverter x:Key="toUpperConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
         <Grid x:Name="TopBar" Background="{DynamicResource MaterialDesignCardBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{Binding ElementName=NagivationBar, Path=ActualWidth}"/>
@@ -28,8 +34,35 @@
             </Grid.RowDefinitions>
             <ToggleButton Margin="0,5,0,5" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Center" Visibility="Hidden"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
-                <ComboBox x:Name="langsComboBox" Grid.Column="1" Margin="0,0,16,0" HorizontalAlignment="Right">
-                </ComboBox>
+                <ToggleButton x:Name="langToggle" Style="{DynamicResource ToggleComboButton}" Content="{Binding SelectedLanguageName}"
+                              IsHitTestVisible="{Binding ElementName=langPopup, Path=IsOpen, Converter={StaticResource InvertBooleanConverter}}"
+                              DataContext="{Binding Source={x:Static domain:LanguageVMSingleton.ViewModel}}" Margin="0,0,8,0"/>
+                <Popup x:Name="langPopup" AllowsTransparency="True" HorizontalOffset="72" VerticalOffset="16"
+                       Placement="Left" PopupAnimation="Fade" PlacementTarget="{Binding ElementName=langPopup}"
+                       IsOpen="{Binding ElementName=langToggle, Path=IsChecked}" StaysOpen="False"
+                       DataContext="{Binding Source={x:Static domain:LanguageVMSingleton.ViewModel}}">
+                    <Grid>
+                        <Border Margin="24" Background="Transparent">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="15" Opacity="0.4" ShadowDepth="0" Direction="0"/>
+                            </Border.Effect>
+                            <materialDesign:Card Padding="8px" Background="{DynamicResource MaterialDesignPaper}">
+                                <ListBox SelectionMode="Single" ItemsSource="{Binding Languages}" SelectedIndex="{Binding SelectedIndex}">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel MaxWidth="300px"/>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding TwoLetterISOLanguageName, Converter={StaticResource toUpperConverter}}"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </materialDesign:Card>
+                        </Border>
+                    </Grid>
+                </Popup>
                 <controls:DarkModeToggleButton x:Name="darkModeButton"/>
                 <Button Margin="8,0,16,0" Click="Button_Exit_Click"
                         materialDesign:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
