@@ -48,7 +48,7 @@
                                 <Label Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}"/>
                                 <materialDesign:PackIcon x:Name="icon" VerticalAlignment="Center" 
                                      Grid.Column="1" Width="24px" Height="24px" Margin="-8"/>
-                                <Separator x:Name="line" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+                                <Separator x:Name="line" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="0,8,0,0"/>
                             </Grid>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
@@ -69,6 +69,18 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+            </Style>
+
+            <Style x:Key="CustomListBoxItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                <Setter Property="Margin" Value="4"/>
+                <Style.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="99"/>
+                    </Style>
+                    <Style TargetType="{x:Type materialDesign:Ripple}">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </Style>
+                </Style.Resources>
             </Style>
         </ResourceDictionary>
         

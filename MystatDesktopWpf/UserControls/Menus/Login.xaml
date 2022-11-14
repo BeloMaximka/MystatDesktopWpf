@@ -4,12 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain" 
              xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
-             xmlns:local="clr-namespace:MystatDesktopWpf"
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}"
              KeyDown="UserControl_KeyDown">
+    <UserControl.Resources>
+        <converters:ToUpperConverter x:Key="toUpperConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -74,5 +78,21 @@
                            Visibility="Collapsed"/>
             </Grid>
         </materialDesign:Card>
+        
+        <ListBox SelectionMode="Single" ItemsSource="{Binding Languages}" SelectedIndex="{Binding SelectedIndex}"
+                 ItemContainerStyle="{DynamicResource CustomListBoxItem}" FontSize="16"
+                 DataContext="{Binding Source={x:Static domain:LanguageVMSingleton.ViewModel}}"
+                 Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel MaxWidth="300px"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding TwoLetterISOLanguageName, Converter={StaticResource toUpperConverter}}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>
