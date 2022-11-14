@@ -29,8 +29,6 @@ namespace MystatDesktopWpf.UserControls
         {
             this.DataContext = new MainMenuViewModel();
             InitializeComponent();
-
-            darkModeButton.DataContext = ThemeSettingsVMSingleton.ViewModel;
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)

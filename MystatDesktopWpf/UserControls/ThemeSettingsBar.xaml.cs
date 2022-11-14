@@ -30,9 +30,8 @@ namespace MystatDesktopWpf.UserControls
         public ThemeSettingsBar()
         {
             InitializeComponent();
-            DataContext = ThemeSettingsVMSingleton.ViewModel;
-
         }
+
         public event Action? OnResetThemeSettings;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
