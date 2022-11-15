@@ -148,10 +148,6 @@ namespace MystatDesktopWpf
             SetLocalizedHeader(menu.Items[1], "m_TrayScheduleToday");
             SetLocalizedHeader(menu.Items[2], "m_TrayScheduleTomorrow");
             SetLocalizedHeader(menu.Items[3], "m_Exit");
-            //((MenuItem)menu.Items[0]).Header = (string)FindResource("m_ShowFromTray");
-            //((MenuItem)menu.Items[1]).Header = (string)FindResource("m_TrayScheduleToday");
-            //((MenuItem)menu.Items[2]).Header = (string)FindResource("m_TrayScheduleTomorrow");
-            //((MenuItem)menu.Items[3]).Header = (string)FindResource("m_Exit");
         }
 
         private void SetLocalizedHeader(object item, string key)
@@ -196,12 +192,12 @@ namespace MystatDesktopWpf
             popup.Child = ScheduleControlCreator.CreateScheduleCard(schedule.ToList());
             popup.IsOpen = true;
         }
-        #endregion
 
         private void popup_MouseLeave(object sender, MouseEventArgs e)
         {
             popup.IsOpen = false;
         }
+        #endregion
     }
 
     internal class TrayDoubleClickCommand : ICommand
