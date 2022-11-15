@@ -33,6 +33,8 @@ namespace MystatDesktopWpf.UserControls
             DataContext = viewModel;
 
             InitializeComponent();
+            // Вешаем только сейчас, чтобы не активировать ViewModel
+            minutesTextBox.TextChanged += minutesTextBox_TextChanged;
 
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("NotificationVolume"));
