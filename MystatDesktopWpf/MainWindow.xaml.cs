@@ -143,6 +143,7 @@ namespace MystatDesktopWpf
         #region Tray
         private void UpdateTrayText(object? sender, EventArgs e)
         {
+            // TODO: Переделать метод, чтобы избавиться от непонятных индексов
             var menu = (ContextMenu)FindResource("trayIconContextMenu");
             SetLocalizedHeader(menu.Items[0], "m_ShowFromTray");
             SetLocalizedHeader(menu.Items[2], "m_TrayScheduleToday");
