@@ -145,9 +145,9 @@ namespace MystatDesktopWpf
         {
             var menu = (ContextMenu)FindResource("trayIconContextMenu");
             SetLocalizedHeader(menu.Items[0], "m_ShowFromTray");
-            SetLocalizedHeader(menu.Items[1], "m_TrayScheduleToday");
-            SetLocalizedHeader(menu.Items[2], "m_TrayScheduleTomorrow");
-            SetLocalizedHeader(menu.Items[3], "m_Exit");
+            SetLocalizedHeader(menu.Items[2], "m_TrayScheduleToday");
+            SetLocalizedHeader(menu.Items[3], "m_TrayScheduleTomorrow");
+            SetLocalizedHeader(menu.Items[5], "m_Exit");
         }
 
         private void SetLocalizedHeader(object item, string key)
