@@ -2,10 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vm="clr-namespace:MystatDesktopWpf.ViewModels"
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" 
-             d:DataContext="{d:DesignInstance Type=vm:ThemeSettingsViewModel}"
+             DataContext="{Binding Source={x:Static domain:ThemeSettingsVMSingleton.ViewModel}}"
              mc:Ignorable="d"
              d:Background="{DynamicResource MaterialDesignPaper}">
 

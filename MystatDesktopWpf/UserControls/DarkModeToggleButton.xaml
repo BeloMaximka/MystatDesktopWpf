@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:viewmodels="clr-namespace:MystatDesktopWpf.ViewModels"
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain" 
              mc:Ignorable="d"
-             d:Background="{DynamicResource MaterialDesignPaper}">
+             d:Background="{DynamicResource MaterialDesignPaper}"
+             DataContext="{Binding Source={x:Static domain:ThemeSettingsVMSingleton.ViewModel}}">
     <ToggleButton IsChecked="{Binding IsDarkTheme}"
-                  d:DataContext="{d:DesignInstance Type=viewmodels:ThemeSettingsViewModel}"
                   Style="{StaticResource MaterialDesignActionToggleButton}"
                   Background="Transparent" Foreground="{DynamicResource MaterialDesignBody}"
                   Content="{materialDesign:PackIcon Kind=WhiteBalanceSunny}"

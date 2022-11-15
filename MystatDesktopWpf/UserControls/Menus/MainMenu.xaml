@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
         <Grid x:Name="TopBar" Background="{DynamicResource MaterialDesignCardBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{Binding ElementName=NagivationBar, Path=ActualWidth}"/>
@@ -28,18 +29,15 @@
             </Grid.RowDefinitions>
             <ToggleButton Margin="0,5,0,5" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Center" Visibility="Hidden"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
-                <ComboBox x:Name="langsComboBox" Grid.Column="1" Margin="0,0,16,0" HorizontalAlignment="Right">
-                </ComboBox>
+                <controls:LanguageComboBox  Margin="0,0,8,0"/>
                 <controls:DarkModeToggleButton x:Name="darkModeButton"/>
                 <Button Margin="8,0,16,0" Click="Button_Exit_Click"
                         materialDesign:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
                         Content="{materialDesign:PackIcon Kind=ExitToApp, Size=24}"
-                        Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"
+                        Foreground="{DynamicResource MaterialDesignBody}"
                         Style="{StaticResource MaterialDesignToolButton}"
                         ToolTip="{DynamicResource m_ExitPopUp}"/>
             </StackPanel>
-            
-            <Separator Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Visibility="Collapsed"/>
         </Grid>
 
         <Grid Grid.Row="2">

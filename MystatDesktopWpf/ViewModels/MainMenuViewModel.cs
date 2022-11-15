@@ -31,7 +31,7 @@ namespace MystatDesktopWpf.ViewModels
 
         private void OnLangChange(object? sender, EventArgs e)
         {
-            for (int i = 0; i < MenuItems.Count; i++)
+            for (int i = 0; i < itemsTranslationKeys.Length; i++)
             {
                 var res = App.Current.FindResource(itemsTranslationKeys[i]) as string;
 

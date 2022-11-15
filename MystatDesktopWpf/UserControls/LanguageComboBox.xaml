@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.LanguageComboBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain" 
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:Background="{DynamicResource MaterialDesignPaper}"
+             DataContext="{Binding Source={x:Static domain:LanguageVMSingleton.ViewModel}}">
+    <UserControl.Resources>
+        <converters:ToUpperConverter x:Key="toUpperConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <ToggleButton x:Name="langToggle" Style="{DynamicResource ToggleComboButton}" Content="{Binding SelectedLanguageName}"
+                      IsHitTestVisible="{Binding ElementName=langPopup, Path=IsOpen, Converter={StaticResource InvertBooleanConverter}}"
+                      DataContext="{Binding Source={x:Static domain:LanguageVMSingleton.ViewModel}}"/>
+        <Popup x:Name="langPopup" AllowsTransparency="True" HorizontalOffset="72" VerticalOffset="16"
+               Placement="Left" PopupAnimation="Fade" PlacementTarget="{Binding ElementName=langPopup}"
+               IsOpen="{Binding ElementName=langToggle, Path=IsChecked}" StaysOpen="False"
+               DataContext="{Binding Source={x:Static domain:LanguageVMSingleton.ViewModel}}">
+            <Grid>
+                <Border Margin="24" Background="Transparent">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" Opacity="0.4" ShadowDepth="0" Direction="0"/>
+                    </Border.Effect>
+                    
+                    <materialDesign:Card Padding="0px" Background="{DynamicResource MaterialDesignPaper}">
+                        <ListBox SelectionMode="Single" ItemsSource="{Binding Languages}" SelectedIndex="{Binding SelectedIndex}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel MaxWidth="300px"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding TwoLetterISOLanguageName, Converter={StaticResource toUpperConverter}}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </materialDesign:Card>
+                    
+                </Border>
+            </Grid>
+        </Popup>
+    </Grid>
+    
+</UserControl>

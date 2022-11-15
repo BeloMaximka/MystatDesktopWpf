@@ -29,19 +29,6 @@ namespace MystatDesktopWpf.UserControls
         {
             this.DataContext = new MainMenuViewModel();
             InitializeComponent();
-
-            darkModeButton.DataContext = ThemeSettingsVMSingleton.ViewModel;
-
-            int index = 0;
-            foreach (var lang in App.Languages)
-            {
-                var langItem = new ComboBoxItem();
-                langItem.Content = lang.TwoLetterISOLanguageName.ToUpper();
-                langItem.Tag = (index++).ToString();
-                langItem.IsSelected = lang.Name == App.Language.Name;
-                langItem.Selected += OnLanguageChange;
-                langsComboBox.Items.Add(langItem);
-            }
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)

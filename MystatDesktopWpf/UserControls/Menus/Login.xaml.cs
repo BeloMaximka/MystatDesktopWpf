@@ -32,8 +32,6 @@ namespace MystatDesktopWpf.UserControls
         {
             InitializeComponent();
 
-            darkModeButton.DataContext = ThemeSettingsVMSingleton.ViewModel;
-
             if (SettingsService.Settings.LoginData != null)
             {
                 loginTextBox.Text = SettingsService.Settings.LoginData.Username;
