@@ -21,6 +21,9 @@
         <ContextMenu x:Key="trayIconContextMenu">
             <MenuItem Header="{StaticResource m_ShowFromTray}" Click="MenuItemClickShow"/>
             <Separator />
+            <MenuItem Header="{StaticResource m_TrayScheduleToday}" Click="MenuItemScheduleToday"/>
+            <MenuItem Header="{StaticResource m_TrayScheduleTomorrow}" Click="MenuItemScheduleTomorrow"/>
+            <Separator />
             <MenuItem Header="{StaticResource m_Exit}" Click="MenuItemClickExit" />
         </ContextMenu>
     </Window.Resources>
@@ -33,5 +36,6 @@
                 <controls:MainMenu x:Name="mainMenu"/>
             </materialDesign:TransitionerSlide>
         </materialDesign:Transitioner>
+        <Popup x:Name="popup" StaysOpen="True" Placement="Mouse" HorizontalOffset="8" VerticalOffset="8" AllowsTransparency="True" MouseLeave="popup_MouseLeave"/>
     </Grid>
 </Window>

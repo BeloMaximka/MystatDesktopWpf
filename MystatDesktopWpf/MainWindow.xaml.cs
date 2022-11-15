@@ -88,16 +88,16 @@ namespace MystatDesktopWpf
 
         public void BringToForeground()
         {
-            if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
+            if (WindowState == WindowState.Minimized || Visibility == Visibility.Hidden)
             {
-                this.Show();
-                this.WindowState = WindowState.Normal;
+                Show();
+                WindowState = WindowState.Normal;
             }
 
-            this.Activate();
-            this.Topmost = true;
-            this.Topmost = false;
-            this.Focus();
+            Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
 
         private void WindowClosed(object sender, EventArgs e)
@@ -143,9 +143,21 @@ namespace MystatDesktopWpf
         #region Tray
         private void UpdateTrayText(object? sender, EventArgs e)
         {
+            // TODO: Переделать метод, чтобы избавиться от непонятных индексов
             var menu = (ContextMenu)FindResource("trayIconContextMenu");
-            ((MenuItem)menu.Items[0]).Header = (string)FindResource("m_ShowFromTray");
-            ((MenuItem)menu.Items[2]).Header = (string)FindResource("m_Exit");
+            SetLocalizedHeader(menu.Items[0], "m_ShowFromTray");
+            SetLocalizedHeader(menu.Items[2], "m_TrayScheduleToday");
+            SetLocalizedHeader(menu.Items[3], "m_TrayScheduleTomorrow");
+            SetLocalizedHeader(menu.Items[5], "m_Exit");
+        }
+
+        private void SetLocalizedHeader(object item, string key)
+        {
+            var menuItem = item as MenuItem;
+
+            if (menuItem is null) return;
+
+            menuItem.Header = FindResource(key);
         }
 
         private void MenuItemClickExit(object sender, RoutedEventArgs e)
@@ -163,6 +175,28 @@ namespace MystatDesktopWpf
             Topmost = false;
 
             Focus();
+        }
+
+        private void MenuItemScheduleToday(object sender, RoutedEventArgs e)
+        {
+            ShowScheduleCard(DateTime.Now);
+        }
+        
+        private void MenuItemScheduleTomorrow(object sender, RoutedEventArgs e)
+        {
+            ShowScheduleCard(DateTime.Now.AddDays(1));
+        }
+
+        async Task ShowScheduleCard(DateTime date)
+        {
+            var schedule = await MystatAPISingleton.mystatAPIClient.GetScheduleByDate(date);
+            popup.Child = ScheduleControlCreator.CreateScheduleCard(schedule.ToList());
+            popup.IsOpen = true;
+        }
+
+        private void popup_MouseLeave(object sender, MouseEventArgs e)
+        {
+            popup.IsOpen = false;
         }
         #endregion
     }
