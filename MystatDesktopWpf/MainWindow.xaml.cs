@@ -88,16 +88,16 @@ namespace MystatDesktopWpf
 
         public void BringToForeground()
         {
-            if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
+            if (WindowState == WindowState.Minimized || Visibility == Visibility.Hidden)
             {
-                this.Show();
-                this.WindowState = WindowState.Normal;
+                Show();
+                WindowState = WindowState.Normal;
             }
 
-            this.Activate();
-            this.Topmost = true;
-            this.Topmost = false;
-            this.Focus();
+            Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
 
         private void WindowClosed(object sender, EventArgs e)
@@ -144,8 +144,23 @@ namespace MystatDesktopWpf
         private void UpdateTrayText(object? sender, EventArgs e)
         {
             var menu = (ContextMenu)FindResource("trayIconContextMenu");
-            ((MenuItem)menu.Items[0]).Header = (string)FindResource("m_ShowFromTray");
-            ((MenuItem)menu.Items[2]).Header = (string)FindResource("m_Exit");
+            SetLocalizedHeader(menu.Items[0], "m_ShowFromTray");
+            SetLocalizedHeader(menu.Items[1], "m_TrayScheduleToday");
+            SetLocalizedHeader(menu.Items[2], "m_TrayScheduleTomorrow");
+            SetLocalizedHeader(menu.Items[3], "m_Exit");
+            //((MenuItem)menu.Items[0]).Header = (string)FindResource("m_ShowFromTray");
+            //((MenuItem)menu.Items[1]).Header = (string)FindResource("m_TrayScheduleToday");
+            //((MenuItem)menu.Items[2]).Header = (string)FindResource("m_TrayScheduleTomorrow");
+            //((MenuItem)menu.Items[3]).Header = (string)FindResource("m_Exit");
+        }
+
+        private void SetLocalizedHeader(object item, string key)
+        {
+            var menuItem = item as MenuItem;
+
+            if (menuItem is null) return;
+
+            menuItem.Header = FindResource(key);
         }
 
         private void MenuItemClickExit(object sender, RoutedEventArgs e)
@@ -164,7 +179,29 @@ namespace MystatDesktopWpf
 
             Focus();
         }
+
+        private void MenuItemScheduleToday(object sender, RoutedEventArgs e)
+        {
+            ShowScheduleCard(DateTime.Now);
+        }
+        
+        private void MenuItemScheduleTomorrow(object sender, RoutedEventArgs e)
+        {
+            ShowScheduleCard(DateTime.Now.AddDays(1));
+        }
+
+        async Task ShowScheduleCard(DateTime date)
+        {
+            var schedule = await MystatAPISingleton.mystatAPIClient.GetScheduleByDate(date);
+            popup.Child = ScheduleControlCreator.CreateScheduleCard(schedule.ToList());
+            popup.IsOpen = true;
+        }
         #endregion
+
+        private void popup_MouseLeave(object sender, MouseEventArgs e)
+        {
+            popup.IsOpen = false;
+        }
     }
 
     internal class TrayDoubleClickCommand : ICommand
