@@ -146,6 +146,7 @@ namespace MystatDesktopWpf.UserControls
                         dateTextBlock.Text = GetMonthName(date);
                         Style outlined = (Style)this.FindResource("MaterialDesignOutlinedButton");
                         Style normal = (Style)this.FindResource("CalendarButton");
+                        int fontSize = 20;
 
                         DateTime prevDate = date.AddMonths(-1);
                         int prevMonthDays = DateTime.DaysInMonth(prevDate.Year, prevDate.Month);
@@ -154,6 +155,7 @@ namespace MystatDesktopWpf.UserControls
                             Button button = (Button)gridCalendar.Children[i];
                             button.IsEnabled = false;
                             button.Style = outlined;
+                            button.FontSize = fontSize;
                             button.Content = prevMonthDays - dayOfWeek + i + 1;
                         }
 
@@ -182,6 +184,7 @@ namespace MystatDesktopWpf.UserControls
                             Button button = ((Button)gridCalendar.Children[i]);
                             button.IsEnabled = false;
                             button.Style = outlined;
+                            button.FontSize = fontSize;
                             button.Content = i - offset + 1;
                         }
 
