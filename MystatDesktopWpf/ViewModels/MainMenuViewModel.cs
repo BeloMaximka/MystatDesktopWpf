@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MystatDesktopWpf.UserControls;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.UserControls.Menus;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -16,29 +17,15 @@ namespace MystatDesktopWpf.ViewModels
         public ObservableCollection<MainMenuItem> MenuItems { get; } = new();
         int selectedIndex;
         MainMenuItem selectedItem;
-        string[] itemsTranslationKeys = new string[] { "m_Schedule", "m_Settings" };
 
         public MainMenuViewModel()
         {
-            //MenuItems.Add(new MainMenuItem("Главная", typeof(Placeholder), PackIconKind.Home, PackIconKind.Home));
-            MenuItems.Add(new MainMenuItem("Расписание", typeof(Schedule), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
-            MenuItems.Add(new MainMenuItem("Настройки", typeof(Settings), PackIconKind.Cog, PackIconKind.Cog));
-            OnLangChange(null, null);
-            App.LanguageChanged += OnLangChange;
+            MenuItems.Add(new MainMenuItem("m_Schedule", typeof(Placeholder), PackIconKind.Home, PackIconKind.Home));
+            MenuItems.Add(new MainMenuItem("m_Schedule", typeof(Homeworks), PackIconKind.Server, PackIconKind.Server));
+            MenuItems.Add(new MainMenuItem("m_Schedule", typeof(Schedule), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
+            MenuItems.Add(new MainMenuItem("m_Settings", typeof(Settings), PackIconKind.Cog, PackIconKind.Cog));
             //MenuItems.Add(new MainMenuItem("Debug", typeof(Debug), PackIconKind.Bug, PackIconKind.Bug));
             SelectedIndex = 0;
-        }
-
-        private void OnLangChange(object? sender, EventArgs e)
-        {
-            for (int i = 0; i < itemsTranslationKeys.Length; i++)
-            {
-                var res = App.Current.FindResource(itemsTranslationKeys[i]) as string;
-
-                if (res is null) return;
-
-                MenuItems[i].Name = res;
-            }
         }
 
         public MainMenuItem? SelectedItem

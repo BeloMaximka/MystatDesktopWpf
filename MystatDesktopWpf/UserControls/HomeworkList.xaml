@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.HomeworkList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MystatDesktopWpf.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:VM="clr-namespace:MystatDesktopWpf.ViewModels"
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="control">
+    <UserControl.Resources>
+        <VM:HomeworksViewModel x:Key="HomeworksViewModel"/>
+        <converters:NotNullOrWhiteSpaceConverter x:Key="NotNullOrWhiteSpaceConverter"/>
+        <converters:ValueConverterGroup x:Key="NotNullOrWhiteSpaceVisibilityConverter">
+            <converters:NotNullOrWhiteSpaceConverter/>
+            <BooleanToVisibilityConverter/>
+        </converters:ValueConverterGroup>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="8,16,8,8"
+                    Visibility="{Binding ElementName=control, Path=Collection.Count, 
+                    Converter={StaticResource NotZeroToVisibilityConverter}}">
+            <TextBlock Text="{Binding ElementName=control, Path=Header}" FontSize="16"/>
+            <TextBlock Text="{Binding ElementName=control, Path=Collection.Count}" FontSize="16"/>
+        </StackPanel>
+        <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection}" Width="Auto">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card Width="240" Padding="8px" Margin="8px" 
+                                         Initialized="Card_Initialized" Tag="{Binding Status}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Background="{DynamicResource PrimaryHueMidBrush}" 
+                                        CornerRadius="4,4,0,0" Margin="-8" Grid.ColumnSpan="2"/>
+                                <TextBlock Text="{Binding SubjectName}" TextWrapping="Wrap" 
+                                           Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                           TextAlignment="Center" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="InfoCircle" Grid.Column="1" 
+                                                         Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                                         VerticalAlignment="Center" Width="24" Height="24"/>
+                            </Grid>
+                            <StackPanel Grid.Row="1">
+                                <Grid Margin="0,16,0,0">
+                                    <!-- Mark -->
+                                    <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
+                                            Height="32" Width="32" x:Name="markButton"
+                                            IsHitTestVisible="{Binding HomeworkComment.Text, Converter={StaticResource NotNullOrWhiteSpaceConverter}}">
+                                        <TextBlock Text="{Binding UploadedHomework.Mark}"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Button>
+                                    <materialDesign:PackIcon Kind="Comment" HorizontalAlignment="Center" Margin="0,-4,-24,0"
+                                                             Foreground="{DynamicResource MaterialDesignBodyLight}" x:Name="markComment"
+                                                             Visibility="{Binding HomeworkComment.Text, 
+                                                             Converter={StaticResource NotNullOrWhiteSpaceVisibilityConverter}}"/>
+                                    
+                                    <!-- Overdue Time -->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="Clock" Margin="0,0,4,0"/>
+                                        <TextBlock Text="{Binding OverdueTime}"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Completion Time -->
+                                    <StackPanel Orientation="Horizontal" x:Name="completionTime" Visibility="Collapsed"
+                                                HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding CompletionTime}"/>
+                                        <materialDesign:PackIcon Kind="ClockCheck" Margin="4,0,0,0"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Deletion comment -->
+                                    <Button Height="32" Width="32" x:Name="deletionComment" Visibility="Collapsed"
+                                            HorizontalAlignment="Center"  Margin="0,0,0,0"
+                                            Style="{DynamicResource MaterialDesignIconButton}"
+                                            Foreground="{DynamicResource MaterialDesignBody}">
+                                        <materialDesign:PackIcon Kind="CommentAccount"/>
+                                    </Button>
+                                </Grid>
+                                <Separator Margin="-8,8,-8,8"/>
+                                
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition x:Name="deleteColumn"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Button Height="32" Width="32" 
+                                            Style="{DynamicResource MaterialDesignIconButton}"
+                                            Foreground="{DynamicResource MaterialDesignBody}">
+                                        <materialDesign:PackIcon Kind="Download"/>
+                                    </Button>
+                                    
+                                    <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
+                                            Style="{DynamicResource MaterialDesignIconButton}"
+                                            Foreground="{DynamicResource MaterialDesignBody}">
+                                        <materialDesign:PackIcon Kind="Upload"/>
+                                    </Button>
+                                    
+                                    <Button Height="32" Width="32" Grid.Column="2" x:Name="deleteButton"
+                                            Style="{DynamicResource MaterialDesignIconButton}"
+                                            Foreground="{DynamicResource MaterialDesignBody}">
+                                        <materialDesign:PackIcon Kind="Delete"/>
+                                    </Button>
+                                    
+                                    <Button Height="32" Width="32" Grid.Column="3"
+                                            Style="{DynamicResource MaterialDesignIconButton}"
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            IsEnabled="{Binding Comment, Converter={StaticResource NotNullOrWhiteSpaceConverter}}">
+                                        <materialDesign:PackIcon Kind="Comment"/>
+                                    </Button>
+                                </Grid>
+                                
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            
+        </ItemsControl>
+    </StackPanel>
+
+</UserControl>
