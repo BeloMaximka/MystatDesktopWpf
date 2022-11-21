@@ -16,6 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
             
             <Style x:Key="CalendarButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                <Setter Property="FontSize" Value="18" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
