@@ -46,39 +46,9 @@ namespace MystatDesktopWpf.UserControls
             InitializeComponent();
         }
 
-        // Тонкая настройка элементов в зависимости от статуса домашки
-        // Чтобы не захламлять и не переусложнять разметку
         private void Card_Initialized(object sender, EventArgs e)
         {
-            Card card = (Card)sender;
-            HomeworkStatus status = (HomeworkStatus)card.Tag;
-
-            StackPanel completionTime = (StackPanel)card.FindName("completionTime");
-            if (status == HomeworkStatus.Checked || status == HomeworkStatus.Uploaded)
-                completionTime.Visibility = Visibility.Visible;
-
-            Button deletionComment = (Button)card.FindName("deletionComment");
-            if (status == HomeworkStatus.Deleted)
-                deletionComment.Visibility = Visibility.Visible;
-
-            ColumnDefinition deleteColumn = (ColumnDefinition)card.FindName("deleteColumn");
-            if (status == HomeworkStatus.Deleted || status == HomeworkStatus.Active)
-                deleteColumn.Width = new GridLength(0);
-
-            Button uploadButton = (Button)card.FindName("uploadButton");
-            if (status == HomeworkStatus.Uploaded || status == HomeworkStatus.Checked)
-                ((PackIcon)uploadButton.Content).Kind = PackIconKind.DownloadOutline;
-
-            Button markButton = (Button)card.FindName("markButton");
-            Button deleteButton = (Button)card.FindName("deleteButton");
-            PackIcon markComment = (PackIcon)card.FindName("markComment");
-            if (status != HomeworkStatus.Checked)
-            {
-                markButton.Visibility = Visibility.Collapsed;
-                markComment.Visibility = Visibility.Collapsed;
-            }
-            else
-                ((PackIcon)deleteButton.Content).Kind = PackIconKind.UploadOutline;
+            return;
         }
     }
 }

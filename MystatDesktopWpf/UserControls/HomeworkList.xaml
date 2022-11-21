@@ -8,12 +8,14 @@
              xmlns:VM="clr-namespace:MystatDesktopWpf.ViewModels"
              xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
              xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
+             xmlns:api="clr-namespace:MystatAPI.Entity;assembly=MystatAPI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="control">
     <UserControl.Resources>
         <VM:HomeworksViewModel x:Key="HomeworksViewModel"/>
         <converters:NotNullOrWhiteSpaceConverter x:Key="NotNullOrWhiteSpaceConverter"/>
+        <converters:PopupIsOpenConverter x:Key="PopupIsOpenConverter"/>
         <converters:ValueConverterGroup x:Key="NotNullOrWhiteSpaceVisibilityConverter">
             <converters:NotNullOrWhiteSpaceConverter/>
             <BooleanToVisibilityConverter/>
@@ -30,13 +32,49 @@
         <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection}" Width="Auto">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <materialDesign:Card Width="240" Padding="8px" Margin="8px" 
+                    <materialDesign:Card Width="240" Padding="8px" Margin="8px"
                                          Initialized="Card_Initialized" Tag="{Binding Status}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
+                            <!-- Popup extra info -->
+                            <Popup x:Name="popup" AllowsTransparency="True"
+                                   Placement="Right" PlacementTarget="{Binding ElementName=info}">
+                                <Popup.IsOpen>
+                                    <domain:DelayedMultiBindingExtension Converter="{StaticResource PopupIsOpenConverter}" Delay="0:0:0.01">
+                                            <Binding ElementName="info" Path="IsMouseOver" Mode="OneWay" />
+                                            <Binding ElementName="popup" Path="IsMouseOver" Mode="OneWay" />
+                                        </domain:DelayedMultiBindingExtension>
+                                </Popup.IsOpen>
+                                <!-- Popup content -->
+                                <materialDesign:Card Padding="8px">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel>
+                                            <materialDesign:PackIcon Kind="ClockPlus" Margin="0,0,4,0"/>
+                                            <materialDesign:PackIcon Kind="Pencil" Margin="0,0,4,0"/>
+                                            <materialDesign:PackIcon Kind="Account" Margin="0,0,4,0"/>
+                                        </StackPanel>
+                                        <TextBox Grid.Column="1" Background="Transparent" 
+                                                 Style="{x:Null}" IsReadOnly="True" BorderThickness="0"
+                                                 Foreground="{DynamicResource MaterialDesignBody}">
+                                            <TextBox.Text>
+                                                <MultiBinding StringFormat="{}{0}&#x0a;{1}&#x0a;{2}">
+                                                    <Binding Path="CreationTime"/>
+                                                    <Binding Path="Theme"/>
+                                                    <Binding Path="TeacherFullName"/>
+                                                </MultiBinding>
+                                            </TextBox.Text>
+                                        </TextBox>
+                                    </Grid>
+                                </materialDesign:Card>
+                            </Popup>
+                            <!-- Header -->
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -47,15 +85,19 @@
                                 <TextBlock Text="{Binding SubjectName}" TextWrapping="Wrap" 
                                            Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
                                            TextAlignment="Center" VerticalAlignment="Center"/>
-                                <materialDesign:PackIcon Kind="InfoCircle" Grid.Column="1" 
-                                                         Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
-                                                         VerticalAlignment="Center" Width="24" Height="24"/>
+                                <Border Background="Transparent" Grid.Column="1" x:Name="info">
+                                    <materialDesign:PackIcon Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
+                                                             Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                                </Border>
+                                
                             </Grid>
+                            <!-- The rest -->
                             <StackPanel Grid.Row="1">
                                 <Grid Margin="0,16,0,0">
                                     <!-- Mark -->
                                     <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
                                             Height="32" Width="32" x:Name="markButton"
+                                            materialDesign:ElevationAssist.Elevation="Dp2"
                                             IsHitTestVisible="{Binding HomeworkComment.Text, Converter={StaticResource NotNullOrWhiteSpaceConverter}}">
                                         <TextBlock Text="{Binding UploadedHomework.Mark}"
                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -105,13 +147,13 @@
                                     <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}">
-                                        <materialDesign:PackIcon Kind="Upload"/>
+                                        <materialDesign:PackIcon Kind="Upload" x:Name="uploadIcon"/>
                                     </Button>
                                     
                                     <Button Height="32" Width="32" Grid.Column="2" x:Name="deleteButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}">
-                                        <materialDesign:PackIcon Kind="Delete"/>
+                                        <materialDesign:PackIcon Kind="Delete" x:Name="deleteIcon"/>
                                     </Button>
                                     
                                     <Button Height="32" Width="32" Grid.Column="3"
@@ -125,6 +167,30 @@
                             </StackPanel>
                         </Grid>
                     </materialDesign:Card>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Active}">
+                            <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
+                            <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Uploaded}">
+                            <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
+                            <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Checked}">
+                            <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
+                            <Setter TargetName="deleteIcon" Property="Kind" Value="UploadOutline"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Deleted}">
+                            <Setter TargetName="deletionComment" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
+                            <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             

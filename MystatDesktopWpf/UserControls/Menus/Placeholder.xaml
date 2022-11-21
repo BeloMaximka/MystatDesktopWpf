@@ -12,6 +12,37 @@
     <WrapPanel Margin="16" HorizontalAlignment="Left">
         <materialDesign:Card Width="240" Padding="8px" Margin="8">
             <StackPanel>
+                <Popup Placement="MousePoint" x:Name="popup" AllowsTransparency="True"
+                       IsOpen="{Binding ElementName=info, Path=IsMouseOver, Mode=OneWay}"
+                       HorizontalOffset="-24" VerticalOffset="-24">
+                    <Grid>
+                        <Border Margin="24" Background="Transparent">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="15" Opacity="0.4" ShadowDepth="0" Direction="0"/>
+                            </Border.Effect>
+                            <materialDesign:Card Padding="8px">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ClockPlus" Margin="0,0,4,0"/>
+                                        <TextBox Style="{x:Null}" IsReadOnly="True" BorderThickness="0" Text="22.11.2022"
+                                         Background="Transparent" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Pencil" Margin="0,0,4,0"/>
+                                        <TextBox Style="{x:Null}" IsReadOnly="True" BorderThickness="0" Text="kali 1"
+                                         Background="Transparent" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Account" Margin="0,0,4,0"/>
+                                        <TextBox Style="{x:Null}" IsReadOnly="True" BorderThickness="0" Text="Иванов Александр Николаевич"
+                                         Background="Transparent" Foreground="{DynamicResource MaterialDesignBody}"/>
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </materialDesign:Card>
+                        </Border>
+                    </Grid>
+                </Popup>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -20,7 +51,8 @@
                     <Border Background="{DynamicResource PrimaryHueMidBrush}" 
                         CornerRadius="7,7,0,0" Margin="-8" Grid.ColumnSpan="2"/>
                     <TextBlock Text="Розробка web-сторінок мовою HTML5" TextWrapping="Wrap" TextAlignment="Center"/>
-                    <materialDesign:PackIcon Kind="InfoCircle" Grid.Column="1" VerticalAlignment="Center" Width="24" Height="24"/>
+                    <materialDesign:PackIcon Kind="InfoCircle" Grid.Column="1" VerticalAlignment="Center" 
+                                             Width="24" Height="24" x:Name="info"/>
                 </Grid>
                 <Grid Margin="0,16,0,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
