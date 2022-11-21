@@ -146,7 +146,7 @@ namespace MystatDesktopWpf.UserControls
                         dateTextBlock.Text = GetMonthName(date);
                         Style outlined = (Style)this.FindResource("MaterialDesignOutlinedButton");
                         Style normal = (Style)this.FindResource("CalendarButton");
-                        int fontSize = 20;
+                        int fontSize = 18;
 
                         DateTime prevDate = date.AddMonths(-1);
                         int prevMonthDays = DateTime.DaysInMonth(prevDate.Year, prevDate.Month);
