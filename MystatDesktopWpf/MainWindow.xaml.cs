@@ -67,6 +67,11 @@ namespace MystatDesktopWpf
             ThemeSubSettings settings = SettingsService.Settings.Theme;
 
             Color color = ColorToHexConverter.ConvertBack(settings.ColorHex);
+
+            theme.SecondaryLight = new ColorPair(color.Lighten());
+            theme.SecondaryMid = new ColorPair(color);
+            theme.SecondaryDark = new ColorPair(color.Darken());
+
             theme.PrimaryLight = new ColorPair(color.Lighten());
             theme.PrimaryMid = new ColorPair(color);
             theme.PrimaryDark = new ColorPair(color.Darken());
