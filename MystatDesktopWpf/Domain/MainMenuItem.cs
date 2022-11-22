@@ -9,27 +9,29 @@ namespace MystatDesktopWpf.Domain
 {
     public class MainMenuItem : ViewModelBase
     {
-        private readonly Type contentType;
-        private readonly object? dataContext;
+        readonly Type contentType;
+        readonly object? dataContext;
 
-        private object? content;
-        private Thickness margin = new(16);
-
-        private int notifications = 0;
-
-        private string name;
-
-        public MainMenuItem(string name, Type contentType, PackIconKind selectedIcon,
+        public MainMenuItem(string nameKey, Type contentType, PackIconKind selectedIcon,
             PackIconKind unselectedIcon, object? dataContext = null)
         {
-            Name = name;
+            this.nameKey = nameKey;
+            UpdateName(null, EventArgs.Empty);
+            App.LanguageChanged += UpdateName;
+
             this.contentType = contentType;
             this.dataContext = dataContext;
             SelectedIcon = selectedIcon;
             UnselectedIcon = unselectedIcon;
         }
 
+        void UpdateName(object? sender, EventArgs e)
+        {
+            Name = (string)App.Current.FindResource(nameKey);
+        }
 
+        string nameKey;
+        string name;
         public string Name
         {
             get => name;
@@ -40,12 +42,15 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        // Not to initialize all controls on startup
+
+        object? content;
+        // Чтобы не прогружать все страницы при запуске
         public object? Content => content ??= CreateContent();
 
         public PackIconKind SelectedIcon { get; set; }
         public PackIconKind UnselectedIcon { get; set; }
 
+        int notifications = 0;
         public object? Notifications
         {
             get
@@ -55,13 +60,14 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
+        Thickness margin = new(16);
         public Thickness Margin
         {
             get => margin;
             set => SetProperty(ref margin, value);
         }
 
-        private object? CreateContent()
+        object? CreateContent()
         {
             var content = Activator.CreateInstance(contentType);
             if (dataContext != null && content is FrameworkElement element)
