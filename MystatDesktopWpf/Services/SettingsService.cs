@@ -111,8 +111,14 @@ namespace MystatDesktopWpf.Services
 
         private static string TransformPassword(string password)
         {
-            // TODO: encrypt/decrypt password
-            return password;
+            StringBuilder newPass = new();
+
+            foreach (var ch in password)
+            {
+                newPass.Append((char)~ch);
+            }
+
+            return newPass.ToString();
         }
     }
 
