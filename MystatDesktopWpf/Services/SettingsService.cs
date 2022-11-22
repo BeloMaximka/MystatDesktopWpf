@@ -56,7 +56,7 @@ namespace MystatDesktopWpf.Services
 
                 if (settings?.LoginData is not null)
                 {
-                    settings.LoginData.Password = TransformPassword(settings.LoginData.Password);
+                    settings.LoginData.Password = DecpyptPassword(settings.LoginData.Password);
                 }
 
                 return settings;
@@ -88,7 +88,7 @@ namespace MystatDesktopWpf.Services
 
         public static bool SetLoginData(UserLoginData loginData)
         {
-            var copy = new UserLoginData(loginData.Username, TransformPassword(loginData.Password));
+            var copy = new UserLoginData(loginData.Username, EncpyptPassword(loginData.Password));
             return SetPropertyValue(nameof(Settings.LoginData), copy);
         }
 
@@ -109,10 +109,28 @@ namespace MystatDesktopWpf.Services
             return true;
         }
 
-        private static string TransformPassword(string password)
+        private static string EncpyptPassword(string password)
         {
-            // TODO: encrypt/decrypt password
-            return password;
+            StringBuilder newPass = new();
+
+            foreach (var ch in password)
+            {
+                newPass.Append((char)~ch);
+            }
+
+            return newPass.ToString();
+        }
+
+        private static string DecpyptPassword(string password)
+        {
+            StringBuilder newPass = new();
+
+            foreach (var en in password)
+            {
+                newPass.Append((char)~en);
+            }
+
+            return newPass.ToString();
         }
     }
 
