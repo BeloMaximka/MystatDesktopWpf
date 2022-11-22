@@ -16,7 +16,7 @@
         <vm:TraySettingsViewModel x:Key="TraySettingsViewModel"/>
     </UserControl.Resources>
 
-    <materialDesign:Card>
+    <materialDesign:Card Padding="8">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
