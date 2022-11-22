@@ -42,22 +42,24 @@ namespace MystatDesktopWpf.Domain
 
             for (int i = 0; i < schedules.Count; i++)
             {
-                card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Book });
+                if (i == 0)
+                    card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Book, Width = 30, Height = 30, Margin = new(0, 72, 0, 0) });
+                else
+                    card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Book, Width = 30, Height = 30, Margin = new(0, 22, 0, 0) });
                 card.textBox.Text += schedules[i].SubjectName + '\n';
-                card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Account });
+                card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Account, Width = 30, Height = 30 });
                 card.textBox.Text += schedules[i].TeacherFullName + '\n';
-                card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Door });
+                card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Door, Width = 30, Height = 30 });
                 string classRoom = (string)App.Current.FindResource("m_Classroom");
                 card.textBox.Text += $"{classRoom} {schedules[i].RoomName}" + '\n';
                 card.textBox.Text += $"{schedules[i].StartedAt} - {schedules[i].FinishedAt}";
 
-                PackIcon icon = new PackIcon { Kind = PackIconKind.Clock };
+                PackIcon icon = new PackIcon { Kind = PackIconKind.Clock, Width = 30, Height = 30 };
                 if (i != schedules.Count - 1)
                 {
                     icon.Margin = new Thickness(0, 0, 0, 14);
                     card.textBox.Text += "\n\n";
                 }
-
                 card.iconPanel.Children.Add(icon);
             }
 
