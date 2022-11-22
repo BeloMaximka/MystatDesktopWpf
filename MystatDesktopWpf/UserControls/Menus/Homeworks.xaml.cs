@@ -47,12 +47,16 @@ namespace MystatDesktopWpf.UserControls.Menus
                 {
                     var buffer = await res.Content.ReadAsByteArrayAsync();
                     File.WriteAllBytes(dialog.FileName, buffer);
-                    snackbar.MessageQueue?.Enqueue<string>("Домашнее задание скачано.", "Открыть в проводнике", OpenFileInExplorer, dialog.FileName);
+
+                    string homeworkDownloaded = (string)FindResource("m_HomeworkDownloaded");
+                    string openInExplorer = (string)FindResource("m_OpenInExplorer");
+                    snackbar.MessageQueue?.Enqueue<string>(homeworkDownloaded, openInExplorer, OpenFileInExplorer, dialog.FileName);
                 }
             }
             catch (Exception)
             {
-                snackbar.MessageQueue?.Enqueue("Не удалось скачать домашнее задание.");
+                string homeworkDownloadError = (string)FindResource("m_HomeworkDownloadError");
+                snackbar.MessageQueue?.Enqueue(homeworkDownloadError);
             }
         }
 
@@ -65,7 +69,8 @@ namespace MystatDesktopWpf.UserControls.Menus
             }
             catch (Exception)
             {
-                snackbar.MessageQueue?.Enqueue("Не удалось открыть папку.");
+                string folderOpenError = (string)FindResource("m_FolderOpenError");
+                snackbar.MessageQueue?.Enqueue(folderOpenError);
             }
         }
     }

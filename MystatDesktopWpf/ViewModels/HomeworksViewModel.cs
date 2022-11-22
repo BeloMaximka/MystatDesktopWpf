@@ -23,6 +23,8 @@ namespace MystatDesktopWpf.ViewModels
                 {
                     var result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Active);
                     Active = new(result);
+                    result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Overdue);
+                    Overdue = new(result);
                     result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Uploaded);
                     Uploaded = new(result);
                     result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Checked);
@@ -38,8 +40,7 @@ namespace MystatDesktopWpf.ViewModels
                 }
             }
         }
-        public bool Loaded { get; private set; }
-
+        
         ObservableCollection<Homework> active = new();
         public ObservableCollection<Homework> Active
         {
@@ -47,6 +48,16 @@ namespace MystatDesktopWpf.ViewModels
             set
             {
                 active = value;
+                OnPropertyChanged();
+            }
+        }
+        ObservableCollection<Homework> overdue = new();
+        public ObservableCollection<Homework> Overdue
+        {
+            get => overdue;
+            set
+            {
+                overdue = value;
                 OnPropertyChanged();
             }
         }

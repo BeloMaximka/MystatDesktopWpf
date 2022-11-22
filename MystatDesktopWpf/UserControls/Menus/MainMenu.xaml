@@ -47,6 +47,7 @@
             </Grid.ColumnDefinitions>
             <Border Background="{DynamicResource MaterialDesignCardBackground}"/>
             <ListBox VerticalAlignment="Top" x:Name="NagivationBar"
+                     SelectedIndex="1"
                      ItemsSource="{Binding MenuItems}"
                      SelectedValue="{Binding SelectedItem}"
                      Margin="0,8,0,0">

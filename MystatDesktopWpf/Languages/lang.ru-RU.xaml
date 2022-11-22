@@ -9,6 +9,7 @@
     <v:String x:Key="m_ExitPopUp">Выйти из аккаунта</v:String>
     <v:String x:Key="m_Settings">Настройки</v:String>
     <v:String x:Key="m_Schedule">Расписание</v:String>
+    <v:String x:Key="m_Homework">Домашние задания</v:String>
     
     <v:String x:Key="m_ParamOfNotification0">Напоминания о начале пары</v:String>
     <v:String x:Key="m_SettingsOfNotification0">Про какие пары напоминать:</v:String>
@@ -59,4 +60,26 @@
 
     <v:String x:Key="m_TrayScheduleToday">Расписание на сегодня</v:String>
     <v:String x:Key="m_TrayScheduleTomorrow">Расписание на завтра</v:String>
+
+    <!-- Homework tab -->
+    <v:String x:Key="m_Overdue">Просроченные:&#160;</v:String>
+    <v:String x:Key="m_Deleted">Удалённые преподавателем:&#160;</v:String>
+    <v:String x:Key="m_Current">Текущие:&#160;</v:String>
+    <v:String x:Key="m_Uploaded">На проверке:&#160;</v:String>
+    <v:String x:Key="m_Checked">Проверенные:&#160;</v:String>
+    <v:String x:Key="m_HomeworkDownloaded">Домашнее задание скачано.</v:String>
+    <v:String x:Key="m_OpenInExplorer">Открыть в проводнике</v:String>
+    <v:String x:Key="m_HomeworkDownloadError">Не удалось скачать домашнее задание.</v:String>
+    <v:String x:Key="m_FolderOpenError">Не удалось открыть папку.</v:String>
+    
+    <!-- Homework tooltips -->
+    <v:String x:Key="m_TeacherComment">Комментарий преподавателя</v:String>
+    <v:String x:Key="m_DueDate">Загрузить до</v:String>
+    <v:String x:Key="m_UploadDate">Дата загрузки</v:String>
+    <v:String x:Key="m_DownloadWork">Скачать задание</v:String>
+    <v:String x:Key="m_UploadWork">Загрузить задание</v:String>
+    <v:String x:Key="m_DeleteWork">Удалить работу</v:String>
+    <v:String x:Key="m_WorkComment">Комментарий к заданию</v:String>
+    <v:String x:Key="m_DownloadUploaded">Скачать загруженную работу</v:String>
+    <v:String x:Key="m_RedoRequest">Запрос на пересдачу (-2 монетки)</v:String>
 </ResourceDictionary>

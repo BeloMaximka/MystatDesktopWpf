@@ -98,7 +98,8 @@
                                     <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
                                             Height="32" Width="32" x:Name="markButton"
                                             materialDesign:ElevationAssist.Elevation="Dp2"
-                                            IsHitTestVisible="{Binding HomeworkComment.Text, Converter={StaticResource NotNullOrWhiteSpaceConverter}}">
+                                            IsHitTestVisible="{Binding HomeworkComment.Text, Converter={StaticResource NotNullOrWhiteSpaceConverter}}"
+                                            ToolTip="{DynamicResource m_TeacherComment}">
                                         <TextBlock Text="{Binding UploadedHomework.Mark}"
                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Button>
@@ -108,14 +109,16 @@
                                                              Converter={StaticResource NotNullOrWhiteSpaceVisibilityConverter}}"/>
                                     
                                     <!-- Overdue Time -->
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                ToolTip="{DynamicResource m_DueDate}">
                                         <materialDesign:PackIcon Kind="Clock" Margin="0,0,4,0"/>
                                         <TextBlock Text="{Binding OverdueTime}"/>
                                     </StackPanel>
                                     
                                     <!-- Completion Time -->
                                     <StackPanel Orientation="Horizontal" x:Name="completionTime" Visibility="Collapsed"
-                                                HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                ToolTip="{DynamicResource m_UploadDate}">
                                         <TextBlock Text="{Binding CompletionTime}"/>
                                         <materialDesign:PackIcon Kind="ClockCheck" Margin="4,0,0,0"/>
                                     </StackPanel>
@@ -124,7 +127,8 @@
                                     <Button Height="32" Width="32" x:Name="deletionComment" Visibility="Collapsed"
                                             HorizontalAlignment="Center"  Margin="0,0,0,0"
                                             Style="{DynamicResource MaterialDesignIconButton}"
-                                            Foreground="{DynamicResource MaterialDesignBody}">
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            ToolTip="{DynamicResource m_TeacherComment}">
                                         <materialDesign:PackIcon Kind="CommentAccount"/>
                                     </Button>
                                 </Grid>
@@ -140,26 +144,30 @@
                                     
                                     <Button Height="32" Width="32" Tag="{Binding}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
-                                            Foreground="{DynamicResource MaterialDesignBody}" Click="DownloadButton_Click">
+                                            Foreground="{DynamicResource MaterialDesignBody}" Click="DownloadButton_Click"
+                                            ToolTip="{DynamicResource m_DownloadWork}">
                                         <materialDesign:PackIcon Kind="Download"/>
                                     </Button>
                                     
                                     <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
-                                            Foreground="{DynamicResource MaterialDesignBody}">
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            ToolTip="{DynamicResource m_UploadWork}">
                                         <materialDesign:PackIcon Kind="Upload" x:Name="uploadIcon"/>
                                     </Button>
                                     
                                     <Button Height="32" Width="32" Grid.Column="2" x:Name="deleteButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
-                                            Foreground="{DynamicResource MaterialDesignBody}">
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            ToolTip="{DynamicResource m_DeleteWork}">
                                         <materialDesign:PackIcon Kind="Delete" x:Name="deleteIcon"/>
                                     </Button>
                                     
                                     <Button Height="32" Width="32" Grid.Column="3"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
-                                            IsEnabled="{Binding Comment, Converter={StaticResource NotNullOrWhiteSpaceConverter}}">
+                                            IsEnabled="{Binding Comment, Converter={StaticResource NotNullOrWhiteSpaceConverter}}"
+                                            ToolTip="{DynamicResource m_WorkComment}">
                                         <materialDesign:PackIcon Kind="Comment"/>
                                     </Button>
                                 </Grid>
@@ -178,11 +186,14 @@
                             <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
                             <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="uploadButton" Property="ToolTip" Value="{DynamicResource m_DownloadUploaded}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Checked}">
                             <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
                             <Setter TargetName="deleteIcon" Property="Kind" Value="UploadOutline"/>
+                            <Setter TargetName="deleteButton" Property="ToolTip" Value="{DynamicResource m_RedoRequest}"/>
+                            <Setter TargetName="uploadButton" Property="ToolTip" Value="{DynamicResource m_DownloadUploaded}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Deleted}">
                             <Setter TargetName="deletionComment" Property="Visibility" Value="Visible"/>
