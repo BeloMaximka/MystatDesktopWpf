@@ -42,7 +42,7 @@ namespace MystatDesktopWpf.Domain
 
             for (int i = 0; i < schedules.Count; i++)
             {
-                card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Book, Width = 30, Height = 30, Margin = i == 0 ? new(0, 72, 0, 0) : new(0, 22, 0, 0)  });
+                card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Book, Width = 30, Height = 30, Margin = i == 0 ? new(0, 72, 0, 0) : new(0, 22, 0, 0) });
                 card.textBox.Text += schedules[i].SubjectName + '\n';
                 card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Account, Width = 30, Height = 30 });
                 card.textBox.Text += schedules[i].TeacherFullName + '\n';
