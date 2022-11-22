@@ -10,17 +10,21 @@
              xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="control"
              Background="{DynamicResource MaterialDesignPaper}">
     <UserControl.Resources>
         <VM:HomeworksViewModel x:Key="HomeworksViewModel"/>
     </UserControl.Resources>
-    <ScrollViewer>
-        <StackPanel Margin="16" DataContext="{StaticResource HomeworksViewModel}">
-            <controls:HomeworkList Header="Удалённые: " Collection="{Binding Deleted}"/>
-            <controls:HomeworkList Header="Текущие: " Collection="{Binding Active}"/>
-            <controls:HomeworkList Header="На проверке: " Collection="{Binding Uploaded}"/>
-            <controls:HomeworkList Header="Проверенные: " Collection="{Binding Checked}"/>
-        </StackPanel>
-    </ScrollViewer>
+    <Grid>
+        <ScrollViewer>
+            <StackPanel Margin="16" DataContext="{StaticResource HomeworksViewModel}">
+                <controls:HomeworkList Header="Удалённые: " Collection="{Binding Deleted}" HomeworkManager="{Binding ElementName=control}"/>
+                <controls:HomeworkList Header="Текущие: " Collection="{Binding Active}" HomeworkManager="{Binding ElementName=control}"/>
+                <controls:HomeworkList Header="На проверке: " Collection="{Binding Uploaded}" HomeworkManager="{Binding ElementName=control}"/>
+                <controls:HomeworkList Header="Проверенные: " Collection="{Binding Checked}" HomeworkManager="{Binding ElementName=control}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}"/>
+    </Grid>
     
 </UserControl>

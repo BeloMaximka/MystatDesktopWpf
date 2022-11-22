@@ -138,9 +138,9 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     
-                                    <Button Height="32" Width="32" 
+                                    <Button Height="32" Width="32" Tag="{Binding}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
-                                            Foreground="{DynamicResource MaterialDesignBody}">
+                                            Foreground="{DynamicResource MaterialDesignBody}" Click="DownloadButton_Click">
                                         <materialDesign:PackIcon Kind="Download"/>
                                     </Button>
                                     

@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Automation;
+using MystatDesktopWpf.Domain;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -31,6 +32,14 @@ namespace MystatDesktopWpf.UserControls
         {
             get => (ObservableCollection<Homework>)GetValue(CollectionProperty);
             set => SetValue(CollectionProperty, value);
+        }
+
+        public static readonly DependencyProperty HomeworkManagerProperty =
+            DependencyProperty.Register("HomeworkManager", typeof(IHomeworkManager), typeof(UserControl));
+        public IHomeworkManager? HomeworkManager
+        {
+            get => (IHomeworkManager)GetValue(HomeworkManagerProperty);
+            set => SetValue(HomeworkManagerProperty, value);
         }
 
         public static readonly DependencyProperty HeaderProperty =
@@ -49,6 +58,11 @@ namespace MystatDesktopWpf.UserControls
         private void Card_Initialized(object sender, EventArgs e)
         {
             return;
+        }
+
+        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            HomeworkManager?.DownloadHomework((Homework)((Button)sender).Tag);
         }
     }
 }
