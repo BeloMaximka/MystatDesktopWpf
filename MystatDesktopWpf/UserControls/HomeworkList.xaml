@@ -181,6 +181,11 @@
                             <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Overdue}">
+                            <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
+                            <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Uploaded}">
                             <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
