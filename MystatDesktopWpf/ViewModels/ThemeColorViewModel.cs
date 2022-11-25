@@ -33,6 +33,10 @@ namespace MystatDesktopWpf.ViewModels
 
                 ITheme theme = paletteHelper.GetTheme();
 
+                theme.SecondaryLight = new ColorPair(selectedColor.Lighten());
+                theme.SecondaryMid = new ColorPair(selectedColor);
+                theme.SecondaryDark = new ColorPair(selectedColor.Darken());
+
                 theme.PrimaryLight = new ColorPair(selectedColor.Lighten());
                 theme.PrimaryMid = new ColorPair(selectedColor);
                 theme.PrimaryDark = new ColorPair(selectedColor.Darken());

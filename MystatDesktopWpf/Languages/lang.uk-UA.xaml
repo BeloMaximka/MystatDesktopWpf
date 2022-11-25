@@ -9,6 +9,7 @@
     <v:String x:Key="m_ExitPopUp">Вийти з облікового запису</v:String>
     <v:String x:Key="m_Settings">Налаштуваня</v:String>
     <v:String x:Key="m_Schedule">Розклад</v:String>
+    <v:String x:Key="m_Homework">Домашні завдання</v:String>
     
     <v:String x:Key="m_ParamOfNotification0">Нагадування про початок пари</v:String>
     <v:String x:Key="m_SettingsOfNotification0">Про які пари нагадувати:</v:String>
@@ -59,4 +60,26 @@
 
     <v:String x:Key="m_TrayScheduleToday">Розклад на сьогодні</v:String>
     <v:String x:Key="m_TrayScheduleTomorrow">Разклад на завтра</v:String>
+
+    <!-- Homework tab -->
+    <v:String x:Key="m_Overdue">Прострочені:&#160;</v:String>
+    <v:String x:Key="m_Deleted">Видалені викладачем:&#160;</v:String>
+    <v:String x:Key="m_Current">Поточні:&#160;</v:String>
+    <v:String x:Key="m_Uploaded">На перевірці:&#160;</v:String>
+    <v:String x:Key="m_Checked">Перевірені:&#160;</v:String>
+    <v:String x:Key="m_HomeworkDownloaded">Домашнє завдання завантажено.</v:String>
+    <v:String x:Key="m_OpenInExplorer">Відкрити у провіднику</v:String>
+    <v:String x:Key="m_HomeworkDownloadError">Не вдалося завантажити домашнє завдання</v:String>
+    <v:String x:Key="m_FolderOpenError">Не вдалося відкрити папку.</v:String>
+
+    <!-- Homework tooltips -->
+    <v:String x:Key="m_TeacherComment">Коментар викладача</v:String>
+    <v:String x:Key="m_DueDate">Завантажити до</v:String>
+    <v:String x:Key="m_UploadDate">Дата завантаження</v:String>
+    <v:String x:Key="m_DownloadWork">Скачати завдання</v:String>
+    <v:String x:Key="m_UploadWork">Завантажити завдання</v:String>
+    <v:String x:Key="m_DeleteWork">Видалити роботу</v:String>
+    <v:String x:Key="m_WorkComment">Коментар до завдання</v:String>
+    <v:String x:Key="m_DownloadUploaded">Скачати завантажену роботу</v:String>
+    <v:String x:Key="m_RedoRequest">Запит на перездачу (-2 монетки)</v:String>
 </ResourceDictionary>
