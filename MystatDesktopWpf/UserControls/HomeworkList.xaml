@@ -144,15 +144,17 @@
                                     
                                     <Button Height="32" Width="32" Tag="{Binding}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
-                                            Foreground="{DynamicResource MaterialDesignBody}" Click="DownloadButton_Click"
-                                            ToolTip="{DynamicResource m_DownloadWork}">
+                                            Foreground="{DynamicResource MaterialDesignBody}" 
+                                            ToolTip="{DynamicResource m_DownloadWork}"
+                                            Click="DownloadButton_Click">
                                         <materialDesign:PackIcon Kind="Download"/>
                                     </Button>
                                     
                                     <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
-                                            ToolTip="{DynamicResource m_UploadWork}">
+                                            ToolTip="{DynamicResource m_UploadWork}"
+                                            Click="UploadButton_Click" Tag="{Binding Id}">
                                         <materialDesign:PackIcon Kind="Upload" x:Name="uploadIcon"/>
                                     </Button>
                                     

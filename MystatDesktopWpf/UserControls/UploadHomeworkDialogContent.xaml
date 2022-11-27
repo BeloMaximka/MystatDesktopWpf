@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.UploadHomeworkDialogContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MystatDesktopWpf.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:VM="clr-namespace:MystatDesktopWpf.ViewModels"
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters" 
+             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:Background="{DynamicResource MaterialDesignPaper}">
+    <StackPanel Margin="16" Width="500">
+        <TextBlock Text="Upload homework" HorizontalAlignment="Center" Margin="0,0,0,8"
+                           Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+        <materialDesign:Card Padding="8" x:Name="dropDownCard" AllowDrop="True" Drop="dropDownCard_Drop">
+            <StackPanel>
+                <materialDesign:PackIcon Kind="CloudUpload" HorizontalAlignment="Center" 
+                                         Margin="0,0,0,8" Height="32" Width="32"/>
+                <TextBlock Text="It is recommended to upload archive files. File formats .txt and .csv will be archived automatically."
+                           TextWrapping="Wrap" Margin="8,0,8,8" TextAlignment="Center"/>
+                <TextBlock Text="Drag files here&#x0a;or " TextAlignment="Center"/>
+                <Button Content="click here" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Click="openExplorerButton_Click"/>
+            </StackPanel>
+        </materialDesign:Card>
+        <Grid x:Name="fileLine" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,8,0,8">
+                <TextBlock x:Name="regularFileTextBlock" Text="File" VerticalAlignment="Center" Visibility="Collapsed"/>
+                <TextBox x:Name="fileTextBox" Text="Homework" Visibility="Collapsed" TextWrapping="Wrap" 
+                         VerticalContentAlignment="Center" MaxLength="240" MaxWidth="400"
+                         materialDesign:HintAssist.Hint="File name"/>
+                <TextBlock x:Name="zipTextBlock" Text=".zip" VerticalAlignment="Center" Visibility="Collapsed"/>
+            </StackPanel>
+            <Button Content="Delete" HorizontalAlignment="Right"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Click="DeleteButton_Click"/>
+        </Grid>
+        <TextBox MaxLength="500" Margin="0,16,0,24" TextWrapping="Wrap" 
+                 AcceptsReturn="True" MaxHeight="200"
+                 x:Name="textBox" 
+                 Style="{DynamicResource MaterialDesignOutlinedTextBox}" 
+                 materialDesign:HintAssist.Hint="Here you can write you text response"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" TextChanged="textBox_TextChanged"/>
+        <Grid>
+            <Button Content="Send" HorizontalAlignment="Left" Click="Button_Click"/>
+            <TextBlock Text="Upload the file or write a comment" x:Name="errorTextBlock"
+                       VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"
+                       Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"/>
+            <Button Content="Cancel" HorizontalAlignment="Right"
+                    Style="{DynamicResource MaterialDesignOutlinedButton}"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

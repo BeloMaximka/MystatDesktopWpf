@@ -27,7 +27,7 @@ namespace MystatDesktopWpf.UserControls
     {
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
-            DependencyProperty.Register("Collection", typeof(ObservableCollection<Homework>), typeof(UserControl));
+            DependencyProperty.Register("Collection", typeof(ObservableCollection<Homework>), typeof(HomeworkList));
         public ObservableCollection<Homework> Collection
         {
             get => (ObservableCollection<Homework>)GetValue(CollectionProperty);
@@ -35,7 +35,7 @@ namespace MystatDesktopWpf.UserControls
         }
 
         public static readonly DependencyProperty HomeworkManagerProperty =
-            DependencyProperty.Register("HomeworkManager", typeof(IHomeworkManager), typeof(UserControl));
+            DependencyProperty.Register("HomeworkManager", typeof(IHomeworkManager), typeof(HomeworkList));
         public IHomeworkManager? HomeworkManager
         {
             get => (IHomeworkManager)GetValue(HomeworkManagerProperty);
@@ -43,7 +43,7 @@ namespace MystatDesktopWpf.UserControls
         }
 
         public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof(string), typeof(UserControl));
+            DependencyProperty.Register("Header", typeof(string), typeof(HomeworkList));
         public string Header
         {
             get => (string)GetValue(HeaderProperty);
@@ -57,12 +57,24 @@ namespace MystatDesktopWpf.UserControls
 
         private void Card_Initialized(object sender, EventArgs e)
         {
-            return;
+            Card card = (Card)sender;
+            HomeworkStatus status = (HomeworkStatus)card.Tag;
+            if(status == HomeworkStatus.Uploaded || status == HomeworkStatus.Checked)
+            {
+                Button uploadButton = (Button)card.FindName("uploadButton");
+                uploadButton.Click -= UploadButton_Click;
+            }
         }
 
         private void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             HomeworkManager?.DownloadHomework((Homework)((Button)sender).Tag);
+        }
+
+        private void UploadButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            HomeworkManager?.UploadHomework((int)((Button)sender).Tag);
         }
     }
 }

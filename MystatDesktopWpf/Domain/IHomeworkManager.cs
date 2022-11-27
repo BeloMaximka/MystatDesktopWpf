@@ -10,5 +10,7 @@ namespace MystatDesktopWpf.Domain
     public interface IHomeworkManager
     {
         void DownloadHomework(Homework homework);
+        void UploadHomework(int homeworkId);
+        void UploadHomework(int homeworkId, string[]? files, string? comment, bool archive = false, string archiveName = "");
     }
 }

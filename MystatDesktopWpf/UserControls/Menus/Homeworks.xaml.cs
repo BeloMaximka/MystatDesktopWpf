@@ -17,6 +17,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
+using MystatAPI;
+using System.IO.Compression;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
@@ -59,7 +61,6 @@ namespace MystatDesktopWpf.UserControls.Menus
                 snackbar.MessageQueue?.Enqueue(homeworkDownloadError);
             }
         }
-
         void OpenFileInExplorer(string filePath)
         {
             try
@@ -73,5 +74,46 @@ namespace MystatDesktopWpf.UserControls.Menus
                 snackbar.MessageQueue?.Enqueue(folderOpenError);
             }
         }
+
+        #region UploadHomework
+        public void UploadHomework(int homeworkId)
+        {
+            var dialog = homeworkDialog.DialogContent as UploadHomeworkDialogContent;
+            if (dialog != null)
+            {
+                dialog.HomeworkId = homeworkId;
+                dialog.ResetContent();
+                homeworkDialog.IsOpen = true;
+            }
+        }
+
+        public async void UploadHomework(int homeworkId, string[]? files, string? comment, bool archive = false, string archiveName = "")
+        {
+            try
+            {
+                if (files != null && archive)
+                {
+                    using MemoryStream stream = new();
+                    using (ZipArchive zip = new(stream, ZipArchiveMode.Create, true))
+                    {
+                        foreach (var path in files)
+                            zip.CreateEntryFromAny(path);
+                    }
+                    HomeworkFile file = new(archiveName, stream.ToArray());
+
+                    await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(homeworkId, file, comment);
+                }
+                else
+                    await MystatAPISingleton.mystatAPIClient.UploadHomework(homeworkId, files?[0], comment);
+
+                snackbar.MessageQueue?.Enqueue("Домашнее задание успешно загружено.");
+            }
+            catch (Exception)
+            {
+                snackbar.MessageQueue?.Enqueue("Произошла ошибка при загрузке домашнего задания.");
+            }
+            homeworkDialog.IsOpen = false;
+        }
+        #endregion
     }
 }
