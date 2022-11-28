@@ -19,8 +19,8 @@
             <StackPanel>
                 <materialDesign:PackIcon Kind="CloudUpload" HorizontalAlignment="Center" 
                                          Margin="0,0,0,8" Height="32" Width="32"/>
-                <TextBlock Text="It is recommended to upload archive files. File formats .txt and .csv will be archived automatically."
-                           TextWrapping="Wrap" Margin="8,0,8,8" TextAlignment="Center"/>
+                <TextBlock Text="Maximum file size is 99 MB. It is recommended to upload archive files. File formats .txt and .csv will be archived automatically."
+                           TextWrapping="Wrap" Margin="32,0,32,8" TextAlignment="Center"/>
                 <TextBlock Text="Drag files here&#x0a;or " TextAlignment="Center"/>
                 <Button Content="click here" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Click="openExplorerButton_Click"/>
             </StackPanel>
@@ -44,7 +44,7 @@
                  materialDesign:HintAssist.Hint="Here you can write you text response"
                  ScrollViewer.VerticalScrollBarVisibility="Auto" TextChanged="textBox_TextChanged"/>
         <Grid>
-            <Button Content="Send" HorizontalAlignment="Left" Click="Button_Click"/>
+            <Button Content="Send" HorizontalAlignment="Left" Click="UploadButton_Click"/>
             <TextBlock Text="Upload the file or write a comment" x:Name="errorTextBlock"
                        VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"
                        Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"/>

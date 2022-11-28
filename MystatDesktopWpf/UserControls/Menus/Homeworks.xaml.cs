@@ -30,6 +30,9 @@ namespace MystatDesktopWpf.UserControls.Menus
         public Homeworks()
         {
             InitializeComponent();
+
+            uploadDialogContent.HomeworkManager = this;
+            uploadDialogContent.Host = homeworkDialog;
         }
 
         public async void DownloadHomework(Homework homework)

@@ -14,9 +14,8 @@ using System.Windows.Navigation;
 using System.IO;
 using MystatDesktopWpf.Domain;
 using Microsoft.Win32;
-using MystatAPI;
 using MaterialDesignThemes.Wpf;
-using System.IO.Compression;
+using System.Windows.Threading;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -29,25 +28,16 @@ namespace MystatDesktopWpf.UserControls
         bool archiveFiles = false;
 
         public int HomeworkId { get; set; }
-
-        public static readonly DependencyProperty HomeworkManagerProperty =
-            DependencyProperty.Register("HomeworkManager", typeof(IHomeworkManager), typeof(UploadHomeworkDialogContent));
-        public IHomeworkManager? HomeworkManager
-        {
-            get => (IHomeworkManager)GetValue(HomeworkManagerProperty);
-            set => SetValue(HomeworkManagerProperty, value);
-        }
+        public DialogHost? Host { get; set; }
+        public IHomeworkManager? HomeworkManager { get; set; }
+        DispatcherTimer clickAwayDebounce = new();
 
         public UploadHomeworkDialogContent()
         {
             InitializeComponent();
-        }
 
-        public UploadHomeworkDialogContent(int homeworkId, IHomeworkManager manager)
-        {
-            HomeworkId = homeworkId;
-            HomeworkManager = manager;
-            InitializeComponent();
+            clickAwayDebounce.Interval = TimeSpan.FromMilliseconds(300);
+            clickAwayDebounce.Tick += EnableClickAway; ;
         }
 
         public void ResetContent()
@@ -92,7 +82,7 @@ namespace MystatDesktopWpf.UserControls
                textBox.Text = "";
         }
 
-        private void dropDownCard_Drop(object sender, DragEventArgs e)
+        void dropDownCard_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -101,7 +91,7 @@ namespace MystatDesktopWpf.UserControls
             }
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             files = null;
             dropDownCard.Visibility = Visibility.Visible;
@@ -112,17 +102,28 @@ namespace MystatDesktopWpf.UserControls
             zipTextBlock.Visibility = Visibility.Collapsed;
         }
 
-        private void openExplorerButton_Click(object sender, RoutedEventArgs e)
+        void openExplorerButton_Click(object sender, RoutedEventArgs e)
         {
+            if (Host != null)
+                Host.CloseOnClickAway = false;
+
             OpenFileDialog dialog = new() { Multiselect = true };
             if (dialog.ShowDialog() ?? false)
             {
                 files = dialog.FileNames;
                 UpdateFileInfo();
             }
+            clickAwayDebounce.Start();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        void EnableClickAway(object? sender, EventArgs e)
+        {
+            if (Host != null)
+                Host.CloseOnClickAway = true;
+            clickAwayDebounce.Stop();
+        }
+
+        void UploadButton_Click(object sender, RoutedEventArgs e)
         {
             if(files == null && textBox.Text == string.Empty)
             {
