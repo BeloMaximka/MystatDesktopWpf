@@ -47,7 +47,7 @@ namespace MystatDesktopWpf
             trayIcon = new TaskbarIcon()
             {
                 IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/favicon.ico")),
-                Visibility = Visibility.Hidden,
+                Visibility = Visibility.Visible,
                 ContextMenu = FindResource("trayIconContextMenu") as ContextMenu,
             };
             trayIcon.MouseDown += (_, _) => Show();
@@ -121,11 +121,9 @@ namespace MystatDesktopWpf
                     if(trayBehavior != TrayBehavior.NeverMove && trayBehavior != TrayBehavior.OnlyOnClose)
                     {
                         Hide();
-                        trayIcon.Visibility = Visibility.Visible;
                     }
                     break;
                 default:
-                    trayIcon.Visibility = Visibility.Collapsed;
                     break;
             }
         }
@@ -138,7 +136,6 @@ namespace MystatDesktopWpf
             if (trayBehavior == TrayBehavior.OnlyOnClose)
             {
                 Hide();
-                trayIcon.Visibility = Visibility.Visible;
             }
 
             WindowState = WindowState.Minimized;
