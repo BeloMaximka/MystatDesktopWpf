@@ -19,20 +19,24 @@ using System.IO;
 using System.Diagnostics;
 using MystatAPI;
 using System.IO.Compression;
+using MaterialDesignThemes.Wpf;
+using MystatDesktopWpf.ViewModels;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
     /// <summary>
     /// Interaction logic for Homeworks.xaml
     /// </summary>
-    public partial class Homeworks : UserControl, IHomeworkManager
+    public partial class Homeworks : UserControl
     {
+        HomeworksViewModel viewModel;
         public Homeworks()
         {
             InitializeComponent();
 
-            uploadDialogContent.HomeworkManager = this;
-            uploadDialogContent.Host = homeworkDialog;
+            viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
+            uploadDialog.Host = homeworkDialog;
+            uploadDialog.UploadConfirm += OnUploadDialogConfirm;
         }
 
         public async void DownloadHomework(Homework homework)
@@ -79,43 +83,57 @@ namespace MystatDesktopWpf.UserControls.Menus
         }
 
         #region UploadHomework
-        public void UploadHomework(int homeworkId)
+        Button progressButton;
+        Button uploadButton;
+        public void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progressButton, Button uploadButton)
         {
+            this.progressButton = progressButton;
+            this.uploadButton = uploadButton;
             var dialog = homeworkDialog.DialogContent as UploadHomeworkDialogContent;
             if (dialog != null)
             {
-                dialog.HomeworkId = homeworkId;
+                dialog.Homework = homework;
+                dialog.HomeworkSource = source;
                 dialog.ResetContent();
                 homeworkDialog.IsOpen = true;
             }
         }
 
-        public async void UploadHomework(int homeworkId, string[]? files, string? comment, bool archive = false, string archiveName = "")
+        public async void OnUploadDialogConfirm()
         {
+            homeworkDialog.IsOpen = false;
+            Button progress = progressButton;
+            Button upload = uploadButton;
+
+            ButtonProgressAssist.SetIsIndicatorVisible(progress, true);
+            upload.IsHitTestVisible = false;
             try
             {
-                if (files != null && archive)
+                if (uploadDialog.Files != null && uploadDialog.Archive)
                 {
                     using MemoryStream stream = new();
                     using (ZipArchive zip = new(stream, ZipArchiveMode.Create, true))
                     {
-                        foreach (var path in files)
+                        foreach (var path in uploadDialog.Files)
                             zip.CreateEntryFromAny(path);
                     }
-                    HomeworkFile file = new(archiveName, stream.ToArray());
+                    HomeworkFile file = new(uploadDialog.ArchiveName, stream.ToArray());
 
-                    await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(homeworkId, file, comment);
+                    await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadDialog.Homework.Id, file, uploadDialog.Comment);
                 }
                 else
-                    await MystatAPISingleton.mystatAPIClient.UploadHomework(homeworkId, files?[0], comment);
+                    await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadDialog.Homework.Id, uploadDialog.Files?[0], uploadDialog.Comment);
 
+                uploadDialog.HomeworkSource.Remove(uploadDialog.Homework);
+                viewModel.Uploaded.Add(uploadDialog.Homework);
                 snackbar.MessageQueue?.Enqueue("Домашнее задание успешно загружено.");
             }
             catch (Exception)
             {
                 snackbar.MessageQueue?.Enqueue("Произошла ошибка при загрузке домашнего задания.");
             }
-            homeworkDialog.IsOpen = false;
+            ButtonProgressAssist.SetIsIndicatorVisible(progress, false);
+            upload.IsHitTestVisible = true;
         }
         #endregion
     }

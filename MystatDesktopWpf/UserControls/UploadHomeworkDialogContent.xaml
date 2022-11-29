@@ -30,7 +30,7 @@
                 <TextBlock x:Name="regularFileTextBlock" Text="File" VerticalAlignment="Center" Visibility="Collapsed"/>
                 <TextBox x:Name="fileTextBox" Text="Homework" Visibility="Collapsed" TextWrapping="Wrap" 
                          VerticalContentAlignment="Center" MaxLength="240" MaxWidth="400"
-                         materialDesign:HintAssist.Hint="File name"/>
+                         materialDesign:HintAssist.Hint="File name" TextChanged="fileTextBox_TextChanged"/>
                 <TextBlock x:Name="zipTextBlock" Text=".zip" VerticalAlignment="Center" Visibility="Collapsed"/>
             </StackPanel>
             <Button Content="Delete" HorizontalAlignment="Right"
@@ -45,8 +45,8 @@
                  ScrollViewer.VerticalScrollBarVisibility="Auto" TextChanged="textBox_TextChanged"/>
         <Grid>
             <Button Content="Send" HorizontalAlignment="Left" Click="UploadButton_Click"/>
-            <TextBlock Text="Upload the file or write a comment" x:Name="errorTextBlock"
-                       VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"
+            <TextBlock x:Name="errorTextBlock" VerticalAlignment="Center" 
+                       HorizontalAlignment="Center" Visibility="Collapsed"
                        Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"/>
             <Button Content="Cancel" HorizontalAlignment="Right"
                     Style="{DynamicResource MaterialDesignOutlinedButton}"

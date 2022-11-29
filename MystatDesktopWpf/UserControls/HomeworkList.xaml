@@ -149,12 +149,20 @@
                                             Click="DownloadButton_Click">
                                         <materialDesign:PackIcon Kind="Download"/>
                                     </Button>
+
+                                    <Button Height="32" Width="32" Grid.Column="1" x:Name="progressButton"
+                                            Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                                            Background="Transparent" Foreground="Transparent" BorderBrush="Transparent"
+                                            IsHitTestVisible="False"
+                                            materialDesign:ButtonProgressAssist.Value="-1"
+                                            materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                                    </Button>
                                     
                                     <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             ToolTip="{DynamicResource m_UploadWork}"
-                                            Click="UploadButton_Click" Tag="{Binding Id}">
+                                            Click="UploadButton_Click" Tag="{Binding}">
                                         <materialDesign:PackIcon Kind="Upload" x:Name="uploadIcon"/>
                                     </Button>
                                     

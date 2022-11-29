@@ -17,7 +17,7 @@
     </UserControl.Resources>
     <materialDesign:DialogHost x:Name="homeworkDialog" CloseOnClickAway="True" DialogTheme="Inherit">
         <materialDesign:DialogHost.DialogContent>
-            <controls:UploadHomeworkDialogContent x:Name="uploadDialogContent"/>
+            <controls:UploadHomeworkDialogContent x:Name="uploadDialog"/>
         </materialDesign:DialogHost.DialogContent>
         <Grid>
             <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="True" SelectedIndex="1">

@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Automation;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.UserControls.Menus;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -35,10 +36,10 @@ namespace MystatDesktopWpf.UserControls
         }
 
         public static readonly DependencyProperty HomeworkManagerProperty =
-            DependencyProperty.Register("HomeworkManager", typeof(IHomeworkManager), typeof(HomeworkList));
-        public IHomeworkManager? HomeworkManager
+            DependencyProperty.Register("HomeworkManager", typeof(Homeworks), typeof(HomeworkList));
+        public Homeworks? HomeworkManager
         {
-            get => (IHomeworkManager)GetValue(HomeworkManagerProperty);
+            get => (Homeworks)GetValue(HomeworkManagerProperty);
             set => SetValue(HomeworkManagerProperty, value);
         }
 
@@ -73,8 +74,10 @@ namespace MystatDesktopWpf.UserControls
 
         private void UploadButton_Click(object sender, RoutedEventArgs e)
         {
-
-            HomeworkManager?.UploadHomework((int)((Button)sender).Tag);
+            Button uploadButton = (Button)sender;
+            Grid grid = (Grid)uploadButton.Parent;
+            Button progressButton = (Button)grid.FindName("progressButton");
+            HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton);
         }
     }
 }
