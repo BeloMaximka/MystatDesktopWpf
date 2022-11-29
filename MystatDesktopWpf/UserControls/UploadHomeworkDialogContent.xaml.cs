@@ -36,7 +36,7 @@ namespace MystatDesktopWpf.UserControls
                 UpdateFileInfo();
             } 
         }
-        public string? Comment { get; private set; }
+        public string? Comment { get => textBox.Text; }
         public bool Archive { get; private set; } = false;
         public string ArchiveName { get => fileTextBox.Text + zipTextBlock.Text; }
         public Homework Homework { get; set; }

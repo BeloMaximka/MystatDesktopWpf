@@ -94,7 +94,7 @@
     <v:String x:Key="m_Delete">Удалить</v:String>
     <v:String x:Key="m_Send">Отправить</v:String>
     <v:String x:Key="m_Cancel">Отмена</v:String>
-
+    
     <!-- Homework delete -->
     <v:String x:Key="m_DeleteWorkError">Произошла ошибка при попытке удалить работу.</v:String>
     <v:String x:Key="m_WorkDeleted">Работа успешно удалена.</v:String>
