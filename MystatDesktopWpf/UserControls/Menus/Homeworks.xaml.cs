@@ -21,6 +21,7 @@ using MystatAPI;
 using System.IO.Compression;
 using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.ViewModels;
+using MystatDesktopWpf.UserControls;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
@@ -32,12 +33,14 @@ namespace MystatDesktopWpf.UserControls.Menus
         HomeworksViewModel viewModel;
         static HttpClient httpClient = new();
 
+        UploadHomeworkDialogContent uploadContent = new();
+        DeleteHomeworkDialogContent deleteContent = new();
         public Homeworks()
         {
             InitializeComponent();
 
             viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
-            uploadDialog.Host = homeworkDialog;
+            uploadContent.Host = homeworkDialog;
         }
 
         public async void DownloadHomework(Homework homework)
@@ -82,14 +85,13 @@ namespace MystatDesktopWpf.UserControls.Menus
             }
         }
 
-        #region UploadHomework
         public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload, string[]? files = null)
         {
-            uploadDialog.ResetContent();
-            uploadDialog.Homework = homework;
-            uploadDialog.HomeworkSource = source;
-            uploadDialog.Files = files;
-            bool? result = (bool?)await homeworkDialog.ShowDialog(uploadDialog);
+            uploadContent.ResetContent();
+            uploadContent.Homework = homework;
+            uploadContent.HomeworkSource = source;
+            uploadContent.Files = files;
+            bool? result = (bool?)await homeworkDialog.ShowDialog(uploadContent);
 
             if(result.HasValue && result == true)
             {
@@ -98,24 +100,25 @@ namespace MystatDesktopWpf.UserControls.Menus
                 upload.IsHitTestVisible = false;
                 try
                 {
-                    if (uploadDialog.Files != null && uploadDialog.Archive)
+                    if (uploadContent.Files != null && uploadContent.Archive)
                     {
                         // Архивация
                         using MemoryStream stream = new();
                         using (ZipArchive zip = new(stream, ZipArchiveMode.Create, true))
                         {
-                            foreach (var path in uploadDialog.Files)
+                            foreach (var path in uploadContent.Files)
                                 zip.CreateEntryFromAny(path);
                         }
-                        HomeworkFile file = new(uploadDialog.ArchiveName, stream.ToArray());
+                        HomeworkFile file = new(uploadContent.ArchiveName, stream.ToArray());
 
-                        await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadDialog.Homework.Id, file, uploadDialog.Comment);
+                        await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadContent.Homework.Id, file, uploadContent.Comment);
                     }
                     else
-                        await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadDialog.Homework.Id, uploadDialog.Files?[0], uploadDialog.Comment);
+                        await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadContent.Homework.Id, uploadContent.Files?[0], uploadContent.Comment);
 
-                    uploadDialog.HomeworkSource.Remove(uploadDialog.Homework);
-                    viewModel.Uploaded.Add(uploadDialog.Homework);
+                    uploadContent.Homework.Status = HomeworkStatus.Uploaded;
+                    uploadContent.HomeworkSource.Remove(uploadContent.Homework);
+                    viewModel.Uploaded.Add(uploadContent.Homework);
                     
                     string workUploaded = (string)FindResource("m_WorkUploaded");
                     snackbar.MessageQueue?.Enqueue(workUploaded);
@@ -129,6 +132,39 @@ namespace MystatDesktopWpf.UserControls.Menus
                 upload.IsHitTestVisible = true;
             }
         }
-        #endregion
+
+        public async void OpenDeleteDialog(Homework homework)
+        {
+            bool? result = (bool?)await homeworkDialog.ShowDialog(deleteContent);
+
+            if (result.HasValue && result == true)
+            {
+                try
+                {
+                    if (await MystatAPISingleton.mystatAPIClient.RemoveHomework(homework.UploadedHomework.Id) == false)
+                        throw new HttpRequestException("Error deleting homework");
+
+                    viewModel.Uploaded.Remove(homework);
+                    if (DateTime.Parse(homework.OverdueTime) < DateTime.Now)
+                    {
+                        homework.Status = HomeworkStatus.Overdue;
+                        viewModel.Overdue.Add(homework);
+                    }
+                    else
+                    {
+                        homework.Status = HomeworkStatus.Active;
+                        viewModel.Active.Add(homework);
+                    }
+
+                    string workDeleted = (string)FindResource("m_WorkDeleted");
+                    snackbar.MessageQueue?.Enqueue(workDeleted);
+                }
+                catch (Exception)
+                {
+                    string deleteWorkError = (string)FindResource("m_DeleteWorkError");
+                    snackbar.MessageQueue?.Enqueue(deleteWorkError);
+                }
+            }
+        }
     }
 }

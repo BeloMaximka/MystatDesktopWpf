@@ -185,7 +185,7 @@
                                     <Button Height="32" Width="32" Grid.Column="2" x:Name="deleteButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
-                                            ToolTip="{DynamicResource m_DeleteWork}">
+                                            ToolTip="{DynamicResource m_DeleteWork}" Tag="{Binding}">
                                         <materialDesign:PackIcon Kind="Delete" x:Name="deleteIcon"/>
                                     </Button>
 

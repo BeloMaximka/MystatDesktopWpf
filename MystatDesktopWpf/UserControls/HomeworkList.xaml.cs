@@ -66,6 +66,16 @@ namespace MystatDesktopWpf.UserControls
                 Button uploadButton = (Button)card.FindName("uploadButton");
                 uploadButton.Click -= UploadButton_Click;
             }
+            if(status == HomeworkStatus.Uploaded)
+            {
+                Button deleteButton = (Button)card.FindName("deleteButton");
+                deleteButton.Click += DeleteButton_Click;
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            HomeworkManager?.OpenDeleteDialog((Homework)((Button)sender).Tag);
         }
 
         private void DownloadButton_Click(object sender, RoutedEventArgs e)

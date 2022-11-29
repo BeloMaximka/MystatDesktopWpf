@@ -94,4 +94,9 @@
     <v:String x:Key="m_Delete">Видалити</v:String>
     <v:String x:Key="m_Send">Надіслати</v:String>
     <v:String x:Key="m_Cancel">Скасувати</v:String>
+
+    <!-- Homework delete -->
+    <v:String x:Key="m_DeleteWorkError">Під час спроби видалити роботу сталася помилка.</v:String>
+    <v:String x:Key="m_WorkDeleted">Робота успішно завантажена.</v:String>
+    <v:String x:Key="m_DeleteConfirm">Ви впевнені, що хочете видалити свою роботу?</v:String>
 </ResourceDictionary>

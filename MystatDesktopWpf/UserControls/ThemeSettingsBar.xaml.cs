@@ -37,7 +37,7 @@ namespace MystatDesktopWpf.UserControls
         {
             ThemeSettingsVMSingleton.ViewModel.IsDarkTheme = true;
             ThemeSettingsVMSingleton.ViewModel.IsColorAdjusted = true;
-            ThemeSettingsVMSingleton.ViewModel.ContrastValue = Contrast.Low;
+            ThemeSettingsVMSingleton.ViewModel.ContrastValue = Contrast.Medium;
             ThemeSettingsVMSingleton.ViewModel.DesiredContrastRatio = 3.0f;
             ThemeSettingsVMSingleton.ViewModel.ColorSelectionValue = ColorSelection.All;
 
