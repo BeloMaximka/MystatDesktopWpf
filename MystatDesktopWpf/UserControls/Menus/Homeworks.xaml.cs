@@ -36,7 +36,6 @@ namespace MystatDesktopWpf.UserControls.Menus
 
             viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
             uploadDialog.Host = homeworkDialog;
-            uploadDialog.UploadConfirm += OnUploadDialogConfirm;
         }
 
         public async void DownloadHomework(Homework homework)
@@ -83,57 +82,47 @@ namespace MystatDesktopWpf.UserControls.Menus
         }
 
         #region UploadHomework
-        Button progressButton;
-        Button uploadButton;
-        public void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progressButton, Button uploadButton)
+        public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload)
         {
-            this.progressButton = progressButton;
-            this.uploadButton = uploadButton;
-            var dialog = homeworkDialog.DialogContent as UploadHomeworkDialogContent;
-            if (dialog != null)
-            {
-                dialog.Homework = homework;
-                dialog.HomeworkSource = source;
-                dialog.ResetContent();
-                homeworkDialog.IsOpen = true;
-            }
-        }
+            uploadDialog.Homework = homework;
+            uploadDialog.HomeworkSource = source;
+            uploadDialog.ResetContent();
+            bool? result = (bool?)await homeworkDialog.ShowDialog(uploadDialog);
 
-        public async void OnUploadDialogConfirm()
-        {
-            homeworkDialog.IsOpen = false;
-            Button progress = progressButton;
-            Button upload = uploadButton;
-
-            ButtonProgressAssist.SetIsIndicatorVisible(progress, true);
-            upload.IsHitTestVisible = false;
-            try
+            if(result.HasValue && result == true)
             {
-                if (uploadDialog.Files != null && uploadDialog.Archive)
+                // Делаем кнопку загрузки крутиться
+                ButtonProgressAssist.SetIsIndicatorVisible(progress, true);
+                upload.IsHitTestVisible = false;
+                try
                 {
-                    using MemoryStream stream = new();
-                    using (ZipArchive zip = new(stream, ZipArchiveMode.Create, true))
+                    if (uploadDialog.Files != null && uploadDialog.Archive)
                     {
-                        foreach (var path in uploadDialog.Files)
-                            zip.CreateEntryFromAny(path);
+                        // Архивация
+                        using MemoryStream stream = new();
+                        using (ZipArchive zip = new(stream, ZipArchiveMode.Create, true))
+                        {
+                            foreach (var path in uploadDialog.Files)
+                                zip.CreateEntryFromAny(path);
+                        }
+                        HomeworkFile file = new(uploadDialog.ArchiveName, stream.ToArray());
+
+                        await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadDialog.Homework.Id, file, uploadDialog.Comment);
                     }
-                    HomeworkFile file = new(uploadDialog.ArchiveName, stream.ToArray());
+                    else
+                        await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadDialog.Homework.Id, uploadDialog.Files?[0], uploadDialog.Comment);
 
-                    await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadDialog.Homework.Id, file, uploadDialog.Comment);
+                    uploadDialog.HomeworkSource.Remove(uploadDialog.Homework);
+                    viewModel.Uploaded.Add(uploadDialog.Homework);
+                    snackbar.MessageQueue?.Enqueue("Домашнее задание успешно загружено.");
                 }
-                else
-                    await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadDialog.Homework.Id, uploadDialog.Files?[0], uploadDialog.Comment);
-
-                uploadDialog.HomeworkSource.Remove(uploadDialog.Homework);
-                viewModel.Uploaded.Add(uploadDialog.Homework);
-                snackbar.MessageQueue?.Enqueue("Домашнее задание успешно загружено.");
+                catch (Exception)
+                {
+                    snackbar.MessageQueue?.Enqueue("Произошла ошибка при загрузке домашнего задания.");
+                }
+                ButtonProgressAssist.SetIsIndicatorVisible(progress, false);
+                upload.IsHitTestVisible = true;
             }
-            catch (Exception)
-            {
-                snackbar.MessageQueue?.Enqueue("Произошла ошибка при загрузке домашнего задания.");
-            }
-            ButtonProgressAssist.SetIsIndicatorVisible(progress, false);
-            upload.IsHitTestVisible = true;
         }
         #endregion
     }

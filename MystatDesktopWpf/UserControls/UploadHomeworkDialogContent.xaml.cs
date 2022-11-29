@@ -33,7 +33,6 @@ namespace MystatDesktopWpf.UserControls
         public Homework Homework { get; set; }
         public ICollection<Homework> HomeworkSource { get; set; }
         public DialogHost? Host { get; set; }
-        public event Action? UploadConfirm;
 
         DispatcherTimer clickAwayDebounce = new();
 
@@ -141,8 +140,7 @@ namespace MystatDesktopWpf.UserControls
                 errorTextBlock.Visibility = Visibility.Visible;
                 return;
             }
-
-            UploadConfirm?.Invoke();
+            DialogHost.CloseDialogCommand.Execute(true, Host);
         }
 
         private void fileTextBox_TextChanged(object sender, TextChangedEventArgs e)

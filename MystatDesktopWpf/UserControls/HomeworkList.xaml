@@ -133,7 +133,8 @@
                                     </Button>
                                 </Grid>
                                 <Separator Margin="-8,8,-8,8"/>
-                                
+
+                                <!-- Main buttons -->
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -150,6 +151,7 @@
                                         <materialDesign:PackIcon Kind="Download"/>
                                     </Button>
 
+                                    <!-- Pseudo button with progress indication -->
                                     <Button Height="32" Width="32" Grid.Column="1" x:Name="progressButton"
                                             Style="{DynamicResource MaterialDesignFloatingActionButton}"
                                             Background="Transparent" Foreground="Transparent" BorderBrush="Transparent"
@@ -157,7 +159,8 @@
                                             materialDesign:ButtonProgressAssist.Value="-1"
                                             materialDesign:ButtonProgressAssist.IsIndeterminate="True">
                                     </Button>
-                                    
+
+                                    <!-- Upload or download uploaded button -->
                                     <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
@@ -165,14 +168,16 @@
                                             Click="UploadButton_Click" Tag="{Binding}">
                                         <materialDesign:PackIcon Kind="Upload" x:Name="uploadIcon"/>
                                     </Button>
-                                    
+
+                                    <!-- Delete button -->
                                     <Button Height="32" Width="32" Grid.Column="2" x:Name="deleteButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             ToolTip="{DynamicResource m_DeleteWork}">
                                         <materialDesign:PackIcon Kind="Delete" x:Name="deleteIcon"/>
                                     </Button>
-                                    
+
+                                    <!-- Comment button -->
                                     <Button Height="32" Width="32" Grid.Column="3"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
