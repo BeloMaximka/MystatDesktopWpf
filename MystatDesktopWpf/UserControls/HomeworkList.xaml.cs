@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Automation;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.UserControls.Menus;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -27,7 +28,7 @@ namespace MystatDesktopWpf.UserControls
     {
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
-            DependencyProperty.Register("Collection", typeof(ObservableCollection<Homework>), typeof(UserControl));
+            DependencyProperty.Register("Collection", typeof(ObservableCollection<Homework>), typeof(HomeworkList));
         public ObservableCollection<Homework> Collection
         {
             get => (ObservableCollection<Homework>)GetValue(CollectionProperty);
@@ -35,15 +36,15 @@ namespace MystatDesktopWpf.UserControls
         }
 
         public static readonly DependencyProperty HomeworkManagerProperty =
-            DependencyProperty.Register("HomeworkManager", typeof(IHomeworkManager), typeof(UserControl));
-        public IHomeworkManager? HomeworkManager
+            DependencyProperty.Register("HomeworkManager", typeof(Homeworks), typeof(HomeworkList));
+        public Homeworks? HomeworkManager
         {
-            get => (IHomeworkManager)GetValue(HomeworkManagerProperty);
+            get => (Homeworks)GetValue(HomeworkManagerProperty);
             set => SetValue(HomeworkManagerProperty, value);
         }
 
         public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof(string), typeof(UserControl));
+            DependencyProperty.Register("Header", typeof(string), typeof(HomeworkList));
         public string Header
         {
             get => (string)GetValue(HeaderProperty);
@@ -57,12 +58,38 @@ namespace MystatDesktopWpf.UserControls
 
         private void Card_Initialized(object sender, EventArgs e)
         {
-            return;
+            Card card = (Card)sender;
+            HomeworkStatus status = (HomeworkStatus)card.Tag;
+            if(status == HomeworkStatus.Uploaded || status == HomeworkStatus.Checked)
+            {
+                Button uploadButton = (Button)card.FindName("uploadButton");
+                uploadButton.Click -= UploadButton_Click;
+            }
         }
 
         private void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             HomeworkManager?.DownloadHomework((Homework)((Button)sender).Tag);
+        }
+
+        private void UploadButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button uploadButton = (Button)sender;
+            Grid grid = (Grid)uploadButton.Parent;
+            Button progressButton = (Button)grid.FindName("progressButton");
+            HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton);
+        }
+
+        private void Card_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                Card card = (Card)sender;
+                Button uploadButton = (Button)card.FindName("uploadButton");
+                Button progressButton = (Button)card.FindName("progressButton");
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton, files);
+            }
         }
     }
 }

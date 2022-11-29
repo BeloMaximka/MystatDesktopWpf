@@ -82,4 +82,16 @@
     <v:String x:Key="m_WorkComment">Коментар до завдання</v:String>
     <v:String x:Key="m_DownloadUploaded">Скачати завантажену роботу</v:String>
     <v:String x:Key="m_RedoRequest">Запит на перездачу (-2 монетки)</v:String>
+
+    <!-- Homework upload -->
+    <v:String x:Key="m_WorkUploaded">Робота успішно завантажена.</v:String>
+    <v:String x:Key="m_WorkUploadError">Під час завантаження роботи сталася помилка.</v:String>
+    <v:String x:Key="m_WorkUploadDescription">Максимальний розмір файлу – 99 МБ. Рекомендується завантажувати архівні файли. Файли форматів .txt і .csv будуть автоматично заархівовані.</v:String>
+    <v:String x:Key="m_DragHere">Перетягніть файли сюди&#x0a;або</v:String>
+    <v:String x:Key="m_ClickHere">тицьніть тут</v:String>
+    <v:String x:Key="m_WriteYourResponse">Тут ви можете написати свою текстову відповідь</v:String>
+    <v:String x:Key="m_FileName">Ім'я файлу</v:String>
+    <v:String x:Key="m_Delete">Видалити</v:String>
+    <v:String x:Key="m_Send">Надіслати</v:String>
+    <v:String x:Key="m_Cancel">Скасувати</v:String>
 </ResourceDictionary>

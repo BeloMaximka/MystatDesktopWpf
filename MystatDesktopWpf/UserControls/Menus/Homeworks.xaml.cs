@@ -17,19 +17,27 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
+using MystatAPI;
+using System.IO.Compression;
+using MaterialDesignThemes.Wpf;
+using MystatDesktopWpf.ViewModels;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
     /// <summary>
     /// Interaction logic for Homeworks.xaml
     /// </summary>
-    public partial class Homeworks : UserControl, IHomeworkManager
+    public partial class Homeworks : UserControl
     {
+        HomeworksViewModel viewModel;
         static HttpClient httpClient = new();
 
         public Homeworks()
         {
             InitializeComponent();
+
+            viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
+            uploadDialog.Host = homeworkDialog;
         }
 
         public async void DownloadHomework(Homework homework)
@@ -60,7 +68,6 @@ namespace MystatDesktopWpf.UserControls.Menus
                 snackbar.MessageQueue?.Enqueue(homeworkDownloadError);
             }
         }
-
         void OpenFileInExplorer(string filePath)
         {
             try
@@ -74,5 +81,54 @@ namespace MystatDesktopWpf.UserControls.Menus
                 snackbar.MessageQueue?.Enqueue(folderOpenError);
             }
         }
+
+        #region UploadHomework
+        public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload, string[]? files = null)
+        {
+            uploadDialog.ResetContent();
+            uploadDialog.Homework = homework;
+            uploadDialog.HomeworkSource = source;
+            uploadDialog.Files = files;
+            bool? result = (bool?)await homeworkDialog.ShowDialog(uploadDialog);
+
+            if(result.HasValue && result == true)
+            {
+                // Делаем кнопку загрузки крутиться
+                ButtonProgressAssist.SetIsIndicatorVisible(progress, true);
+                upload.IsHitTestVisible = false;
+                try
+                {
+                    if (uploadDialog.Files != null && uploadDialog.Archive)
+                    {
+                        // Архивация
+                        using MemoryStream stream = new();
+                        using (ZipArchive zip = new(stream, ZipArchiveMode.Create, true))
+                        {
+                            foreach (var path in uploadDialog.Files)
+                                zip.CreateEntryFromAny(path);
+                        }
+                        HomeworkFile file = new(uploadDialog.ArchiveName, stream.ToArray());
+
+                        await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadDialog.Homework.Id, file, uploadDialog.Comment);
+                    }
+                    else
+                        await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadDialog.Homework.Id, uploadDialog.Files?[0], uploadDialog.Comment);
+
+                    uploadDialog.HomeworkSource.Remove(uploadDialog.Homework);
+                    viewModel.Uploaded.Add(uploadDialog.Homework);
+                    
+                    string workUploaded = (string)FindResource("m_WorkUploaded");
+                    snackbar.MessageQueue?.Enqueue(workUploaded);
+                }
+                catch (Exception)
+                {
+                    string workUploadError = (string)FindResource("m_WorkUploadError");
+                    snackbar.MessageQueue?.Enqueue(workUploadError);
+                }
+                ButtonProgressAssist.SetIsIndicatorVisible(progress, false);
+                upload.IsHitTestVisible = true;
+            }
+        }
+        #endregion
     }
 }

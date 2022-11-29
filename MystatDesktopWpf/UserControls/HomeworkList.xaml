@@ -32,7 +32,7 @@
         <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection}" Width="Auto">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <materialDesign:Card Width="240" Padding="8px" Margin="8px"
+                    <materialDesign:Card x:Name="card" Width="240" Padding="8px" Margin="8px" Drop="Card_Drop"
                                          Initialized="Card_Initialized" Tag="{Binding Status}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -133,7 +133,8 @@
                                     </Button>
                                 </Grid>
                                 <Separator Margin="-8,8,-8,8"/>
-                                
+
+                                <!-- Main buttons -->
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -144,25 +145,39 @@
                                     
                                     <Button Height="32" Width="32" Tag="{Binding}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
-                                            Foreground="{DynamicResource MaterialDesignBody}" Click="DownloadButton_Click"
-                                            ToolTip="{DynamicResource m_DownloadWork}">
+                                            Foreground="{DynamicResource MaterialDesignBody}" 
+                                            ToolTip="{DynamicResource m_DownloadWork}"
+                                            Click="DownloadButton_Click">
                                         <materialDesign:PackIcon Kind="Download"/>
                                     </Button>
-                                    
+
+                                    <!-- Pseudo button with progress indication -->
+                                    <Button Height="32" Width="32" Grid.Column="1" x:Name="progressButton"
+                                            Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                                            Background="Transparent" Foreground="Transparent" BorderBrush="Transparent"
+                                            IsHitTestVisible="False"
+                                            materialDesign:ButtonProgressAssist.Value="-1"
+                                            materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                                    </Button>
+
+                                    <!-- Upload or download uploaded button -->
                                     <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
-                                            ToolTip="{DynamicResource m_UploadWork}">
+                                            ToolTip="{DynamicResource m_UploadWork}"
+                                            Click="UploadButton_Click" Tag="{Binding}">
                                         <materialDesign:PackIcon Kind="Upload" x:Name="uploadIcon"/>
                                     </Button>
-                                    
+
+                                    <!-- Delete button -->
                                     <Button Height="32" Width="32" Grid.Column="2" x:Name="deleteButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             ToolTip="{DynamicResource m_DeleteWork}">
                                         <materialDesign:PackIcon Kind="Delete" x:Name="deleteIcon"/>
                                     </Button>
-                                    
+
+                                    <!-- Comment button -->
                                     <Button Height="32" Width="32" Grid.Column="3"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
@@ -180,6 +195,13 @@
                             <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
                             <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Overdue}">
+                            <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
+                            <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Uploaded}">
                             <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
@@ -200,6 +222,7 @@
                             <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
                             <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
