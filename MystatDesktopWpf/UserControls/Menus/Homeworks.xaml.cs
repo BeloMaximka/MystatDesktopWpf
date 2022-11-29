@@ -141,7 +141,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             {
                 try
                 {
-                    if (await MystatAPISingleton.mystatAPIClient.RemoveHomework(homework.Id) == false)
+                    if (await MystatAPISingleton.mystatAPIClient.RemoveHomework(homework.UploadedHomework.Id) == false)
                         throw new HttpRequestException("Error deleting homework");
 
                     viewModel.Uploaded.Remove(homework);
