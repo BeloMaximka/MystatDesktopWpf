@@ -21,7 +21,7 @@ using MystatAPI;
 using System.IO.Compression;
 using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.ViewModels;
-using MystatDesktopWpf.UserControls;
+using MystatDesktopWpf.UserControls.DialogContent;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
@@ -33,21 +33,37 @@ namespace MystatDesktopWpf.UserControls.Menus
         HomeworksViewModel viewModel;
         static HttpClient httpClient = new();
 
-        UploadHomeworkDialogContent uploadContent = new();
-        DeleteHomeworkDialogContent deleteContent = new();
+        UploadHomework uploadContent = new();
+        DeleteHomework deleteContent = new();
+        DownloadUploadedHomework downloadContent = new();
         public Homeworks()
         {
             InitializeComponent();
 
             viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
             uploadContent.Host = homeworkDialog;
+            downloadContent.HomeworkManager = this;
         }
 
-        public async void DownloadHomework(Homework homework)
+        void OpenFileInExplorer(string filePath)
         {
             try
             {
-                var res = await httpClient.GetAsync(homework.FilePath);
+                string argument = "/select, \"" + filePath + "\"";
+                Process.Start("explorer.exe", argument);
+            }
+            catch (Exception)
+            {
+                string folderOpenError = (string)FindResource("m_FolderOpenError");
+                snackbar.MessageQueue?.Enqueue(folderOpenError);
+            }
+        }
+
+        public async void DownloadHomework(string filePath)
+        {
+            try
+            {
+                var res = await httpClient.GetAsync(filePath);
                 string fileName = res.Content.Headers.ContentDisposition?.FileName.Trim('\"');
 
                 System.Windows.Forms.SaveFileDialog dialog = new();
@@ -71,20 +87,13 @@ namespace MystatDesktopWpf.UserControls.Menus
                 snackbar.MessageQueue?.Enqueue(homeworkDownloadError);
             }
         }
-        void OpenFileInExplorer(string filePath)
-        {
-            try
-            {
-                string argument = "/select, \"" + filePath + "\"";
-                Process.Start("explorer.exe", argument);
-            }
-            catch (Exception)
-            {
-                string folderOpenError = (string)FindResource("m_FolderOpenError");
-                snackbar.MessageQueue?.Enqueue(folderOpenError);
-            }
-        }
 
+        public async void OpenDownloadUploadedDialog(Homework homework)
+        {
+            downloadContent.Homework = homework;
+            await homeworkDialog.ShowDialog(downloadContent);
+        }
+        
         public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload, string[]? files = null)
         {
             uploadContent.ResetContent();

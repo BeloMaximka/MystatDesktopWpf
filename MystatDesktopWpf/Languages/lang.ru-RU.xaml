@@ -99,4 +99,8 @@
     <v:String x:Key="m_DeleteWorkError">Произошла ошибка при попытке удалить работу.</v:String>
     <v:String x:Key="m_WorkDeleted">Работа успешно удалена.</v:String>
     <v:String x:Key="m_DeleteConfirm">Вы уверены, что хотите удалить свою работу?</v:String>
+
+    <!-- Homework download uploaded -->
+    <v:String x:Key="m_YourComment">Ваш комментарий</v:String>
+    <v:String x:Key="m_UploadedWork">Загруженная работа</v:String>
 </ResourceDictionary>

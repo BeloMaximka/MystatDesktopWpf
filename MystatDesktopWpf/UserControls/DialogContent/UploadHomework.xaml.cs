@@ -19,12 +19,12 @@ using System.Windows.Threading;
 using MystatAPI.Entity;
 using System.Text.RegularExpressions;
 
-namespace MystatDesktopWpf.UserControls
+namespace MystatDesktopWpf.UserControls.DialogContent
 {
     /// <summary>
     /// Interaction logic for UploadHomeworkDialogContent.xaml
     /// </summary>
-    public partial class UploadHomeworkDialogContent : UserControl
+    public partial class UploadHomework : UserControl
     {
         string[]? files;
         public string[]? Files 
@@ -45,7 +45,7 @@ namespace MystatDesktopWpf.UserControls
 
         DispatcherTimer clickAwayDebounce = new();
 
-        public UploadHomeworkDialogContent()
+        public UploadHomework()
         {
             InitializeComponent();
             clickAwayDebounce.Interval = TimeSpan.FromMilliseconds(300);
