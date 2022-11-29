@@ -47,7 +47,6 @@ namespace MystatDesktopWpf
             trayIcon = new TaskbarIcon()
             {
                 IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/favicon.ico")),
-                Visibility = Visibility.Visible,
                 ContextMenu = FindResource("trayIconContextMenu") as ContextMenu,
             };
             trayIcon.MouseDown += (_, _) => Show();
