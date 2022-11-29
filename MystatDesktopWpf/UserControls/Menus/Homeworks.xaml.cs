@@ -79,6 +79,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                     string homeworkDownloaded = (string)FindResource("m_HomeworkDownloaded");
                     string openInExplorer = (string)FindResource("m_OpenInExplorer");
                     snackbar.MessageQueue?.Enqueue<string>(homeworkDownloaded, openInExplorer, OpenFileInExplorer, dialog.FileName);
+                    homeworkDialog.IsOpen = false;
                 }
             }
             catch (Exception)
@@ -109,6 +110,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                 upload.IsHitTestVisible = false;
                 try
                 {
+                    UploadedHomeworkInfo info;
                     if (uploadContent.Files != null && uploadContent.Archive)
                     {
                         // Архивация
@@ -120,11 +122,12 @@ namespace MystatDesktopWpf.UserControls.Menus
                         }
                         HomeworkFile file = new(uploadContent.ArchiveName, stream.ToArray());
 
-                        await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadContent.Homework.Id, file, uploadContent.Comment);
+                        info = await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadContent.Homework.Id, file, uploadContent.Comment);
                     }
                     else
-                        await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadContent.Homework.Id, uploadContent.Files?[0], uploadContent.Comment);
+                        info = await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadContent.Homework.Id, uploadContent.Files?[0], uploadContent.Comment);
 
+                    uploadContent.Homework.UploadedHomework = info;
                     uploadContent.Homework.Status = HomeworkStatus.Uploaded;
                     uploadContent.HomeworkSource.Remove(uploadContent.Homework);
                     viewModel.Uploaded.Add(uploadContent.Homework);
