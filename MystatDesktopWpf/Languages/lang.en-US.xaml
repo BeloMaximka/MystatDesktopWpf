@@ -82,4 +82,16 @@
     <v:String x:Key="m_WorkComment">Comment to the work</v:String>
     <v:String x:Key="m_DownloadUploaded">Download the uploaded work</v:String>
     <v:String x:Key="m_RedoRequest">Request for redo (-2 coins)</v:String>
+
+    <!-- Homework upload -->
+    <v:String x:Key="m_WorkUploaded">The work has been successfully uploaded.</v:String>
+    <v:String x:Key="m_WorkUploadError">An error occurred while uploading the work.</v:String>
+    <v:String x:Key="m_WorkUploadDescription">Maximum file size is 99 MB. It is recommended to upload archive files. File formats .txt and .csv will be archived automatically.</v:String>
+    <v:String x:Key="m_DragHere">Drag files here&#x0a;or</v:String>
+    <v:String x:Key="m_ClickHere">click here</v:String>
+    <v:String x:Key="m_WriteYourResponse">Here you can write your text response</v:String>
+    <v:String x:Key="m_FileName">File name</v:String>
+    <v:String x:Key="m_Delete">Delete</v:String>
+    <v:String x:Key="m_Send">Send</v:String>
+    <v:String x:Key="m_Cancel">Cancel</v:String>
 </ResourceDictionary>

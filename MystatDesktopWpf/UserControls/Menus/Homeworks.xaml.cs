@@ -116,11 +116,14 @@ namespace MystatDesktopWpf.UserControls.Menus
 
                     uploadDialog.HomeworkSource.Remove(uploadDialog.Homework);
                     viewModel.Uploaded.Add(uploadDialog.Homework);
-                    snackbar.MessageQueue?.Enqueue("Домашнее задание успешно загружено.");
+                    
+                    string workUploaded = (string)FindResource("m_WorkUploaded");
+                    snackbar.MessageQueue?.Enqueue(workUploaded);
                 }
                 catch (Exception)
                 {
-                    snackbar.MessageQueue?.Enqueue("Произошла ошибка при загрузке домашнего задания.");
+                    string workUploadError = (string)FindResource("m_WorkUploadError");
+                    snackbar.MessageQueue?.Enqueue(workUploadError);
                 }
                 ButtonProgressAssist.SetIsIndicatorVisible(progress, false);
                 upload.IsHitTestVisible = true;

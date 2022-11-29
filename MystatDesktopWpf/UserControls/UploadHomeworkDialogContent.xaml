@@ -13,16 +13,16 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:Background="{DynamicResource MaterialDesignPaper}">
     <StackPanel Margin="16" Width="500">
-        <TextBlock Text="Upload homework" HorizontalAlignment="Center" Margin="0,0,0,8"
+        <TextBlock Text="{DynamicResource m_UploadWork}" HorizontalAlignment="Center" Margin="0,0,0,8"
                            Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
         <materialDesign:Card Padding="8" x:Name="dropDownCard" AllowDrop="True" Drop="dropDownCard_Drop">
             <StackPanel>
                 <materialDesign:PackIcon Kind="CloudUpload" HorizontalAlignment="Center" 
                                          Margin="0,0,0,8" Height="32" Width="32"/>
-                <TextBlock Text="Maximum file size is 99 MB. It is recommended to upload archive files. File formats .txt and .csv will be archived automatically."
+                <TextBlock Text="{DynamicResource m_WorkUploadDescription}"
                            TextWrapping="Wrap" Margin="32,0,32,8" TextAlignment="Center"/>
-                <TextBlock Text="Drag files here&#x0a;or " TextAlignment="Center"/>
-                <Button Content="click here" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Click="openExplorerButton_Click"/>
+                <TextBlock Text="{DynamicResource m_DragHere}" TextAlignment="Center"/>
+                <Button Content="{DynamicResource m_ClickHere}" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Click="openExplorerButton_Click"/>
             </StackPanel>
         </materialDesign:Card>
         <Grid x:Name="fileLine" Visibility="Collapsed">
@@ -30,10 +30,10 @@
                 <TextBlock x:Name="regularFileTextBlock" Text="File" VerticalAlignment="Center" Visibility="Collapsed"/>
                 <TextBox x:Name="fileTextBox" Text="Homework" Visibility="Collapsed" TextWrapping="Wrap" 
                          VerticalContentAlignment="Center" MaxLength="240" MaxWidth="400"
-                         materialDesign:HintAssist.Hint="File name" TextChanged="fileTextBox_TextChanged"/>
+                         materialDesign:HintAssist.Hint="{DynamicResource m_FileName}" TextChanged="fileTextBox_TextChanged"/>
                 <TextBlock x:Name="zipTextBlock" Text=".zip" VerticalAlignment="Center" Visibility="Collapsed"/>
             </StackPanel>
-            <Button Content="Delete" HorizontalAlignment="Right"
+            <Button Content="{DynamicResource m_Delete}" HorizontalAlignment="Right"
                     Style="{DynamicResource MaterialDesignFlatButton}"
                     Click="DeleteButton_Click"/>
         </Grid>
@@ -41,14 +41,14 @@
                  AcceptsReturn="True" MaxHeight="200"
                  x:Name="textBox" 
                  Style="{DynamicResource MaterialDesignOutlinedTextBox}" 
-                 materialDesign:HintAssist.Hint="Here you can write you text response"
+                 materialDesign:HintAssist.Hint="{DynamicResource m_WriteYourResponse}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto" TextChanged="textBox_TextChanged"/>
         <Grid>
-            <Button Content="Send" HorizontalAlignment="Left" Click="UploadButton_Click"/>
+            <Button Content="{DynamicResource m_Send}" HorizontalAlignment="Left" Click="UploadButton_Click"/>
             <TextBlock x:Name="errorTextBlock" VerticalAlignment="Center" 
                        HorizontalAlignment="Center" Visibility="Collapsed"
                        Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"/>
-            <Button Content="Cancel" HorizontalAlignment="Right"
+            <Button Content="{DynamicResource m_Cancel}" HorizontalAlignment="Right"
                     Style="{DynamicResource MaterialDesignOutlinedButton}"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
         </Grid>
