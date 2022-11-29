@@ -43,7 +43,7 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        Contrast contrast = Contrast.Low;
+        Contrast contrast = Contrast.Medium;
         public Contrast Contrast
         {
             get => contrast;
