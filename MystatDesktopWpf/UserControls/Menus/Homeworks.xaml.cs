@@ -82,11 +82,12 @@ namespace MystatDesktopWpf.UserControls.Menus
         }
 
         #region UploadHomework
-        public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload)
+        public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload, string[]? files = null)
         {
+            uploadDialog.ResetContent();
             uploadDialog.Homework = homework;
             uploadDialog.HomeworkSource = source;
-            uploadDialog.ResetContent();
+            uploadDialog.Files = files;
             bool? result = (bool?)await homeworkDialog.ShowDialog(uploadDialog);
 
             if(result.HasValue && result == true)

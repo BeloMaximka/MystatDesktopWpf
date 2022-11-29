@@ -32,7 +32,7 @@
         <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection}" Width="Auto">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <materialDesign:Card Width="240" Padding="8px" Margin="8px"
+                    <materialDesign:Card x:Name="card" Width="240" Padding="8px" Margin="8px" Drop="Card_Drop"
                                          Initialized="Card_Initialized" Tag="{Binding Status}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -195,6 +195,13 @@
                             <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
                             <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Overdue}">
+                            <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
+                            <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Uploaded}">
                             <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
@@ -215,6 +222,7 @@
                             <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
                             <Setter TargetName="markButton" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

@@ -79,5 +79,17 @@ namespace MystatDesktopWpf.UserControls
             Button progressButton = (Button)grid.FindName("progressButton");
             HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton);
         }
+
+        private void Card_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                Card card = (Card)sender;
+                Button uploadButton = (Button)card.FindName("uploadButton");
+                Button progressButton = (Button)card.FindName("progressButton");
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton, files);
+            }
+        }
     }
 }

@@ -26,7 +26,16 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class UploadHomeworkDialogContent : UserControl
     {
-        public string[]? Files { get; private set; }
+        string[]? files;
+        public string[]? Files 
+        { 
+            get => files; 
+            set 
+            { 
+                files = value;
+                UpdateFileInfo();
+            } 
+        }
         public string? Comment { get; private set; }
         public bool Archive { get; private set; } = false;
         public string ArchiveName { get => fileTextBox.Text + zipTextBlock.Text; }
@@ -45,7 +54,7 @@ namespace MystatDesktopWpf.UserControls
 
         public void ResetContent()
         {
-            Files = null;
+            files = null;
             textBox.Text = "";
             dropDownCard.Visibility = Visibility.Visible;
 
@@ -58,13 +67,13 @@ namespace MystatDesktopWpf.UserControls
 
         void UpdateFileInfo()
         {
-            if (Files?.Length > 0)
+            if (files?.Length > 0)
             {
                 dropDownCard.Visibility = Visibility.Collapsed;
                 fileLine.Visibility = Visibility.Visible;
 
-                string extension = Path.GetExtension(Files[0]);
-                if (Files?.Length != 1 || extension == ".txt" || extension == ".csv")
+                string extension = Path.GetExtension(files[0]);
+                if (files?.Length != 1 || extension == ".txt" || extension == ".csv")
                 {
                     Archive = true;
                     fileTextBox.Visibility = Visibility.Visible;
@@ -75,7 +84,7 @@ namespace MystatDesktopWpf.UserControls
                 {
                     Archive = false;
                     regularFileTextBlock.Visibility = Visibility.Visible;
-                    regularFileTextBlock.Text = Path.GetFileName(Files[0]);
+                    regularFileTextBlock.Text = Path.GetFileName(files[0]);
                 }
             }
         }
@@ -89,14 +98,14 @@ namespace MystatDesktopWpf.UserControls
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                Files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 UpdateFileInfo();
             }
         }
 
         void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            Files = null;
+            files = null;
             dropDownCard.Visibility = Visibility.Visible;
 
             fileLine.Visibility = Visibility.Collapsed;
@@ -113,7 +122,7 @@ namespace MystatDesktopWpf.UserControls
             OpenFileDialog dialog = new() { Multiselect = true };
             if (dialog.ShowDialog() ?? false)
             {
-                Files = dialog.FileNames;
+                files = dialog.FileNames;
                 UpdateFileInfo();
             }
             clickAwayDebounce.Start();
@@ -128,7 +137,7 @@ namespace MystatDesktopWpf.UserControls
 
         void UploadButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Files == null && textBox.Text == string.Empty)
+            if (files == null && textBox.Text == string.Empty)
             {
                 errorTextBlock.Text = "Upload the file or write a comment";
                 errorTextBlock.Visibility = Visibility.Visible;
