@@ -30,6 +30,8 @@ namespace MystatDesktopWpf.UserControls.Menus
     public partial class Homeworks : UserControl
     {
         HomeworksViewModel viewModel;
+        static HttpClient httpClient = new();
+
         public Homeworks()
         {
             InitializeComponent();
@@ -40,10 +42,9 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         public async void DownloadHomework(Homework homework)
         {
-            HttpClient http = new();
             try
             {
-                var res = await http.GetAsync(homework.FilePath);
+                var res = await httpClient.GetAsync(homework.FilePath);
                 string fileName = res.Content.Headers.ContentDisposition?.FileName.Trim('\"');
 
                 System.Windows.Forms.SaveFileDialog dialog = new();

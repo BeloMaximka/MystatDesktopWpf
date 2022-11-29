@@ -15,9 +15,9 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="iconPanel" Margin="0, 0, 0 ,0"/>
-                <TextBox x:Name="textBox" Grid.Column="1" Margin="0, 6, 0, 0"
+                <TextBox x:Name="textBox" Grid.Column="1" Margin="0, 10, 0, 0"
                          Style="{x:Null}" IsReadOnly="True" BorderThickness="0"
-                         Background="Transparent" Foreground="{DynamicResource MaterialDesignBody}" FontSize="26"/>
+                         Background="Transparent" Foreground="{DynamicResource MaterialDesignBody}" FontSize="16"/>
             </Grid>
             <Grid VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
@@ -25,15 +25,15 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 0, 0, 8">
-                    <Button Height="48" Width="48" Click="Button_Copy_Click"
+                    <Button Height="32" Width="32" Click="Button_Copy_Click"
                             Style="{DynamicResource MaterialDesignIconButton}"
                             Foreground="{DynamicResource MaterialDesignBody}">
-                        <materialDesign:PackIcon Kind="ContentCopy" Height="16" Width="16"/>
+                        <materialDesign:PackIcon Kind="ContentCopy"/>
                     </Button>
                     <Button x:Name="closeButton" Click="Button_Close_Click"
                             Style="{DynamicResource MaterialDesignIconButton}"  
                             Foreground="{DynamicResource MaterialDesignBody}"
-                            Height="48" Width="48" Margin="8, 0, 0, 0">
+                            Height="32" Width="32" Margin="8, 0, 0, 0">
                         <materialDesign:PackIcon Kind="Close"/>
                     </Button>
                 </StackPanel>

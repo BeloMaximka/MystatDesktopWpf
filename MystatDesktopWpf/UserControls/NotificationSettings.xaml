@@ -17,7 +17,7 @@
         <vm:NotificationSettingsViewModel x:Key="NotificationSettingsViewModel"/>
     </UserControl.Resources>
     
-    <materialDesign:Card>
+    <materialDesign:Card Padding="8">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -40,7 +40,7 @@
                     <RadioButton GroupName="scheduleType" Content="{DynamicResource m_SettingsOfNotification0Radio0}" Margin="0,0,0,8" IsChecked="{Binding OnlyFirstSchedule}"/>
                     <RadioButton GroupName="scheduleType" Content="{DynamicResource m_SettingsOfNotification0Radio1}" Margin="0,0,0,8" IsChecked="{Binding IsNotOnlyFirstSchedule}"/>
                 </StackPanel>
-                <Rectangle VerticalAlignment="Stretch" Fill="{DynamicResource MaterialDesignLightSeparatorBackground}" Width="1" Margin="8"/>
+                <Rectangle VerticalAlignment="Stretch" Fill="{DynamicResource MaterialDesignBodyLight}" Width="1" Margin="8"/>
 
                 <StackPanel IsEnabled="{Binding ElementName=notifierCheckBox, Path=IsChecked}" Margin="8"
                             Grid.Row="1" Grid.Column="1">
@@ -62,7 +62,7 @@
 
 
                 </StackPanel>
-                <Rectangle VerticalAlignment="Stretch" Fill="{DynamicResource MaterialDesignLightSeparatorBackground}" Width="1" Margin="8"/>
+                <Rectangle VerticalAlignment="Stretch" Fill="{DynamicResource MaterialDesignBodyLight}" Width="1" Margin="8"/>
 
                 <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="8"
                             IsEnabled="{Binding ElementName=notifierCheckBox, Path=IsChecked}">
