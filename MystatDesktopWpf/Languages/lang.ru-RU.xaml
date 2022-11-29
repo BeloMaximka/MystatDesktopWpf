@@ -88,7 +88,7 @@
     <v:String x:Key="m_WorkUploadError">При загрузке работы произошла ошибка.</v:String>
     <v:String x:Key="m_WorkUploadDescription">Максимальный размер файла составляет 99 МБ. Рекомендуется загружать архивные файлы. Файлы форматов .txt и .csv будут заархивированы автоматически.</v:String>
     <v:String x:Key="m_DragHere">Перетащите файлы сюда&#x0a;или</v:String>
-    <v:String x:Key="m_ClickHere">нажми сюда</v:String>
+    <v:String x:Key="m_ClickHere">нажмите сюда</v:String>
     <v:String x:Key="m_WriteYourResponse">Здесь вы можете написать свой текстовый ответ</v:String>
     <v:String x:Key="m_FileName">Имя файла</v:String>
     <v:String x:Key="m_Delete">Удалить</v:String>
