@@ -29,6 +29,16 @@
             <TextBlock Text="{Binding ElementName=control, Path=Header}" FontSize="16"/>
             <TextBlock Text="{Binding ElementName=control, Path=Collection.Count}" FontSize="16"/>
         </StackPanel>
+        <!-- Popup comment -->
+        <Popup x:Name="popupComment" AllowsTransparency="True" Placement="Right" StaysOpen="False">
+            <!-- Popup content -->
+            <materialDesign:Card Padding="8px">
+                <TextBox x:Name="commentTextBox" Background="Transparent"
+                             Style="{x:Null}" IsReadOnly="True" BorderThickness="0" 
+                             Foreground="{DynamicResource MaterialDesignBody}">
+                </TextBox>
+            </materialDesign:Card>
+        </Popup>
         <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection}" Width="Auto">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -40,13 +50,13 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <!-- Popup extra info -->
-                            <Popup x:Name="popup" AllowsTransparency="True"
+                            <Popup x:Name="popupInfo" AllowsTransparency="True"
                                    Placement="Right" PlacementTarget="{Binding ElementName=info}">
                                 <Popup.IsOpen>
                                     <domain:DelayedMultiBindingExtension Converter="{StaticResource PopupIsOpenConverter}" Delay="0:0:0.01">
-                                            <Binding ElementName="info" Path="IsMouseOver" Mode="OneWay" />
-                                            <Binding ElementName="popup" Path="IsMouseOver" Mode="OneWay" />
-                                        </domain:DelayedMultiBindingExtension>
+                                        <Binding ElementName="info" Path="IsMouseOver" Mode="OneWay" />
+                                        <Binding ElementName="popupInfo" Path="IsMouseOver" Mode="OneWay" />
+                                    </domain:DelayedMultiBindingExtension>
                                 </Popup.IsOpen>
                                 <!-- Popup content -->
                                 <materialDesign:Card Padding="8px">
@@ -99,7 +109,8 @@
                                             Height="32" Width="32" x:Name="markButton"
                                             materialDesign:ElevationAssist.Elevation="Dp2"
                                             IsHitTestVisible="{Binding HomeworkComment.Text, Converter={StaticResource NotNullOrWhiteSpaceConverter}}"
-                                            ToolTip="{DynamicResource m_TeacherComment}">
+                                            ToolTip="{DynamicResource m_TeacherComment}"
+                                            Click="CommentButton_Click" Tag="{Binding HomeworkComment.Text}">
                                         <TextBlock Text="{Binding UploadedHomework.Mark}"
                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Button>
@@ -128,7 +139,8 @@
                                             HorizontalAlignment="Center"  Margin="0,0,0,0"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
-                                            ToolTip="{DynamicResource m_TeacherComment}">
+                                            ToolTip="{DynamicResource m_TeacherComment}"
+                                            Click="CommentButton_Click" Tag="{Binding HomeworkComment.Text}">
                                         <materialDesign:PackIcon Kind="CommentAccount"/>
                                     </Button>
                                 </Grid>
@@ -182,7 +194,8 @@
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             IsEnabled="{Binding Comment, Converter={StaticResource NotNullOrWhiteSpaceConverter}}"
-                                            ToolTip="{DynamicResource m_WorkComment}">
+                                            ToolTip="{DynamicResource m_WorkComment}"
+                                            Click="CommentButton_Click" Tag="{Binding Comment}">
                                         <materialDesign:PackIcon Kind="Comment"/>
                                     </Button>
                                 </Grid>

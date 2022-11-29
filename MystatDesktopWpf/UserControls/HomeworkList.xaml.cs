@@ -18,6 +18,7 @@ using MaterialDesignThemes.Wpf;
 using System.Windows.Automation;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.UserControls.Menus;
+using System.Windows.Controls.Primitives;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -90,6 +91,15 @@ namespace MystatDesktopWpf.UserControls
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton, files);
             }
+        }
+
+        private void CommentButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            string comment = (string)button.Tag;
+            popupComment.PlacementTarget = button;
+            commentTextBox.Text = comment;
+            popupComment.IsOpen = true;
         }
     }
 }
