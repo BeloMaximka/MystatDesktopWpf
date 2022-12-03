@@ -72,6 +72,11 @@ namespace MystatDesktopWpf.UserControls
                 Button deleteButton = (Button)card.FindName("deleteButton");
                 deleteButton.Click += DeleteButton_Click;
             }
+            if (status == HomeworkStatus.Checked)
+            {
+                Button deleteButton = (Button)card.FindName("deleteButton");
+                deleteButton.Click += UploadButton_Click;
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
