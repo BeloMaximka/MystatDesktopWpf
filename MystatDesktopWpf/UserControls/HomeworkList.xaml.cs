@@ -65,6 +65,7 @@ namespace MystatDesktopWpf.UserControls
             {
                 Button uploadButton = (Button)card.FindName("uploadButton");
                 uploadButton.Click -= UploadButton_Click;
+                uploadButton.Click += DownloadUploadedButton_Click;
             }
             if(status == HomeworkStatus.Uploaded)
             {
@@ -80,7 +81,8 @@ namespace MystatDesktopWpf.UserControls
 
         private void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
-            HomeworkManager?.DownloadHomework((Homework)((Button)sender).Tag);
+            Homework homework = (Homework)((Button)sender).Tag;
+            HomeworkManager?.DownloadHomework(homework.FilePath);
         }
 
         private void UploadButton_Click(object sender, RoutedEventArgs e)
@@ -89,6 +91,16 @@ namespace MystatDesktopWpf.UserControls
             Grid grid = (Grid)uploadButton.Parent;
             Button progressButton = (Button)grid.FindName("progressButton");
             HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton);
+        }
+
+        private void DownloadUploadedButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button uploadButton = (Button)sender;
+            Homework homework = (Homework)uploadButton.Tag;
+            if (homework.UploadedHomework.StudentAnswer != null)
+                HomeworkManager?.OpenDownloadUploadedDialog(homework);
+            else
+                HomeworkManager?.DownloadHomework(homework.UploadedHomework.FilePath);
         }
 
         private void Card_Drop(object sender, DragEventArgs e)

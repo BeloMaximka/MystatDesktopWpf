@@ -14,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MystatDesktopWpf.UserControls
+namespace MystatDesktopWpf.UserControls.DialogContent
 {
     /// <summary>
     /// Interaction logic for DeleteHomeworkDialogContent.xaml
     /// </summary>
-    public partial class DeleteHomeworkDialogContent : UserControl
+    public partial class DeleteHomework : UserControl
     {
-        public DeleteHomeworkDialogContent()
+        public DeleteHomework()
         {
             InitializeComponent();
         }
