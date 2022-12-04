@@ -26,6 +26,21 @@ namespace MystatDesktopWpf.UserControls.DialogContent
     /// </summary>
     public partial class UploadHomework : UserControl
     {
+        public static readonly DependencyProperty HeaderProperty =
+           DependencyProperty.Register("Header", typeof(string), typeof(UploadHomework));
+        public string Header
+        {
+            get => (string)GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
+        }
+        public static readonly DependencyProperty SendButtonNameProperty =
+           DependencyProperty.Register("SendButtonName", typeof(string), typeof(UploadHomework));
+        public string SendButtonName
+        {
+            get => (string)GetValue(SendButtonNameProperty);
+            set => SetValue(SendButtonNameProperty, value);
+        }
+
         string[]? files;
         public string[]? Files 
         { 

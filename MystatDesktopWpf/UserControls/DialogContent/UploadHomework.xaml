@@ -6,11 +6,12 @@
              xmlns:local="clr-namespace:MystatDesktopWpf.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
+             x:Name="control"
              d:DesignHeight="450" d:DesignWidth="800"
              d:Background="{DynamicResource MaterialDesignPaper}">
     <StackPanel Margin="16" Width="500">
-        <TextBlock Text="{DynamicResource m_UploadWork}" HorizontalAlignment="Center" Margin="0,0,0,8"
-                           Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+        <TextBlock Text="{Binding ElementName=control, Path=Header}" HorizontalAlignment="Center" Margin="0,0,0,8"
+                   Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
         <materialDesign:Card Padding="8" x:Name="dropDownCard" AllowDrop="True" Drop="dropDownCard_Drop">
             <StackPanel>
                 <materialDesign:PackIcon Kind="CloudUpload" HorizontalAlignment="Center" 
@@ -40,7 +41,7 @@
                  materialDesign:HintAssist.Hint="{DynamicResource m_WriteYourResponse}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto" TextChanged="textBox_TextChanged"/>
         <Grid>
-            <Button Content="{DynamicResource m_Send}" HorizontalAlignment="Left" Click="UploadButton_Click"/>
+            <Button Content="{Binding ElementName=control, Path=SendButtonName}" HorizontalAlignment="Left" Click="UploadButton_Click"/>
             <TextBlock x:Name="errorTextBlock" VerticalAlignment="Center" 
                        HorizontalAlignment="Center" Visibility="Collapsed"
                        Foreground="{DynamicResource MaterialDesignValidationErrorBrush}"/>

@@ -119,6 +119,17 @@ namespace MystatDesktopWpf.UserControls.Menus
             uploadContent.Homework = homework;
             uploadContent.HomeworkSource = source;
             uploadContent.Files = files;
+
+            if(homework.Status == HomeworkStatus.Checked)
+            {
+                uploadContent.Header = (string)FindResource("m_RedoRequest");
+                uploadContent.SendButtonName = (string)FindResource("m_RedoSend");
+            }
+            else
+            {
+                uploadContent.Header = (string)FindResource("m_UploadWork");
+                uploadContent.SendButtonName = (string)FindResource("m_Send");
+            }
             bool? result = (bool?)await homeworkDialog.ShowDialog(uploadContent);
 
             if(result.HasValue && result == true)
