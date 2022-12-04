@@ -81,7 +81,7 @@
     <v:String x:Key="m_DeleteWork">Видалити роботу</v:String>
     <v:String x:Key="m_WorkComment">Коментар до завдання</v:String>
     <v:String x:Key="m_DownloadUploaded">Скачати завантажену роботу</v:String>
-    <v:String x:Key="m_RedoRequest">Запит на перездачу (-2 монетки)</v:String>
+    <v:String x:Key="m_RedoRequestToolTip">Запит на перездачу (-2 монетки)</v:String>
 
     <!-- Homework upload -->
     <v:String x:Key="m_WorkUploaded">Робота успішно завантажена.</v:String>
@@ -103,4 +103,8 @@
     <!-- Homework download uploaded -->
     <v:String x:Key="m_YourComment">Ваш коментар</v:String>
     <v:String x:Key="m_UploadedWork">Завантажена робота</v:String>
+
+    <!-- Homework request for redo -->
+    <v:String x:Key="m_RedoRequest">Запит на перездачу</v:String>
+    <v:String x:Key="m_RedoSend">Надіслати (-2 монетки)</v:String>
 </ResourceDictionary>
