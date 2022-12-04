@@ -35,14 +35,13 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         UploadHomework uploadContent = new();
         DeleteHomework deleteContent = new();
-        DownloadUploadedHomework downloadContent = new();
+        DonwloadHomeworkPreview downloadContent = new();
         public Homeworks()
         {
             InitializeComponent();
 
             viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
             uploadContent.Host = homeworkDialog;
-            downloadContent.HomeworkManager = this;
         }
 
         void OpenFileInExplorer(string filePath)
@@ -65,10 +64,23 @@ namespace MystatDesktopWpf.UserControls.Menus
             {
                 var res = await httpClient.GetAsync(filePath);
                 string fileName = res.Content.Headers.ContentDisposition?.FileName.Trim('\"');
+                string extension = fileName.Remove(0, fileName.LastIndexOf('.'));
+
+                if(extension == ".txt")
+                {
+                    downloadContent.Header = (string)FindResource("m_TxtPreview");
+                    downloadContent.TextBoxHint = (string)FindResource("m_TxtContent");
+
+                    downloadContent.Text = await res.Content.ReadAsStringAsync();
+                    downloadContent.IsFileMissing = filePath == null;
+                    bool? result = (bool?)await homeworkDialog.ShowDialog(downloadContent);
+
+                    if (!result.HasValue || result == false)
+                        return;
+                }
 
                 System.Windows.Forms.SaveFileDialog dialog = new();
                 dialog.FileName = fileName;
-                string extension = fileName.Remove(0, fileName.LastIndexOf('.'));
                 dialog.Filter = $"(*{extension})|*{extension}";
 
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -78,7 +90,7 @@ namespace MystatDesktopWpf.UserControls.Menus
 
                     string homeworkDownloaded = (string)FindResource("m_HomeworkDownloaded");
                     string openInExplorer = (string)FindResource("m_OpenInExplorer");
-                    snackbar.MessageQueue?.Enqueue<string>(homeworkDownloaded, openInExplorer, OpenFileInExplorer, dialog.FileName);
+                    snackbar.MessageQueue?.Enqueue(homeworkDownloaded, openInExplorer, OpenFileInExplorer, dialog.FileName);
                     homeworkDialog.IsOpen = false;
                 }
             }
@@ -91,10 +103,16 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         public async void OpenDownloadUploadedDialog(Homework homework)
         {
-            downloadContent.Homework = homework;
-            await homeworkDialog.ShowDialog(downloadContent);
+            downloadContent.Header = (string)FindResource("m_UploadedWork");
+            downloadContent.TextBoxHint = (string)FindResource("m_YourComment");
+
+            downloadContent.Text = homework.UploadedHomework.StudentAnswer;
+            downloadContent.IsFileMissing = homework.UploadedHomework.FilePath == null;
+            bool? result = (bool?)await homeworkDialog.ShowDialog(downloadContent);
+
+            if (result.HasValue && result == true)
+                DownloadHomework(homework.UploadedHomework.FilePath);
         }
-        
         public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload, string[]? files = null)
         {
             uploadContent.ResetContent();
