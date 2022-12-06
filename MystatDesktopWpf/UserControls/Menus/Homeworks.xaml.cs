@@ -225,6 +225,7 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         public void Refresh()
         {
+            if (viewModel.Loading) return;
             transitioner.SelectedIndex = 0;
             viewModel.LoadHomeworks();
         }

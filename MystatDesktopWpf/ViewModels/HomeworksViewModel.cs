@@ -1,10 +1,8 @@
 ﻿using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.ViewModels
@@ -12,15 +10,15 @@ namespace MystatDesktopWpf.ViewModels
     internal class HomeworksViewModel : ViewModelBase
     {
         public event Action HomeworkLoaded;
-        public HomeworksViewModel()
-        {
-        }
+        public bool Loading { get; private set; } = false;
+
         public async void LoadHomeworks()
         {
             while (true)
             {
                 try
                 {
+                    Loading = true;
                     var result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Active);
                     Active = new(result);
                     result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Overdue);
@@ -31,12 +29,13 @@ namespace MystatDesktopWpf.ViewModels
                     Checked = new(result);
                     result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Deleted);
                     Deleted = new(result);
+                    Loading = false;
                     HomeworkLoaded?.Invoke();
                     return;
                 }
                 catch (Exception)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(2000);
                     continue;
                 }
             }

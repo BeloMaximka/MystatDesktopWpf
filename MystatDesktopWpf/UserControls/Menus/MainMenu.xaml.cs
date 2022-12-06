@@ -54,11 +54,19 @@ namespace MystatDesktopWpf.UserControls
         {
             IRefreshable menu = viewModel.SelectedItem.Content as IRefreshable;
             menu?.Refresh();
+            RefreshButtonDebounce();
+        }
+
+        async void RefreshButtonDebounce()
+        {
+            refreshButton.IsEnabled = false;
+            await Task.Delay(1000);
+            refreshButton.IsEnabled = true;
         }
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.F5)
+            if(e.Key == Key.F5 && refreshButton.IsEnabled)
                 RefreshButton_Click(null, null);
         }
     }

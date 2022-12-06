@@ -21,6 +21,7 @@ using MaterialDesignColors.ColorManipulation;
 using MaterialDesignColors;
 using MystatDesktopWpf.Converters;
 using Hardcodet.Wpf.TaskbarNotification;
+using MystatDesktopWpf.UserControls;
 
 namespace MystatDesktopWpf
 {
@@ -39,6 +40,7 @@ namespace MystatDesktopWpf
             // Предварительная настройка приложения находится здесь
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             login.ParentTransitioner = transitioner;
+            login.SuccessfulLogin += LoadMainMenu;
 
             SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
             InitTheme(); // Загрузка темы происходит здесь, ибо в App библиотека MaterialDesign не успевает подгрузиться
@@ -57,6 +59,11 @@ namespace MystatDesktopWpf
 
             // Текст с трея через DynamicResource не обновляется, поэтому обновляем так
             App.LanguageChanged += UpdateTrayText;
+        }
+
+        void LoadMainMenu()
+        {
+            mainMenuSlide.Content = new MainMenu();
         }
 
         void InitTheme() // Загрузка темы с настроек

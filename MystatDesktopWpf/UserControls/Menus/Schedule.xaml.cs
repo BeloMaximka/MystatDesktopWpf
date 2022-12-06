@@ -121,8 +121,11 @@ namespace MystatDesktopWpf.UserControls
                 column++;
             }
         }
+
+        bool Loading = false;
         async void LoadSchedule(DateTime date)
         {
+            Loading = true;
             while (true)
             {
                 try
@@ -193,12 +196,13 @@ namespace MystatDesktopWpf.UserControls
                     }
 
                     Transitioner.MoveNextCommand.Execute(null, transitioner);
+                    Loading = false;
                     break;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //this.Dispatcher.Invoke((Action)delegate { snackbar.MessageQueue?.Enqueue(e.Message); });
-                    await Task.Delay(1000);
+                    await Task.Delay(2000);
                     continue;
                 }
             }
@@ -206,18 +210,21 @@ namespace MystatDesktopWpf.UserControls
 
         private void Button_NextMonth_Click(object sender, RoutedEventArgs e)
         {
+            if (Loading) return;
             selectedDate = selectedDate.AddMonths(1);
             LoadSchedule(selectedDate);
         }
 
         private void Button_PrevMonth_Click(object sender, RoutedEventArgs e)
         {
+            if (Loading) return;
             selectedDate = selectedDate.AddMonths(-1);
             LoadSchedule(selectedDate);
         }
 
         public void Refresh()
         {
+            if (Loading) return;
             LoadSchedule(selectedDate);
         }
     }

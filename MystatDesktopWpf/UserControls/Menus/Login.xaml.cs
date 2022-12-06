@@ -28,6 +28,8 @@ namespace MystatDesktopWpf.UserControls
     public partial class Login : UserControl
     {
         public Transitioner? ParentTransitioner { get; set; }
+        // Добавил event, чтобы пункты главного меню загружались лишь после успешнго логина (и не долбились в апишку)
+        public event Action SuccessfulLogin;
         public Login()
         {
             InitializeComponent();
@@ -64,6 +66,8 @@ namespace MystatDesktopWpf.UserControls
             ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
             if (responseSuccess != null)
             {
+                SuccessfulLogin?.Invoke();
+
                 if (dontRememberMeCheckBox.IsChecked == false)
                     SettingsService.SetLoginData(loginData);
 

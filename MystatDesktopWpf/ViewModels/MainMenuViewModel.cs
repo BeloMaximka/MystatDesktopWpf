@@ -25,7 +25,6 @@ namespace MystatDesktopWpf.ViewModels
             MenuItems.Add(new MainMenuItem("m_Schedule", typeof(Schedule), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
             MenuItems.Add(new MainMenuItem("m_Settings", typeof(Settings), PackIconKind.Cog, PackIconKind.Cog));
             //MenuItems.Add(new MainMenuItem("Debug", typeof(Debug), PackIconKind.Bug, PackIconKind.Bug));
-            SelectedIndex = 0;
         }
 
         public MainMenuItem? SelectedItem
