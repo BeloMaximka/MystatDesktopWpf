@@ -28,7 +28,7 @@ namespace MystatDesktopWpf.UserControls.Menus
     /// <summary>
     /// Interaction logic for Homeworks.xaml
     /// </summary>
-    public partial class Homeworks : UserControl
+    public partial class Homeworks : UserControl, IRefreshable
     {
         HomeworksViewModel viewModel;
         static HttpClient httpClient = new();
@@ -206,6 +206,11 @@ namespace MystatDesktopWpf.UserControls.Menus
                     snackbar.MessageQueue?.Enqueue(deleteWorkError);
                 }
             }
+        }
+
+        public void Refresh()
+        {
+            viewModel.LoadHomeworks();
         }
     }
 }

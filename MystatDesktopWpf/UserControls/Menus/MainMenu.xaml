@@ -9,7 +9,8 @@
              xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="{DynamicResource MaterialDesignPaper}">
+             Background="{DynamicResource MaterialDesignPaper}" 
+             KeyDown="UserControl_KeyDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -29,10 +30,13 @@
             </Grid.RowDefinitions>
             <ToggleButton Margin="0,5,0,5" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Center" Visibility="Hidden"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                <Button Margin="8,0,8,0" Click="RefreshButton_Click"
+                        Content="{materialDesign:PackIcon Kind=Refresh, Size=24}"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        Style="{StaticResource MaterialDesignToolButton}"/>
                 <controls:LanguageComboBox  Margin="0,0,8,0"/>
                 <controls:DarkModeToggleButton x:Name="darkModeButton"/>
                 <Button Margin="8,0,16,0" Click="Button_Exit_Click"
-                        materialDesign:RippleAssist.Feedback="{Binding RelativeSource={RelativeSource Self}, Path=Foreground, Converter={StaticResource BrushRoundConverter}}"
                         Content="{materialDesign:PackIcon Kind=ExitToApp, Size=24}"
                         Foreground="{DynamicResource MaterialDesignBody}"
                         Style="{StaticResource MaterialDesignToolButton}"

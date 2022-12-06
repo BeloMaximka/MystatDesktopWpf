@@ -228,6 +228,7 @@
                             <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
                             <Setter TargetName="deleteIcon" Property="Kind" Value="UploadOutline"/>
                             <Setter TargetName="deleteButton" Property="ToolTip" Value="{DynamicResource m_RedoRequestToolTip}"/>
+                            <Setter TargetName="progressButton" Property="Grid.Column" Value="2"/>
                             <Setter TargetName="uploadButton" Property="ToolTip" Value="{DynamicResource m_DownloadUploaded}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Deleted}">

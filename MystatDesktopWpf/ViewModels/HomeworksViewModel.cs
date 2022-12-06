@@ -13,9 +13,9 @@ namespace MystatDesktopWpf.ViewModels
     {
         public HomeworksViewModel()
         {
-            Task.Run(() => LoadHomeworks());
+            LoadHomeworks();
         }
-        async void LoadHomeworks()
+        public async void LoadHomeworks()
         {
             while (true)
             {
@@ -35,7 +35,7 @@ namespace MystatDesktopWpf.ViewModels
                 }
                 catch (Exception)
                 {
-                    Task.Delay(1000).Wait();
+                    await Task.Delay(1000);
                     continue;
                 }
             }
