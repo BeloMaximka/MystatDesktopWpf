@@ -37,29 +37,31 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{DynamicResource m_СalendarDay0}" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Grid.Row="1"/>
-                        <TextBlock Text="{DynamicResource m_СalendarDay1}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="1" Grid.Row="1"/>
-                        <TextBlock Text="{DynamicResource m_СalendarDay2}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="2" Grid.Row="1"/>
-                        <TextBlock Text="{DynamicResource m_СalendarDay3}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="3" Grid.Row="1"/>
-                        <TextBlock Text="{DynamicResource m_СalendarDay4}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="4" Grid.Row="1"/>
-                        <TextBlock Text="{DynamicResource m_СalendarDay5}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="5" Grid.Row="1"/>
-                        <TextBlock Text="{DynamicResource m_СalendarDay6}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Grid.Column="6" Grid.Row="1"/>
+                        <TextBlock Text="{DynamicResource m_СalendarDay0}" Grid.Row="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource m_СalendarDay1}" Grid.Column="1" Grid.Row="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource m_СalendarDay2}" Grid.Column="2" Grid.Row="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource m_СalendarDay3}" Grid.Column="3" Grid.Row="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource m_СalendarDay4}" Grid.Column="4" Grid.Row="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource m_СalendarDay5}" Grid.Column="5" Grid.Row="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource m_СalendarDay6}" Grid.Column="6" Grid.Row="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </materialDesign:Card>
-                <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="True" SelectedIndex="0" Grid.Row="2">
-                    <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=FadeIn}">
+                <materialDesign:Transitioner x:Name="transitioner" SelectedIndex="0" Grid.Row="2">
+                    <materialDesign:TransitionerSlide>
+                        <materialDesign:TransitionerSlide.ForwardWipe>
+                            <materialDesign:FadeWipe/>
+                        </materialDesign:TransitionerSlide.ForwardWipe>
                         <ProgressBar x:Name="loadingBar" Style="{StaticResource MaterialDesignCircularProgressBar}"
-                     Value="0" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2"
-                     IsIndeterminate="True"/>
+                                     Value="0" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2" IsIndeterminate="True"/>
                     </materialDesign:TransitionerSlide>
-                    <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=FadeIn}">
+                    <materialDesign:TransitionerSlide>
                         <Grid>
                             <Grid Grid.Row="2" x:Name="gridCalendar">
                                 <Grid.ColumnDefinitions>

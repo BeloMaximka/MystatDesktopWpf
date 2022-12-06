@@ -17,7 +17,7 @@
     </UserControl.Resources>
     <materialDesign:DialogHost x:Name="homeworkDialog" CloseOnClickAway="True" DialogTheme="Inherit">
         <Grid>
-            <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="True" SelectedIndex="1">
+            <materialDesign:Transitioner x:Name="transitioner" SelectedIndex="0">
 
                 <materialDesign:TransitionerSlide>
                     <materialDesign:TransitionerSlide.ForwardWipe>
@@ -25,16 +25,18 @@
                     </materialDesign:TransitionerSlide.ForwardWipe>
                     <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Value="0" IsIndeterminate="True"/>
                 </materialDesign:TransitionerSlide>
-
-                <ScrollViewer>
-                    <StackPanel Margin="16" DataContext="{StaticResource HomeworksViewModel}">
-                        <controls:HomeworkList Header="{DynamicResource m_Overdue}" Collection="{Binding Overdue}" HomeworkManager="{Binding ElementName=control}"/>
-                        <controls:HomeworkList Header="{DynamicResource m_Deleted}" Collection="{Binding Deleted}" HomeworkManager="{Binding ElementName=control}"/>
-                        <controls:HomeworkList Header="{DynamicResource m_Current}" Collection="{Binding Active}" HomeworkManager="{Binding ElementName=control}"/>
-                        <controls:HomeworkList Header="{DynamicResource m_Uploaded}" Collection="{Binding Uploaded}" HomeworkManager="{Binding ElementName=control}"/>
-                        <controls:HomeworkList Header="{DynamicResource m_Checked}" Collection="{Binding Checked}" HomeworkManager="{Binding ElementName=control}"/>
-                    </StackPanel>
-                </ScrollViewer>
+                
+                <materialDesign:TransitionerSlide BackwardWipe="{x:Null}">
+                    <ScrollViewer>
+                        <StackPanel Margin="16" DataContext="{StaticResource HomeworksViewModel}">
+                            <controls:HomeworkList Header="{DynamicResource m_Overdue}" Collection="{Binding Overdue}" HomeworkManager="{Binding ElementName=control}"/>
+                            <controls:HomeworkList Header="{DynamicResource m_Deleted}" Collection="{Binding Deleted}" HomeworkManager="{Binding ElementName=control}"/>
+                            <controls:HomeworkList Header="{DynamicResource m_Current}" Collection="{Binding Active}" HomeworkManager="{Binding ElementName=control}"/>
+                            <controls:HomeworkList Header="{DynamicResource m_Uploaded}" Collection="{Binding Uploaded}" HomeworkManager="{Binding ElementName=control}"/>
+                            <controls:HomeworkList Header="{DynamicResource m_Checked}" Collection="{Binding Checked}" HomeworkManager="{Binding ElementName=control}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </materialDesign:TransitionerSlide>
 
             </materialDesign:Transitioner>
 

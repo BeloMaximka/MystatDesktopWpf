@@ -11,9 +11,9 @@ namespace MystatDesktopWpf.ViewModels
 {
     internal class HomeworksViewModel : ViewModelBase
     {
+        public event Action HomeworkLoaded;
         public HomeworksViewModel()
         {
-            LoadHomeworks();
         }
         public async void LoadHomeworks()
         {
@@ -31,6 +31,7 @@ namespace MystatDesktopWpf.ViewModels
                     Checked = new(result);
                     result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Deleted);
                     Deleted = new(result);
+                    HomeworkLoaded?.Invoke();
                     return;
                 }
                 catch (Exception)

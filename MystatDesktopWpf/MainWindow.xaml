@@ -30,9 +30,15 @@
     <Grid>
         <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="False" SelectedIndex="0">
             <materialDesign:TransitionerSlide>
+                <materialDesign:TransitionerSlide.ForwardWipe>
+                    <materialDesign:FadeWipe/>
+                </materialDesign:TransitionerSlide.ForwardWipe>
                 <controls:Login x:Name="login"/>
             </materialDesign:TransitionerSlide>
-            <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
+            <materialDesign:TransitionerSlide>
+                <materialDesign:TransitionerSlide.BackwardWipe>
+                    <materialDesign:FadeWipe/>
+                </materialDesign:TransitionerSlide.BackwardWipe>
                 <controls:MainMenu x:Name="mainMenu"/>
             </materialDesign:TransitionerSlide>
         </materialDesign:Transitioner>

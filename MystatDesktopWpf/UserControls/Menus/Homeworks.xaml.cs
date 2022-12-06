@@ -41,7 +41,14 @@ namespace MystatDesktopWpf.UserControls.Menus
             InitializeComponent();
 
             viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
+            viewModel.HomeworkLoaded += ViewModel_HomeworkLoaded;
+            viewModel.LoadHomeworks();
             uploadContent.Host = homeworkDialog;
+        }
+
+        private void ViewModel_HomeworkLoaded()
+        {
+            transitioner.SelectedIndex = 1;
         }
 
         void OpenFileInExplorer(string filePath)
@@ -62,6 +69,8 @@ namespace MystatDesktopWpf.UserControls.Menus
         {
             try
             {
+                if (homeworkDialog.IsOpen) return;
+
                 var res = await httpClient.GetAsync(filePath);
                 string fileName = res.Content.Headers.ContentDisposition?.FileName.Trim('\"');
                 string extension = fileName.Remove(0, fileName.LastIndexOf('.'));
@@ -103,6 +112,8 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         public async void OpenDownloadUploadedDialog(Homework homework)
         {
+            if (homeworkDialog.IsOpen) return;
+
             downloadContent.Header = (string)FindResource("m_UploadedWork");
             downloadContent.TextBoxHint = (string)FindResource("m_YourComment");
 
@@ -115,6 +126,8 @@ namespace MystatDesktopWpf.UserControls.Menus
         }
         public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload, string[]? files = null)
         {
+            if (homeworkDialog.IsOpen) return;
+
             uploadContent.ResetContent();
             uploadContent.Homework = homework;
             uploadContent.HomeworkSource = source;
@@ -176,6 +189,8 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         public async void OpenDeleteDialog(Homework homework)
         {
+            if (homeworkDialog.IsOpen) return;
+
             bool? result = (bool?)await homeworkDialog.ShowDialog(deleteContent);
 
             if (result.HasValue && result == true)
@@ -210,6 +225,7 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         public void Refresh()
         {
+            transitioner.SelectedIndex = 0;
             viewModel.LoadHomeworks();
         }
     }
