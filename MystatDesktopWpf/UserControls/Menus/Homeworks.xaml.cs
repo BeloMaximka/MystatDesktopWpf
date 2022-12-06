@@ -44,6 +44,12 @@ namespace MystatDesktopWpf.UserControls.Menus
             viewModel.HomeworkLoaded += ViewModel_HomeworkLoaded;
             viewModel.LoadHomeworks();
             uploadContent.Host = homeworkDialog;
+
+            overdueList.Collection = viewModel.Homework[HomeworkStatus.Overdue];
+            deletedList.Collection = viewModel.Homework[HomeworkStatus.Deleted];
+            activeList.Collection = viewModel.Homework[HomeworkStatus.Active];
+            uploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
+            checkedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
         }
 
         private void ViewModel_HomeworkLoaded()
@@ -172,7 +178,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                     uploadContent.Homework.UploadedHomework = info;
                     uploadContent.Homework.Status = HomeworkStatus.Uploaded;
                     uploadContent.HomeworkSource.Remove(uploadContent.Homework);
-                    viewModel.Uploaded.Add(uploadContent.Homework);
+                    viewModel.AddHomework(HomeworkStatus.Uploaded, uploadContent.Homework);
                     
                     string workUploaded = (string)FindResource("m_WorkUploaded");
                     snackbar.MessageQueue?.Enqueue(workUploaded);
@@ -200,17 +206,10 @@ namespace MystatDesktopWpf.UserControls.Menus
                     if (await MystatAPISingleton.mystatAPIClient.RemoveHomework(homework.UploadedHomework.Id) == false)
                         throw new HttpRequestException("Error deleting homework");
 
-                    viewModel.Uploaded.Remove(homework);
-                    if (DateTime.Parse(homework.OverdueTime) < DateTime.Now)
-                    {
-                        homework.Status = HomeworkStatus.Overdue;
-                        viewModel.Overdue.Add(homework);
-                    }
-                    else
-                    {
-                        homework.Status = HomeworkStatus.Active;
-                        viewModel.Active.Add(homework);
-                    }
+                    viewModel.DeleteHomework(HomeworkStatus.Uploaded, homework);
+                    homework.Status = DateTime.Parse(homework.OverdueTime) < DateTime.Now ?
+                                      HomeworkStatus.Overdue : HomeworkStatus.Active;
+                    viewModel.AddHomework(homework.Status, homework);
 
                     string workDeleted = (string)FindResource("m_WorkDeleted");
                     snackbar.MessageQueue?.Enqueue(workDeleted);

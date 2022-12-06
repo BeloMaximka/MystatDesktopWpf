@@ -1,15 +1,19 @@
-﻿using MystatAPI.Entity;
+﻿using Microsoft.VisualBasic;
+using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.ViewModels
 {
     internal class HomeworksViewModel : ViewModelBase
     {
-        public event Action HomeworkLoaded;
+        public event Action? HomeworkLoaded;
         public bool Loading { get; private set; } = false;
 
         public async void LoadHomeworks()
@@ -19,16 +23,23 @@ namespace MystatDesktopWpf.ViewModels
                 try
                 {
                     Loading = true;
-                    var result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Active);
-                    Active = new(result);
-                    result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Overdue);
-                    Overdue = new(result);
-                    result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Uploaded);
-                    Uploaded = new(result);
-                    result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Checked);
-                    Checked = new(result);
-                    result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, HomeworkStatus.Deleted);
-                    Deleted = new(result);
+
+                    var homeworkCount = await MystatAPISingleton.mystatAPIClient.GetHomeworkCount();
+                    foreach (var item in homeworkCount)
+                    {
+                        if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
+                        {
+                            collection.MaxCount = item.Count;
+                            collection.Page = 1;
+                        }
+                    }
+
+                    foreach (var item in Homework)
+                    {
+                        var result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, item.Key);
+                        Homework[item.Key].Items = new(result);
+                    }
+
                     Loading = false;
                     HomeworkLoaded?.Invoke();
                     return;
@@ -40,56 +51,66 @@ namespace MystatDesktopWpf.ViewModels
                 }
             }
         }
+
+        public void AddHomework(HomeworkStatus status, Homework homework)
+        {
+            var collection = Homework[status];
+            collection.Items.Add(homework);
+            collection.MaxCount++;
+        }
+
+        public void DeleteHomework(HomeworkStatus status, Homework homework)
+        {
+            var collection = Homework[status];
+            collection.Items.Remove(homework);
+            collection.MaxCount--;
+        }
+
+        public Dictionary<HomeworkStatus, HomeworkCollection> Homework { get; set; } = new()
+        {
+            { HomeworkStatus.Overdue, new() },
+            { HomeworkStatus.Checked, new() },
+            { HomeworkStatus.Uploaded, new() },
+            { HomeworkStatus.Active, new() },
+            { HomeworkStatus.Deleted, new() }
+        };
+    }
+}
+
+public class HomeworkCollection : ViewModelBase
+{
+    ObservableCollection<Homework> items = new();
+    public ObservableCollection<Homework> Items 
+    { 
+        get => items; 
+        set
+        {
+            SetProperty(ref items, value);
+            OnPropertyChanged(nameof(NoPages));
+        }
+    }
+
+    public bool NoPages { get => items.Count != maxCount; }
+     
+    int maxCount = new();
+    public int MaxCount { get => maxCount; set => SetProperty(ref maxCount, value); }
+ 
+    public int Page { get; set; } = 1;
+
+    public async Task<bool> LoadNextPage()
+    {
+        if (Items.Count == 0 || Items.Count == MaxCount) return false;
         
-        ObservableCollection<Homework> active = new();
-        public ObservableCollection<Homework> Active
+        try
         {
-            get => active;
-            set
-            {
-                active = value;
-                OnPropertyChanged();
-            }
+            Homework[] result = await MystatAPISingleton.mystatAPIClient.GetHomework(++Page, items[0].Status);
+            foreach (var item in result)
+                Items.Add(item);
+            return true;
         }
-        ObservableCollection<Homework> overdue = new();
-        public ObservableCollection<Homework> Overdue
+        catch (Exception)
         {
-            get => overdue;
-            set
-            {
-                overdue = value;
-                OnPropertyChanged();
-            }
-        }
-        ObservableCollection<Homework> uploaded = new();
-        public ObservableCollection<Homework> Uploaded
-        {
-            get => uploaded;
-            set
-            {
-                uploaded = value;
-                OnPropertyChanged();
-            }
-        }
-        ObservableCollection<Homework> _checked = new();
-        public ObservableCollection<Homework> Checked
-        {
-            get => _checked;
-            set
-            {
-                _checked = value;
-                OnPropertyChanged();
-            }
-        }
-        ObservableCollection<Homework> deleted = new();
-        public ObservableCollection<Homework> Deleted
-        {
-            get => deleted;
-            set
-            {
-                deleted = value;
-                OnPropertyChanged();
-            }
+            return false;
         }
     }
 }
