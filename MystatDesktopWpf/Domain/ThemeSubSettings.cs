@@ -43,7 +43,7 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        Contrast contrast = Contrast.Medium;
+        Contrast contrast = Contrast.Low;
         public Contrast Contrast
         {
             get => contrast;
@@ -54,7 +54,7 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        float contrastRatio = 3.0f;
+        float contrastRatio = 4.5f;
         public float ContrastRatio
         {
             get => contrastRatio;
