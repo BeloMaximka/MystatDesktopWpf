@@ -33,9 +33,9 @@
         <Popup x:Name="popupComment" AllowsTransparency="True" Placement="Right" StaysOpen="False">
             <!-- Popup content -->
             <materialDesign:Card Padding="8px">
-                <TextBox x:Name="commentTextBox" Background="Transparent"
-                             Style="{x:Null}" IsReadOnly="True" BorderThickness="0" 
-                             Foreground="{DynamicResource MaterialDesignBody}">
+                <TextBox x:Name="commentTextBox" Background="Transparent" MaxWidth="600"
+                         Style="{x:Null}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap"
+                         Foreground="{DynamicResource MaterialDesignBody}">
                 </TextBox>
             </materialDesign:Card>
         </Popup>
@@ -95,7 +95,7 @@
                                 <TextBlock Text="{Binding SubjectName}" TextWrapping="Wrap" 
                                            Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
                                            TextAlignment="Center" VerticalAlignment="Center"/>
-                                <Border Background="Transparent" Grid.Column="1" x:Name="info">
+                                <Border Background="Transparent" Grid.Column="1" x:Name="info" Margin="4,0,0,0">
                                     <materialDesign:PackIcon Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
                                                              Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
                                 </Border>
