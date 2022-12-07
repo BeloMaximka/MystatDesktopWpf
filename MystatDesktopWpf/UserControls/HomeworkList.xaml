@@ -24,22 +24,22 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="8,16,8,8"
-                    Visibility="{Binding ElementName=control, Path=Collection.Count, 
+                    Visibility="{Binding ElementName=control, Path=Collection.MaxCount, 
                     Converter={StaticResource NotZeroToVisibilityConverter}}">
             <TextBlock Text="{Binding ElementName=control, Path=Header}" FontSize="16"/>
-            <TextBlock Text="{Binding ElementName=control, Path=Collection.Count}" FontSize="16"/>
+            <TextBlock Text="{Binding ElementName=control, Path=Collection.MaxCount}" FontSize="16"/>
         </StackPanel>
         <!-- Popup comment -->
         <Popup x:Name="popupComment" AllowsTransparency="True" Placement="Right" StaysOpen="False">
             <!-- Popup content -->
             <materialDesign:Card Padding="8px">
-                <TextBox x:Name="commentTextBox" Background="Transparent"
-                             Style="{x:Null}" IsReadOnly="True" BorderThickness="0" 
-                             Foreground="{DynamicResource MaterialDesignBody}">
+                <TextBox x:Name="commentTextBox" Background="Transparent" MaxWidth="600"
+                         Style="{x:Null}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap"
+                         Foreground="{DynamicResource MaterialDesignBody}">
                 </TextBox>
             </materialDesign:Card>
         </Popup>
-        <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection}" Width="Auto">
+        <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection.Items}" Width="Auto">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <materialDesign:Card x:Name="card" Width="240" Padding="8px" Margin="8px" Drop="Card_Drop"
@@ -95,7 +95,7 @@
                                 <TextBlock Text="{Binding SubjectName}" TextWrapping="Wrap" 
                                            Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
                                            TextAlignment="Center" VerticalAlignment="Center"/>
-                                <Border Background="Transparent" Grid.Column="1" x:Name="info">
+                                <Border Background="Transparent" Grid.Column="1" x:Name="info" Margin="4,0,0,0">
                                     <materialDesign:PackIcon Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
                                                              Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
                                 </Border>
@@ -228,6 +228,7 @@
                             <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
                             <Setter TargetName="deleteIcon" Property="Kind" Value="UploadOutline"/>
                             <Setter TargetName="deleteButton" Property="ToolTip" Value="{DynamicResource m_RedoRequestToolTip}"/>
+                            <Setter TargetName="progressButton" Property="Grid.Column" Value="2"/>
                             <Setter TargetName="uploadButton" Property="ToolTip" Value="{DynamicResource m_DownloadUploaded}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Deleted}">
@@ -248,6 +249,24 @@
             </ItemsControl.ItemsPanel>
             
         </ItemsControl>
+        <Grid>
+            <Button Height="32" Width="32" x:Name="progressPageButton"
+                    Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                    Background="Transparent" Foreground="Transparent" BorderBrush="Transparent"
+                    Visibility="{Binding ElementName=nextPageButton, Path=Visibility}"
+                    IsHitTestVisible="False"
+                    materialDesign:ButtonProgressAssist.Value="-1"
+                    materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+            </Button>
+            <Button x:Name="nextPageButton" Height="32" Width="32" HorizontalAlignment="Center"
+                Style="{DynamicResource MaterialDesignIconButton}"
+                Foreground="{DynamicResource MaterialDesignBody}"
+                Visibility="{Binding ElementName=control, Path=Collection.NoPages, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                Click="LoadPageButton_Click">
+                <materialDesign:PackIcon Kind="ChevronDown"/>
+            </Button>
+        </Grid>
+       
     </StackPanel>
 
 </UserControl>

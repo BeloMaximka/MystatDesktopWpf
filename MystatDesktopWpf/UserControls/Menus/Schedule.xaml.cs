@@ -25,7 +25,7 @@ namespace MystatDesktopWpf.UserControls
     /// <summary>
     /// Interaction logic for PlaceholderUserControl.xaml
     /// </summary>
-    public partial class Schedule : UserControl
+    public partial class Schedule : UserControl, IRefreshable
     {
         Dictionary<int, List<DaySchedule>> groupedSchedules = new();
         Button lastButtonHover;
@@ -36,7 +36,7 @@ namespace MystatDesktopWpf.UserControls
             GenerateButtons();
             dateTextBlock.Text = GetMonthName(selectedDate);
             App.LanguageChanged += HandleLangChange;
-            Task.Run(() => LoadSchedule(selectedDate));
+            LoadSchedule(selectedDate);
         }
 
         private void HandleLangChange(object? sender, EventArgs e)
@@ -84,7 +84,7 @@ namespace MystatDesktopWpf.UserControls
                 return;
             popup.IsOpen = false;
         }
-        
+
         void GenerateButtons()
         {
             int column = 0;
@@ -121,8 +121,11 @@ namespace MystatDesktopWpf.UserControls
                 column++;
             }
         }
+
+        bool Loading = false;
         async void LoadSchedule(DateTime date)
         {
+            Loading = true;
             while (true)
             {
                 try
@@ -141,68 +144,65 @@ namespace MystatDesktopWpf.UserControls
                     int dayOfWeek = ((int)date.DayOfWeek) - 1;
                     if (dayOfWeek == -1) dayOfWeek = 6; // sunday fix
 
-                    this.Dispatcher.Invoke(() =>
+                    dateTextBlock.Text = GetMonthName(date);
+                    Style outlined = (Style)this.FindResource("MaterialDesignOutlinedButton");
+                    Style normal = (Style)this.FindResource("CalendarButton");
+                    int fontSize = 18;
+
+                    DateTime prevDate = date.AddMonths(-1);
+                    int prevMonthDays = DateTime.DaysInMonth(prevDate.Year, prevDate.Month);
+                    for (int i = 0; i < dayOfWeek; i++) // prev month buttons
                     {
-                        dateTextBlock.Text = GetMonthName(date);
-                        Style outlined = (Style)this.FindResource("MaterialDesignOutlinedButton");
-                        Style normal = (Style)this.FindResource("CalendarButton");
-                        int fontSize = 18;
+                        Button button = (Button)gridCalendar.Children[i];
+                        button.IsEnabled = false;
+                        button.Style = outlined;
+                        button.FontSize = fontSize;
+                        button.Content = prevMonthDays - dayOfWeek + i + 1;
+                    }
 
-                        DateTime prevDate = date.AddMonths(-1);
-                        int prevMonthDays = DateTime.DaysInMonth(prevDate.Year, prevDate.Month);
-                        for (int i = 0; i < dayOfWeek; i++) // prev month buttons
-                        {
-                            Button button = (Button)gridCalendar.Children[i];
-                            button.IsEnabled = false;
-                            button.Style = outlined;
-                            button.FontSize = fontSize;
-                            button.Content = prevMonthDays - dayOfWeek + i + 1;
-                        }
+                    int monthDays = DateTime.DaysInMonth(date.Year, date.Month);
+                    for (int i = dayOfWeek; i < monthDays + dayOfWeek; i++) // current month buttons
+                    {
+                        Button button = (Button)gridCalendar.Children[i];
+                        button.IsEnabled = false;
+                        button.Style = normal;
+                        button.Content = i + 1 - dayOfWeek;
+                    }
 
-                        int monthDays = DateTime.DaysInMonth(date.Year, date.Month);
-                        for (int i = dayOfWeek; i < monthDays + dayOfWeek; i++) // current month buttons
-                        {
-                            Button button = (Button)gridCalendar.Children[i];
-                            button.IsEnabled = false;
-                            button.Style = normal;
-                            button.Content = i + 1 - dayOfWeek;
-                        }
+                    DateTime currentDate = DateTime.Now;
+                    if (date.Month == currentDate.Month && date.Year == currentDate.Year)
+                    {
+                        // current day button;
+                        Button todayButton = (Button)gridCalendar.Children[dayOfWeek + currentDate.Day - 1];
+                        todayButton.Style = (Style)this.FindResource("DarkCalendarButton");
+                    }
 
-                        DateTime currentDate = DateTime.Now;
-                        if (date.Month == currentDate.Month && date.Year == currentDate.Year)
-                        {
-                            // current day button;
-                            Button todayButton = (Button)gridCalendar.Children[dayOfWeek + currentDate.Day - 1];
-                            todayButton.Style = (Style)this.FindResource("DarkCalendarButton");
-                        }
+                    DateTime nextDate = date.AddMonths(-1);
+                    int nextMonthDays = DateTime.DaysInMonth(nextDate.Year, nextDate.Month);
+                    int offset = monthDays + dayOfWeek;
+                    for (int i = offset; i < 42; i++) // next month buttons
+                    {
+                        Button button = ((Button)gridCalendar.Children[i]);
+                        button.IsEnabled = false;
+                        button.Style = outlined;
+                        button.FontSize = fontSize;
+                        button.Content = i - offset + 1;
+                    }
 
-                        DateTime nextDate = date.AddMonths(-1);
-                        int nextMonthDays = DateTime.DaysInMonth(nextDate.Year, nextDate.Month);
-                        int offset = monthDays + dayOfWeek;
-                        for (int i = offset; i < 42; i++) // next month buttons
-                        {
-                            Button button = ((Button)gridCalendar.Children[i]);
-                            button.IsEnabled = false;
-                            button.Style = outlined;
-                            button.FontSize = fontSize;
-                            button.Content = i - offset + 1;
-                        }
+                    foreach (var item in groupedSchedules) // enable buttons with schedule
+                    {
+                        Button button = (Button)gridCalendar.Children[item.Key + dayOfWeek - 1];
+                        button.IsEnabled = true;
+                    }
 
-                        foreach (var item in groupedSchedules) // enable buttons with schedule
-                        {
-                            Button button = (Button)gridCalendar.Children[item.Key + dayOfWeek - 1];
-                            button.IsEnabled = true;
-                        }
-
-                        Transitioner.MoveNextCommand.Execute(null, transitioner);
-                    });
-
+                    Transitioner.MoveNextCommand.Execute(null, transitioner);
+                    Loading = false;
                     break;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //this.Dispatcher.Invoke((Action)delegate { snackbar.MessageQueue?.Enqueue(e.Message); });
-                    Task.Delay(500).Wait();
+                    await Task.Delay(2000);
                     continue;
                 }
             }
@@ -210,14 +210,22 @@ namespace MystatDesktopWpf.UserControls
 
         private void Button_NextMonth_Click(object sender, RoutedEventArgs e)
         {
+            if (Loading) return;
             selectedDate = selectedDate.AddMonths(1);
-            Task.Run(() => LoadSchedule(selectedDate));
+            LoadSchedule(selectedDate);
         }
 
         private void Button_PrevMonth_Click(object sender, RoutedEventArgs e)
         {
+            if (Loading) return;
             selectedDate = selectedDate.AddMonths(-1);
-            Task.Run(() => LoadSchedule(selectedDate));
+            LoadSchedule(selectedDate);
+        }
+
+        public void Refresh()
+        {
+            if (Loading) return;
+            LoadSchedule(selectedDate);
         }
     }
 }

@@ -19,6 +19,7 @@ using System.Windows.Automation;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.UserControls.Menus;
 using System.Windows.Controls.Primitives;
+using MystatDesktopWpf.ViewModels;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -29,10 +30,10 @@ namespace MystatDesktopWpf.UserControls
     {
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
-            DependencyProperty.Register("Collection", typeof(ObservableCollection<Homework>), typeof(HomeworkList));
-        public ObservableCollection<Homework> Collection
+            DependencyProperty.Register("Collection", typeof(HomeworkCollection), typeof(HomeworkList));
+        public HomeworkCollection Collection
         {
-            get => (ObservableCollection<Homework>)GetValue(CollectionProperty);
+            get => (HomeworkCollection)GetValue(CollectionProperty);
             set => SetValue(CollectionProperty, value);
         }
 
@@ -95,7 +96,7 @@ namespace MystatDesktopWpf.UserControls
             Button uploadButton = (Button)sender;
             Grid grid = (Grid)uploadButton.Parent;
             Button progressButton = (Button)grid.FindName("progressButton");
-            HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton);
+            HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection.Items, progressButton, uploadButton);
         }
 
         private void DownloadUploadedButton_Click(object sender, RoutedEventArgs e)
@@ -116,7 +117,7 @@ namespace MystatDesktopWpf.UserControls
                 Button uploadButton = (Button)card.FindName("uploadButton");
                 Button progressButton = (Button)card.FindName("progressButton");
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection, progressButton, uploadButton, files);
+                HomeworkManager?.OpenUploadDialog((Homework)uploadButton.Tag, Collection.Items, progressButton, uploadButton, files);
             }
         }
 
@@ -127,6 +128,17 @@ namespace MystatDesktopWpf.UserControls
             popupComment.PlacementTarget = button;
             commentTextBox.Text = comment;
             popupComment.IsOpen = true;
+        }
+
+        private async void LoadPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            
+            button.IsHitTestVisible = false;
+            ButtonProgressAssist.SetIsIndicatorVisible(progressPageButton, true);
+            await Collection.LoadNextPage();
+            ButtonProgressAssist.SetIsIndicatorVisible(progressPageButton, false);
+            button.IsHitTestVisible = true;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace MystatDesktopWpf.UserControls.Menus
     /// <summary>
     /// Interaction logic for Homeworks.xaml
     /// </summary>
-    public partial class Homeworks : UserControl
+    public partial class Homeworks : UserControl, IRefreshable
     {
         HomeworksViewModel viewModel;
         static HttpClient httpClient = new();
@@ -41,7 +41,20 @@ namespace MystatDesktopWpf.UserControls.Menus
             InitializeComponent();
 
             viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
+            viewModel.HomeworkLoaded += ViewModel_HomeworkLoaded;
+            viewModel.LoadHomeworks();
             uploadContent.Host = homeworkDialog;
+
+            overdueList.Collection = viewModel.Homework[HomeworkStatus.Overdue];
+            deletedList.Collection = viewModel.Homework[HomeworkStatus.Deleted];
+            activeList.Collection = viewModel.Homework[HomeworkStatus.Active];
+            uploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
+            checkedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
+        }
+
+        private void ViewModel_HomeworkLoaded()
+        {
+            transitioner.SelectedIndex = 1;
         }
 
         void OpenFileInExplorer(string filePath)
@@ -62,6 +75,8 @@ namespace MystatDesktopWpf.UserControls.Menus
         {
             try
             {
+                if (homeworkDialog.IsOpen) return;
+
                 var res = await httpClient.GetAsync(filePath);
                 string fileName = res.Content.Headers.ContentDisposition?.FileName.Trim('\"');
                 string extension = fileName.Remove(0, fileName.LastIndexOf('.'));
@@ -103,6 +118,8 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         public async void OpenDownloadUploadedDialog(Homework homework)
         {
+            if (homeworkDialog.IsOpen) return;
+
             downloadContent.Header = (string)FindResource("m_UploadedWork");
             downloadContent.TextBoxHint = (string)FindResource("m_YourComment");
 
@@ -115,6 +132,8 @@ namespace MystatDesktopWpf.UserControls.Menus
         }
         public async void OpenUploadDialog(Homework homework, ICollection<Homework> source, Button progress, Button upload, string[]? files = null)
         {
+            if (homeworkDialog.IsOpen) return;
+
             uploadContent.ResetContent();
             uploadContent.Homework = homework;
             uploadContent.HomeworkSource = source;
@@ -159,7 +178,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                     uploadContent.Homework.UploadedHomework = info;
                     uploadContent.Homework.Status = HomeworkStatus.Uploaded;
                     uploadContent.HomeworkSource.Remove(uploadContent.Homework);
-                    viewModel.Uploaded.Add(uploadContent.Homework);
+                    viewModel.AddHomework(HomeworkStatus.Uploaded, uploadContent.Homework);
                     
                     string workUploaded = (string)FindResource("m_WorkUploaded");
                     snackbar.MessageQueue?.Enqueue(workUploaded);
@@ -176,6 +195,8 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         public async void OpenDeleteDialog(Homework homework)
         {
+            if (homeworkDialog.IsOpen) return;
+
             bool? result = (bool?)await homeworkDialog.ShowDialog(deleteContent);
 
             if (result.HasValue && result == true)
@@ -185,17 +206,10 @@ namespace MystatDesktopWpf.UserControls.Menus
                     if (await MystatAPISingleton.mystatAPIClient.RemoveHomework(homework.UploadedHomework.Id) == false)
                         throw new HttpRequestException("Error deleting homework");
 
-                    viewModel.Uploaded.Remove(homework);
-                    if (DateTime.Parse(homework.OverdueTime) < DateTime.Now)
-                    {
-                        homework.Status = HomeworkStatus.Overdue;
-                        viewModel.Overdue.Add(homework);
-                    }
-                    else
-                    {
-                        homework.Status = HomeworkStatus.Active;
-                        viewModel.Active.Add(homework);
-                    }
+                    viewModel.DeleteHomework(HomeworkStatus.Uploaded, homework);
+                    homework.Status = DateTime.Parse(homework.OverdueTime) < DateTime.Now ?
+                                      HomeworkStatus.Overdue : HomeworkStatus.Active;
+                    viewModel.AddHomework(homework.Status, homework);
 
                     string workDeleted = (string)FindResource("m_WorkDeleted");
                     snackbar.MessageQueue?.Enqueue(workDeleted);
@@ -206,6 +220,13 @@ namespace MystatDesktopWpf.UserControls.Menus
                     snackbar.MessageQueue?.Enqueue(deleteWorkError);
                 }
             }
+        }
+
+        public void Refresh()
+        {
+            if (viewModel.Loading) return;
+            transitioner.SelectedIndex = 0;
+            viewModel.LoadHomeworks();
         }
     }
 }

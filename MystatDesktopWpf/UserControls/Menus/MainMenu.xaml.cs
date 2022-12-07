@@ -25,9 +25,11 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class MainMenu : UserControl
     {
+        MainMenuViewModel viewModel;
         public MainMenu()
         {
-            this.DataContext = new MainMenuViewModel();
+            viewModel = new MainMenuViewModel();
+            this.DataContext = viewModel;
             InitializeComponent();
         }
 
@@ -46,6 +48,26 @@ namespace MystatDesktopWpf.UserControls
 
             var index = int.Parse(item.Tag as string);
             App.Language = App.Languages[index];
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            IRefreshable menu = viewModel.SelectedItem.Content as IRefreshable;
+            menu?.Refresh();
+            RefreshButtonDebounce();
+        }
+
+        async void RefreshButtonDebounce()
+        {
+            refreshButton.IsEnabled = false;
+            await Task.Delay(1000);
+            refreshButton.IsEnabled = true;
+        }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.F5 && refreshButton.IsEnabled)
+                RefreshButton_Click(null, null);
         }
     }
 }

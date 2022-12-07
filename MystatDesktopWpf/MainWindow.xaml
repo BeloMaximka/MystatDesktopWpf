@@ -30,10 +30,15 @@
     <Grid>
         <materialDesign:Transitioner x:Name="transitioner" AutoApplyTransitionOrigins="False" SelectedIndex="0">
             <materialDesign:TransitionerSlide>
+                <materialDesign:TransitionerSlide.ForwardWipe>
+                    <materialDesign:FadeWipe/>
+                </materialDesign:TransitionerSlide.ForwardWipe>
                 <controls:Login x:Name="login"/>
             </materialDesign:TransitionerSlide>
-            <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft}">
-                <controls:MainMenu x:Name="mainMenu"/>
+            <materialDesign:TransitionerSlide x:Name="mainMenuSlide">
+                <materialDesign:TransitionerSlide.BackwardWipe>
+                    <materialDesign:FadeWipe/>
+                </materialDesign:TransitionerSlide.BackwardWipe>
             </materialDesign:TransitionerSlide>
         </materialDesign:Transitioner>
         <Popup x:Name="popup" StaysOpen="True" Placement="Mouse" HorizontalOffset="8" VerticalOffset="8" AllowsTransparency="True" MouseLeave="popup_MouseLeave"/>

@@ -84,6 +84,9 @@ namespace MystatDesktopWpf.Domain
                                              ConverterParameter,
                                              ConverterCulture ?? culture);
 
+            // Фикс ошибок бинднигов
+            if (delayedValue == null) delayedValue = newValue;
+
             if (Equals(newValue, undelayedValue)) return delayedValue;
             undelayedValue = newValue;
             timer.Stop();
