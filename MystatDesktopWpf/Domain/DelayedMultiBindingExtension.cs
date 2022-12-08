@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Threading;
-using System.Windows;
 
 namespace MystatDesktopWpf.Domain
 {
@@ -32,7 +29,7 @@ namespace MystatDesktopWpf.Domain
 
         private object undelayedValue;
         private object delayedValue;
-        private DispatcherTimer timer;
+        private readonly DispatcherTimer timer;
 
         public object CurrentValue
         {
@@ -62,8 +59,7 @@ namespace MystatDesktopWpf.Domain
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            var valueProvider = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            if (valueProvider == null) return null;
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget valueProvider) return null;
 
             var bindingTarget = valueProvider.TargetObject as DependencyObject;
             var bindingProperty = valueProvider.TargetProperty as DependencyProperty;
@@ -72,7 +68,7 @@ namespace MystatDesktopWpf.Domain
             foreach (var binding in Bindings) multi.Bindings.Add(binding);
             multi.Bindings.Add(new Binding("ChangeCount") { Source = this, Mode = BindingMode.OneWay });
 
-            var bindingExpression = BindingOperations.SetBinding(bindingTarget, bindingProperty, multi);
+            BindingOperations.SetBinding(bindingTarget, bindingProperty, multi);
 
             return bindingTarget.GetValue(bindingProperty);
         }
@@ -85,7 +81,7 @@ namespace MystatDesktopWpf.Domain
                                              ConverterCulture ?? culture);
 
             // Фикс ошибок бинднигов
-            if (delayedValue == null) delayedValue = newValue;
+            delayedValue ??= newValue;
 
             if (Equals(newValue, undelayedValue)) return delayedValue;
             undelayedValue = newValue;

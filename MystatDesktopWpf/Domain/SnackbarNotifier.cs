@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Windows;
-using MaterialDesignThemes.Wpf;
-using System.Windows.Navigation;
-using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace MystatDesktopWpf.Domain
 {
-    class SnackbarNotifier
+    internal class SnackbarNotifier
     {
-        Snackbar snackbar;
-        Grid message;
-        TextBlock textBlock;
+        private readonly Snackbar snackbar;
+        private readonly Grid message;
+        private readonly TextBlock textBlock;
         public SnackbarNotifier(Snackbar snackbar)
         {
             this.snackbar = snackbar;
@@ -25,9 +19,11 @@ namespace MystatDesktopWpf.Domain
             grid.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
             grid.ColumnDefinitions.Add(new());
 
-            PackIcon icon = new();
-            icon.Kind = PackIconKind.BellAlert;
-            icon.Margin = new(0, 0, 8, 0);
+            PackIcon icon = new()
+            {
+                Kind = PackIconKind.BellAlert,
+                Margin = new(0, 0, 8, 0)
+            };
             grid.Children.Add(icon);
 
             textBlock = new();

@@ -1,27 +1,19 @@
-﻿using MystatAPI.Entity;
-using MystatAPI;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using MaterialDesignColors;
+using MaterialDesignColors.ColorManipulation;
+using MaterialDesignThemes.Wpf;
+using MystatDesktopWpf.Converters;
+using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
+using MystatDesktopWpf.UserControls;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.Services;
-using MystatDesktopWpf.Domain;
-using MaterialDesignColors.ColorManipulation;
-using MaterialDesignColors;
-using MystatDesktopWpf.Converters;
-using Hardcodet.Wpf.TaskbarNotification;
-using MystatDesktopWpf.UserControls;
 
 namespace MystatDesktopWpf
 {
@@ -30,8 +22,8 @@ namespace MystatDesktopWpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        TaskbarIcon trayIcon;
-        bool realAppClose = false;
+        private readonly TaskbarIcon trayIcon;
+        private bool realAppClose = false;
 
         public MainWindow()
         {
@@ -44,8 +36,8 @@ namespace MystatDesktopWpf
 
             SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
             InitTheme(); // Загрузка темы происходит здесь, ибо в App библиотека MaterialDesign не успевает подгрузиться
-            
-             // notification icon initialization
+
+            // notification icon initialization
             trayIcon = new TaskbarIcon()
             {
                 IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/favicon.ico")),
@@ -61,12 +53,12 @@ namespace MystatDesktopWpf
             App.LanguageChanged += UpdateTrayText;
         }
 
-        void LoadMainMenu()
+        private void LoadMainMenu()
         {
             mainMenuSlide.Content = new MainMenu();
         }
 
-        void InitTheme() // Загрузка темы с настроек
+        private void InitTheme() // Загрузка темы с настроек
         {
             PaletteHelper helper = new();
             Theme theme = (Theme)helper.GetTheme();
@@ -82,12 +74,14 @@ namespace MystatDesktopWpf
             theme.PrimaryMid = new ColorPair(color);
             theme.PrimaryDark = new ColorPair(color.Darken());
 
-            if(settings.IsColorAdjusted)
+            if (settings.IsColorAdjusted)
             {
-                ColorAdjustment adjustment = new();
-                adjustment.Contrast = settings.Contrast;
-                adjustment.DesiredContrastRatio = settings.ContrastRatio;
-                adjustment.Colors = settings.Colors;
+                ColorAdjustment adjustment = new()
+                {
+                    Contrast = settings.Contrast,
+                    DesiredContrastRatio = settings.ContrastRatio,
+                    Colors = settings.Colors
+                };
                 theme.ColorAdjustment = adjustment;
             }
 
@@ -124,7 +118,7 @@ namespace MystatDesktopWpf
             switch (WindowState)
             {
                 case WindowState.Minimized:
-                    if(trayBehavior != TrayBehavior.NeverMove && trayBehavior != TrayBehavior.OnlyOnClose)
+                    if (trayBehavior != TrayBehavior.NeverMove && trayBehavior != TrayBehavior.OnlyOnClose)
                     {
                         Hide();
                     }
@@ -161,9 +155,7 @@ namespace MystatDesktopWpf
 
         private void SetLocalizedHeader(object item, string key)
         {
-            var menuItem = item as MenuItem;
-
-            if (menuItem is null) return;
+            if (item is not MenuItem menuItem) return;
 
             menuItem.Header = FindResource(key);
         }
@@ -189,20 +181,20 @@ namespace MystatDesktopWpf
         {
             ShowScheduleCard(DateTime.Now);
         }
-        
+
         private void MenuItemScheduleTomorrow(object sender, RoutedEventArgs e)
         {
             ShowScheduleCard(DateTime.Now.AddDays(1));
         }
 
-        async Task ShowScheduleCard(DateTime date)
+        private async Task ShowScheduleCard(DateTime date)
         {
-            var schedule = await MystatAPISingleton.mystatAPIClient.GetScheduleByDate(date);
+            var schedule = await MystatAPISingleton.Client.GetScheduleByDate(date);
             popup.Child = ScheduleControlCreator.CreateScheduleCard(schedule.ToList());
             popup.IsOpen = true;
         }
 
-        private void popup_MouseLeave(object sender, MouseEventArgs e)
+        private void Popup_MouseLeave(object sender, MouseEventArgs e)
         {
             popup.IsOpen = false;
         }

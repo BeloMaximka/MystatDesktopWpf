@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MaterialDesignThemes.Wpf;
-using MaterialDesignThemes.Wpf.Transitions;
+﻿using MaterialDesignThemes.Wpf.Transitions;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 using MystatDesktopWpf.ViewModels;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -25,7 +14,7 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class MainMenu : UserControl
     {
-        MainMenuViewModel viewModel;
+        private readonly MainMenuViewModel viewModel;
         public MainMenu()
         {
             viewModel = new MainMenuViewModel();
@@ -42,11 +31,9 @@ namespace MystatDesktopWpf.UserControls
         }
         private void OnLanguageChange(object sender, RoutedEventArgs e)
         {
-            var item = sender as ComboBoxItem;
+            if (sender is not ComboBoxItem item) return;
 
-            if (item is null) return;
-
-            var index = int.Parse(item.Tag as string);
+            var index = int.Parse((string)item.Tag);
             App.Language = App.Languages[index];
         }
 
@@ -57,7 +44,7 @@ namespace MystatDesktopWpf.UserControls
             RefreshButtonDebounce();
         }
 
-        async void RefreshButtonDebounce()
+        private async void RefreshButtonDebounce()
         {
             refreshButton.IsEnabled = false;
             await Task.Delay(1000);
@@ -66,7 +53,7 @@ namespace MystatDesktopWpf.UserControls
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.F5 && refreshButton.IsEnabled)
+            if (e.Key == Key.F5 && refreshButton.IsEnabled)
                 RefreshButton_Click(null, null);
         }
     }

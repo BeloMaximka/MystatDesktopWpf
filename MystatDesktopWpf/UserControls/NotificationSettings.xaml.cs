@@ -1,21 +1,10 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -24,8 +13,8 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class NotificationSettings : UserControl
     {
-        NotificationSettingsViewModel viewModel;
-        double savedVolume = 1;
+        private readonly NotificationSettingsViewModel viewModel;
+        private double savedVolume = 1;
 
         public NotificationSettings()
         {
@@ -34,7 +23,7 @@ namespace MystatDesktopWpf.UserControls
 
             InitializeComponent();
             // Вешаем только сейчас, чтобы не активировать ViewModel
-            minutesTextBox.TextChanged += minutesTextBox_TextChanged;
+            minutesTextBox.TextChanged += MinutesTextBox_TextChanged;
 
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("NotificationVolume"));
@@ -53,14 +42,13 @@ namespace MystatDesktopWpf.UserControls
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            Regex regex = new("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void minutesTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void MinutesTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int result;
-            if (int.TryParse(minutesTextBox.Text, out result))
+            if (int.TryParse(minutesTextBox.Text, out int result))
                 viewModel.NotificationDelay = result;
         }
 

@@ -1,16 +1,14 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows;
-using System;
 using MystatDesktopWpf.ViewModels;
+using System;
+using System.Windows;
 
 namespace MystatDesktopWpf.Domain
 {
     public class MainMenuItem : ViewModelBase
     {
-        readonly Type contentType;
-        readonly object? dataContext;
+        private readonly Type contentType;
+        private readonly object? dataContext;
 
         public MainMenuItem(string nameKey, Type contentType, PackIconKind selectedIcon,
             PackIconKind unselectedIcon, object? dataContext = null)
@@ -25,13 +23,13 @@ namespace MystatDesktopWpf.Domain
             UnselectedIcon = unselectedIcon;
         }
 
-        void UpdateName(object? sender, EventArgs e)
+        private void UpdateName(object? sender, EventArgs e)
         {
             Name = (string)App.Current.FindResource(nameKey);
         }
 
-        string nameKey;
-        string name;
+        private readonly string nameKey;
+        private string name;
         public string Name
         {
             get => name;
@@ -42,15 +40,14 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-
-        object? content;
+        private object? content;
         // Чтобы не прогружать все страницы при запуске
         public object? Content => content ??= CreateContent();
 
         public PackIconKind SelectedIcon { get; set; }
         public PackIconKind UnselectedIcon { get; set; }
 
-        int notifications = 0;
+        private int notifications = 0;
         public object? Notifications
         {
             get
@@ -60,14 +57,14 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        Thickness margin = new(16);
+        private Thickness margin = new(16);
         public Thickness Margin
         {
             get => margin;
             set => SetProperty(ref margin, value);
         }
 
-        object? CreateContent()
+        private object? CreateContent()
         {
             var content = Activator.CreateInstance(contentType);
             if (dataContext != null && content is FrameworkElement element)

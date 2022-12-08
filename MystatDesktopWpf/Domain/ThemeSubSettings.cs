@@ -1,16 +1,12 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.Domain
 {
     internal class ThemeSubSettings : ISettingsProperty
     {
-        string colorHex = "#FF673AB7";
+        private string colorHex = "#FF673AB7";
         public string ColorHex
         {
             get => colorHex;
@@ -21,7 +17,7 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        bool isDarkTheme = true;
+        private bool isDarkTheme = true;
         public bool IsDarkTheme
         {
             get => isDarkTheme;
@@ -32,7 +28,7 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        bool isColorAdjusted = true;
+        private bool isColorAdjusted = true;
         public bool IsColorAdjusted
         {
             get => isColorAdjusted;
@@ -43,7 +39,7 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        Contrast contrast = Contrast.Low;
+        private Contrast contrast = Contrast.Low;
         public Contrast Contrast
         {
             get => contrast;
@@ -54,7 +50,7 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        float contrastRatio = 4.5f;
+        private float contrastRatio = 4.5f;
         public float ContrastRatio
         {
             get => contrastRatio;
@@ -65,7 +61,7 @@ namespace MystatDesktopWpf.Domain
             }
         }
 
-        ColorSelection colors = ColorSelection.All;
+        private ColorSelection colors = ColorSelection.All;
         public ColorSelection Colors
         {
             get => colors;

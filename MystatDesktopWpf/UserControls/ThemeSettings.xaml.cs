@@ -1,20 +1,6 @@
 ﻿using MystatDesktopWpf.Converters;
-using MystatDesktopWpf.Services;
 using MystatDesktopWpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -23,7 +9,7 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class ThemeSettings : UserControl
     {
-        ThemeColorViewModel viewModel = new();
+        private readonly ThemeColorViewModel viewModel = new();
         public ThemeSettings()
         {
             InitializeComponent();
@@ -31,10 +17,10 @@ namespace MystatDesktopWpf.UserControls
             settingsBar.OnResetThemeSettings += ResetTheme;
         }
 
-        void ResetTheme()
+        private void ResetTheme()
         {
-            
-            viewModel.SelectedColor= ColorToHexConverter.ConvertBack("#FF673AB7");
+
+            viewModel.SelectedColor = ColorToHexConverter.ConvertBack("#FF673AB7");
         }
     }
 }

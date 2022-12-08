@@ -1,21 +1,7 @@
-﻿using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.Domain;
+﻿using MystatDesktopWpf.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace MystatDesktopWpf.UserControls
@@ -25,7 +11,7 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class Debug : UserControl
     {
-        SnackbarNotifier notifier;
+        private readonly SnackbarNotifier notifier;
         public Debug()
         {
             InitializeComponent();
@@ -46,8 +32,7 @@ namespace MystatDesktopWpf.UserControls
         }
         private void Button_NotificationDelayed_Click(object sender, RoutedEventArgs e)
         {
-            DispatcherTimer timer = new();
-            timer.Interval = new TimeSpan(0, 0, 5);
+            DispatcherTimer timer = new() { Interval = TimeSpan.FromSeconds(5) };
             timer.Tick += DelayedNotification;
             timer.Start();
         }
