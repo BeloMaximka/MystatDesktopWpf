@@ -1,24 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Transitions;
-using MystatAPI;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -42,17 +30,17 @@ namespace MystatDesktopWpf.UserControls
             }
         }
 
-        async void LoginToMystat(string username, string password)
+        private async void LoginToMystat(string username, string password)
         {
             ButtonProgressAssist.SetIsIndicatorVisible(loginButton, true);
             errorText.Visibility = Visibility.Collapsed;
 
             MystatAuthResponse response;
-            UserLoginData loginData = new UserLoginData(username, password);
-            MystatAPISingleton.mystatAPIClient.SetLoginData(loginData);
+            UserLoginData loginData = new(username, password);
+            MystatAPISingleton.Client.SetLoginData(loginData);
             try
             {
-                response = await MystatAPISingleton.mystatAPIClient.Login();
+                response = await MystatAPISingleton.Client.Login();
             }
             catch (Exception e)
             {
@@ -62,9 +50,8 @@ namespace MystatDesktopWpf.UserControls
                 return;
             }
 
-            MystatAuthSuccess? responseSuccess = response as MystatAuthSuccess;
             ButtonProgressAssist.SetIsIndicatorVisible(loginButton, false);
-            if (responseSuccess != null)
+            if (response is MystatAuthSuccess responseSuccess)
             {
                 SuccessfulLogin?.Invoke();
 
@@ -74,7 +61,7 @@ namespace MystatDesktopWpf.UserControls
                 var schedule = SettingsService.Settings.ScheduleNotification;
                 ScheduleNotificationService.OnlyFirstSchedule = schedule.OnlyFirstSchedule;
                 ScheduleNotificationService.OnTimerElapsed += ShowNotification;
-                
+
                 if (schedule.Enabled)
                     await ScheduleNotificationService.Configure(schedule.Delay, schedule.Mode);
 
@@ -90,7 +77,8 @@ namespace MystatDesktopWpf.UserControls
                 errorText.Visibility = Visibility.Visible;
             }
         }
-        void ShowNotification(DaySchedule schedule, int delay)
+
+        private void ShowNotification(DaySchedule schedule, int delay)
         {
             string message;
             if (delay > 0)
@@ -99,7 +87,7 @@ namespace MystatDesktopWpf.UserControls
                 string label2 = (string)App.Current.FindResource("m_LessonStarting1");
                 message = $"{label1} {delay} {label2}";
             }
-                
+
             else
                 message = (string)App.Current.FindResource("m_LessonStarted"); ;
             new NotificationWindow(message, true).Show();

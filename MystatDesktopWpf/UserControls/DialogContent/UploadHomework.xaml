@@ -12,14 +12,14 @@
     <StackPanel Margin="16" Width="500">
         <TextBlock Text="{Binding ElementName=control, Path=Header}" HorizontalAlignment="Center" Margin="0,0,0,8"
                    Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-        <materialDesign:Card Padding="8" x:Name="dropDownCard" AllowDrop="True" Drop="dropDownCard_Drop">
+        <materialDesign:Card Padding="8" x:Name="dropDownCard" AllowDrop="True" Drop="DropDownCard_Drop">
             <StackPanel>
                 <materialDesign:PackIcon Kind="CloudUpload" HorizontalAlignment="Center" 
                                          Margin="0,0,0,8" Height="32" Width="32"/>
                 <TextBlock Text="{DynamicResource m_WorkUploadDescription}"
                            TextWrapping="Wrap" Margin="32,0,32,8" TextAlignment="Center"/>
                 <TextBlock Text="{DynamicResource m_DragHere}" TextAlignment="Center"/>
-                <Button Content="{DynamicResource m_ClickHere}" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Click="openExplorerButton_Click"/>
+                <Button Content="{DynamicResource m_ClickHere}" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}" Click="OpenExplorerButton_Click"/>
             </StackPanel>
         </materialDesign:Card>
         <Grid x:Name="fileLine" Visibility="Collapsed">
@@ -27,7 +27,7 @@
                 <TextBlock x:Name="regularFileTextBlock" Text="File" VerticalAlignment="Center" Visibility="Collapsed"/>
                 <TextBox x:Name="fileTextBox" Text="Homework" Visibility="Collapsed" TextWrapping="Wrap" 
                          VerticalContentAlignment="Center" MaxLength="240" MaxWidth="400"
-                         materialDesign:HintAssist.Hint="{DynamicResource m_FileName}" TextChanged="fileTextBox_TextChanged"/>
+                         materialDesign:HintAssist.Hint="{DynamicResource m_FileName}" TextChanged="FileTextBox_TextChanged"/>
                 <TextBlock x:Name="zipTextBlock" Text=".zip" VerticalAlignment="Center" Visibility="Collapsed"/>
             </StackPanel>
             <Button Content="{DynamicResource m_Delete}" HorizontalAlignment="Right"
@@ -39,7 +39,7 @@
                  x:Name="textBox" 
                  Style="{DynamicResource MaterialDesignOutlinedTextBox}" 
                  materialDesign:HintAssist.Hint="{DynamicResource m_WriteYourResponse}"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto" TextChanged="textBox_TextChanged"/>
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" TextChanged="TextBox_TextChanged"/>
         <Grid>
             <Button Content="{Binding ElementName=control, Path=SendButtonName}" HorizontalAlignment="Left" Click="UploadButton_Click"/>
             <TextBlock x:Name="errorTextBlock" VerticalAlignment="Center" 

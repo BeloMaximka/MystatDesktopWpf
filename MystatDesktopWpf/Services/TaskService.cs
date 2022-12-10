@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace MystatDesktopWpf.Services
 {
     internal static class TaskService
     {
-        static Dictionary<string, DispatcherTimer> timers;
+        private static readonly Dictionary<string, DispatcherTimer> timers;
 
         public static Dictionary<string, DispatcherTimer>.KeyCollection TimersIds
         {
@@ -63,10 +60,9 @@ namespace MystatDesktopWpf.Services
             return true;
         }
 
-        static void AddTimer(string id, TimeSpan duration, Action callback)
+        private static void AddTimer(string id, TimeSpan duration, Action callback)
         {
-            var timer = new DispatcherTimer();
-            timer.Interval = duration;
+            DispatcherTimer timer = new() { Interval = duration };
             timer.Tick += (_, _) => OnTimerEnd(id, timer, callback);
             timer.Start();
 
@@ -83,13 +79,13 @@ namespace MystatDesktopWpf.Services
             return true;
         }
 
-        static void OnTimerEnd(string id, DispatcherTimer timer, Action callback)
+        private static void OnTimerEnd(string id, DispatcherTimer timer, Action callback)
         {
             StopTimer(id, timer);
             callback();
         }
 
-        static void StopTimer(string id, DispatcherTimer timer)
+        private static void StopTimer(string id, DispatcherTimer timer)
         {
             timer.Stop();
             timers.Remove(id);

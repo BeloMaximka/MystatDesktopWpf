@@ -2,14 +2,9 @@
 using MystatDesktopWpf.Services;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace MystatDesktopWpf
@@ -42,37 +37,39 @@ namespace MystatDesktopWpf
         {
             get
             {
-                return System.Threading.Thread.CurrentThread.CurrentUICulture;
+                return Thread.CurrentThread.CurrentUICulture;
             }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
-                if (value == System.Threading.Thread.CurrentThread.CurrentUICulture) return;
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                if (value == Thread.CurrentThread.CurrentUICulture) return;
 
                 //1. Меняем язык приложения:
-                System.Threading.Thread.CurrentThread.CurrentUICulture = value;
-                MystatAPISingleton.mystatAPIClient.SetLanguage(value.TwoLetterISOLanguageName);
+                Thread.CurrentThread.CurrentUICulture = value;
+                MystatAPISingleton.Client.SetLanguage(value.TwoLetterISOLanguageName);
 
                 //2. Создаём ResourceDictionary для новой культуры
-                ResourceDictionary dict = new ResourceDictionary();
-                dict.Source = new Uri(String.Format("Languages/lang.{0}.xaml", value.Name), UriKind.Relative);
+                ResourceDictionary dict = new()
+                {
+                    Source = new Uri(string.Format("Languages/lang.{0}.xaml", value.Name), UriKind.Relative)
+                };
 
                 //3. Находим старую ResourceDictionary и удаляем его и добавляем новую ResourceDictionary
-                ResourceDictionary oldDict = Application.Current.Resources.MergedDictionaries
+                ResourceDictionary oldDict = Current.Resources.MergedDictionaries
                                              .First(d => d.Source != null && d.Source.OriginalString.StartsWith("Languages/lang."));
                 if (oldDict != null)
                 {
-                    int ind = Application.Current.Resources.MergedDictionaries.IndexOf(oldDict);
-                    Application.Current.Resources.MergedDictionaries.Remove(oldDict);
-                    Application.Current.Resources.MergedDictionaries.Insert(ind, dict);
+                    int ind = Current.Resources.MergedDictionaries.IndexOf(oldDict);
+                    Current.Resources.MergedDictionaries.Remove(oldDict);
+                    Current.Resources.MergedDictionaries.Insert(ind, dict);
                 }
                 else
                 {
-                    Application.Current.Resources.MergedDictionaries.Add(dict);
+                    Current.Resources.MergedDictionaries.Add(dict);
                 }
 
                 //4. Вызываем евент для оповещения всех окон.
-                LanguageChanged(Application.Current, new EventArgs());
+                LanguageChanged(Current, new EventArgs());
             }
         }
 
@@ -81,10 +78,10 @@ namespace MystatDesktopWpf
             SettingsService.SetPropertyValue("Language", Language.Name);
         }
 
-        const string UniqueEventName = "4B41F251-D34D-419C-ACCC-4144EE501BD1";
-        const string UniqueMutexName = "C8C527A3-7439-47C3-9403-DF9539E62D8B";
-        EventWaitHandle eventWaitHandle;
-        Mutex mutex;
+        private const string UniqueEventName = "4B41F251-D34D-419C-ACCC-4144EE501BD1";
+        private const string UniqueMutexName = "C8C527A3-7439-47C3-9403-DF9539E62D8B";
+        private EventWaitHandle eventWaitHandle;
+        private Mutex mutex;
 
         protected override void OnStartup(StartupEventArgs e)
         {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -15,7 +11,7 @@ namespace MystatDesktopWpf.ViewModels
         }
         public List<CultureInfo> Languages => App.Languages;
 
-        int index;
+        private int index;
         public int SelectedIndex
         {
             get => index;

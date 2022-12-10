@@ -1,9 +1,5 @@
 ﻿using MystatDesktopWpf.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.Domain
 {
@@ -15,11 +11,11 @@ namespace MystatDesktopWpf.Domain
     }
     public class ScheduleNotificationSubSettings : ISettingsProperty
     {
-        bool enabled = false;
-        int delay = 5;
-        bool onlyFirstSchedule = false;
-        NotificationDelayMode mode = NotificationDelayMode.Both;
-        double volume = 1;
+        private bool enabled = false;
+        private int delay = 5;
+        private bool onlyFirstSchedule = false;
+        private NotificationDelayMode mode = NotificationDelayMode.Both;
+        private double volume = 1;
 
         public bool Enabled
         {

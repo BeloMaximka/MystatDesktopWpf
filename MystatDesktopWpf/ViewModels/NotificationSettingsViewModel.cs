@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MystatDesktopWpf.Domain;
+﻿using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf.ViewModels
 {
     public class NotificationSettingsViewModel : ViewModelBase
     {
-        ScheduleNotificationSubSettings schedule;
+        private readonly ScheduleNotificationSubSettings schedule;
         public NotificationSettingsViewModel()
         {
             schedule = SettingsService.Settings.ScheduleNotification;

@@ -1,21 +1,19 @@
 ﻿using MystatAPI.Entity;
+using MystatDesktopWpf.Domain;
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using MystatDesktopWpf.Domain;
-using System.Globalization;
 
 namespace MystatDesktopWpf.Services
 {
     internal static class SettingsService
     {
-        const string settingsFilePath = "./settings.bin";
+        private const string settingsFilePath = "./settings.bin";
         public static Settings Settings { get; private set; }
 
         public static event Action OnSettingsChange;

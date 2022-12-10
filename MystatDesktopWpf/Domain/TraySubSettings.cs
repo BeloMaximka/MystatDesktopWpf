@@ -1,13 +1,9 @@
 ﻿using MystatDesktopWpf.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.Domain
 {
-    enum TrayBehavior
+    internal enum TrayBehavior
     {
         AlwaysMove,
         OnlyOnClose,
@@ -18,7 +14,7 @@ namespace MystatDesktopWpf.Domain
     {
         public event Action? OnPropertyChanged;
 
-        TrayBehavior trayBehavior = TrayBehavior.AlwaysMove;
+        private TrayBehavior trayBehavior = TrayBehavior.AlwaysMove;
 
         public TrayBehavior TrayBehavior
         {
