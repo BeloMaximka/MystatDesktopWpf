@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MystatDesktopWpf": {
+      "commandName": "Project",
+      "commandLineArgs": "-noupdate"
+    }
+  }
+}
