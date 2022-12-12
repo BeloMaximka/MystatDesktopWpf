@@ -15,13 +15,16 @@ namespace MystatDesktopWpf.Services
 {
     internal static class SettingsService
     {
-        const string settingsFilePath = "./settings.bin";
+        static string settingPath = Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat");
         public static Settings Settings { get; private set; }
 
         public static event Action OnSettingsChange;
 
         static SettingsService()
         {
+            Directory.CreateDirectory(settingPath);
+            settingPath += @"\settings.bin";
+
             Settings = Load() ?? new();
 
             CancellationTokenSource? cancelTokenSource = null;
@@ -51,7 +54,7 @@ namespace MystatDesktopWpf.Services
         {
             try
             {
-                string? content = File.ReadAllText(settingsFilePath);
+                string? content = File.ReadAllText(settingPath);
                 var settings = JsonSerializer.Deserialize<Settings>(content);
 
                 if (settings?.LoginData is not null)
@@ -77,7 +80,7 @@ namespace MystatDesktopWpf.Services
         {
             try
             {
-                File.WriteAllText(settingsFilePath, JsonSerializer.Serialize(Settings));
+                File.WriteAllText(settingPath, JsonSerializer.Serialize(Settings));
                 return true;
             }
             catch (Exception)
@@ -149,7 +152,7 @@ namespace MystatDesktopWpf.Services
             if (App.Languages.Contains(CultureInfo.InstalledUICulture))
                 Language = CultureInfo.InstalledUICulture.Name;
             else
-                Language = new CultureInfo("en-US").Name;
+                Language = new CultureInfo("en -US").Name;
         }
         public UserLoginData? LoginData { get; set; }
         public ScheduleNotificationSubSettings ScheduleNotification { get; set; } = new();
