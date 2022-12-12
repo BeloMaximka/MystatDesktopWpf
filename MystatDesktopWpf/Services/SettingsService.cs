@@ -13,13 +13,16 @@ namespace MystatDesktopWpf.Services
 {
     internal static class SettingsService
     {
-        private const string settingsFilePath = "./settings.bin";
+        private string settingsFilePath = Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat");
         public static Settings Settings { get; private set; }
 
         public static event Action OnSettingsChange;
 
         static SettingsService()
         {
+            Directory.CreateDirectory(settingsFilePath);
+            settingsFilePath = Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat\settings.bin");
+
             Settings = Load() ?? new();
 
             CancellationTokenSource? cancelTokenSource = null;
