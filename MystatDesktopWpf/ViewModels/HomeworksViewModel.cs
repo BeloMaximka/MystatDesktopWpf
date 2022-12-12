@@ -87,7 +87,9 @@ public class HomeworkCollection : ViewModelBase
         }
     }
 
-    public bool NoPages { get => items.Count != maxCount; }
+    public bool HasMorePages { get => items.Count < maxCount;  }
+
+    public bool NoPages { get => items.Count < maxCount; }
 
     private int maxCount = new();
     public int MaxCount { get => maxCount; set => SetProperty(ref maxCount, value); }
@@ -103,6 +105,7 @@ public class HomeworkCollection : ViewModelBase
             Homework[] result = await MystatAPISingleton.Client.GetHomework(++Page, items[0].Status);
             foreach (var item in result)
                 Items.Add(item);
+            OnPropertyChanged(nameof(NoPages));
             return true;
         }
         catch (Exception)

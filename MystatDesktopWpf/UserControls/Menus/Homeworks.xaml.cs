@@ -43,6 +43,11 @@ namespace MystatDesktopWpf.UserControls.Menus
         private void ViewModel_HomeworkLoaded()
         {
             transitioner.SelectedIndex = 1;
+            overdueList.UpdateLoadButtonVisibility();
+            deletedList.UpdateLoadButtonVisibility();
+            activeList.UpdateLoadButtonVisibility();
+            uploadedList.UpdateLoadButtonVisibility();
+            checkedList.UpdateLoadButtonVisibility();
         }
 
         private void OpenFileInExplorer(string filePath)
