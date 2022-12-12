@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf.Transitions;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -28,6 +29,18 @@ namespace MystatDesktopWpf.UserControls
             dateTextBlock.Text = GetMonthName(selectedDate);
             App.LanguageChanged += HandleLangChange;
             LoadSchedule(selectedDate);
+            ScheduleAutoUpdate();
+        }
+
+        private void ScheduleAutoUpdate()
+        {
+            TaskService.CancelTask("daily-schedule-refresh");
+            TaskService.ScheduleTask("daily-schedule-refresh", DateTime.Now.AddDays(1), new TimeOnly(2, 0), () =>
+            {
+                selectedDate = DateTime.Now;
+                Refresh();
+                ScheduleAutoUpdate();
+            });
         }
 
         private void HandleLangChange(object? sender, EventArgs e)
