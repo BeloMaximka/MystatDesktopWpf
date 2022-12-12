@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
 using MystatDesktopWpf.UserControls.Menus;
+using MystatDesktopWpf.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,8 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class HomeworkList : UserControl
     {
+        static int defaultPageSize = 6;
+
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
             DependencyProperty.Register("Collection", typeof(HomeworkCollection), typeof(HomeworkList));
@@ -123,6 +126,22 @@ namespace MystatDesktopWpf.UserControls
             await Collection.LoadNextPage();
             ButtonProgressAssist.SetIsIndicatorVisible(progressPageButton, false);
             button.IsHitTestVisible = true;
+
+            UpdateLoadButtonVisibility();
+        }
+
+        public void UpdateLoadButtonVisibility()
+        {
+            var count = Collection.Items.Count;
+            var maxCount = Collection.MaxCount;
+            if (count >= maxCount)
+            {
+                nextPageButton.Visibility = Visibility.Collapsed;
+            }
+            else if(count >= defaultPageSize)
+            {
+                nextPageButton.Visibility = Visibility.Visible;
+            }
         }
     }
 }
