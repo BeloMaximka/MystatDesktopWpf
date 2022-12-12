@@ -111,4 +111,10 @@
     <!-- Homework request for redo -->
     <v:String x:Key="m_RedoRequest">Request for redo</v:String>
     <v:String x:Key="m_RedoSend">Send (-2 coins)</v:String>
+
+    <!-- App update -->
+    <v:String x:Key="m_CheckUpdates">Check for updates</v:String>
+    <v:String x:Key="m_UpdateApp">Update app</v:String>
+    <v:String x:Key="m_CheckingUpdates">Checking for updates...</v:String>
+    <v:String x:Key="m_DownloadingUpdate">Downloading the update...</v:String>
 </ResourceDictionary>

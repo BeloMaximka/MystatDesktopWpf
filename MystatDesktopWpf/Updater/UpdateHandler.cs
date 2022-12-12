@@ -9,27 +9,33 @@ namespace MystatDesktopWpf.Updater
 {
     internal static class UpdateHandler
     {
+        public static event Action? UpdateReady;
+
         private static readonly HttpClient httpClient = new();
-        private static string tempUpdateDir;
+        private static string? tempUpdateDir;
 
         public static async Task<UpdateCheckResult> CheckForUpdates()
         {
-            var result = await httpClient.GetAsync(@"https://github.com/BeloMaximka/MystatDesktopWpf/releases/download/latest/version");
-            string remoteVersion = await result.Content.ReadAsStringAsync();
-
             try
             {
+                var result = await httpClient.GetAsync(@"https://github.com/BeloMaximka/MystatDesktopWpf/releases/download/latest/version");
+                string remoteVersion = await result.Content.ReadAsStringAsync();
+
                 string localVersion = File.ReadAllText("./version");
-                return localVersion == remoteVersion ? UpdateCheckResult.NoUpdates : UpdateCheckResult.UpdateReady;
+                if(localVersion != remoteVersion)
+                {
+                    UpdateReady?.Invoke();
+                    return UpdateCheckResult.UpdateReady;
+                }
             }
-            catch (IOException)
-            {
-                return UpdateCheckResult.NoUpdates;
-            }
+            catch (IOException) {}
+            catch (HttpRequestException) { }
+            return UpdateCheckResult.NoUpdates;
         }
 
         public static async Task DownloadUpdate()
         {
+            if (tempUpdateDir != null) return;
             var result = await httpClient.GetAsync(@"https://github.com/BeloMaximka/MystatDesktopWpf/releases/download/latest/MystatDesktop.zip");
             var buffer = await result.Content.ReadAsByteArrayAsync();
 
@@ -43,6 +49,7 @@ namespace MystatDesktopWpf.Updater
 
         public static void RequestUpdate()
         {
+            if (tempUpdateDir == null) return;
             string executable = Directory.GetFiles(tempUpdateDir, "*.exe")[0];
             ProcessStartInfo info = new()
             {

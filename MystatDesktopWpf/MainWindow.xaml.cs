@@ -22,6 +22,7 @@ using MaterialDesignColors;
 using MystatDesktopWpf.Converters;
 using Hardcodet.Wpf.TaskbarNotification;
 using MystatDesktopWpf.UserControls;
+using MystatDesktopWpf.Updater;
 
 namespace MystatDesktopWpf
 {
@@ -151,21 +152,15 @@ namespace MystatDesktopWpf
         #region Tray
         private void UpdateTrayText(object? sender, EventArgs e)
         {
-            // TODO: Переделать метод, чтобы избавиться от непонятных индексов
             var menu = (ContextMenu)FindResource("trayIconContextMenu");
-            SetLocalizedHeader(menu.Items[0], "m_ShowFromTray");
-            SetLocalizedHeader(menu.Items[2], "m_TrayScheduleToday");
-            SetLocalizedHeader(menu.Items[3], "m_TrayScheduleTomorrow");
-            SetLocalizedHeader(menu.Items[5], "m_Exit");
-        }
-
-        private void SetLocalizedHeader(object item, string key)
-        {
-            var menuItem = item as MenuItem;
-
-            if (menuItem is null) return;
-
-            menuItem.Header = FindResource(key);
+            foreach (var item in menu.Items)
+            {
+                if (item is MenuItem)
+                {
+                    MenuItem menuItem = (MenuItem)item;
+                    menuItem.Header = FindResource((string)menuItem.Tag);
+                }
+            }
         }
 
         private void MenuItemClickExit(object sender, RoutedEventArgs e)
@@ -205,6 +200,19 @@ namespace MystatDesktopWpf
         private void popup_MouseLeave(object sender, MouseEventArgs e)
         {
             popup.IsOpen = false;
+        }
+
+        private async void MenuItemCheckUpdates(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            item.IsHitTestVisible = false;
+            item.Tag = "m_CheckingUpdates";
+            item.Header = FindResource("m_CheckingUpdates");
+            
+            bool updateReady = await UpdateHandler.CheckForUpdates() == UpdateCheckResult.UpdateReady;
+            item.Tag = updateReady ? "m_UpdateApp" : "m_CheckUpdates";
+            item.Header = FindResource((string)item.Tag);
+            item.IsHitTestVisible = true;
         }
         #endregion
     }

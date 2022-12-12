@@ -16,6 +16,7 @@ using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Transitions;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Updater;
 using MystatDesktopWpf.ViewModels;
 
 namespace MystatDesktopWpf.UserControls
@@ -30,6 +31,7 @@ namespace MystatDesktopWpf.UserControls
         {
             viewModel = new MainMenuViewModel();
             this.DataContext = viewModel;
+            UpdateHandler.UpdateReady += ShowUpdateButton;
             InitializeComponent();
         }
 
@@ -57,6 +59,10 @@ namespace MystatDesktopWpf.UserControls
             RefreshButtonDebounce();
         }
 
+        void ShowUpdateButton()
+        {
+            updateButton.Visibility = Visibility.Visible;
+        }
         async void RefreshButtonDebounce()
         {
             refreshButton.IsEnabled = false;
@@ -68,6 +74,13 @@ namespace MystatDesktopWpf.UserControls
         {
             if(e.Key == Key.F5 && refreshButton.IsEnabled)
                 RefreshButton_Click(null, null);
+        }
+
+        async private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            await UpdateHandler.DownloadUpdate();
+            UpdateHandler.RequestUpdate();
+            App.Current.Shutdown();
         }
     }
 }

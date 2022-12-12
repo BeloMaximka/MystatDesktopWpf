@@ -20,6 +20,7 @@ namespace MystatDesktopWpf.Updater
             {
                 if (await UpdateHandler.CheckForUpdates() == UpdateCheckResult.UpdateReady)
                 {
+                    statusTextBox.Text = (string)App.Current.FindResource("m_DownloadingUpdate");
                     await UpdateHandler.DownloadUpdate();
                     UpdateHandler.RequestUpdate();
                     App.Current.Shutdown();

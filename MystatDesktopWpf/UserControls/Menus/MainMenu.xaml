@@ -30,6 +30,12 @@
             </Grid.RowDefinitions>
             <ToggleButton Margin="0,5,0,5" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Center" Visibility="Hidden"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                <Button x:Name="updateButton" Visibility="Collapsed"
+                        Style="{StaticResource MaterialDesignToolButton}" 
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        Content="{materialDesign:PackIcon Kind=TrayDownload, Size=24}" 
+                        ToolTip="{DynamicResource m_UpdateApp}"
+                        Click="UpdateButton_Click"/>
                 <Button x:Name="refreshButton" Margin="8,0,8,0" Click="RefreshButton_Click"
                         Content="{materialDesign:PackIcon Kind=Refresh, Size=24}"
                         Foreground="{DynamicResource MaterialDesignBody}"

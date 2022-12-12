@@ -19,7 +19,7 @@
                        Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
             <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}" Margin="0,16,0,16"
                          Value="0" IsIndeterminate="True" Height="48" Width="48"/>
-            <TextBlock HorizontalAlignment="Center" Text="Checking for updates..."
+            <TextBlock x:Name="statusTextBox" HorizontalAlignment="Center" Text="{DynamicResource m_CheckingUpdates}"
                        TextWrapping="Wrap" Width="300" TextAlignment="Center"
                        Style="{DynamicResource MaterialDesignBody1TextBlock}"
                        Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
