@@ -152,7 +152,7 @@ namespace MystatDesktopWpf.Services
             if (App.Languages.Contains(CultureInfo.InstalledUICulture))
                 Language = CultureInfo.InstalledUICulture.Name;
             else
-                Language = new CultureInfo("en-US").Name;
+                Language = new CultureInfo("en -US").Name;
         }
         public UserLoginData? LoginData { get; set; }
         public ScheduleNotificationSubSettings ScheduleNotification { get; set; } = new();
