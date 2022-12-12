@@ -87,8 +87,6 @@ public class HomeworkCollection : ViewModelBase
         }
     }
 
-    public bool HasMorePages { get => items.Count < maxCount;  }
-
     public bool NoPages { get => items.Count < maxCount; }
 
     private int maxCount = new();
