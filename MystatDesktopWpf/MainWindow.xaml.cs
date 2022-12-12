@@ -60,6 +60,8 @@ namespace MystatDesktopWpf
 
             // Текст с трея через DynamicResource не обновляется, поэтому обновляем так
             App.LanguageChanged += UpdateTrayText;
+
+            UpdateHandler.ScheduleUpdateCheck();
         }
 
         void LoadMainMenu()

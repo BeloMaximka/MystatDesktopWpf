@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MystatDesktopWpf.Services;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -14,6 +15,18 @@ namespace MystatDesktopWpf.Updater
         private static readonly HttpClient httpClient = new();
         private static string? tempUpdateDir;
 
+
+        public static void ScheduleUpdateCheck()
+        {
+            TaskService.ScheduleTask("updateCheck", DateTime.Now.AddDays(1), new TimeOnly(2, 0), CheckForUpdatesScheduled);
+        }
+
+        private static async void CheckForUpdatesScheduled()
+        {
+            if (await CheckForUpdates() == UpdateCheckResult.NoUpdates)
+                ScheduleUpdateCheck();
+        }
+
         public static async Task<UpdateCheckResult> CheckForUpdates()
         {
             try
@@ -22,13 +35,13 @@ namespace MystatDesktopWpf.Updater
                 string remoteVersion = await result.Content.ReadAsStringAsync();
 
                 string localVersion = File.ReadAllText("./version");
-                if(localVersion != remoteVersion)
+                if (localVersion != remoteVersion)
                 {
                     UpdateReady?.Invoke();
                     return UpdateCheckResult.UpdateReady;
                 }
             }
-            catch (IOException) {}
+            catch (IOException) { }
             catch (HttpRequestException) { }
             return UpdateCheckResult.NoUpdates;
         }
