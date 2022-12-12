@@ -62,6 +62,8 @@ namespace MystatDesktopWpf
             App.LanguageChanged += UpdateTrayText;
 
             UpdateHandler.ScheduleUpdateCheck();
+            UpdateHandler.UpdateStarted += () => SetUpdateItemStatus(true);
+            UpdateHandler.UpdateCancelled += () => SetUpdateItemStatus(false);
         }
 
         void LoadMainMenu()
@@ -213,6 +215,27 @@ namespace MystatDesktopWpf
             
             bool updateReady = await UpdateHandler.CheckForUpdates() == UpdateCheckResult.UpdateReady;
             item.Tag = updateReady ? "m_UpdateApp" : "m_CheckUpdates";
+            item.Header = FindResource((string)item.Tag);
+            item.IsHitTestVisible = true;
+
+            if (updateReady)
+            {
+                item.Click -= MenuItemCheckUpdates;
+                item.Click += MenuItemUpdate;
+            }
+        }
+
+        private async void MenuItemUpdate(object sender, RoutedEventArgs e)
+        {
+            await UpdateHandler.RequestUpdate();
+        }
+
+        private void SetUpdateItemStatus(bool loading)
+        {
+            ContextMenu menu = (ContextMenu)FindResource("trayIconContextMenu");
+            MenuItem item = (MenuItem)LogicalTreeHelper.FindLogicalNode(menu, "updateItem");
+
+            item.Tag = loading ? "m_DownloadingUpdate" : "m_UpdateApp";
             item.Header = FindResource((string)item.Tag);
             item.IsHitTestVisible = true;
         }

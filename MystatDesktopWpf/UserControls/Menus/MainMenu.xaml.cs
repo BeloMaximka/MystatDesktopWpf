@@ -31,7 +31,13 @@ namespace MystatDesktopWpf.UserControls
         {
             viewModel = new MainMenuViewModel();
             this.DataContext = viewModel;
-            UpdateHandler.UpdateReady += ShowUpdateButton;
+            UpdateHandler.UpdateReady += () => updateGrid.Visibility = Visibility.Visible;
+            UpdateHandler.UpdateStarted += () => SetUpdateButtonStatus(true);
+            UpdateHandler.UpdateCancelled += () =>
+            {
+                SetUpdateButtonStatus(false);
+                mainSnackbar.MessageQueue?.Enqueue((string)FindResource("m_UpdateError"));
+            };
             InitializeComponent();
         }
 
@@ -59,11 +65,13 @@ namespace MystatDesktopWpf.UserControls
             RefreshButtonDebounce();
         }
 
-        void ShowUpdateButton()
+        private void SetUpdateButtonStatus(bool loading)
         {
-            updateButton.Visibility = Visibility.Visible;
+            updateButton.IsHitTestVisible = !loading;
+            ButtonProgressAssist.SetIsIndicatorVisible(progressUpdateButton, loading);
         }
-        async void RefreshButtonDebounce()
+
+        private async void RefreshButtonDebounce()
         {
             refreshButton.IsEnabled = false;
             await Task.Delay(1000);
@@ -72,15 +80,13 @@ namespace MystatDesktopWpf.UserControls
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.F5 && refreshButton.IsEnabled)
+            if (e.Key == Key.F5 && refreshButton.IsEnabled)
                 RefreshButton_Click(null, null);
         }
 
         async private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            await UpdateHandler.DownloadUpdate();
-            UpdateHandler.RequestUpdate();
-            App.Current.Shutdown();
+            await UpdateHandler.RequestUpdate();
         }
     }
 }

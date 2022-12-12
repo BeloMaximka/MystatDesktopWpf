@@ -11,6 +11,8 @@ namespace MystatDesktopWpf.Updater
     internal static class UpdateHandler
     {
         public static event Action? UpdateReady;
+        public static event Action? UpdateStarted;
+        public static event Action? UpdateCancelled;
 
         private static readonly HttpClient httpClient = new();
         private static string? tempUpdateDir;
@@ -46,9 +48,10 @@ namespace MystatDesktopWpf.Updater
             return UpdateCheckResult.NoUpdates;
         }
 
-        public static async Task DownloadUpdate()
+        static async Task DownloadUpdate()
         {
             if (tempUpdateDir != null) return;
+
             var result = await httpClient.GetAsync(@"https://github.com/BeloMaximka/MystatDesktopWpf/releases/download/latest/MystatDesktop.zip");
             var buffer = await result.Content.ReadAsByteArrayAsync();
 
@@ -60,17 +63,27 @@ namespace MystatDesktopWpf.Updater
             archive.ExtractToDirectory(tempUpdateDir);
         }
 
-        public static void RequestUpdate()
+        public async static Task RequestUpdate()
         {
-            if (tempUpdateDir == null) return;
-            string executable = Directory.GetFiles(tempUpdateDir, "*.exe")[0];
-            ProcessStartInfo info = new()
+            UpdateStarted?.Invoke();
+            try
             {
-                FileName = executable,
-                WorkingDirectory = tempUpdateDir,
-                Arguments = $"-wait {Environment.ProcessId} -update \"{Directory.GetCurrentDirectory()}\""
-            };
-            Process.Start(info);
+                await DownloadUpdate();
+                if (tempUpdateDir == null) return;
+                string executable = Directory.GetFiles(tempUpdateDir, "*.exe")[0];
+                ProcessStartInfo info = new()
+                {
+                    FileName = executable,
+                    WorkingDirectory = tempUpdateDir,
+                    Arguments = $"-wait {Environment.ProcessId} -update \"{Directory.GetCurrentDirectory()}\""
+                };
+                Process.Start(info);
+                App.Current.Shutdown();
+            }
+            catch (Exception)
+            {
+                UpdateCancelled?.Invoke();
+            }
         }
 
         public static void Update(string updateDir)

@@ -24,7 +24,7 @@
             <MenuItem Tag="m_TrayScheduleToday" Header="{StaticResource m_TrayScheduleToday}" Click="MenuItemScheduleToday"/>
             <MenuItem Tag="m_TrayScheduleTomorrow" Header="{StaticResource m_TrayScheduleTomorrow}" Click="MenuItemScheduleTomorrow"/>
             <Separator/>
-            <MenuItem Tag="m_CheckUpdates" Header="{StaticResource m_CheckUpdates}" Click="MenuItemCheckUpdates"/>
+            <MenuItem x:Name="updateItem" Tag="m_CheckUpdates" Header="{StaticResource m_CheckUpdates}" Click="MenuItemCheckUpdates"/>
             <Separator/>
             <MenuItem Tag="m_Exit" Header="{StaticResource m_Exit}" Click="MenuItemClickExit" />
         </ContextMenu>
