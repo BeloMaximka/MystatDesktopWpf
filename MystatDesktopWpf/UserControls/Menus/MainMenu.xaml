@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:MystatDesktopWpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domain="clr-namespace:MystatDesktopWpf.Domain" 
-             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
+             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls" 
+             xmlns:viewmodels="clr-namespace:MystatDesktopWpf.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}" 
@@ -29,6 +30,21 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ToggleButton Margin="0,5,0,5" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" HorizontalAlignment="Center" Visibility="Hidden"/>
+            <StackPanel x:Name="headerBar" Orientation="Horizontal" HorizontalAlignment="Left"
+                        Grid.Column="1" VerticalAlignment="Center" Margin="16,0,0,0"
+                        d:DataContext="{d:DesignInstance Type=viewmodels:HeaderBarViewModel}">
+                <TextBlock Text="{Binding Name}" Margin="0,0,8,0"/>
+                <materialDesign:PackIcon Kind="Account"/>
+                <TextBlock Text="{Binding Group}" Margin="4,0,8,0"/>
+                <materialDesign:PackIcon Kind="Star" Foreground="#a67afa"/>
+                <TextBlock Text="{Binding Points}" Margin="4,0,8,0"/>
+                <materialDesign:PackIcon Kind="Diamond" Foreground="#73a0ec"/>
+                <TextBlock Text="{Binding Diamonds}" Margin="4,0,8,0"/>
+                <materialDesign:PackIcon Kind="AlphaICircle" Foreground="#ffc730"/>
+                <TextBlock Text="{Binding Coins}" Margin="4,0,8,0"/>
+                <materialDesign:PackIcon Kind="Prize" Foreground="#f87087"/>
+                <TextBlock Text="{Binding Badges}" Margin="4,0,8,0"/>
+            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
                 <Button x:Name="refreshButton" Margin="8,0,8,0" Click="RefreshButton_Click"
                         Content="{materialDesign:PackIcon Kind=Refresh, Size=24}"
@@ -51,7 +67,7 @@
             </Grid.ColumnDefinitions>
             <Border Background="{DynamicResource MaterialDesignCardBackground}"/>
             <ListBox VerticalAlignment="Top" x:Name="NagivationBar"
-                     SelectedIndex="1"
+                     SelectedIndex="1" Grid.RowSpan="2"
                      ItemsSource="{Binding MenuItems}"
                      SelectedValue="{Binding SelectedItem}"
                      Margin="0,8,0,0">
