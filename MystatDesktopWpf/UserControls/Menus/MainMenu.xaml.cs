@@ -1,6 +1,8 @@
-﻿using MaterialDesignThemes.Wpf.Transitions;
+﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf.Transitions;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Updater;
 using MystatDesktopWpf.ViewModels;
 using System.Threading.Tasks;
 using System.Windows;

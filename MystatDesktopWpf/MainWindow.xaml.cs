@@ -5,6 +5,7 @@ using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Converters;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Updater;
 using MystatDesktopWpf.UserControls;
 using System;
 using System.Linq;
@@ -205,7 +206,7 @@ namespace MystatDesktopWpf
             item.IsHitTestVisible = false;
             item.Tag = "m_CheckingUpdates";
             item.Header = FindResource("m_CheckingUpdates");
-            
+
             bool updateReady = await UpdateHandler.CheckForUpdates() == UpdateCheckResult.UpdateReady;
             item.Tag = updateReady ? "m_UpdateApp" : "m_CheckUpdates";
             item.Header = FindResource((string)item.Tag);

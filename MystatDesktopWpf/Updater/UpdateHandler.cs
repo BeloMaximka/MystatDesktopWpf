@@ -48,7 +48,7 @@ namespace MystatDesktopWpf.Updater
             return UpdateCheckResult.NoUpdates;
         }
 
-        static async Task DownloadUpdate()
+        private static async Task DownloadUpdate()
         {
             if (tempUpdateDir != null) return;
 

@@ -3,6 +3,7 @@ using MystatDesktopWpf.Services;
 using MystatDesktopWpf.Updater;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -122,7 +123,7 @@ namespace MystatDesktopWpf
             }
             CheckSingleton();
 
-            MainWindow = e.Args.Contains("-noupdate")? MainWindow = new MainWindow() : new UpdateWindow();
+            MainWindow = e.Args.Contains("-noupdate") ? MainWindow = new MainWindow() : new UpdateWindow();
             MainWindow.Show();
         }
 
