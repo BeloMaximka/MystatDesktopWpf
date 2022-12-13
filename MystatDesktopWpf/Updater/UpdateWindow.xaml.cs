@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace MystatDesktopWpf.Updater
 {
@@ -12,6 +13,12 @@ namespace MystatDesktopWpf.Updater
         {
             InitializeComponent();
             CheckForUpdates();
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
         }
 
         private async void CheckForUpdates()
