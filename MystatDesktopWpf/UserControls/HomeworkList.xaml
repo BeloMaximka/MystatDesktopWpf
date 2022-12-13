@@ -92,12 +92,12 @@
                                 </Grid.ColumnDefinitions>
                                 <Border x:Name="headerBackground" Background="{DynamicResource PrimaryHueMidBrush}" 
                                         CornerRadius="4,4,0,0" Margin="-8" Grid.ColumnSpan="2"/>
-                                <TextBlock Text="{Binding SubjectName}" TextWrapping="Wrap" 
-                                           Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"
+                                <TextBlock x:Name="subjectTextBlock" Text="{Binding SubjectName}" TextWrapping="Wrap" 
+                                           Foreground="{DynamicResource MaterialDesignLightForeground}"
                                            TextAlignment="Center" VerticalAlignment="Center"/>
                                 <Border Background="Transparent" Grid.Column="1" x:Name="info" Margin="4,0,0,0">
-                                    <materialDesign:PackIcon Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
-                                                             Foreground="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                                    <materialDesign:PackIcon x:Name="infoCircle" Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
+                                                             Foreground="{DynamicResource MaterialDesignLightForeground}"/>
                                 </Border>
                                 
                             </Grid>
@@ -107,8 +107,8 @@
                                     <!-- Mark -->
                                     <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
                                             Height="32" Width="32" x:Name="markButton" Visibility="Collapsed"
-                                            Background="#1bd2c7"
-                                            BorderBrush="#1bd2c7"
+                                            Background="#1bd2c7" BorderBrush="#1bd2c7"
+                                            Foreground="{DynamicResource MaterialDesignLightForeground}"
                                             materialDesign:ElevationAssist.Elevation="Dp2"
                                             IsHitTestVisible="{Binding HomeworkComment.Text, Converter={StaticResource NotNullOrWhiteSpaceConverter}}"
                                             ToolTip="{DynamicResource m_TeacherComment}"
@@ -210,6 +210,8 @@
                             <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="card" Property="AllowDrop" Value="True"/>
+                            <Setter TargetName="subjectTextBlock" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                            <Setter TargetName="infoCircle" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Overdue}">
                             <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
@@ -239,7 +241,7 @@
                             <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="card" Property="AllowDrop" Value="True"/>
-                            <Setter TargetName="headerBackground" Property="Background" Value="#a3afc9"/>
+                            <Setter TargetName="headerBackground" Property="Background" Value="#fa5873"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
