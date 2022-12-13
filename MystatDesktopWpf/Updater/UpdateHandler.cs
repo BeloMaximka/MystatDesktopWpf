@@ -20,7 +20,8 @@ namespace MystatDesktopWpf.Updater
 
         public static void ScheduleUpdateCheck()
         {
-            TaskService.ScheduleTask("updateCheck", DateTime.Now.AddDays(1), new TimeOnly(2, 0), CheckForUpdatesScheduled);
+            TaskService.CancelTask("update-check");
+            TaskService.ScheduleTask("update-check", DateTime.Now.AddDays(1), new TimeOnly(2, 0), CheckForUpdatesScheduled);
         }
 
         private static async void CheckForUpdatesScheduled()
