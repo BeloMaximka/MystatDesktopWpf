@@ -34,7 +34,7 @@
                             Style="{DynamicResource MaterialDesignIconButton}"  
                             Foreground="{DynamicResource MaterialDesignBody}"
                             Height="32" Width="32" Margin="8, 0, 0, 0">
-                        <materialDesign:PackIcon Kind="Close"/>
+                        <materialDesign:PackIcon Kind="Close" HorizontalAlignment="Center" Height="32" Width="32" VerticalAlignment="Center"/>
                     </Button>
                 </StackPanel>
             </Grid>

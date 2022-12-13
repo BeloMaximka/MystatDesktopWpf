@@ -59,7 +59,7 @@
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesign3.NavigationRailListBoxItem}">
                         <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
                         <Setter Property="materialDesign:BadgedAssist.Badge" Value="{Binding Notifications}" />
-                        <Setter Property="Width" Value="90px"/>
+                        <Setter Property="Width" Value="92px"/>
                         <Setter Property="materialDesign:BadgedAssist.BadgeBackground" Value="#930006" />
                         <Setter Property="materialDesign:BadgedAssist.BadgeForeground" Value="#FFDAD4" />
                         <Setter Property="materialDesign:NavigationRailAssist.IsTextVisible" Value="True" />
