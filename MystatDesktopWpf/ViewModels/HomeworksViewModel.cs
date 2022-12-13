@@ -1,12 +1,9 @@
-﻿using Microsoft.VisualBasic;
-using MystatAPI.Entity;
+﻿using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.ViewModels
@@ -24,7 +21,7 @@ namespace MystatDesktopWpf.ViewModels
                 {
                     Loading = true;
 
-                    var homeworkCount = await MystatAPISingleton.mystatAPIClient.GetHomeworkCount();
+                    var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount();
                     foreach (var item in homeworkCount)
                     {
                         if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
@@ -36,7 +33,7 @@ namespace MystatDesktopWpf.ViewModels
 
                     foreach (var item in Homework)
                     {
-                        var result = await MystatAPISingleton.mystatAPIClient.GetHomework(1, item.Key);
+                        var result = await MystatAPISingleton.Client.GetHomework(1, item.Key);
                         Homework[item.Key].Items = new(result);
                     }
 
@@ -79,10 +76,10 @@ namespace MystatDesktopWpf.ViewModels
 
 public class HomeworkCollection : ViewModelBase
 {
-    ObservableCollection<Homework> items = new();
-    public ObservableCollection<Homework> Items 
-    { 
-        get => items; 
+    private ObservableCollection<Homework> items = new();
+    public ObservableCollection<Homework> Items
+    {
+        get => items;
         set
         {
             SetProperty(ref items, value);
@@ -90,22 +87,23 @@ public class HomeworkCollection : ViewModelBase
         }
     }
 
-    public bool NoPages { get => items.Count != maxCount; }
-     
-    int maxCount = new();
+    public bool NoPages { get => items.Count < maxCount; }
+
+    private int maxCount = new();
     public int MaxCount { get => maxCount; set => SetProperty(ref maxCount, value); }
- 
+
     public int Page { get; set; } = 1;
 
     public async Task<bool> LoadNextPage()
     {
         if (Items.Count == 0 || Items.Count == MaxCount) return false;
-        
+
         try
         {
-            Homework[] result = await MystatAPISingleton.mystatAPIClient.GetHomework(++Page, items[0].Status);
+            Homework[] result = await MystatAPISingleton.Client.GetHomework(++Page, items[0].Status);
             foreach (var item in result)
                 Items.Add(item);
+            OnPropertyChanged(nameof(NoPages));
             return true;
         }
         catch (Exception)

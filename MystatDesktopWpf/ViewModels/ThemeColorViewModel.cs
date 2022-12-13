@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using MaterialDesignColors;
 using MaterialDesignColors.ColorManipulation;
-using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.Services;
 using MystatDesktopWpf.Converters;
+using MystatDesktopWpf.Services;
+using System.Windows.Media;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -19,8 +14,7 @@ namespace MystatDesktopWpf.ViewModels
             SelectedColor = ColorToHexConverter.ConvertBack(SettingsService.Settings.Theme.ColorHex);
         }
         private readonly PaletteHelper paletteHelper = new();
-
-        Color selectedColor;
+        private Color selectedColor;
         public Color SelectedColor
         {
             get => selectedColor;

@@ -1,23 +1,14 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using MystatAPI.Entity;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.IO;
-using MystatDesktopWpf.Domain;
-using Microsoft.Win32;
-using MaterialDesignThemes.Wpf;
 using System.Windows.Threading;
-using MystatAPI.Entity;
-using System.Text.RegularExpressions;
 
 namespace MystatDesktopWpf.UserControls.DialogContent
 {
@@ -41,15 +32,15 @@ namespace MystatDesktopWpf.UserControls.DialogContent
             set => SetValue(SendButtonNameProperty, value);
         }
 
-        string[]? files;
-        public string[]? Files 
-        { 
-            get => files; 
-            set 
-            { 
+        private string[]? files;
+        public string[]? Files
+        {
+            get => files;
+            set
+            {
                 files = value;
                 UpdateFileInfo();
-            } 
+            }
         }
         public string? Comment { get => textBox.Text; }
         public bool Archive { get; private set; } = false;
@@ -58,7 +49,7 @@ namespace MystatDesktopWpf.UserControls.DialogContent
         public ICollection<Homework> HomeworkSource { get; set; }
         public DialogHost? Host { get; set; }
 
-        DispatcherTimer clickAwayDebounce = new();
+        private readonly DispatcherTimer clickAwayDebounce = new();
 
         public UploadHomework()
         {
@@ -80,7 +71,7 @@ namespace MystatDesktopWpf.UserControls.DialogContent
             errorTextBlock.Visibility = Visibility.Collapsed;
         }
 
-        void UpdateFileInfo()
+        private void UpdateFileInfo()
         {
             if (files?.Length > 0)
             {
@@ -103,13 +94,14 @@ namespace MystatDesktopWpf.UserControls.DialogContent
                 }
             }
         }
-        void textBox_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox.Text))
                 textBox.Text = "";
         }
 
-        void dropDownCard_Drop(object sender, DragEventArgs e)
+        private void DropDownCard_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -118,7 +110,7 @@ namespace MystatDesktopWpf.UserControls.DialogContent
             }
         }
 
-        void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             files = null;
             dropDownCard.Visibility = Visibility.Visible;
@@ -129,7 +121,7 @@ namespace MystatDesktopWpf.UserControls.DialogContent
             zipTextBlock.Visibility = Visibility.Collapsed;
         }
 
-        void openExplorerButton_Click(object sender, RoutedEventArgs e)
+        private void OpenExplorerButton_Click(object sender, RoutedEventArgs e)
         {
             if (Host != null)
                 Host.CloseOnClickAway = false;
@@ -143,14 +135,14 @@ namespace MystatDesktopWpf.UserControls.DialogContent
             clickAwayDebounce.Start();
         }
 
-        void EnableClickAway(object? sender, EventArgs e)
+        private void EnableClickAway(object? sender, EventArgs e)
         {
             if (Host != null)
                 Host.CloseOnClickAway = true;
             clickAwayDebounce.Stop();
         }
 
-        void UploadButton_Click(object sender, RoutedEventArgs e)
+        private void UploadButton_Click(object sender, RoutedEventArgs e)
         {
             if (files == null && textBox.Text == string.Empty)
             {
@@ -167,7 +159,7 @@ namespace MystatDesktopWpf.UserControls.DialogContent
             DialogHost.CloseDialogCommand.Execute(true, Host);
         }
 
-        private void fileTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void FileTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Чтобы нельзя было вставить <>:"/\|?* в название файла
             // PreviewTextInput не подходит, ибо он пропускает вставку символов

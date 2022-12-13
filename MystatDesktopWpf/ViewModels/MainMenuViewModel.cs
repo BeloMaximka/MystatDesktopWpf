@@ -1,13 +1,8 @@
 ﻿using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MystatDesktopWpf.UserControls;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.UserControls;
 using MystatDesktopWpf.UserControls.Menus;
+using System.Collections.ObjectModel;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -15,8 +10,9 @@ namespace MystatDesktopWpf.ViewModels
     {
 
         public ObservableCollection<MainMenuItem> MenuItems { get; } = new();
-        int selectedIndex;
-        MainMenuItem selectedItem;
+
+        private int selectedIndex;
+        private MainMenuItem selectedItem;
 
         public MainMenuViewModel()
         {

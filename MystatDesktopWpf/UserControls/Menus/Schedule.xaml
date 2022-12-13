@@ -87,7 +87,7 @@
                     </materialDesign:TransitionerSlide>
                 </materialDesign:Transitioner>
                 <Popup x:Name="popup" StaysOpen="True" Placement="Mouse" HorizontalOffset="8" VerticalOffset="8"
-                       AllowsTransparency="True" MouseMove="popup_MouseMove"/>
+                       AllowsTransparency="True" MouseMove="Popup_MouseMove"/>
             </Grid>
             <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}"/>
         </Grid>

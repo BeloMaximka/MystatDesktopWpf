@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MaterialDesignThemes.Wpf.Transitions;
+using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
+using MystatDesktopWpf.ViewModels;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MaterialDesignThemes.Wpf;
-using MaterialDesignThemes.Wpf.Transitions;
-using MystatDesktopWpf.Domain;
-using MystatDesktopWpf.Services;
-using MystatDesktopWpf.Updater;
-using MystatDesktopWpf.ViewModels;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -26,7 +14,7 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class MainMenu : UserControl
     {
-        MainMenuViewModel viewModel;
+        private readonly MainMenuViewModel viewModel;
         public MainMenu()
         {
             viewModel = new MainMenuViewModel();
@@ -50,11 +38,9 @@ namespace MystatDesktopWpf.UserControls
         }
         private void OnLanguageChange(object sender, RoutedEventArgs e)
         {
-            var item = sender as ComboBoxItem;
+            if (sender is not ComboBoxItem item) return;
 
-            if (item is null) return;
-
-            var index = int.Parse(item.Tag as string);
+            var index = int.Parse((string)item.Tag);
             App.Language = App.Languages[index];
         }
 

@@ -1,25 +1,10 @@
-﻿using MystatAPI.Entity;
+﻿using MaterialDesignThemes.Wpf;
+using MystatAPI.Entity;
+using MystatDesktopWpf.UserControls.Menus;
+using MystatDesktopWpf.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MaterialDesignThemes.Wpf;
-using System.Windows.Automation;
-using MystatDesktopWpf.Domain;
-using MystatDesktopWpf.UserControls.Menus;
-using System.Windows.Controls.Primitives;
-using MystatDesktopWpf.ViewModels;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -28,6 +13,8 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class HomeworkList : UserControl
     {
+        static int defaultPageSize = 6;
+
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
             DependencyProperty.Register("Collection", typeof(HomeworkCollection), typeof(HomeworkList));
@@ -62,13 +49,13 @@ namespace MystatDesktopWpf.UserControls
         {
             Card card = (Card)sender;
             HomeworkStatus status = (HomeworkStatus)card.Tag;
-            if(status == HomeworkStatus.Uploaded || status == HomeworkStatus.Checked)
+            if (status == HomeworkStatus.Uploaded || status == HomeworkStatus.Checked)
             {
                 Button uploadButton = (Button)card.FindName("uploadButton");
                 uploadButton.Click -= UploadButton_Click;
                 uploadButton.Click += DownloadUploadedButton_Click;
             }
-            if(status == HomeworkStatus.Uploaded)
+            if (status == HomeworkStatus.Uploaded)
             {
                 Button deleteButton = (Button)card.FindName("deleteButton");
                 deleteButton.Click += DeleteButton_Click;
@@ -133,12 +120,28 @@ namespace MystatDesktopWpf.UserControls
         private async void LoadPageButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            
+
             button.IsHitTestVisible = false;
             ButtonProgressAssist.SetIsIndicatorVisible(progressPageButton, true);
             await Collection.LoadNextPage();
             ButtonProgressAssist.SetIsIndicatorVisible(progressPageButton, false);
             button.IsHitTestVisible = true;
+
+            UpdateLoadButtonVisibility();
+        }
+
+        public void UpdateLoadButtonVisibility()
+        {
+            var count = Collection.Items.Count;
+            var maxCount = Collection.MaxCount;
+            if (count >= maxCount)
+            {
+                nextPageButton.Visibility = Visibility.Collapsed;
+            }
+            else if(count >= defaultPageSize)
+            {
+                nextPageButton.Visibility = Visibility.Visible;
+            }
         }
     }
 }

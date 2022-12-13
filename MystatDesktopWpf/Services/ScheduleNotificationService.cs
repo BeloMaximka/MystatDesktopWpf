@@ -2,11 +2,8 @@
 using MystatDesktopWpf.Domain;
 using System;
 using System.Collections.Generic;
-using System.DirectoryServices;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Ink;
 
 namespace MystatDesktopWpf.Services
 {
@@ -14,7 +11,8 @@ namespace MystatDesktopWpf.Services
     {
         public static List<DayScheduleForNotification> TodaySchedule { get; private set; }
         public static bool OnlyFirstSchedule { get; set; } = true;
-        static Random rand = new Random();
+
+        private static readonly Random rand = new();
 
         public static event Action<DaySchedule, int>? OnTimerElapsed;
         public static event Action? OnTimersConfigured;
@@ -61,7 +59,7 @@ namespace MystatDesktopWpf.Services
 
             try
             {
-                var response = await MystatAPISingleton.mystatAPIClient.GetScheduleByDate(DateTime.Now);
+                var response = await MystatAPISingleton.Client.GetScheduleByDate(DateTime.Now);
 
                 if (response is null) return false;
                 TodaySchedule = response.Select(i => new DayScheduleForNotification(i)).ToList();
@@ -98,7 +96,7 @@ namespace MystatDesktopWpf.Services
             }
         }
 
-        static bool SetNotification(DayScheduleForNotification item, int delay)
+        private static bool SetNotification(DayScheduleForNotification item, int delay)
         {
             if (!item.IsNotificationEnabled) return false;
 
@@ -134,7 +132,7 @@ namespace MystatDesktopWpf.Services
             return DisableNotification(item);
         }
 
-        static bool DisableNotification(DayScheduleForNotification cancelForItem)
+        private static bool DisableNotification(DayScheduleForNotification cancelForItem)
         {
             var ids = TaskService.TimersIds.Where(id => id.StartsWith(cancelForItem.DaySchedule.StartedAt)).ToArray();
 
@@ -160,7 +158,7 @@ namespace MystatDesktopWpf.Services
             }
         }
 
-        static string CreateId(DaySchedule daySchedule)
+        private static string CreateId(DaySchedule daySchedule)
         {
             return $"{daySchedule.StartedAt}_{rand.Next(100)}";
         }

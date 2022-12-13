@@ -1,27 +1,16 @@
-﻿using MystatAPI.Entity;
+﻿using MaterialDesignThemes.Wpf;
+using MystatAPI;
+using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.UserControls.DialogContent;
+using MystatDesktopWpf.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
 using System.Diagnostics;
-using MystatAPI;
+using System.IO;
 using System.IO.Compression;
-using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.ViewModels;
-using MystatDesktopWpf.UserControls.DialogContent;
+using System.Net.Http;
+using System.Windows.Controls;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
@@ -30,12 +19,11 @@ namespace MystatDesktopWpf.UserControls.Menus
     /// </summary>
     public partial class Homeworks : UserControl, IRefreshable
     {
-        HomeworksViewModel viewModel;
-        static HttpClient httpClient = new();
-
-        UploadHomework uploadContent = new();
-        DeleteHomework deleteContent = new();
-        DonwloadHomeworkPreview downloadContent = new();
+        private readonly HomeworksViewModel viewModel;
+        private static readonly HttpClient httpClient = new();
+        private readonly UploadHomework uploadContent = new();
+        private readonly DeleteHomework deleteContent = new();
+        private readonly DonwloadHomeworkPreview downloadContent = new();
         public Homeworks()
         {
             InitializeComponent();
@@ -55,9 +43,14 @@ namespace MystatDesktopWpf.UserControls.Menus
         private void ViewModel_HomeworkLoaded()
         {
             transitioner.SelectedIndex = 1;
+            overdueList.UpdateLoadButtonVisibility();
+            deletedList.UpdateLoadButtonVisibility();
+            activeList.UpdateLoadButtonVisibility();
+            uploadedList.UpdateLoadButtonVisibility();
+            checkedList.UpdateLoadButtonVisibility();
         }
 
-        void OpenFileInExplorer(string filePath)
+        private void OpenFileInExplorer(string filePath)
         {
             try
             {
@@ -81,7 +74,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                 string fileName = res.Content.Headers.ContentDisposition?.FileName.Trim('\"');
                 string extension = fileName.Remove(0, fileName.LastIndexOf('.'));
 
-                if(extension == ".txt")
+                if (extension == ".txt")
                 {
                     downloadContent.Header = (string)FindResource("m_TxtPreview");
                     downloadContent.TextBoxHint = (string)FindResource("m_TxtContent");
@@ -94,9 +87,11 @@ namespace MystatDesktopWpf.UserControls.Menus
                         return;
                 }
 
-                System.Windows.Forms.SaveFileDialog dialog = new();
-                dialog.FileName = fileName;
-                dialog.Filter = $"(*{extension})|*{extension}";
+                System.Windows.Forms.SaveFileDialog dialog = new()
+                {
+                    FileName = fileName,
+                    Filter = $"(*{extension})|*{extension}"
+                };
 
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
@@ -139,7 +134,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             uploadContent.HomeworkSource = source;
             uploadContent.Files = files;
 
-            if(homework.Status == HomeworkStatus.Checked)
+            if (homework.Status == HomeworkStatus.Checked)
             {
                 uploadContent.Header = (string)FindResource("m_RedoRequest");
                 uploadContent.SendButtonName = (string)FindResource("m_RedoSend");
@@ -151,7 +146,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             }
             bool? result = (bool?)await homeworkDialog.ShowDialog(uploadContent);
 
-            if(result.HasValue && result == true)
+            if (result.HasValue && result == true)
             {
                 // Делаем кнопку загрузки крутиться
                 ButtonProgressAssist.SetIsIndicatorVisible(progress, true);
@@ -170,16 +165,16 @@ namespace MystatDesktopWpf.UserControls.Menus
                         }
                         HomeworkFile file = new(uploadContent.ArchiveName, stream.ToArray());
 
-                        info = await MystatAPISingleton.mystatAPIClient.UploadHomeworkFile(uploadContent.Homework.Id, file, uploadContent.Comment);
+                        info = await MystatAPISingleton.Client.UploadHomeworkFile(uploadContent.Homework.Id, file, uploadContent.Comment);
                     }
                     else
-                        info = await MystatAPISingleton.mystatAPIClient.UploadHomework(uploadContent.Homework.Id, uploadContent.Files?[0], uploadContent.Comment);
+                        info = await MystatAPISingleton.Client.UploadHomework(uploadContent.Homework.Id, uploadContent.Files?[0], uploadContent.Comment);
 
                     uploadContent.Homework.UploadedHomework = info;
                     uploadContent.Homework.Status = HomeworkStatus.Uploaded;
                     uploadContent.HomeworkSource.Remove(uploadContent.Homework);
                     viewModel.AddHomework(HomeworkStatus.Uploaded, uploadContent.Homework);
-                    
+
                     string workUploaded = (string)FindResource("m_WorkUploaded");
                     snackbar.MessageQueue?.Enqueue(workUploaded);
                 }
@@ -203,7 +198,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             {
                 try
                 {
-                    if (await MystatAPISingleton.mystatAPIClient.RemoveHomework(homework.UploadedHomework.Id) == false)
+                    if (await MystatAPISingleton.Client.RemoveHomework(homework.UploadedHomework.Id) == false)
                         throw new HttpRequestException("Error deleting homework");
 
                     viewModel.DeleteHomework(HomeworkStatus.Uploaded, homework);

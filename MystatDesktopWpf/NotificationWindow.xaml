@@ -19,6 +19,6 @@
         <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}" 
                                  HorizontalAlignment="Right" Margin="32,16,32,32" VerticalAlignment="Bottom"
                                  Background="{DynamicResource PrimaryHueMidBrush}"
-                                 Foreground="{DynamicResource MaterialDesignDarkForeground}" MouseDown="snackbar_MouseDown"/>
+                                 Foreground="{DynamicResource MaterialDesignDarkForeground}" MouseDown="Snackbar_MouseDown"/>
     </Grid>
 </Window>

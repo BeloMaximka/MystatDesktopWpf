@@ -1,13 +1,8 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using MystatDesktopWpf.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using MaterialDesignColors;
-using MaterialDesignColors.ColorManipulation;
-using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf.ViewModels
 {

@@ -1,24 +1,16 @@
-﻿using MaterialDesignThemes.Wpf;
-using MaterialDesignThemes.Wpf.Transitions;
+﻿using MaterialDesignThemes.Wpf.Transitions;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -27,9 +19,9 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class Schedule : UserControl, IRefreshable
     {
-        Dictionary<int, List<DaySchedule>> groupedSchedules = new();
-        Button lastButtonHover;
-        DateTime selectedDate = DateTime.Now;
+        private readonly Dictionary<int, List<DaySchedule>> groupedSchedules = new();
+        private Button lastButtonHover;
+        private DateTime selectedDate = DateTime.Now;
         public Schedule()
         {
             InitializeComponent();
@@ -37,6 +29,18 @@ namespace MystatDesktopWpf.UserControls
             dateTextBlock.Text = GetMonthName(selectedDate);
             App.LanguageChanged += HandleLangChange;
             LoadSchedule(selectedDate);
+            ScheduleAutoUpdate();
+        }
+
+        private void ScheduleAutoUpdate()
+        {
+            TaskService.CancelTask("daily-schedule-refresh");
+            TaskService.ScheduleTask("daily-schedule-refresh", DateTime.Now.AddDays(1), new TimeOnly(2, 0), () =>
+            {
+                selectedDate = DateTime.Now;
+                Refresh();
+                ScheduleAutoUpdate();
+            });
         }
 
         private void HandleLangChange(object? sender, EventArgs e)
@@ -44,7 +48,7 @@ namespace MystatDesktopWpf.UserControls
             dateTextBlock.Text = GetMonthName(selectedDate);
         }
 
-        private string GetMonthName(DateTime date)
+        private static string GetMonthName(DateTime date)
         {
             StringBuilder builder = new();
             builder.Append($"{date.ToString("MMMM", CultureInfo.CurrentUICulture)} {date.Year}");
@@ -74,7 +78,7 @@ namespace MystatDesktopWpf.UserControls
             popup.IsOpen = false;
         }
 
-        private void popup_MouseMove(object sender, MouseEventArgs e)
+        private void Popup_MouseMove(object sender, MouseEventArgs e)
         {
             Point relative = lastButtonHover.TransformToAncestor(this).Transform(new Point(0, 0));
             Point mousePos = e.GetPosition(this);
@@ -85,19 +89,20 @@ namespace MystatDesktopWpf.UserControls
             popup.IsOpen = false;
         }
 
-        void GenerateButtons()
+        private void GenerateButtons()
         {
             int column = 0;
             int row = 0;
 
-            Border border = new();
-            border.Margin = new Thickness(8);
+            Border border = new() { Margin = new Thickness(8) };
             Grid.SetRow(border, row);
             Grid.SetColumn(border, column);
 
-            Binding binding = new("Height");
-            binding.Source = border;
-            binding.Mode = BindingMode.OneWay;
+            Binding binding = new("Height")
+            {
+                Source = border,
+                Mode = BindingMode.OneWay
+            };
 
             for (int i = 1; i <= 42; i++)
             {
@@ -107,8 +112,7 @@ namespace MystatDesktopWpf.UserControls
                     row++;
                 }
 
-                Button button = new();
-                button.Margin = border.Margin;
+                Button button = new() { Margin = border.Margin };
                 button.MouseEnter += Button_MouseEnter;
                 button.MouseLeave += Button_MouseLeave;
                 button.Click += Button_Click;
@@ -122,15 +126,16 @@ namespace MystatDesktopWpf.UserControls
             }
         }
 
-        bool Loading = false;
-        async void LoadSchedule(DateTime date)
+        private bool Loading = false;
+
+        private async void LoadSchedule(DateTime date)
         {
             Loading = true;
             while (true)
             {
                 try
                 {
-                    DaySchedule[] schedules = await MystatAPISingleton.mystatAPIClient.GetMonthSchedule(date);
+                    DaySchedule[] schedules = await MystatAPISingleton.Client.GetMonthSchedule(date);
                     groupedSchedules.Clear();
                     foreach (DaySchedule schedule in schedules)
                     {
