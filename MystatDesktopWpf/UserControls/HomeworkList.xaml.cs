@@ -1,7 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
 using MystatDesktopWpf.UserControls.Menus;
-using MystatDesktopWpf.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +12,7 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class HomeworkList : UserControl
     {
-        static int defaultPageSize = 6;
+        private static readonly int defaultPageSize = 6;
 
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
@@ -138,7 +137,7 @@ namespace MystatDesktopWpf.UserControls
             {
                 nextPageButton.Visibility = Visibility.Collapsed;
             }
-            else if(count >= defaultPageSize)
+            else if (count >= defaultPageSize)
             {
                 nextPageButton.Visibility = Visibility.Visible;
             }

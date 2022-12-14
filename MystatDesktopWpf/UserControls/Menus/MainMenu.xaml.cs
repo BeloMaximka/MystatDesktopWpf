@@ -1,6 +1,8 @@
-﻿using MaterialDesignThemes.Wpf.Transitions;
+﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf.Transitions;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Updater;
 using MystatDesktopWpf.ViewModels;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,9 +21,15 @@ namespace MystatDesktopWpf.UserControls
 
         public MainMenu()
         {
-            menuViewModel = new();
-            this.DataContext = menuViewModel;
-            
+            viewModel = new MainMenuViewModel();
+            this.DataContext = viewModel;
+            UpdateHandler.UpdateReady += () => updateGrid.Visibility = Visibility.Visible;
+            UpdateHandler.UpdateStarted += () => SetUpdateButtonStatus(true);
+            UpdateHandler.UpdateCancelled += () =>
+            {
+                SetUpdateButtonStatus(false);
+                mainSnackbar.MessageQueue?.Enqueue((string)FindResource("m_UpdateError"));
+            };
             InitializeComponent();
 
             headerViewModel = new();
@@ -50,6 +58,12 @@ namespace MystatDesktopWpf.UserControls
             RefreshButtonDebounce();
         }
 
+        private void SetUpdateButtonStatus(bool loading)
+        {
+            updateButton.IsHitTestVisible = !loading;
+            ButtonProgressAssist.SetIsIndicatorVisible(progressUpdateButton, loading);
+        }
+
         private async void RefreshButtonDebounce()
         {
             refreshButton.IsEnabled = false;
@@ -61,6 +75,11 @@ namespace MystatDesktopWpf.UserControls
         {
             if (e.Key == Key.F5 && refreshButton.IsEnabled)
                 RefreshButton_Click(null, null);
+        }
+
+        async private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            await UpdateHandler.RequestUpdate();
         }
     }
 }
