@@ -55,6 +55,7 @@ namespace MystatDesktopWpf.UserControls
         {
             IRefreshable menu = menuViewModel.SelectedItem.Content as IRefreshable;
             menu?.Refresh();
+            headerViewModel.Refresh();
             RefreshButtonDebounce();
         }
 
