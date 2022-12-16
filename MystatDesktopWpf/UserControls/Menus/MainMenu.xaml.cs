@@ -16,7 +16,9 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class MainMenu : UserControl
     {
-        private readonly MainMenuViewModel viewModel;
+        private readonly MainMenuViewModel menuViewModel;
+        private readonly HeaderBarViewModel headerViewModel;
+
         public MainMenu()
         {
             viewModel = new MainMenuViewModel();
@@ -29,6 +31,9 @@ namespace MystatDesktopWpf.UserControls
                 mainSnackbar.MessageQueue?.Enqueue((string)FindResource("m_UpdateError"));
             };
             InitializeComponent();
+
+            headerViewModel = new();
+            headerBar.DataContext = headerViewModel;
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
@@ -48,7 +53,7 @@ namespace MystatDesktopWpf.UserControls
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            IRefreshable menu = viewModel.SelectedItem.Content as IRefreshable;
+            IRefreshable menu = menuViewModel.SelectedItem.Content as IRefreshable;
             menu?.Refresh();
             RefreshButtonDebounce();
         }
