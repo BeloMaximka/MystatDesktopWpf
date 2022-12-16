@@ -21,8 +21,8 @@ namespace MystatDesktopWpf.UserControls
 
         public MainMenu()
         {
-            viewModel = new MainMenuViewModel();
-            this.DataContext = viewModel;
+            menuViewModel = new MainMenuViewModel();
+            this.DataContext = menuViewModel;
             UpdateHandler.UpdateReady += () => updateGrid.Visibility = Visibility.Visible;
             UpdateHandler.UpdateStarted += () => SetUpdateButtonStatus(true);
             UpdateHandler.UpdateCancelled += () =>

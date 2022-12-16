@@ -12,7 +12,7 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class HomeworkList : UserControl
     {
-        private static readonly int defaultPageSize = 6;
+        private const int defaultPageSize = 6;
 
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
