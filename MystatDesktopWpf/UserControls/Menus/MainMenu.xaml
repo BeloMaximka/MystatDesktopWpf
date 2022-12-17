@@ -46,10 +46,28 @@
                 <TextBlock Text="{Binding Badges}" Margin="4,0,8,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
+                <Grid x:Name="updateGrid" Visibility="Collapsed">
+                    <Button Height="32" Width="32" x:Name="progressUpdateButton"
+                            Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                            Background="Transparent" Foreground="Transparent" BorderBrush="Transparent"
+                            IsHitTestVisible="False"
+                            materialDesign:ButtonProgressAssist.Value="-1"
+                            materialDesign:ButtonProgressAssist.IsIndeterminate="True">
+                    </Button>
+                    <Button x:Name="updateButton" Style="{StaticResource PopupToolButton}" 
+                            Foreground="{DynamicResource MaterialDesignBody}"
+                            Content="{materialDesign:PackIcon Kind=TrayDownload, Size=24}" 
+                            ToolTip="{DynamicResource m_UpdateApp}"
+                            Visibility="{Binding ElementName=updateGrid, Path=Visibility}"
+                            Click="UpdateButton_Click"/>
+                </Grid>
+                
                 <Button x:Name="refreshButton" Margin="8,0,8,0" Click="RefreshButton_Click"
                         Content="{materialDesign:PackIcon Kind=Refresh, Size=24}"
                         Foreground="{DynamicResource MaterialDesignBody}"
-                        Style="{StaticResource MaterialDesignToolButton}"/>
+                        Style="{StaticResource MaterialDesignToolButton}"
+                        materialDesign:ButtonProgressAssist.Value="-1"
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="True"/>
                 <controls:LanguageComboBox  Margin="0,0,8,0"/>
                 <controls:DarkModeToggleButton x:Name="darkModeButton"/>
                 <Button Margin="8,0,16,0" Click="Button_Exit_Click"
@@ -81,15 +99,26 @@
                         <Setter Property="materialDesign:NavigationRailAssist.IsTextVisible" Value="True" />
                         <Setter Property="materialDesign:NavigationRailAssist.SelectedIcon" Value="{Binding SelectedIcon}" />
                         <Setter Property="materialDesign:NavigationRailAssist.UnselectedIcon" Value="{Binding UnselectedIcon}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </ListBox.ItemContainerStyle>
                 <ListBox.Resources>
                     <DataTemplate DataType="{x:Type domain:MainMenuItem}">
-                        <TextBlock Text="{Binding Name}" TextAlignment="Center" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="textBlock" Text="{Binding Name}" TextAlignment="Center" TextWrapping="Wrap"/>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="True">
+                                <Setter TargetName="textBlock" Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListBox.Resources>
             </ListBox>
             <UserControl DataContext="{Binding SelectedItem}" Grid.Column="1" Content="{Binding Content}"/>
+            <materialDesign:Snackbar x:Name="mainSnackbar" Grid.Column="1" MessageQueue="{materialDesign:MessageQueue}"/>
         </Grid>
     </Grid>
 </UserControl>

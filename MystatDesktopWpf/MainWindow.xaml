@@ -19,12 +19,14 @@
         x:Name="window" Closed="WindowClosed" Closing="WindowClosing">
     <Window.Resources>
         <ContextMenu x:Key="trayIconContextMenu">
-            <MenuItem Header="{StaticResource m_ShowFromTray}" Click="MenuItemClickShow"/>
-            <Separator />
-            <MenuItem Header="{StaticResource m_TrayScheduleToday}" Click="MenuItemScheduleToday"/>
-            <MenuItem Header="{StaticResource m_TrayScheduleTomorrow}" Click="MenuItemScheduleTomorrow"/>
-            <Separator />
-            <MenuItem Header="{StaticResource m_Exit}" Click="MenuItemClickExit" />
+            <MenuItem Tag="m_ShowFromTray" Header="{StaticResource m_ShowFromTray}" Click="MenuItemClickShow"/>
+            <Separator/>
+            <MenuItem Tag="m_TrayScheduleToday" Header="{StaticResource m_TrayScheduleToday}" Click="MenuItemScheduleToday"/>
+            <MenuItem Tag="m_TrayScheduleTomorrow" Header="{StaticResource m_TrayScheduleTomorrow}" Click="MenuItemScheduleTomorrow"/>
+            <Separator/>
+            <MenuItem x:Name="updateItem" Tag="m_CheckUpdates" Header="{StaticResource m_CheckUpdates}" Click="MenuItemCheckUpdates"/>
+            <Separator/>
+            <MenuItem Tag="m_Exit" Header="{StaticResource m_Exit}" Click="MenuItemClickExit" />
         </ContextMenu>
     </Window.Resources>
     <Grid>

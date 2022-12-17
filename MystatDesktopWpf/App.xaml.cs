@@ -1,8 +1,11 @@
 ﻿using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Updater;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -81,9 +84,50 @@ namespace MystatDesktopWpf
         private const string UniqueEventName = "4B41F251-D34D-419C-ACCC-4144EE501BD1";
         private const string UniqueMutexName = "C8C527A3-7439-47C3-9403-DF9539E62D8B";
         private EventWaitHandle eventWaitHandle;
-        private Mutex mutex;
+        private Mutex? mutex;
 
         protected override void OnStartup(StartupEventArgs e)
+        {
+            int index = Array.IndexOf(e.Args, "-wait");
+            if (index != -1)
+            {
+                int id = int.Parse(e.Args[index + 1]);
+                try
+                {
+                    Process process = Process.GetProcessById(id);
+                    process.WaitForExit();
+                }
+                catch (ArgumentException) { }
+
+                index = Array.IndexOf(e.Args, "-update");
+                if (index != -1)
+                {
+                    try
+                    {
+                        UpdateHandler.Update(e.Args[index + 1]);
+                    }
+                    catch (IOException) { }
+
+                    Shutdown();
+                }
+                index = Array.IndexOf(e.Args, "-clear");
+                if (index != -1)
+                {
+                    Directory.Delete(e.Args[index + 1], true);
+                    CheckSingleton();
+                    MainWindow = new MainWindow();
+                    MainWindow.Show();
+                    return;
+                }
+
+            }
+            CheckSingleton();
+
+            MainWindow = e.Args.Contains("-noupdate") ? MainWindow = new MainWindow() : new UpdateWindow();
+            MainWindow.Show();
+        }
+
+        private void CheckSingleton()
         {
             mutex = new Mutex(true, UniqueMutexName, out bool isOwned);
             eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, UniqueEventName);
@@ -94,12 +138,12 @@ namespace MystatDesktopWpf
             if (isOwned)
             {
                 var thread = new Thread(() =>
+                {
+                    while (eventWaitHandle.WaitOne())
                     {
-                        while (eventWaitHandle.WaitOne())
-                        {
-                            Current.Dispatcher.BeginInvoke(() => ((MainWindow)Current.MainWindow).BringToForeground());
-                        }
-                    });
+                        Current.Dispatcher.BeginInvoke(() => ((MainWindow)Current.MainWindow).BringToForeground());
+                    }
+                });
 
                 // Чтобы поток на заблокировал закрытие приложение
                 thread.IsBackground = true;
@@ -110,6 +154,11 @@ namespace MystatDesktopWpf
 
             eventWaitHandle.Set();
             Shutdown();
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            mutex?.Close();
         }
     }
 }
