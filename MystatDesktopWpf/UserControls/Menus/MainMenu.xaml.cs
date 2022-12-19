@@ -1,6 +1,8 @@
-﻿using MaterialDesignThemes.Wpf.Transitions;
+﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignThemes.Wpf.Transitions;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Updater;
 using MystatDesktopWpf.ViewModels;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,12 +16,24 @@ namespace MystatDesktopWpf.UserControls
     /// </summary>
     public partial class MainMenu : UserControl
     {
-        private readonly MainMenuViewModel viewModel;
+        private readonly MainMenuViewModel menuViewModel;
+        private readonly HeaderBarViewModel headerViewModel;
+
         public MainMenu()
         {
-            viewModel = new MainMenuViewModel();
-            this.DataContext = viewModel;
+            menuViewModel = new MainMenuViewModel();
+            this.DataContext = menuViewModel;
+            UpdateHandler.UpdateReady += () => updateGrid.Visibility = Visibility.Visible;
+            UpdateHandler.UpdateStarted += () => SetUpdateButtonStatus(true);
+            UpdateHandler.UpdateCancelled += () =>
+            {
+                SetUpdateButtonStatus(false);
+                mainSnackbar.MessageQueue?.Enqueue((string)FindResource("m_UpdateError"));
+            };
             InitializeComponent();
+
+            headerViewModel = new();
+            headerBar.DataContext = headerViewModel;
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e)
@@ -39,9 +53,15 @@ namespace MystatDesktopWpf.UserControls
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            IRefreshable menu = viewModel.SelectedItem.Content as IRefreshable;
+            IRefreshable menu = menuViewModel.SelectedItem.Content as IRefreshable;
             menu?.Refresh();
             RefreshButtonDebounce();
+        }
+
+        private void SetUpdateButtonStatus(bool loading)
+        {
+            updateButton.IsHitTestVisible = !loading;
+            ButtonProgressAssist.SetIsIndicatorVisible(progressUpdateButton, loading);
         }
 
         private async void RefreshButtonDebounce()
@@ -55,6 +75,11 @@ namespace MystatDesktopWpf.UserControls
         {
             if (e.Key == Key.F5 && refreshButton.IsEnabled)
                 RefreshButton_Click(null, null);
+        }
+
+        async private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            await UpdateHandler.RequestUpdate();
         }
     }
 }

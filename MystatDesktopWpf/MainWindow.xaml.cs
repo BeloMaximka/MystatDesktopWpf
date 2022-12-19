@@ -5,6 +5,7 @@ using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Converters;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.Updater;
 using MystatDesktopWpf.UserControls;
 using System;
 using System.Linq;
@@ -51,6 +52,10 @@ namespace MystatDesktopWpf
 
             // Текст с трея через DynamicResource не обновляется, поэтому обновляем так
             App.LanguageChanged += UpdateTrayText;
+
+            UpdateHandler.ScheduleUpdateCheck();
+            UpdateHandler.UpdateStarted += () => SetUpdateItemStatus(true);
+            UpdateHandler.UpdateCancelled += () => SetUpdateItemStatus(false);
         }
 
         private void LoadMainMenu()
@@ -145,19 +150,15 @@ namespace MystatDesktopWpf
         #region Tray
         private void UpdateTrayText(object? sender, EventArgs e)
         {
-            // TODO: Переделать метод, чтобы избавиться от непонятных индексов
             var menu = (ContextMenu)FindResource("trayIconContextMenu");
-            SetLocalizedHeader(menu.Items[0], "m_ShowFromTray");
-            SetLocalizedHeader(menu.Items[2], "m_TrayScheduleToday");
-            SetLocalizedHeader(menu.Items[3], "m_TrayScheduleTomorrow");
-            SetLocalizedHeader(menu.Items[5], "m_Exit");
-        }
-
-        private void SetLocalizedHeader(object item, string key)
-        {
-            if (item is not MenuItem menuItem) return;
-
-            menuItem.Header = FindResource(key);
+            foreach (var item in menu.Items)
+            {
+                if (item is MenuItem)
+                {
+                    MenuItem menuItem = (MenuItem)item;
+                    menuItem.Header = FindResource((string)menuItem.Tag);
+                }
+            }
         }
 
         private void MenuItemClickExit(object sender, RoutedEventArgs e)
@@ -197,6 +198,40 @@ namespace MystatDesktopWpf
         private void Popup_MouseLeave(object sender, MouseEventArgs e)
         {
             popup.IsOpen = false;
+        }
+
+        private async void MenuItemCheckUpdates(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            item.IsHitTestVisible = false;
+            item.Tag = "m_CheckingUpdates";
+            item.Header = FindResource("m_CheckingUpdates");
+
+            bool updateReady = await UpdateHandler.CheckForUpdates() == UpdateCheckResult.UpdateReady;
+            item.Tag = updateReady ? "m_UpdateApp" : "m_CheckUpdates";
+            item.Header = FindResource((string)item.Tag);
+            item.IsHitTestVisible = true;
+
+            if (updateReady)
+            {
+                item.Click -= MenuItemCheckUpdates;
+                item.Click += MenuItemUpdate;
+            }
+        }
+
+        private async void MenuItemUpdate(object sender, RoutedEventArgs e)
+        {
+            await UpdateHandler.RequestUpdate();
+        }
+
+        private void SetUpdateItemStatus(bool loading)
+        {
+            ContextMenu menu = (ContextMenu)FindResource("trayIconContextMenu");
+            MenuItem item = (MenuItem)LogicalTreeHelper.FindLogicalNode(menu, "updateItem");
+
+            item.Tag = loading ? "m_DownloadingUpdate" : "m_UpdateApp";
+            item.Header = FindResource((string)item.Tag);
+            item.IsHitTestVisible = true;
         }
         #endregion
     }
