@@ -33,9 +33,9 @@
             <StackPanel x:Name="headerBar" Orientation="Horizontal" HorizontalAlignment="Left"
                         Grid.Column="1" VerticalAlignment="Center" Margin="16,0,0,0"
                         d:DataContext="{d:DesignInstance Type=viewmodels:HeaderBarViewModel}">
-                <TextBlock Text="{Binding Name}" Margin="0,0,8,0"/>
+                <TextBlock Text="{Binding Name}" Margin="0,0,16,0"/>
                 <materialDesign:PackIcon Kind="Account"/>
-                <TextBlock Text="{Binding Group}" Margin="4,0,8,0"/>
+                <TextBlock Text="{Binding Group}" Margin="4,0,16,0"/>
                 <materialDesign:PackIcon Kind="Star" Foreground="#a67afa"/>
                 <TextBlock Text="{Binding Points}" Margin="4,0,8,0"/>
                 <materialDesign:PackIcon Kind="Diamond" Foreground="#73a0ec"/>
