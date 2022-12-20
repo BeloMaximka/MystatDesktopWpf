@@ -29,6 +29,7 @@ namespace MystatDesktopWpf.Updater
                 {
                     statusTextBox.Text = (string)App.Current.FindResource("m_DownloadingUpdate");
                     await UpdateHandler.RequestUpdate();
+                    return;
                 }
             }
             catch (Exception) { } // TODO Log

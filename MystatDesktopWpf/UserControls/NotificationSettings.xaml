@@ -49,13 +49,13 @@
                     <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static domain:NotificationDelayMode.WithoutDelay}}"
                                      Content="{DynamicResource m_SettingsOfNotification1Radio0}" Margin="0,0,0,8" GroupName="DelayMode"/>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.RowSpan="2" Margin="0,-4,0,4">
                         <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static domain:NotificationDelayMode.Delayed}}"
-                                         Content="{DynamicResource m_SettingsOfNotification1Radio1}" Margin="0, 0, 0, 8" Grid.Row="1" GroupName="DelayMode"/>
-                        <TextBox MaxLength="2" Margin="8, 0, 8, 0" Width="20" HorizontalContentAlignment="Center"
+                                     Content="{DynamicResource m_SettingsOfNotification1Radio1}" Margin="0, 0, 0, 0" Grid.Row="1" GroupName="DelayMode"/>
+                        <TextBox MaxLength="2" Margin="4, 0, 0, 0" Width="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"
                                      materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed" x:Name="minutesTextBox"
                                      Text="{Binding NotificationDelay, Mode=OneTime}" PreviewTextInput="TextBox_PreviewTextInput"/>
-                        <Label x:Name="minutesLabel" Content="{DynamicResource m_SettingsOfNotification1Radio1p2}"/>
+                        <Label x:Name="minutesLabel" Content="{DynamicResource m_SettingsOfNotification1Radio1p2}" Margin="0,0,0,0"/>
                     </StackPanel>
                     <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static domain:NotificationDelayMode.Both}}"
                              Content="{DynamicResource m_SettingsOfNotification1Radio2}" Margin="0,0,0,8" Grid.Row="2" GroupName="DelayMode"/>
