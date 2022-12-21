@@ -21,7 +21,7 @@ namespace MystatDesktopWpf
         private readonly TaskbarIcon trayIcon;
         private bool realAppClose = false;
 
-        public MainWindow()
+        public MainWindow(bool initTheme = true)
         {
             InitializeComponent();
 
@@ -31,6 +31,7 @@ namespace MystatDesktopWpf
             login.SuccessfulLogin += LoadMainMenu;
 
             SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
+            if (initTheme) ThemeService.InitTheme();
 
             // notification icon initialization
             trayIcon = new TaskbarIcon()

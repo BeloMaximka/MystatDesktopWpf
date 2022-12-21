@@ -15,7 +15,6 @@ namespace MystatDesktopWpf.Updater
         {
             InitializeComponent();
             ThemeService.InitTheme();
-            //Thread.Sleep(500);
             CheckForUpdates();
         }
 
@@ -38,7 +37,7 @@ namespace MystatDesktopWpf.Updater
             }
             catch (Exception) { } // TODO Log
 
-            App.Current.MainWindow = new MainWindow();
+            App.Current.MainWindow = new MainWindow(false);
             App.Current.MainWindow.Show();
 
             Close();
