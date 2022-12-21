@@ -13,6 +13,7 @@ namespace MystatDesktopWpf.Services
 {
     internal static class SettingsService
     {
+        private static readonly string directoryName = @"%appdata%\Mystat";
         private static readonly string settingsFilePath;
         public static Settings Settings { get; private set; }
 
@@ -20,8 +21,11 @@ namespace MystatDesktopWpf.Services
 
         static SettingsService()
         {
-            Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat"));
-            settingsFilePath = Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat\settings.bin");
+            if(!Directory.Exists(directoryName))
+            {
+                Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(directoryName));
+            }
+            settingsFilePath = Environment.ExpandEnvironmentVariables(@$"{directoryName}\settings.bin");
 
             Settings = Load() ?? new();
 
