@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MystatDesktopWpf.Services;
+using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,6 +14,7 @@ namespace MystatDesktopWpf.Updater
         public UpdateWindow()
         {
             InitializeComponent();
+            ThemeService.InitTheme();
             CheckForUpdates();
         }
 
@@ -34,7 +37,7 @@ namespace MystatDesktopWpf.Updater
             }
             catch (Exception) { } // TODO Log
 
-            App.Current.MainWindow = new MainWindow();
+            App.Current.MainWindow = new MainWindow(false);
             App.Current.MainWindow.Show();
 
             Close();

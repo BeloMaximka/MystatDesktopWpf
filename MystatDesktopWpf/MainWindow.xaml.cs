@@ -1,8 +1,4 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
-using MaterialDesignColors;
-using MaterialDesignColors.ColorManipulation;
-using MaterialDesignThemes.Wpf;
-using MystatDesktopWpf.Converters;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 using MystatDesktopWpf.Updater;
@@ -13,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace MystatDesktopWpf
@@ -26,7 +21,7 @@ namespace MystatDesktopWpf
         private readonly TaskbarIcon trayIcon;
         private bool realAppClose = false;
 
-        public MainWindow()
+        public MainWindow(bool initTheme = true)
         {
             InitializeComponent();
 
@@ -36,7 +31,7 @@ namespace MystatDesktopWpf
             login.SuccessfulLogin += LoadMainMenu;
 
             SoundCachingPlayer.Volume = SettingsService.Settings.ScheduleNotification.Volume;
-            InitTheme(); // Загрузка темы происходит здесь, ибо в App библиотека MaterialDesign не успевает подгрузиться
+            if (initTheme) ThemeService.InitTheme();
 
             // notification icon initialization
             trayIcon = new TaskbarIcon()
@@ -61,39 +56,6 @@ namespace MystatDesktopWpf
         private void LoadMainMenu()
         {
             mainMenuSlide.Content = new MainMenu();
-        }
-
-        private void InitTheme() // Загрузка темы с настроек
-        {
-            PaletteHelper helper = new();
-            Theme theme = (Theme)helper.GetTheme();
-            ThemeSubSettings settings = SettingsService.Settings.Theme;
-
-            Color color = ColorToHexConverter.ConvertBack(settings.ColorHex);
-
-            theme.SecondaryLight = new ColorPair(color.Lighten());
-            theme.SecondaryMid = new ColorPair(color);
-            theme.SecondaryDark = new ColorPair(color.Darken());
-
-            theme.PrimaryLight = new ColorPair(color.Lighten());
-            theme.PrimaryMid = new ColorPair(color);
-            theme.PrimaryDark = new ColorPair(color.Darken());
-
-            if (settings.IsColorAdjusted)
-            {
-                ColorAdjustment adjustment = new()
-                {
-                    Contrast = settings.Contrast,
-                    DesiredContrastRatio = settings.ContrastRatio,
-                    Colors = settings.Colors
-                };
-                theme.ColorAdjustment = adjustment;
-            }
-
-            IBaseTheme baseTheme = settings.IsDarkTheme ? new MaterialDesignDarkTheme() : new MaterialDesignLightTheme();
-            theme.SetBaseTheme(baseTheme);
-
-            helper.SetTheme(theme);
         }
 
         public void BringToForeground()
