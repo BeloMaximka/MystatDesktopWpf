@@ -178,7 +178,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                     string workUploaded = (string)FindResource("m_WorkUploaded");
                     snackbar.MessageQueue?.Enqueue(workUploaded);
                 }
-                catch (Exception)
+                catch
                 {
                     string workUploadError = (string)FindResource("m_WorkUploadError");
                     snackbar.MessageQueue?.Enqueue(workUploadError);
