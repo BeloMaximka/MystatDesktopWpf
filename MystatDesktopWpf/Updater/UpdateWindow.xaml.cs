@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MystatDesktopWpf.Services;
+using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,6 +14,8 @@ namespace MystatDesktopWpf.Updater
         public UpdateWindow()
         {
             InitializeComponent();
+            ThemeService.InitTheme();
+            //Thread.Sleep(500);
             CheckForUpdates();
         }
 
