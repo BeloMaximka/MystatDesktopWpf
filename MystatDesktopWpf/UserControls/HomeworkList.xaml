@@ -16,6 +16,7 @@
         <VM:HomeworksViewModel x:Key="HomeworksViewModel"/>
         <converters:NotNullOrWhiteSpaceConverter x:Key="NotNullOrWhiteSpaceConverter"/>
         <converters:PopupIsOpenConverter x:Key="PopupIsOpenConverter"/>
+        <converters:FormatDateConverter x:Key="FormatDateConverter"/>
         <converters:ValueConverterGroup x:Key="NotNullOrWhiteSpaceVisibilityConverter">
             <converters:NotNullOrWhiteSpaceConverter/>
             <BooleanToVisibilityConverter/>
@@ -75,7 +76,7 @@
                                                  Foreground="{DynamicResource MaterialDesignBody}">
                                             <TextBox.Text>
                                                 <MultiBinding StringFormat="{}{0}&#x0a;{1}&#x0a;{2}">
-                                                    <Binding Path="CreationTime"/>
+                                                    <Binding Path="CreationTime" Converter="{StaticResource FormatDateConverter}" ConverterParameter="d"/>
                                                     <Binding Path="Theme"/>
                                                     <Binding Path="TeacherFullName"/>
                                                 </MultiBinding>
@@ -125,14 +126,14 @@
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                 ToolTip="{DynamicResource m_DueDate}">
                                         <materialDesign:PackIcon Kind="Clock" Margin="0,0,4,0"/>
-                                        <TextBlock Text="{Binding OverdueTime}"/>
+                                        <TextBlock Text="{Binding OverdueTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
                                     </StackPanel>
                                     
                                     <!-- Completion Time -->
                                     <StackPanel Orientation="Horizontal" x:Name="completionTime" Visibility="Collapsed"
                                                 HorizontalAlignment="Right" VerticalAlignment="Center"
                                                 ToolTip="{DynamicResource m_UploadDate}">
-                                        <TextBlock Text="{Binding CompletionTime}"/>
+                                        <TextBlock Text="{Binding CompletionTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
                                         <materialDesign:PackIcon Kind="ClockCheck" Margin="4,0,0,0"/>
                                     </StackPanel>
                                     
