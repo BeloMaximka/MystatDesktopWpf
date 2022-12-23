@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
 using MystatDesktopWpf.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,7 +31,8 @@ namespace MystatDesktopWpf.Domain
         static public FrameworkElement CreateScheduleCardSelectable(List<DaySchedule> schedules, DialogHost dialog)
         {
             ScheduleCardSelectable card = new();
-            card.textBox.Text = schedules[0].Date + "\n\n";
+            
+            card.textBox.Text = DateTime.Parse(schedules[0].Date).ToString("d") + "\n\n";
             card.DialogHost = dialog;
 
             for (int i = 0; i < schedules.Count; i++)
