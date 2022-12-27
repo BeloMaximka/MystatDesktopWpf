@@ -15,7 +15,10 @@
     <ScrollViewer>
         <StackPanel Margin="16">
             <materialDesign:Card Padding="8" Margin="0,0,16,16">
-                <StackPanel>
+                <Grid>
+                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
+                                 x:Name="summaryProgress" Value="0" IsIndeterminate="True" 
+                                 HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"/>
                     <UniformGrid Columns="4">
                         <StackPanel>
                             <TextBlock Text="Place in the group" TextAlignment="Center"/>
@@ -34,14 +37,21 @@
                             <TextBlock Text="{Binding Attendance, StringFormat='{}{0}%'}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                     </UniformGrid>
-                </StackPanel>
+                </Grid>
+                
+
             </materialDesign:Card>
             <UniformGrid Columns="3" x:Name="mainGrid">
                 <materialDesign:Card Margin="0,0,16,16" Padding="8" MinWidth="240">
                     <StackPanel>
                         <Grid>
-                            <TextBlock Text="Board of leaders" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
-                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Board of leaders" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Visibility="Collapsed" 
+                                             x:Name="leadersProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
+                            </StackPanel>
+                            
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                 <RadioButton x:Name="groupRadioButton" Style="{DynamicResource MaterialDesignTabRadioButton}" Margin="4"
                                              BorderBrush="{DynamicResource PrimaryHueMidBrush}" MinHeight="0"
@@ -102,8 +112,13 @@
                 </materialDesign:Card>
                 <materialDesign:Card Margin="0,0,16,16" Padding="8" MinWidth="240">
                     <StackPanel>
-                        <TextBlock Text="Your rewards" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
-                               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Your rewards" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                       HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Visibility="Collapsed" 
+                                         x:Name="activityProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
+                        </StackPanel>
+                        
                         <Separator/>
 
                         <ItemsControl ItemsSource="{Binding Activities}" Height="328" VirtualizingPanel.VirtualizationMode="Recycling"
@@ -161,7 +176,11 @@
                 </materialDesign:Card>
                 <materialDesign:Card Margin="0,0,16,16" Padding="8">
                     <StackPanel>
-                        <TextBlock Text="Homework" Style="{DynamicResource MaterialDesignBody1TextBlock}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Homework" Style="{DynamicResource MaterialDesignBody1TextBlock}" />
+                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Visibility="Collapsed"
+                                         x:Name="homeworkProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
+                        </StackPanel>
                         <Separator/>
                         <UniformGrid Height="326" Columns="2">
                             <StackPanel Margin="8" Grid.ColumnSpan="2" VerticalAlignment="Center">
@@ -199,10 +218,14 @@
                 </materialDesign:Card>
                 <materialDesign:Card Margin="0,0,16,16" Padding="8" MinWidth="240">
                     <StackPanel>
-                        <TextBlock Text="Scheduled Examinations" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
-                               HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <Separator/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Scheduled Examinations" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                       HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
+                                         x:Name="examinationProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
 
+                        </StackPanel>
+                        <Separator/>
                         <Grid>
                             <TextBlock x:Name="noExamsTextBlock" Text="No scheduled examinations" Margin="8" Visibility="Collapsed"/>
                             <ItemsControl ItemsSource="{Binding FutureExams, Mode=OneWay, NotifyOnTargetUpdated=True}" Height="300" VirtualizingPanel.VirtualizationMode="Recycling"

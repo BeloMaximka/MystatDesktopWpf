@@ -4,28 +4,18 @@ using MystatDesktopWpf.Domain;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MystatDesktopWpf.ViewModels
 {
     internal class MainPageViewModel : ViewModelBase
     {
-        
-        public MainPageViewModel()
+        public bool LoadingExams { get; private set; }
+        public async Task LoadFutureExams()
         {
-            LoadActivities();
-            LoadLeaders();
-            LoadSummary();
-            LoadFutureExams();
-            LoadHomeworkInfo();
-        }
-
-        public async void LoadFutureExams()
-        {
+            if (LoadingExams) return;
+            LoadingExams = true;
             RetryDelayProvider delay = new();
             while (true)
             {
@@ -40,10 +30,14 @@ namespace MystatDesktopWpf.ViewModels
                     await Task.Delay(delay.ProvideValueMilliseconds());
                 }
             }
+            LoadingExams = false;
         }
 
-        public async void LoadActivities()
+        public bool LoadingActivities { get; private set; }
+        public async Task LoadActivities()
         {
+            if (LoadingActivities) return;
+            LoadingActivities = true;
             RetryDelayProvider delay = new();
             while (true)
             {
@@ -60,15 +54,20 @@ namespace MystatDesktopWpf.ViewModels
                     Activities = new(optimizedActivies);
                     break;
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.Message);
                     await Task.Delay(delay.ProvideValueMilliseconds());
                 }
             }
+            LoadingActivities = false;
         }
 
-        public async void LoadLeaders()
+        public bool LoadingLeaders { get; private set; }
+        public async Task LoadLeaders()
         {
+            if (LoadingLeaders) return;
+            LoadingLeaders = true;
             RetryDelayProvider delay = new();
             while (true)
             {
@@ -80,15 +79,20 @@ namespace MystatDesktopWpf.ViewModels
                     StreamLeaders = new(result);
                     break;
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.Message);
                     await Task.Delay(delay.ProvideValueMilliseconds());
                 }
             }
+            LoadingLeaders = false;
         }
 
-        public async void LoadSummary()
+        public bool LoadingSummary { get; private set; }
+        public async Task LoadSummary()
         {
+            if (LoadingSummary) return;
+            LoadingSummary = true;
             RetryDelayProvider delay = new();
             while (true)
             {
@@ -109,10 +113,14 @@ namespace MystatDesktopWpf.ViewModels
                     await Task.Delay(delay.ProvideValueMilliseconds());
                 }
             }
+            LoadingSummary = false;
         }
 
-        public async void LoadHomeworkInfo()
+        public bool LoadingHomeworkInfo { get; private set; }
+        public async Task LoadHomeworkInfo()
         {
+            if (LoadingHomeworkInfo) return;
+            LoadingHomeworkInfo = true;
             RetryDelayProvider delay = new();
             while (true)
             {
@@ -132,54 +140,55 @@ namespace MystatDesktopWpf.ViewModels
                     await Task.Delay(delay.ProvideValueMilliseconds());
                 }
             }
+            LoadingHomeworkInfo = false;
         }
 
-        int homeworkTotal;
+        private int homeworkTotal;
         public int HomeworkTotal { get => homeworkTotal; set => SetProperty(ref homeworkTotal, value); }
 
-        int homeworkCurrent;
+        private int homeworkCurrent;
         public int HomeworkCurrent { get => homeworkCurrent; set => SetProperty(ref homeworkCurrent, value); }
 
-        int homeworkUploaded;
+        private int homeworkUploaded;
         public int HomeworkUploaded { get => homeworkUploaded; set => SetProperty(ref homeworkUploaded, value); }
 
-        int homeworkChecked;
+        private int homeworkChecked;
         public int HomeworkChecked { get => homeworkChecked; set => SetProperty(ref homeworkChecked, value); }
-        
-        int homeworkOverdue;
+
+        private int homeworkOverdue;
         public int HomeworkOverdue { get => homeworkOverdue; set => SetProperty(ref homeworkOverdue, value); }
 
-        int homeworkDeleted;
+        private int homeworkDeleted;
         public int HomeworkDeleted { get => homeworkDeleted; set => SetProperty(ref homeworkDeleted, value); }
 
-        int groupPosition;
+        private int groupPosition;
         public int GroupPosition { get => groupPosition; set => SetProperty(ref groupPosition, value); }
 
-        int streamPosition;
+        private int streamPosition;
         public int StreamPosition { get => streamPosition; set => SetProperty(ref streamPosition, value); }
 
-        int averageGrade;
+        private int averageGrade;
         public int AverageGrade { get => averageGrade; set => SetProperty(ref averageGrade, value); }
 
-        int attendance;
+        private int attendance;
         public int Attendance { get => attendance; set => SetProperty(ref attendance, value); }
 
-        ObservableCollection<OptimizedActiviy> activities = new();
+        private ObservableCollection<OptimizedActiviy> activities = new();
         public ObservableCollection<OptimizedActiviy> Activities { get => activities; set => SetProperty(ref activities, value); }
 
-        ObservableCollection<Exam> futureExams = new();
+        private ObservableCollection<Exam> futureExams = new();
         public ObservableCollection<Exam> FutureExams { get => futureExams; set => SetProperty(ref futureExams, value); }
 
-        ObservableCollection<Student> groupLeaders = new();
+        private ObservableCollection<Student> groupLeaders = new();
         public ObservableCollection<Student> GroupLeaders { get => groupLeaders; set => SetProperty(ref groupLeaders, value); }
 
-        ObservableCollection<Student> streamLeaders = new();
+        private ObservableCollection<Student> streamLeaders = new();
         public ObservableCollection<Student> StreamLeaders { get => streamLeaders; set => SetProperty(ref streamLeaders, value); }
     }
 
-    class OptimizedActiviy
+    internal class OptimizedActiviy
     {
-        static readonly Dictionary<byte, string> achievementsNames =
+        private static readonly Dictionary<byte, string> achievementsNames =
         new(){
             { 1, "m_5Visits" },
             { 2, "m_10Visits" },
@@ -198,24 +207,25 @@ namespace MystatDesktopWpf.ViewModels
             { 23, "m_EmailConfirm" },
             { 30, "m_LessonRate" },
         };
-        static readonly PackIconKind[] icons =
+        private static readonly PackIconKind[] icons =
         {
             PackIconKind.Diamond,
             PackIconKind.AlphaICircle,
             PackIconKind.Prize
         };
-        readonly byte id;
-        readonly sbyte points;
-        readonly byte iconType;
+        private readonly byte id;
+        private readonly int points;
+        private readonly byte iconType;
         public string Date { get; private set; }
         public string Points { get => points.ToString("+0;-#"); }
         public PackIconKind Icon { get => icons[iconType]; }
-        public string Name 
-        { 
+        public string Name
+        {
             get
             {
-                string result = (string)App.Current.FindResource(achievementsNames[id]);
-                if (id == 20) result += $": {7 + points}";
+                achievementsNames.TryGetValue(id, out var name);
+                name ??= "m_Unknown";
+                string result = (string)App.Current.FindResource(name);
                 return result;
             }
 
@@ -224,18 +234,18 @@ namespace MystatDesktopWpf.ViewModels
         public OptimizedActiviy(Activity activity, bool badge = false)
         {
             id = (byte)activity.AchievementsId;
-            if(badge)
+            if (badge)
             {
-                points = (sbyte)activity.Badge;
+                points = activity.Badge;
                 iconType = 2;
             }
             else
             {
-                points = (sbyte)activity.CurrentPoint;
+                points = activity.CurrentPoint;
                 if (activity.Action == 0) points *= -1;
                 iconType = (byte)(activity.PointTypesName == "DIAMOND" ? 0 : 1);
             }
-            
+
             Date = DateTime.Parse(activity.Date).ToString("d");
         }
     }

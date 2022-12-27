@@ -2,29 +2,19 @@
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
     /// <summary>
     /// Interaction logic for MainPage.xaml
     /// </summary>
-    public partial class MainPage : UserControl
+    public partial class MainPage : UserControl, IRefreshable
     {
-        MainPageViewModel viewModel;
+        private readonly MainPageViewModel viewModel;
         public MainPage()
         {
             InitializeComponent();
@@ -32,6 +22,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             DataContext = viewModel;
             classRadioButton.Checked += ClassRadioButton_Checked;
             groupRadioButton.Checked += GroupRadioButton_Checked;
+            Refresh();
         }
 
         private void ClassRadioButton_Checked(object sender, RoutedEventArgs e)
@@ -62,6 +53,51 @@ namespace MystatDesktopWpf.UserControls.Menus
         {
             UserControl control = (UserControl)sender;
             mainGrid.Columns = control.ActualWidth < 1300 ? 2 : 3;
+        }
+
+        public void Refresh()
+        {
+            LoadSummary();
+            LoadActivities();
+            LoadLeaders();
+            LoadFutureExams();
+            LoadHomeworkInfo();
+        }
+
+        private async void LoadSummary()
+        {
+            if (viewModel.LoadingSummary) return;
+            summaryProgress.Visibility = Visibility.Visible;
+            await viewModel.LoadSummary();
+            summaryProgress.Visibility = Visibility.Collapsed;
+        }
+        private async void LoadActivities()
+        {
+            if (viewModel.LoadingActivities) return;
+            activityProgress.Visibility = Visibility.Visible;
+            await viewModel.LoadActivities();
+            activityProgress.Visibility = Visibility.Collapsed;
+        }
+        private async void LoadLeaders()
+        {
+            if (viewModel.LoadingLeaders) return;
+            leadersProgress.Visibility = Visibility.Visible;
+            await viewModel.LoadLeaders();
+            leadersProgress.Visibility = Visibility.Collapsed;
+        }
+        private async void LoadFutureExams()
+        {
+            if (viewModel.LoadingExams) return;
+            examinationProgress.Visibility = Visibility.Visible;
+            await viewModel.LoadFutureExams();
+            examinationProgress.Visibility = Visibility.Collapsed;
+        }
+        private async void LoadHomeworkInfo()
+        {
+            if (viewModel.LoadingHomeworkInfo) return;
+            homeworkProgress.Visibility = Visibility.Visible;
+            await viewModel.LoadHomeworkInfo();
+            homeworkProgress.Visibility = Visibility.Collapsed;
         }
     }
 }
