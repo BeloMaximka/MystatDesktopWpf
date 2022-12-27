@@ -119,4 +119,38 @@
     <v:String x:Key="m_CheckingUpdates">Проверка обновлений...</v:String>
     <v:String x:Key="m_DownloadingUpdate">Загрузка обновления...</v:String>
     <v:String x:Key="m_UpdateError">Произошла ошибка при попытке обновления</v:String>
+
+    <!-- Activities -->
+    <v:String x:Key="m_Unknown">Неизвестная активность</v:String>
+    <v:String x:Key="m_LessonRate">Оценка занятия</v:String>
+    <v:String x:Key="m_PairVisit">Посещение пары</v:String>
+    <v:String x:Key="m_Grade">Оценка</v:String>
+    <v:String x:Key="m_ClassworkReward">Поощрение от преподавателя за работу на уроке</v:String>
+    <v:String x:Key="m_HomeworkIntime">Своевременное выполнение домашнего задания</v:String>
+    <v:String x:Key="m_HomeworkRedo">Запрос на пересдачу</v:String>
+    <v:String x:Key="m_LaboratoryIntime">Своевременное выполнение лабораторной работы</v:String>
+    <v:String x:Key="m_QuizParticipation">Участие в опросе</v:String>
+    <v:String x:Key="m_20VisitsIntime">20 посещений подряд без опозданий</v:String>
+    <v:String x:Key="m_20Visits">20 посещений подряд без пропусков</v:String>
+    <v:String x:Key="m_10VisitsIntime">10 посещений подряд без опозданий</v:String>
+    <v:String x:Key="m_10Visits">10 посещений подряд без пропусков</v:String>
+    <v:String x:Key="m_5VisitsIntime">5 посещений подряд без опозданий</v:String>
+    <v:String x:Key="m_5Visits">5 посещений подряд без пропусков</v:String>
+    <v:String x:Key="m_EmailConfirm">Подтверждение электронной почты</v:String>
+    <v:String x:Key="m_FullProfile">Полностью заполненный профиль в Майстате</v:String>
+    <v:String x:Key="m_PurchaseInMarket">Покупка в магазине</v:String>
+    <v:String x:Key="m_HomeworkExpired">Невыполнение домашнего задания в срок</v:String>
+
+    <!-- Main Page -->
+    <v:String x:Key="m_YourRewards">Ваши награды</v:String>
+    <v:String x:Key="m_FutureExams">Назначенные экзамены</v:String>
+    <v:String x:Key="m_NoFutureExams">Нет назначенных экзаменов</v:String>
+    <v:String x:Key="m_Total">Всего</v:String>
+    <v:String x:Key="m_Leaderboard">Таблица лидеров</v:String>
+    <v:String x:Key="m_Group">Группа</v:String>
+    <v:String x:Key="m_Class">Поток</v:String>
+    <v:String x:Key="m_PlaceGroup">Место в группе</v:String>
+    <v:String x:Key="m_PlaceClass">Место на потоке</v:String>
+    <v:String x:Key="m_AverageGrade">Средний балл</v:String>
+    <v:String x:Key="m_Attendance">Посещаемость</v:String>
 </ResourceDictionary>

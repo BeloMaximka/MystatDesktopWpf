@@ -99,5 +99,15 @@ namespace MystatDesktopWpf.UserControls.Menus
             await viewModel.LoadHomeworkInfo();
             homeworkProgress.Visibility = Visibility.Collapsed;
         }
+
+        private void ActivityNameTextBlock_Initialized(object sender, EventArgs e)
+        {
+            TextBlock textBlock = (TextBlock)sender;
+            App.LanguageChanged += (_, _) =>
+            {
+                var binding = textBlock.GetBindingExpression(TextBlock.TextProperty);
+                binding.UpdateTarget();
+            };
+        }
     }
 }

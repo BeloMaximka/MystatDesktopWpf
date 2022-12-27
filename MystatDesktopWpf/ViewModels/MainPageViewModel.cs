@@ -188,8 +188,9 @@ namespace MystatDesktopWpf.ViewModels
 
     internal class OptimizedActiviy
     {
-        private static readonly Dictionary<byte, string> achievementsNames =
+        private static readonly Dictionary<sbyte, string> achievementsNames =
         new(){
+            { -1, "m_PurchaseInMarket" },
             { 1, "m_5Visits" },
             { 2, "m_10Visits" },
             { 3, "m_20Visits" },
@@ -205,15 +206,18 @@ namespace MystatDesktopWpf.ViewModels
             { 17, "m_QuizParticipation" },
             { 20, "m_Grade" },
             { 23, "m_EmailConfirm" },
+            { 28, "m_HomeworkExpired" },
             { 30, "m_LessonRate" },
         };
+
         private static readonly PackIconKind[] icons =
         {
             PackIconKind.Diamond,
             PackIconKind.AlphaICircle,
             PackIconKind.Prize
         };
-        private readonly byte id;
+
+        private readonly sbyte id;
         private readonly int points;
         private readonly byte iconType;
         public string Date { get; private set; }
@@ -228,12 +232,11 @@ namespace MystatDesktopWpf.ViewModels
                 string result = (string)App.Current.FindResource(name);
                 return result;
             }
-
         }
 
         public OptimizedActiviy(Activity activity, bool badge = false)
         {
-            id = (byte)activity.AchievementsId;
+            id = (sbyte)activity.AchievementsId;
             if (badge)
             {
                 points = activity.Badge;
@@ -245,7 +248,6 @@ namespace MystatDesktopWpf.ViewModels
                 if (activity.Action == 0) points *= -1;
                 iconType = (byte)(activity.PointTypesName == "DIAMOND" ? 0 : 1);
             }
-
             Date = DateTime.Parse(activity.Date).ToString("d");
         }
     }

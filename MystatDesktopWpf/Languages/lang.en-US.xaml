@@ -138,4 +138,19 @@
     <v:String x:Key="m_5Visits">5 consecutive attendances</v:String>
     <v:String x:Key="m_EmailConfirm">Confirmed email address</v:String>
     <v:String x:Key="m_FullProfile">Full profile info in MyStat</v:String>
+    <v:String x:Key="m_PurchaseInMarket">Purchase in market</v:String>
+    <v:String x:Key="m_HomeworkExpired">Homework deadlines were missed</v:String>
+
+    <!-- Main Page -->
+    <v:String x:Key="m_YourRewards">Your rewards</v:String>
+    <v:String x:Key="m_FutureExams">Scheduled Exanimations</v:String>
+    <v:String x:Key="m_NoFutureExams">No scheduled Exanimations</v:String>
+    <v:String x:Key="m_Total">Total</v:String>
+    <v:String x:Key="m_Leaderboard">Leaderboard</v:String>
+    <v:String x:Key="m_Group">Group</v:String>
+    <v:String x:Key="m_Class">Class</v:String>
+    <v:String x:Key="m_PlaceGroup">Place in the group</v:String>
+    <v:String x:Key="m_PlaceClass">Place in the class</v:String>
+    <v:String x:Key="m_AverageGrade">Average grade</v:String>
+    <v:String x:Key="m_Attendance">Attendance</v:String>
 </ResourceDictionary>

@@ -21,19 +21,19 @@
                                  HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"/>
                     <UniformGrid Columns="4">
                         <StackPanel>
-                            <TextBlock Text="Place in the group" TextAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource m_PlaceGroup}" TextAlignment="Center"/>
                             <TextBlock Text="{Binding GroupPosition}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock Text="Place in the class" TextAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource m_PlaceClass}" TextAlignment="Center"/>
                             <TextBlock Text="{Binding StreamPosition}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock Text="Average Grade" TextAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource m_AverageGrade}" TextAlignment="Center"/>
                             <TextBlock Text="{Binding AverageGrade}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock Text="Attendance" TextAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource m_Attendance}" TextAlignment="Center"/>
                             <TextBlock Text="{Binding Attendance, StringFormat='{}{0}%'}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                     </UniformGrid>
@@ -46,7 +46,7 @@
                     <StackPanel>
                         <Grid>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Board of leaders" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                <TextBlock Text="{DynamicResource m_Leaderboard}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Visibility="Collapsed" 
                                              x:Name="leadersProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
@@ -55,10 +55,10 @@
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                 <RadioButton x:Name="groupRadioButton" Style="{DynamicResource MaterialDesignTabRadioButton}" Margin="4"
                                              BorderBrush="{DynamicResource PrimaryHueMidBrush}" MinHeight="0"
-                                             Content="Group" IsChecked="True" MinWidth="0" Padding="0"/>
+                                             Content="{DynamicResource m_Group}" IsChecked="True" MinWidth="0" Padding="0"/>
                                 <RadioButton x:Name="classRadioButton" Style="{DynamicResource MaterialDesignTabRadioButton}" Margin="4"
                                              BorderBrush="{DynamicResource PrimaryHueMidBrush}" MinHeight="0"
-                                             Content="Class" MinWidth="0" Padding="8,0,8,0"/>
+                                             Content="{DynamicResource m_Class}" MinWidth="0" Padding="8,0,8,0"/>
                             </StackPanel>
                         </Grid>
                         <Separator/>
@@ -113,7 +113,7 @@
                 <materialDesign:Card Margin="0,0,16,16" Padding="8" MinWidth="240">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Your rewards" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                            <TextBlock Text="{DynamicResource m_YourRewards}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Visibility="Collapsed" 
                                          x:Name="activityProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
@@ -122,8 +122,9 @@
                         <Separator/>
 
                         <ItemsControl ItemsSource="{Binding Activities}" Height="328" VirtualizingPanel.VirtualizationMode="Recycling"
-                                  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Item"
-                                  VirtualizingPanel.CacheLength="4" VirtualizingPanel.CacheLengthUnit="Item">
+                                      VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Item"
+                                      VirtualizingPanel.CacheLength="4" VirtualizingPanel.CacheLengthUnit="Item"
+                                      x:Name="activities">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="0,8,0,0">
@@ -133,7 +134,7 @@
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Initialized="ActivityNameTextBlock_Initialized"/>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
                                                     Grid.Column="1" Margin="16,0,8,0">
                                                 <TextBlock Text="{Binding Points}"/>
@@ -177,39 +178,39 @@
                 <materialDesign:Card Margin="0,0,16,16" Padding="8">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Homework" Style="{DynamicResource MaterialDesignBody1TextBlock}" />
+                            <TextBlock Text="{DynamicResource m_Homework}" Style="{DynamicResource MaterialDesignBody1TextBlock}" />
                             <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Visibility="Collapsed"
                                          x:Name="homeworkProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
                         </StackPanel>
                         <Separator/>
                         <UniformGrid Height="326" Columns="2">
                             <StackPanel Margin="8" Grid.ColumnSpan="2" VerticalAlignment="Center">
-                                <TextBlock Text="Current" TextAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource m_Current}" TextAlignment="Center"/>
                                 <TextBlock Text="{Binding HomeworkCurrent}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            TextAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
                             </StackPanel>
                             <StackPanel Margin="8" Grid.ColumnSpan="2" VerticalAlignment="Center">
-                                <TextBlock Text="Under Review" TextAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource m_Uploaded}" TextAlignment="Center"/>
                                 <TextBlock Text="{Binding HomeworkUploaded}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            TextAlignment="Center" Foreground="#ffc730"/>
                             </StackPanel>
                             <StackPanel Margin="8" Grid.Row="1" VerticalAlignment="Center">
-                                <TextBlock Text="Total" TextAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource m_Total}" TextAlignment="Center"/>
                                 <TextBlock Text="{Binding HomeworkTotal}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            TextAlignment="Center" Foreground="#1bd2c7"/>
                             </StackPanel>
                             <StackPanel Margin="8" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="Reviewed" TextAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource m_Checked}" TextAlignment="Center"/>
                                 <TextBlock Text="{Binding HomeworkChecked}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            TextAlignment="Center" Foreground="#1bd2c7"/>
                             </StackPanel>
                             <StackPanel Margin="8" Grid.Row="2" VerticalAlignment="Center">
-                                <TextBlock Text="Overdue" TextAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource m_Overdue}" TextAlignment="Center"/>
                                 <TextBlock Text="{Binding HomeworkOverdue}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            TextAlignment="Center" Foreground="#fa5873"/>
                             </StackPanel>
                             <StackPanel Margin="8" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">
-                                <TextBlock Text="Removed By Teacher" TextAlignment="Center" TextWrapping="Wrap"/>
+                                <TextBlock Text="{DynamicResource m_Deleted}" TextAlignment="Center" TextWrapping="Wrap"/>
                                 <TextBlock Text="{Binding HomeworkDeleted}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                            TextAlignment="Center" Foreground="#fa5873"/>
                             </StackPanel>
@@ -219,7 +220,7 @@
                 <materialDesign:Card Margin="0,0,16,16" Padding="8" MinWidth="240">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Scheduled Examinations" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                            <TextBlock Text="{DynamicResource m_FutureExams}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
                                        HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" 
                                          x:Name="examinationProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
@@ -227,8 +228,9 @@
                         </StackPanel>
                         <Separator/>
                         <Grid>
-                            <TextBlock x:Name="noExamsTextBlock" Text="No scheduled examinations" Margin="8" Visibility="Collapsed"/>
-                            <ItemsControl ItemsSource="{Binding FutureExams, Mode=OneWay, NotifyOnTargetUpdated=True}" Height="300" VirtualizingPanel.VirtualizationMode="Recycling"
+                            <TextBlock x:Name="noExamsTextBlock" Text="{DynamicResource m_NoFutureExams}" Margin="8" Visibility="Collapsed"/>
+                            <ItemsControl ItemsSource="{Binding FutureExams, Mode=OneWay, NotifyOnTargetUpdated=True}" Height="300"
+                                          VirtualizingPanel.VirtualizationMode="Recycling"
                                           VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Item"
                                           VirtualizingPanel.CacheLength="4" VirtualizingPanel.CacheLengthUnit="Item"
                                           TargetUpdated="ItemsControl_TargetUpdated">
