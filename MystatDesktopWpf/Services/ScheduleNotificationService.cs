@@ -1,5 +1,6 @@
 ﻿using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.SubSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -15,6 +15,7 @@ namespace MystatDesktopWpf.ViewModels
 
         public async void LoadHomeworks()
         {
+            RetryDelayProvider delay = new();
             while (true)
             {
                 try
@@ -43,7 +44,7 @@ namespace MystatDesktopWpf.ViewModels
                 }
                 catch (Exception)
                 {
-                    await Task.Delay(2000);
+                    await Task.Delay(delay.ProvideValueMilliseconds());
                     continue;
                 }
             }

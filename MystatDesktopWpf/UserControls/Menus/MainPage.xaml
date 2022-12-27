@@ -1,0 +1,246 @@
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.Menus.MainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:MystatDesktopWpf.UserControls.Menus" 
+             xmlns:viewmodels="clr-namespace:MystatDesktopWpf.ViewModels" 
+             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewmodels:MainPageViewModel}"
+             Background="{DynamicResource MaterialDesignPaper}" 
+             SizeChanged="UserControl_SizeChanged">
+    <ScrollViewer>
+        <StackPanel Margin="16">
+            <materialDesign:Card Padding="8" Margin="0,0,16,16">
+                <StackPanel>
+                    <UniformGrid Columns="4">
+                        <StackPanel>
+                            <TextBlock Text="Place in the group" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding GroupPosition}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Place in the class" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding StreamPosition}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Average Grade" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding AverageGrade}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Attendance" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding Attendance, StringFormat='{}{0}%'}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
+                        </StackPanel>
+                    </UniformGrid>
+                </StackPanel>
+            </materialDesign:Card>
+            <UniformGrid Columns="3" x:Name="mainGrid">
+                <materialDesign:Card Margin="0,0,16,16" Padding="8" MinWidth="240">
+                    <StackPanel>
+                        <Grid>
+                            <TextBlock Text="Board of leaders" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <RadioButton x:Name="groupRadioButton" Style="{DynamicResource MaterialDesignTabRadioButton}" Margin="4"
+                                             BorderBrush="{DynamicResource PrimaryHueMidBrush}" MinHeight="0"
+                                             Content="Group" IsChecked="True" MinWidth="0" Padding="0"/>
+                                <RadioButton x:Name="classRadioButton" Style="{DynamicResource MaterialDesignTabRadioButton}" Margin="4"
+                                             BorderBrush="{DynamicResource PrimaryHueMidBrush}" MinHeight="0"
+                                             Content="Class" MinWidth="0" Padding="8,0,8,0"/>
+                            </StackPanel>
+                        </Grid>
+                        <Separator/>
+                        <ItemsControl x:Name="leadersList" ItemsSource="{Binding GroupLeaders}"
+                                      VirtualizingPanel.IsVirtualizing="False" Height="328" >
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,8,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock TextWrapping="Wrap">
+                                                <Run x:Name="studentName" Initialized="studentName_Initialized">
+                                                    <MultiBinding StringFormat="{}{0}. {1}">
+                                                        <Binding Path="Position"/>
+                                                        <Binding Path="FullName" />
+                                                    </MultiBinding>
+                                                </Run>
+                                            </TextBlock>
+
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                                    Grid.Column="1" Margin="16,0,8,0">
+                                                <TextBlock Text="{Binding TotalAmount}"/>
+                                                <materialDesign:PackIcon x:Name="icon" Kind="Star" Foreground="#a67afa" Margin="4,0,0,0"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto"
+                                              Padding="{TemplateBinding Padding}"
+                                              Focusable="False">
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+
+                        </ItemsControl>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Margin="0,0,16,16" Padding="8" MinWidth="240">
+                    <StackPanel>
+                        <TextBlock Text="Your rewards" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Separator/>
+
+                        <ItemsControl ItemsSource="{Binding Activities}" Height="328" VirtualizingPanel.VirtualizationMode="Recycling"
+                                  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Item"
+                                  VirtualizingPanel.CacheLength="4" VirtualizingPanel.CacheLengthUnit="Item">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,8,0,0">
+                                        <TextBlock Text="{Binding Date}" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                                    Grid.Column="1" Margin="16,0,8,0">
+                                                <TextBlock Text="{Binding Points}"/>
+                                                <materialDesign:PackIcon x:Name="icon" Kind="{Binding Icon}" Margin="4,0,0,0"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Icon}" Value="Diamond">
+                                            <Setter TargetName="icon" Property="Foreground" Value="#73a0ec"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Icon}" Value="AlphaICircle">
+                                            <Setter TargetName="icon" Property="Foreground" Value="#ffc730"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Icon}" Value="Prize">
+                                            <Setter TargetName="icon" Property="Foreground" Value="#f87087"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto"
+                                              Padding="{TemplateBinding Padding}"
+                                              Focusable="False" IsDeferredScrollingEnabled="True">
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+
+                        </ItemsControl>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Margin="0,0,16,16" Padding="8">
+                    <StackPanel>
+                        <TextBlock Text="Homework" Style="{DynamicResource MaterialDesignBody1TextBlock}" />
+                        <Separator/>
+                        <UniformGrid Height="326" Columns="2">
+                            <StackPanel Margin="8" Grid.ColumnSpan="2" VerticalAlignment="Center">
+                                <TextBlock Text="Current" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding HomeworkCurrent}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           TextAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                            </StackPanel>
+                            <StackPanel Margin="8" Grid.ColumnSpan="2" VerticalAlignment="Center">
+                                <TextBlock Text="Under Review" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding HomeworkUploaded}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           TextAlignment="Center" Foreground="#ffc730"/>
+                            </StackPanel>
+                            <StackPanel Margin="8" Grid.Row="1" VerticalAlignment="Center">
+                                <TextBlock Text="Total" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding HomeworkTotal}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           TextAlignment="Center" Foreground="#1bd2c7"/>
+                            </StackPanel>
+                            <StackPanel Margin="8" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Reviewed" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding HomeworkChecked}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           TextAlignment="Center" Foreground="#1bd2c7"/>
+                            </StackPanel>
+                            <StackPanel Margin="8" Grid.Row="2" VerticalAlignment="Center">
+                                <TextBlock Text="Overdue" TextAlignment="Center"/>
+                                <TextBlock Text="{Binding HomeworkOverdue}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           TextAlignment="Center" Foreground="#fa5873"/>
+                            </StackPanel>
+                            <StackPanel Margin="8" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center">
+                                <TextBlock Text="Removed By Teacher" TextAlignment="Center" TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding HomeworkDeleted}" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                           TextAlignment="Center" Foreground="#fa5873"/>
+                            </StackPanel>
+                        </UniformGrid>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Margin="0,0,16,16" Padding="8" MinWidth="240">
+                    <StackPanel>
+                        <TextBlock Text="Scheduled Examinations" Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Separator/>
+
+                        <Grid>
+                            <TextBlock x:Name="noExamsTextBlock" Text="No scheduled examinations" Margin="8" Visibility="Collapsed"/>
+                            <ItemsControl ItemsSource="{Binding FutureExams, Mode=OneWay, NotifyOnTargetUpdated=True}" Height="300" VirtualizingPanel.VirtualizationMode="Recycling"
+                                          VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Item"
+                                          VirtualizingPanel.CacheLength="4" VirtualizingPanel.CacheLengthUnit="Item"
+                                          TargetUpdated="ItemsControl_TargetUpdated">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,8,0,0">
+                                            <TextBlock Text="{Binding Date}" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                            <TextBlock Text="{Binding SubjectName}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.Template>
+                                    <ControlTemplate TargetType="ItemsControl">
+                                        <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto"
+                                              Padding="{TemplateBinding Padding}"
+                                              Focusable="False" IsDeferredScrollingEnabled="False">
+                                            <ItemsPresenter />
+                                        </ScrollViewer>
+                                    </ControlTemplate>
+                                </ItemsControl.Template>
+
+                            </ItemsControl>
+                        </Grid>
+                        
+                    </StackPanel>
+                </materialDesign:Card>
+            </UniformGrid>
+        </StackPanel>
+    </ScrollViewer>
+    
+</UserControl>

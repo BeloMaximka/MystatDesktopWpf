@@ -1,5 +1,5 @@
 ﻿using MystatAPI.Entity;
-using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.SubSettings;
 using System;
 using System.Globalization;
 using System.IO;

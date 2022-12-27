@@ -1,7 +1,7 @@
 ﻿using MystatDesktopWpf.Services;
 using System;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.SubSettings
 {
     public enum NotificationDelayMode
     {

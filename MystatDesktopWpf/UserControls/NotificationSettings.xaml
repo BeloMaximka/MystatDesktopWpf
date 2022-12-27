@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vm="clr-namespace:MystatDesktopWpf.ViewModels"
-             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
+             xmlns:subsettings="clr-namespace:MystatDesktopWpf.SubSettings"
              xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
              xmlns:local="clr-namespace:MystatDesktopWpf.UserControls" 
              d:DataContext="{d:DesignInstance Type=vm:NotificationSettingsViewModel}"
@@ -46,18 +46,18 @@
                             Grid.Row="1" Grid.Column="1">
                     <Label Content="{DynamicResource m_SettingsOfNotification1}" FontSize="14" Margin="0,8,0,0"/>
 
-                    <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static domain:NotificationDelayMode.WithoutDelay}}"
+                    <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static subsettings:NotificationDelayMode.WithoutDelay}}"
                                      Content="{DynamicResource m_SettingsOfNotification1Radio0}" Margin="0,0,0,8" GroupName="DelayMode"/>
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.RowSpan="2" Margin="0,-4,0,4">
-                        <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static domain:NotificationDelayMode.Delayed}}"
+                        <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static subsettings:NotificationDelayMode.Delayed}}"
                                      Content="{DynamicResource m_SettingsOfNotification1Radio1}" Margin="0, 0, 0, 0" Grid.Row="1" GroupName="DelayMode"/>
                         <TextBox MaxLength="2" Margin="4, 0, 0, 0" Width="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"
                                      materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed" x:Name="minutesTextBox"
                                      Text="{Binding NotificationDelay, Mode=OneTime}" PreviewTextInput="TextBox_PreviewTextInput"/>
                         <Label x:Name="minutesLabel" Content="{DynamicResource m_SettingsOfNotification1Radio1p2}" Margin="0,0,0,0"/>
                     </StackPanel>
-                    <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static domain:NotificationDelayMode.Both}}"
+                    <RadioButton IsChecked="{Binding Path=DelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static subsettings:NotificationDelayMode.Both}}"
                              Content="{DynamicResource m_SettingsOfNotification1Radio2}" Margin="0,0,0,8" Grid.Row="2" GroupName="DelayMode"/>
 
 

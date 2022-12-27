@@ -2,7 +2,7 @@
 using MaterialDesignColors.ColorManipulation;
 using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Converters;
-using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.SubSettings;
 using System.Windows.Media;
 
 namespace MystatDesktopWpf.Services
