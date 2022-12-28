@@ -41,6 +41,14 @@ namespace MystatDesktopWpf.UserControls.Menus
             Student student = (Student)run.DataContext;
             if (student.Id == MystatAPISingleton.Profile.Id)
                 run.FontWeight = FontWeights.Bold;
+            else if (student.Id == null)
+            {
+                TextBlock textBlock = (TextBlock)run.Parent;
+                textBlock.Text = "...";
+                Grid grid = (Grid)textBlock.Parent;
+                ((StackPanel)grid.Children[0]).Children[1].Visibility = Visibility.Collapsed;
+            }
+
         }
 
         private void ItemsControl_TargetUpdated(object sender, DataTransferEventArgs e)

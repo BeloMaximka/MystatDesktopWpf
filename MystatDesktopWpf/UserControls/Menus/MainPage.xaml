@@ -72,6 +72,13 @@
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
+                                            
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                                    Grid.Column="1" Margin="16,0,8,0">
+                                                <TextBlock Text="{Binding TotalAmount}"/>
+                                                <materialDesign:PackIcon x:Name="icon" Kind="Star" Foreground="#a67afa" Margin="4,0,0,0"/>
+                                            </StackPanel>
+                                            
                                             <TextBlock TextWrapping="Wrap">
                                                 <Run x:Name="studentName" Initialized="studentName_Initialized">
                                                     <MultiBinding StringFormat="{}{0}. {1}">
@@ -80,12 +87,7 @@
                                                     </MultiBinding>
                                                 </Run>
                                             </TextBlock>
-
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
-                                                    Grid.Column="1" Margin="16,0,8,0">
-                                                <TextBlock Text="{Binding TotalAmount}"/>
-                                                <materialDesign:PackIcon x:Name="icon" Kind="Star" Foreground="#a67afa" Margin="4,0,0,0"/>
-                                            </StackPanel>
+                                            
                                         </Grid>
                                     </StackPanel>
                                 </DataTemplate>
