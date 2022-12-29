@@ -46,6 +46,7 @@ namespace MystatDesktopWpf.ViewModels
         {
             if (loading) return;
             loading = true;
+            RetryDelayProvider delay = new();
             while (true)
             {
                 try
@@ -62,7 +63,7 @@ namespace MystatDesktopWpf.ViewModels
                 }
                 catch (Exception)
                 {
-                    await Task.Delay(2000);
+                    await Task.Delay(delay.ProvideValueMilliseconds());
                     continue;
                 }
             }

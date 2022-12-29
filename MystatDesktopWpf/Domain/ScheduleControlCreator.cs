@@ -31,7 +31,7 @@ namespace MystatDesktopWpf.Domain
         static public FrameworkElement CreateScheduleCardSelectable(List<DaySchedule> schedules, DialogHost dialog)
         {
             ScheduleCardSelectable card = new();
-            
+
             card.textBox.Text = DateTime.Parse(schedules[0].Date).ToString("d") + "\n\n";
             card.DialogHost = dialog;
 

@@ -10,6 +10,7 @@
     <v:String x:Key="m_Settings">Налаштування</v:String>
     <v:String x:Key="m_Schedule">Розклад</v:String>
     <v:String x:Key="m_Homework">Домашні завдання</v:String>
+    <v:String x:Key="m_Main">Головна</v:String>
     
     <v:String x:Key="m_ParamOfNotification0">Нагадування про початок пари</v:String>
     <v:String x:Key="m_SettingsOfNotification0">Про які пари нагадувати:</v:String>
@@ -118,4 +119,38 @@
     <v:String x:Key="m_CheckingUpdates">Перевірка оновлень...</v:String>
     <v:String x:Key="m_DownloadingUpdate">Завантаження оновлення...</v:String>
     <v:String x:Key="m_UpdateError">Виникла помилка при спробі оновлення</v:String>
+
+    <!-- Activities -->
+    <v:String x:Key="m_Unknown">Невідома активність</v:String>
+    <v:String x:Key="m_LessonRate">Оцінка заняття</v:String>
+    <v:String x:Key="m_PairVisit">Відвідування пари</v:String>
+    <v:String x:Key="m_Grade">Оцінка</v:String>
+    <v:String x:Key="m_ClassworkReward">Заохочення від викладача за роботу на уроці</v:String>
+    <v:String x:Key="m_HomeworkIntime">Своєчасне виконання домашнього завдання</v:String>
+    <v:String x:Key="m_HomeworkRedo">Запит на перездачу</v:String>
+    <v:String x:Key="m_LaboratoryIntime">Своєчасне виконання лабораторної роботи</v:String>
+    <v:String x:Key="m_QuizParticipation">Участь в опитуванні</v:String>
+    <v:String x:Key="m_20VisitsIntime">20 відвідувань поспіль без запізнень</v:String>
+    <v:String x:Key="m_20Visits">20 відвідувань поспіль без перепусток</v:String>
+    <v:String x:Key="m_10VisitsIntime">10 відвідувань поспіль без запізнень</v:String>
+    <v:String x:Key="m_10Visits">10 відвідувань поспіль без перепусток</v:String>
+    <v:String x:Key="m_5VisitsIntime">5 відвідувань поспіль без запізнень</v:String>
+    <v:String x:Key="m_5Visits">5 відвідувань поспіль без перепусток</v:String>
+    <v:String x:Key="m_EmailConfirm">Підтвердження електронної пошти</v:String>
+    <v:String x:Key="m_FullProfile">Повністю заповнений профіль у Майстаті</v:String>
+    <v:String x:Key="m_PurchaseInMarket">Покупка в магазині</v:String>
+    <v:String x:Key="m_HomeworkExpired">Невиконання домашнього завдання вчасно</v:String>
+
+    <!-- Main Page -->
+    <v:String x:Key="m_YourRewards">Ваші нагороди</v:String>
+    <v:String x:Key="m_FutureExams">Призначені іспити</v:String>
+    <v:String x:Key="m_NoFutureExams">Немає призначених іспитів</v:String>
+    <v:String x:Key="m_Total">Всього</v:String>
+    <v:String x:Key="m_Leaderboard">Таблиця лідерів</v:String>
+    <v:String x:Key="m_Group">Група</v:String>
+    <v:String x:Key="m_Class">Потік</v:String>
+    <v:String x:Key="m_PlaceGroup">Місце в групі</v:String>
+    <v:String x:Key="m_PlaceClass">Місце на потоці</v:String>
+    <v:String x:Key="m_AverageGrade">Середній бал</v:String>
+    <v:String x:Key="m_Attendance">Відвідування</v:String>
 </ResourceDictionary>

@@ -2,7 +2,7 @@
 using MystatDesktopWpf.Services;
 using System;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.SubSettings
 {
     internal class ThemeSubSettings : ISettingsProperty
     {

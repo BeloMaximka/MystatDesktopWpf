@@ -1,6 +1,7 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
+using MystatDesktopWpf.SubSettings;
 using MystatDesktopWpf.Updater;
 using MystatDesktopWpf.UserControls;
 using System;

@@ -40,7 +40,7 @@ namespace MystatDesktopWpf.UserControls
             MystatAPISingleton.Client.SetLoginData(loginData);
             try
             {
-                response = await MystatAPISingleton.Client.Login();
+                response = await MystatAPISingleton.LoginAndGetProfileInfo();
             }
             catch (Exception e)
             {

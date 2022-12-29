@@ -131,6 +131,7 @@ namespace MystatDesktopWpf.UserControls
         private async void LoadSchedule(DateTime date)
         {
             Loading = true;
+            RetryDelayProvider delay = new();
             while (true)
             {
                 try
@@ -207,7 +208,7 @@ namespace MystatDesktopWpf.UserControls
                 catch (Exception)
                 {
                     //this.Dispatcher.Invoke((Action)delegate { snackbar.MessageQueue?.Enqueue(e.Message); });
-                    await Task.Delay(2000);
+                    await Task.Delay(delay.ProvideValueMilliseconds());
                     continue;
                 }
             }

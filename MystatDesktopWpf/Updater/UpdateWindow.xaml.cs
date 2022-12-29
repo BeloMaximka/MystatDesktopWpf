@@ -1,6 +1,5 @@
 ﻿using MystatDesktopWpf.Services;
 using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 

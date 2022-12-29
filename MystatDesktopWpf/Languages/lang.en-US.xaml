@@ -10,6 +10,7 @@
     <v:String x:Key="m_Settings">Settings</v:String>
     <v:String x:Key="m_Schedule">Schedule</v:String>
     <v:String x:Key="m_Homework">Homework</v:String>
+    <v:String x:Key="m_Main">Main</v:String>
     
     <v:String x:Key="m_ParamOfNotification0">Class start reminders</v:String>
     <v:String x:Key="m_SettingsOfNotification0">What classes to remind about:</v:String>
@@ -118,4 +119,38 @@
     <v:String x:Key="m_CheckingUpdates">Checking for updates...</v:String>
     <v:String x:Key="m_DownloadingUpdate">Downloading the update...</v:String>
     <v:String x:Key="m_UpdateError">An error occurred while trying to update</v:String>
+
+    <!-- Activities -->
+    <v:String x:Key="m_Unknown">Unknown activity</v:String>
+    <v:String x:Key="m_LessonRate">Lesson rate</v:String>
+    <v:String x:Key="m_PairVisit">Attendance of the session</v:String>
+    <v:String x:Key="m_Grade">Grade</v:String>
+    <v:String x:Key="m_ClassworkReward">Teacher’s reward for classwork</v:String>
+    <v:String x:Key="m_HomeworkIntime">Timely provision of homework</v:String>
+    <v:String x:Key="m_HomeworkRedo">Homework Redo</v:String>
+    <v:String x:Key="m_LaboratoryIntime">Timely provision of lab work</v:String>
+    <v:String x:Key="m_QuizParticipation">Participation in the Questionnaire</v:String>
+    <v:String x:Key="m_20VisitsIntime">20 consecutive attendances without being late</v:String>
+    <v:String x:Key="m_20Visits">20 consecutive attendances</v:String>
+    <v:String x:Key="m_10VisitsIntime">10 consecutive attendances without being late</v:String>
+    <v:String x:Key="m_10Visits">10 consecutive attendances</v:String>
+    <v:String x:Key="m_5VisitsIntime">5 consecutive attendances without being late</v:String>
+    <v:String x:Key="m_5Visits">5 consecutive attendances</v:String>
+    <v:String x:Key="m_EmailConfirm">Confirmed email address</v:String>
+    <v:String x:Key="m_FullProfile">Full profile info in MyStat</v:String>
+    <v:String x:Key="m_PurchaseInMarket">Purchase in market</v:String>
+    <v:String x:Key="m_HomeworkExpired">Homework deadlines were missed</v:String>
+
+    <!-- Main Page -->
+    <v:String x:Key="m_YourRewards">Your rewards</v:String>
+    <v:String x:Key="m_FutureExams">Scheduled Exanimations</v:String>
+    <v:String x:Key="m_NoFutureExams">No scheduled Exanimations</v:String>
+    <v:String x:Key="m_Total">Total</v:String>
+    <v:String x:Key="m_Leaderboard">Leaderboard</v:String>
+    <v:String x:Key="m_Group">Group</v:String>
+    <v:String x:Key="m_Class">Class</v:String>
+    <v:String x:Key="m_PlaceGroup">Place in the group</v:String>
+    <v:String x:Key="m_PlaceClass">Place in the class</v:String>
+    <v:String x:Key="m_AverageGrade">Average grade</v:String>
+    <v:String x:Key="m_Attendance">Attendance</v:String>
 </ResourceDictionary>
