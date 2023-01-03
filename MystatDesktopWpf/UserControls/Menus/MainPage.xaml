@@ -8,10 +8,15 @@
              xmlns:viewmodels="clr-namespace:MystatDesktopWpf.ViewModels" 
              xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
              mc:Ignorable="d" 
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=viewmodels:MainPageViewModel}"
              Background="{DynamicResource MaterialDesignPaper}" 
              SizeChanged="UserControl_SizeChanged">
+    <UserControl.Resources>
+        <converters:FormatDateConverter x:Key="FormatDateConverter"/>
+        <converters:NegativeToDashConverter x:Key="NegativeToDashConverter"/>
+    </UserControl.Resources>
     <ScrollViewer>
         <StackPanel Margin="16">
             <materialDesign:Card Padding="8" Margin="0,0,16,16">
@@ -22,19 +27,19 @@
                     <UniformGrid Columns="4">
                         <StackPanel>
                             <TextBlock Text="{DynamicResource m_PlaceGroup}" TextAlignment="Center"/>
-                            <TextBlock Text="{Binding GroupPosition}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding GroupPosition, Converter={StaticResource NegativeToDashConverter}}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                         <StackPanel>
                             <TextBlock Text="{DynamicResource m_PlaceClass}" TextAlignment="Center"/>
-                            <TextBlock Text="{Binding StreamPosition}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding StreamPosition, Converter={StaticResource NegativeToDashConverter}}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                         <StackPanel>
                             <TextBlock Text="{DynamicResource m_AverageGrade}" TextAlignment="Center"/>
-                            <TextBlock Text="{Binding AverageGrade}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding AverageGrade, Converter={StaticResource NegativeToDashConverter}}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                         <StackPanel>
                             <TextBlock Text="{DynamicResource m_Attendance}" TextAlignment="Center"/>
-                            <TextBlock Text="{Binding Attendance, StringFormat='{}{0}%'}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
+                            <TextBlock Text="{Binding Attendance, Converter={StaticResource NegativeToDashConverter}, ConverterParameter=%}" Style="{DynamicResource MaterialDesignBody1TextBlock}" TextAlignment="Center"/>
                         </StackPanel>
                     </UniformGrid>
                 </Grid>
@@ -239,7 +244,7 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="0,8,0,0">
-                                            <TextBlock Text="{Binding Date}" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                            <TextBlock Text="{Binding Date, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}" Foreground="{DynamicResource MaterialDesignBodyLight}"/>
                                             <TextBlock Text="{Binding SubjectName}" TextWrapping="Wrap"/>
                                         </StackPanel>
                                     </DataTemplate>
