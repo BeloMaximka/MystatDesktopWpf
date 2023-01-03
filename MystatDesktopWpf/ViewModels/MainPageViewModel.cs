@@ -99,13 +99,13 @@ namespace MystatDesktopWpf.ViewModels
                 try
                 {
                     var result = await MystatAPISingleton.Client.GetGroupLeadersSummary();
-                    GroupPosition = result.Position.Value;
+                    GroupPosition = result.Position.GetValueOrDefault(-1);
                     result = await MystatAPISingleton.Client.GetStreamLeadersSummary();
-                    StreamPosition = result.Position.Value;
+                    StreamPosition = result.Position.GetValueOrDefault(-1);
                     var resultSecond = await MystatAPISingleton.Client.GetGradesInfo();
-                    AverageGrade = resultSecond[^1].Points.Value;
+                    AverageGrade = resultSecond[^1].Points.GetValueOrDefault(-1);
                     resultSecond = await MystatAPISingleton.Client.GetAttendanceInfo();
-                    Attendance = resultSecond[^1].Points.Value;
+                    Attendance = resultSecond[^1].Points.GetValueOrDefault(-1);
                     break;
                 }
                 catch
@@ -161,16 +161,16 @@ namespace MystatDesktopWpf.ViewModels
         private int homeworkDeleted;
         public int HomeworkDeleted { get => homeworkDeleted; set => SetProperty(ref homeworkDeleted, value); }
 
-        private int groupPosition;
+        private int groupPosition = -1;
         public int GroupPosition { get => groupPosition; set => SetProperty(ref groupPosition, value); }
 
-        private int streamPosition;
+        private int streamPosition = -1;
         public int StreamPosition { get => streamPosition; set => SetProperty(ref streamPosition, value); }
 
-        private int averageGrade;
+        private int averageGrade = -1;
         public int AverageGrade { get => averageGrade; set => SetProperty(ref averageGrade, value); }
 
-        private int attendance;
+        private int attendance = -1;
         public int Attendance { get => attendance; set => SetProperty(ref attendance, value); }
 
         private ObservableCollection<OptimizedActiviy> activities = new();
