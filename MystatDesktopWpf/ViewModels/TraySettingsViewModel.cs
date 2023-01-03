@@ -1,5 +1,4 @@
 ﻿using MystatDesktopWpf.Services;
-using MystatDesktopWpf.SubSettings;
 
 namespace MystatDesktopWpf.ViewModels
 {
