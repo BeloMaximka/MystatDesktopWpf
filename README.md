@@ -1,5 +1,5 @@
 # Mystat Desktop
-Unofficial desktop version of the Mystat website, which provides more convenient experience with Mystat. 
+Unofficial desktop version of the Mystat [website](https://mystat.itstep.org), which provides more convenient experience with Mystat. 
 
 ![image](https://img.shields.io/badge/platform-windows-blue)
 ![image](https://img.shields.io/github/v/release/BeloMaximka/MystatDesktopWpf?color=green&label=version)
