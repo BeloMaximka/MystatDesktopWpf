@@ -17,10 +17,19 @@ namespace MystatDesktopWpf.Domain
             UpdateName(null, EventArgs.Empty);
             App.LanguageChanged += UpdateName;
 
+            if (dataContext is INotificationCount viewmodel)
+                viewmodel.PropertyChanged += Viewmodel_PropertyChanged;
+
             this.contentType = contentType;
             this.dataContext = dataContext;
             SelectedIcon = selectedIcon;
             UnselectedIcon = unselectedIcon;
+        }
+
+        private void Viewmodel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "MenuItemNotifications")
+                Notifications = ((INotificationCount)sender).MenuItemNotifications;
         }
 
         private void UpdateName(object? sender, EventArgs e)
@@ -30,15 +39,7 @@ namespace MystatDesktopWpf.Domain
 
         private readonly string nameKey;
         private string name;
-        public string Name
-        {
-            get => name;
-            set
-            {
-                name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
+        public string Name { get => name; set => SetProperty(ref name, value); }
 
         private object? content;
         // Чтобы не прогружать все страницы при запуске
@@ -54,6 +55,10 @@ namespace MystatDesktopWpf.Domain
             {
                 if (notifications == 0) return null;
                 else return notifications < 100 ? notifications : "99+";
+            }
+            set
+            {
+                if (value is int count) SetProperty(ref notifications, count);
             }
         }
 
@@ -73,18 +78,6 @@ namespace MystatDesktopWpf.Domain
             }
 
             return content;
-        }
-
-        public void AddNewNotification()
-        {
-            notifications++;
-            OnPropertyChanged(nameof(Notifications));
-        }
-
-        public void DismissAllNotifications()
-        {
-            notifications = 0;
-            OnPropertyChanged(nameof(Notifications));
         }
     }
 }

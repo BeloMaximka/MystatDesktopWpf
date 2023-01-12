@@ -1,5 +1,4 @@
 ﻿using MaterialDesignThemes.Wpf;
-using MystatAPI;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.UserControls.DialogContent;
@@ -19,7 +18,7 @@ namespace MystatDesktopWpf.UserControls.Menus
     /// </summary>
     public partial class Homeworks : UserControl, IRefreshable
     {
-        private readonly HomeworksViewModel viewModel;
+        private HomeworksViewModel viewModel;
         private static readonly HttpClient httpClient = new();
         private readonly UploadHomework uploadContent = new();
         private readonly DeleteHomework deleteContent = new();
@@ -27,27 +26,16 @@ namespace MystatDesktopWpf.UserControls.Menus
         public Homeworks()
         {
             InitializeComponent();
-
-            viewModel = (HomeworksViewModel)FindResource("HomeworksViewModel");
-            viewModel.HomeworkLoaded += ViewModel_HomeworkLoaded;
-            viewModel.LoadHomeworks();
-            uploadContent.Host = homeworkDialog;
-
-            overdueList.Collection = viewModel.Homework[HomeworkStatus.Overdue];
-            deletedList.Collection = viewModel.Homework[HomeworkStatus.Deleted];
-            activeList.Collection = viewModel.Homework[HomeworkStatus.Active];
-            uploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
-            checkedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
         }
 
         private void ViewModel_HomeworkLoaded()
         {
             transitioner.SelectedIndex = 1;
-            overdueList.UpdateLoadButtonVisibility();
-            deletedList.UpdateLoadButtonVisibility();
-            activeList.UpdateLoadButtonVisibility();
-            uploadedList.UpdateLoadButtonVisibility();
-            checkedList.UpdateLoadButtonVisibility();
+            overdueList.UpdateNextPageVisibility();
+            deletedList.UpdateNextPageVisibility();
+            activeList.UpdateNextPageVisibility();
+            uploadedList.UpdateNextPageVisibility();
+            checkedList.UpdateNextPageVisibility();
         }
 
         private void OpenFileInExplorer(string filePath)
@@ -220,6 +208,27 @@ namespace MystatDesktopWpf.UserControls.Menus
             if (viewModel.Loading) return;
             transitioner.SelectedIndex = 0;
             viewModel.LoadHomeworks();
+        }
+
+        private void control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is HomeworksViewModel vm)
+            {
+                viewModel = vm;
+                uploadContent.Host = homeworkDialog;
+
+                overdueList.Collection = viewModel.Homework[HomeworkStatus.Overdue];
+                deletedList.Collection = viewModel.Homework[HomeworkStatus.Deleted];
+                activeList.Collection = viewModel.Homework[HomeworkStatus.Active];
+                uploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
+                checkedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
+
+                if (viewModel.LoadedOneTime == true)
+                    ViewModel_HomeworkLoaded();
+                else
+                    viewModel.LoadHomeworks();
+                viewModel.HomeworkLoaded += ViewModel_HomeworkLoaded;
+            }
         }
     }
 }

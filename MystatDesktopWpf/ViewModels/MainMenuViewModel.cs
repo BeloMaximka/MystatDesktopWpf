@@ -18,7 +18,7 @@ namespace MystatDesktopWpf.ViewModels
         {
             //MenuItems.Add(new MainMenuItem("m_Schedule", typeof(Placeholder), PackIconKind.Home, PackIconKind.Home));
             MenuItems.Add(new MainMenuItem("m_Main", typeof(MainPage), PackIconKind.Poll, PackIconKind.Poll));
-            MenuItems.Add(new MainMenuItem("m_Homework", typeof(Homeworks), PackIconKind.Server, PackIconKind.Server));
+            MenuItems.Add(new MainMenuItem("m_Homework", typeof(Homeworks), PackIconKind.Server, PackIconKind.Server, new HomeworksViewModel()));
             MenuItems.Add(new MainMenuItem("m_Schedule", typeof(Schedule), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
             MenuItems.Add(new MainMenuItem("m_Settings", typeof(Settings), PackIconKind.Cog, PackIconKind.Cog));
             //MenuItems.Add(new MainMenuItem("Debug", typeof(Debug), PackIconKind.Bug, PackIconKind.Bug));

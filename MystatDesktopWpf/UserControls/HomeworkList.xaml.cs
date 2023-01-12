@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
 using MystatDesktopWpf.UserControls.Menus;
+using MystatDesktopWpf.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -126,10 +127,10 @@ namespace MystatDesktopWpf.UserControls
             ButtonProgressAssist.SetIsIndicatorVisible(progressPageButton, false);
             button.IsHitTestVisible = true;
 
-            UpdateLoadButtonVisibility();
+            UpdateNextPageVisibility();
         }
 
-        public void UpdateLoadButtonVisibility()
+        public void UpdateNextPageVisibility()
         {
             var count = Collection.Items.Count;
             var maxCount = Collection.MaxCount;
