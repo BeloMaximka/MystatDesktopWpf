@@ -50,18 +50,25 @@ namespace MystatDesktopWpf.ViewModels
             }
         }
 
-        public void AddHomework(HomeworkStatus status, Homework homework)
+        public void AddHomework(Homework homework)
         {
-            var collection = Homework[status];
+            var collection = Homework[homework.Status];
             collection.Items.Add(homework);
             collection.MaxCount++;
         }
 
-        public void DeleteHomework(HomeworkStatus status, Homework homework)
+        public void DeleteHomework(Homework homework)
         {
-            var collection = Homework[status];
+            var collection = Homework[homework.Status];
             collection.Items.Remove(homework);
             collection.MaxCount--;
+        }
+
+        public void MoveHomework(Homework homework, HomeworkStatus destination)
+        {
+            DeleteHomework(homework);
+            homework.Status = destination;
+            AddHomework(homework);
         }
 
         public Dictionary<HomeworkStatus, HomeworkCollection> Homework { get; set; } = new()

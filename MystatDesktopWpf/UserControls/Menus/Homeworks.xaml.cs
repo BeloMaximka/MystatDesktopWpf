@@ -171,9 +171,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                         info = await MystatAPISingleton.Client.UploadHomework(uploadContent.Homework.Id, uploadContent.Files?[0], uploadContent.Comment);
 
                     uploadContent.Homework.UploadedHomework = info;
-                    uploadContent.Homework.Status = HomeworkStatus.Uploaded;
-                    uploadContent.HomeworkSource.Remove(uploadContent.Homework);
-                    viewModel.AddHomework(HomeworkStatus.Uploaded, uploadContent.Homework);
+                    viewModel.MoveHomework(uploadContent.Homework, HomeworkStatus.Uploaded);
 
                     string workUploaded = (string)FindResource("m_WorkUploaded");
                     snackbar.MessageQueue?.Enqueue(workUploaded);
@@ -201,10 +199,10 @@ namespace MystatDesktopWpf.UserControls.Menus
                     if (await MystatAPISingleton.Client.RemoveHomework(homework.UploadedHomework.Id) == false)
                         throw new HttpRequestException("Error deleting homework");
 
-                    viewModel.DeleteHomework(HomeworkStatus.Uploaded, homework);
+                    viewModel.DeleteHomework(homework);
                     homework.Status = DateTime.Parse(homework.OverdueTime) < DateTime.Now ?
                                       HomeworkStatus.Overdue : HomeworkStatus.Active;
-                    viewModel.AddHomework(homework.Status, homework);
+                    viewModel.AddHomework(homework);
 
                     string workDeleted = (string)FindResource("m_WorkDeleted");
                     snackbar.MessageQueue?.Enqueue(workDeleted);
