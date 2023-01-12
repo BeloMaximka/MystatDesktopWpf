@@ -1,6 +1,5 @@
 ﻿using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
-using MystatDesktopWpf.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,10 +7,19 @@ using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.ViewModels
 {
-    internal class HomeworksViewModel : ViewModelBase
+    internal class HomeworksViewModel : ViewModelBase, INotificationCount
     {
         public event Action? HomeworkLoaded;
         public bool Loading { get; private set; } = false;
+        public bool LoadedOneTime { get; private set; } = false;
+
+        public HomeworksViewModel()
+        {
+            Homework[HomeworkStatus.Active].PropertyChanged += HomeworksViewModel_PropertyChanged;
+            Homework[HomeworkStatus.Overdue].PropertyChanged += HomeworksViewModel_PropertyChanged;
+            Homework[HomeworkStatus.Deleted].PropertyChanged += HomeworksViewModel_PropertyChanged;
+            LoadHomeworks();
+        }
 
         public async void LoadHomeworks()
         {
@@ -40,6 +48,7 @@ namespace MystatDesktopWpf.ViewModels
 
                     Loading = false;
                     HomeworkLoaded?.Invoke();
+                    LoadedOneTime = true;
                     return;
                 }
                 catch (Exception)
@@ -50,18 +59,31 @@ namespace MystatDesktopWpf.ViewModels
             }
         }
 
-        public void AddHomework(HomeworkStatus status, Homework homework)
+        public void AddHomework(Homework homework)
         {
-            var collection = Homework[status];
+            var collection = Homework[homework.Status];
             collection.Items.Add(homework);
             collection.MaxCount++;
         }
 
-        public void DeleteHomework(HomeworkStatus status, Homework homework)
+        public void DeleteHomework(Homework homework)
         {
-            var collection = Homework[status];
+            var collection = Homework[homework.Status];
             collection.Items.Remove(homework);
             collection.MaxCount--;
+        }
+
+        public void MoveHomework(Homework homework, HomeworkStatus destination)
+        {
+            DeleteHomework(homework);
+            homework.Status = destination;
+            AddHomework(homework);
+        }
+
+        private void HomeworksViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "MaxCount")
+                OnPropertyChanged(nameof(MenuItemNotifications));
         }
 
         public Dictionary<HomeworkStatus, HomeworkCollection> Homework { get; set; } = new()
@@ -72,44 +94,54 @@ namespace MystatDesktopWpf.ViewModels
             { HomeworkStatus.Active, new() },
             { HomeworkStatus.Deleted, new() }
         };
-    }
-}
 
-public class HomeworkCollection : ViewModelBase
-{
-    private ObservableCollection<Homework> items = new();
-    public ObservableCollection<Homework> Items
-    {
-        get => items;
-        set
+        public int MenuItemNotifications
         {
-            SetProperty(ref items, value);
-            OnPropertyChanged(nameof(NoPages));
+            get
+            {
+                return Homework[HomeworkStatus.Active].MaxCount +
+                    Homework[HomeworkStatus.Overdue].MaxCount +
+                    Homework[HomeworkStatus.Deleted].MaxCount;
+            }
         }
     }
 
-    public bool NoPages { get => items.Count < maxCount; }
-
-    private int maxCount = new();
-    public int MaxCount { get => maxCount; set => SetProperty(ref maxCount, value); }
-
-    public int Page { get; set; } = 1;
-
-    public async Task<bool> LoadNextPage()
+    public class HomeworkCollection : ViewModelBase
     {
-        if (Items.Count == 0 || Items.Count == MaxCount) return false;
-
-        try
+        private ObservableCollection<Homework> items = new();
+        public ObservableCollection<Homework> Items
         {
-            Homework[] result = await MystatAPISingleton.Client.GetHomework(++Page, items[0].Status);
-            foreach (var item in result)
-                Items.Add(item);
-            OnPropertyChanged(nameof(NoPages));
-            return true;
+            get => items;
+            set
+            {
+                SetProperty(ref items, value);
+                OnPropertyChanged(nameof(NoPages));
+            }
         }
-        catch (Exception)
+
+        public bool NoPages { get => items.Count < maxCount; }
+
+        private int maxCount = new();
+        public int MaxCount { get => maxCount; set => SetProperty(ref maxCount, value); }
+
+        public int Page { get; set; } = 1;
+
+        public async Task<bool> LoadNextPage()
         {
-            return false;
+            if (Items.Count == 0 || Items.Count == MaxCount) return false;
+
+            try
+            {
+                Homework[] result = await MystatAPISingleton.Client.GetHomework(++Page, items[0].Status);
+                foreach (var item in result)
+                    Items.Add(item);
+                OnPropertyChanged(nameof(NoPages));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

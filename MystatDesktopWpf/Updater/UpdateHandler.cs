@@ -34,7 +34,7 @@ namespace MystatDesktopWpf.Updater
         {
             try
             {
-                var result = await httpClient.GetAsync(@"https://github.com/BeloMaximka/MystatDesktopWpf/releases/download/latest/version");
+                var result = await httpClient.GetAsync(@"https://github.com/BeloMaximka/MystatDesktopWpf/releases/latest/download/version");
                 string remoteVersion = await result.Content.ReadAsStringAsync();
 
                 string localVersion = File.ReadAllText("./version");
@@ -53,7 +53,7 @@ namespace MystatDesktopWpf.Updater
         {
             if (tempUpdateDir != null) return;
 
-            var result = await httpClient.GetAsync(@"https://github.com/BeloMaximka/MystatDesktopWpf/releases/download/latest/MystatDesktop.zip");
+            var result = await httpClient.GetAsync(@"https://github.com/BeloMaximka/MystatDesktopWpf/releases/latest/download/MystatDesktop.zip");
             var buffer = await result.Content.ReadAsByteArrayAsync();
 
             tempUpdateDir = $"{Path.GetTempPath()}MystatDesktop{Path.GetRandomFileName()}";
