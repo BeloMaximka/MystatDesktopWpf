@@ -127,10 +127,10 @@ namespace MystatDesktopWpf.UserControls
             ButtonProgressAssist.SetIsIndicatorVisible(progressPageButton, false);
             button.IsHitTestVisible = true;
 
-            UpdateNextPageVisibility();
+            UpdateNextPageButtonVisibility();
         }
 
-        public void UpdateNextPageVisibility()
+        public void UpdateNextPageButtonVisibility()
         {
             var count = Collection.Items.Count;
             var maxCount = Collection.MaxCount;

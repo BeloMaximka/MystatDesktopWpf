@@ -31,11 +31,11 @@ namespace MystatDesktopWpf.UserControls.Menus
         private void ViewModel_HomeworkLoaded()
         {
             transitioner.SelectedIndex = 1;
-            overdueList.UpdateNextPageVisibility();
-            deletedList.UpdateNextPageVisibility();
-            activeList.UpdateNextPageVisibility();
-            uploadedList.UpdateNextPageVisibility();
-            checkedList.UpdateNextPageVisibility();
+            overdueList.UpdateNextPageButtonVisibility();
+            deletedList.UpdateNextPageButtonVisibility();
+            activeList.UpdateNextPageButtonVisibility();
+            uploadedList.UpdateNextPageButtonVisibility();
+            checkedList.UpdateNextPageButtonVisibility();
         }
 
         private void OpenFileInExplorer(string filePath)
