@@ -30,7 +30,7 @@ namespace MystatDesktopWpf.Domain
 
         static public FrameworkElement CreateScheduleCardSelectable(List<DaySchedule> schedules, DialogHost dialog)
         {
-            ScheduleCardSelectable card = new();
+            ScheduleCardSelectable card = new() { MinWidth = 220 };
 
             card.textBox.Text = DateTime.Parse(schedules[0].Date).ToString("d") + "\n\n";
             card.DialogHost = dialog;
@@ -60,7 +60,14 @@ namespace MystatDesktopWpf.Domain
         }
         static public Card CreateScheduleCard(List<DaySchedule> schedules)
         {
-            Card card = new() { Padding = new Thickness(0, 8, 8, 8) };
+            Card card = new();
+            if(schedules.Count == 0)
+            {
+                card.Content = new TextBlock { Text = (string)App.Current.FindResource("m_NoLessons") };
+                card.Padding = new Thickness(8);
+                return card; 
+            }
+            card.Padding = new Thickness(0, 8, 8, 8);
             StackPanel mainStackPanel = new();
             card.Content = mainStackPanel;
 

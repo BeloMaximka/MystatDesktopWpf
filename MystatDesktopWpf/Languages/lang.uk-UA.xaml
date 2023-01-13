@@ -61,6 +61,7 @@
 
     <v:String x:Key="m_TrayScheduleToday">Розклад на сьогодні</v:String>
     <v:String x:Key="m_TrayScheduleTomorrow">Разклад на завтра</v:String>
+    <v:String x:Key="m_NoLessons">Немає пар.</v:String>
 
     <!-- Homework tab -->
     <v:String x:Key="m_Overdue">Прострочені:&#160;</v:String>

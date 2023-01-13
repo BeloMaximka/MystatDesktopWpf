@@ -1,4 +1,5 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
+using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 using MystatDesktopWpf.SubSettings;
@@ -197,6 +198,13 @@ namespace MystatDesktopWpf
             item.IsHitTestVisible = true;
         }
         #endregion
+
+        private void Popup_Opened(object sender, EventArgs e)
+        {
+            Card card = (Card)popup.Child;
+            popup.VerticalOffset = card.ActualHeight / -2;
+            popup.HorizontalOffset = card.ActualWidth / -2;
+        }
     }
 
     internal class TrayDoubleClickCommand : ICommand
