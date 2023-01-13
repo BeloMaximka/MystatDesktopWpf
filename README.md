@@ -9,8 +9,6 @@ Unofficial desktop version of the Mystat [website](https://mystat.itstep.org), w
 
 [Latest release page](https://github.com/BeloMaximka/MystatDesktopWpf/releases/latest/)
 
-![image](https://user-images.githubusercontent.com/29953103/212164237-e62652e9-a09b-4b86-a15f-7c2b59fa0b28.png)
-
 ## Features
 - Generally works faster because it's lightweight
 - Getting schedule just by hovering over the days - two times faster than on website
@@ -19,6 +17,8 @@ Unofficial desktop version of the Mystat [website](https://mystat.itstep.org), w
 - Lesson start reminder
 
 ## Screenshots
+
+![image](https://user-images.githubusercontent.com/29953103/212164237-e62652e9-a09b-4b86-a15f-7c2b59fa0b28.png)
 
 ![image](https://user-images.githubusercontent.com/29953103/212167224-972ee3eb-46b4-4961-aef7-7679ef4b8f65.png)
 
