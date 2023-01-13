@@ -154,9 +154,13 @@ namespace MystatDesktopWpf
 
         private async Task ShowScheduleCard(DateTime date)
         {
-            var schedule = await MystatAPISingleton.Client.GetScheduleByDate(date);
-            popup.Child = ScheduleControlCreator.CreateScheduleCard(schedule.ToList());
-            popup.IsOpen = true;
+            try
+            {
+                var schedule = await MystatAPISingleton.Client.GetScheduleByDate(date);
+                popup.Child = ScheduleControlCreator.CreateScheduleCard(schedule.ToList());
+                popup.IsOpen = true;
+            }
+            catch {}
         }
 
         private void Popup_MouseLeave(object sender, MouseEventArgs e)
