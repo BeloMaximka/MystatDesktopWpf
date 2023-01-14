@@ -11,7 +11,8 @@ namespace MystatDesktopWpf.Domain
         static async public Task<MystatAuthResponse> LoginAndGetProfileInfo()
         {
             var result = await Client.Login();
-            Profile = await Client.GetProfileInfo();
+            if (result is MystatAuthSuccess responseSuccess)
+                Profile = await Client.GetProfileInfo();
             return result;
         }
         static MystatAPISingleton()
