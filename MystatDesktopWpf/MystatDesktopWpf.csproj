@@ -52,4 +52,8 @@
     </None>
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="taskkill /f /fi &quot;imagename eq MystatDesktop.exe&quot;" />
+  </Target>
+
 </Project>
