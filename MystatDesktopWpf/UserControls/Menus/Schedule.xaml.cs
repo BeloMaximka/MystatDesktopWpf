@@ -11,6 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Controls.Primitives;
+using MaterialDesignThemes.Wpf;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -20,8 +22,11 @@ namespace MystatDesktopWpf.UserControls
     public partial class Schedule : UserControl, IRefreshable
     {
         private readonly Dictionary<int, List<DaySchedule>> groupedSchedules = new();
-        private Button lastButtonHover;
         private DateTime selectedDate = DateTime.Now;
+        
+        Popup popup;
+        readonly MultiBinding alignmentBinding;
+
         public Schedule()
         {
             InitializeComponent();
@@ -30,6 +35,8 @@ namespace MystatDesktopWpf.UserControls
             App.LanguageChanged += HandleLangChange;
             LoadSchedule(selectedDate);
             ScheduleAutoUpdate();
+
+            alignmentBinding = (MultiBinding)FindResource("PopupBinding");
         }
 
         private void ScheduleAutoUpdate()
@@ -60,8 +67,18 @@ namespace MystatDesktopWpf.UserControls
         {
             Button button = sender as Button;
             List<DaySchedule> schedules = groupedSchedules[(int)button.Content];
-            popup.Child = ScheduleControlCreator.CreateScheduleCard(schedules);
-            lastButtonHover = button;
+            popup = new()
+            {
+                Placement = PlacementMode.Bottom,
+                Child = ScheduleControlCreator.CreateScheduleCard(schedules),
+                PlacementTarget = button,
+                AllowsTransparency = true,
+                PopupAnimation = PopupAnimation.Fade
+            };
+            popup.Closed += Popup_Closed;
+            grid.Children.Add(popup);
+            popup.SetBinding(Popup.HorizontalOffsetProperty, alignmentBinding);
+            
             popup.IsOpen = true;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -74,18 +91,6 @@ namespace MystatDesktopWpf.UserControls
 
         private void Button_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (popup.IsMouseOver) return;
-            popup.IsOpen = false;
-        }
-
-        private void Popup_MouseMove(object sender, MouseEventArgs e)
-        {
-            Point relative = lastButtonHover.TransformToAncestor(this).Transform(new Point(0, 0));
-            Point mousePos = e.GetPosition(this);
-            if (mousePos.X > relative.X && mousePos.Y > relative.Y &&
-                mousePos.X < relative.X + lastButtonHover.ActualWidth &&
-                mousePos.Y < relative.Y + lastButtonHover.ActualHeight)
-                return;
             popup.IsOpen = false;
         }
 
@@ -232,6 +237,12 @@ namespace MystatDesktopWpf.UserControls
         {
             if (Loading) return;
             LoadSchedule(selectedDate);
+        }
+
+        // We need to wait for the popup fade out to finish animation before we remove it to avoid visual bugs
+        private void Popup_Closed(object sender, EventArgs e)
+        {
+            grid.Children.Remove((Popup)sender);
         }
     }
 }
