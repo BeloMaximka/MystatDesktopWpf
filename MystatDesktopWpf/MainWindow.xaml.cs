@@ -38,7 +38,7 @@ namespace MystatDesktopWpf
             // notification icon initialization
             trayIcon = new TaskbarIcon()
             {
-                IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/favicon.ico")),
+                IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/trayicon.ico")),
                 ContextMenu = FindResource("trayIconContextMenu") as ContextMenu,
             };
             trayIcon.MouseDown += (_, _) => Show();
