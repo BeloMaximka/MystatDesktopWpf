@@ -1,4 +1,5 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
+using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 using MystatDesktopWpf.SubSettings;
@@ -37,7 +38,7 @@ namespace MystatDesktopWpf
             // notification icon initialization
             trayIcon = new TaskbarIcon()
             {
-                IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/favicon.ico")),
+                IconSource = new BitmapImage(new Uri("pack://application:,,,/Resources/trayicon.ico")),
                 ContextMenu = FindResource("trayIconContextMenu") as ContextMenu,
             };
             trayIcon.MouseDown += (_, _) => Show();
@@ -153,9 +154,13 @@ namespace MystatDesktopWpf
 
         private async Task ShowScheduleCard(DateTime date)
         {
-            var schedule = await MystatAPISingleton.Client.GetScheduleByDate(date);
-            popup.Child = ScheduleControlCreator.CreateScheduleCard(schedule.ToList());
-            popup.IsOpen = true;
+            try
+            {
+                var schedule = await MystatAPISingleton.Client.GetScheduleByDate(date);
+                popup.Child = ScheduleControlCreator.CreateScheduleCard(schedule.ToList());
+                popup.IsOpen = true;
+            }
+            catch {}
         }
 
         private void Popup_MouseLeave(object sender, MouseEventArgs e)
@@ -197,6 +202,13 @@ namespace MystatDesktopWpf
             item.IsHitTestVisible = true;
         }
         #endregion
+
+        private void Popup_Opened(object sender, EventArgs e)
+        {
+            Card card = (Card)popup.Child;
+            popup.VerticalOffset = card.ActualHeight / -2;
+            popup.HorizontalOffset = card.ActualWidth / -2;
+        }
     }
 
     internal class TrayDoubleClickCommand : ICommand

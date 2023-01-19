@@ -3,14 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MystatDesktopWpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
              xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
+    <UserControl.Resources>
+        <converters:CenterPopupConverter x:Key="CenterPopupConverter"/>
+        <MultiBinding x:Key="PopupBinding" Converter="{StaticResource CenterPopupConverter}">
+            <Binding RelativeSource="{RelativeSource Self}" Path="PlacementTarget.ActualWidth"/>
+            <Binding RelativeSource="{RelativeSource Self}" Path="Child.ActualWidth"/>
+        </MultiBinding>
+    </UserControl.Resources>
     <materialDesign:DialogHost x:Name="scheduleDialog" CloseOnClickAway="True" DialogTheme="Inherit">
-        <Grid>
+        <Grid x:Name="grid">
             <Grid Margin="16">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -86,8 +93,6 @@
 
                     </materialDesign:TransitionerSlide>
                 </materialDesign:Transitioner>
-                <Popup x:Name="popup" StaysOpen="True" Placement="Mouse" HorizontalOffset="8" VerticalOffset="8"
-                       AllowsTransparency="True" MouseMove="Popup_MouseMove"/>
             </Grid>
             <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}"/>
         </Grid>

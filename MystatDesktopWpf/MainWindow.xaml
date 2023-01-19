@@ -43,6 +43,6 @@
                 </materialDesign:TransitionerSlide.BackwardWipe>
             </materialDesign:TransitionerSlide>
         </materialDesign:Transitioner>
-        <Popup x:Name="popup" StaysOpen="True" Placement="Mouse" HorizontalOffset="8" VerticalOffset="8" AllowsTransparency="True" MouseLeave="Popup_MouseLeave"/>
+        <Popup x:Name="popup" StaysOpen="True" Placement="MousePoint" HorizontalOffset="-8" VerticalOffset="-20" AllowsTransparency="True" MouseLeave="Popup_MouseLeave" Opened="Popup_Opened"/>
     </Grid>
 </Window>

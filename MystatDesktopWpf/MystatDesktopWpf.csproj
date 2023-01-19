@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <None Remove="Resources\favicon.ico" />
+    <None Remove="Resources\trayicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +40,7 @@
     <Resource Include="Resources\favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\trayicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,5 +51,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="taskkill /f /fi &quot;imagename eq MystatDesktop.exe&quot;" />
+  </Target>
 
 </Project>
