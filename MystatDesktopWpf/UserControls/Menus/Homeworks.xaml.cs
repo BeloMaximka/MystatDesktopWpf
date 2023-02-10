@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 using MystatDesktopWpf.UserControls.DialogContent;
 using MystatDesktopWpf.ViewModels;
 using System;
