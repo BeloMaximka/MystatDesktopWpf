@@ -4,6 +4,7 @@ using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 using MystatDesktopWpf.Updater;
 using MystatDesktopWpf.ViewModels;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -80,6 +81,20 @@ namespace MystatDesktopWpf.UserControls
         async private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             await UpdateHandler.RequestUpdate();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (Directory.Exists("news") && File.Exists($"news/{App.Language.ThreeLetterISOLanguageName}.rtf"))
+                {
+                    NewsTextBox.LoadFromFile($"news/{App.Language.ThreeLetterISOLanguageName}.rtf");
+                    NewsDialogHost.IsOpen = true;
+                    Directory.Delete("news", true);
+                }
+            }
+            catch { }
         }
     }
 }

@@ -154,4 +154,7 @@
     <v:String x:Key="m_PlaceClass">Place in the class</v:String>
     <v:String x:Key="m_AverageGrade">Average grade</v:String>
     <v:String x:Key="m_Attendance">Attendance</v:String>
+
+    <!-- News -->
+    <v:String x:Key="m_WhatsNew">What's new?</v:String>
 </ResourceDictionary>
