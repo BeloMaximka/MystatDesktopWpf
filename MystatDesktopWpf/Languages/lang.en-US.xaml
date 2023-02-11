@@ -154,4 +154,9 @@
     <v:String x:Key="m_PlaceClass">Place in the class</v:String>
     <v:String x:Key="m_AverageGrade">Average grade</v:String>
     <v:String x:Key="m_Attendance">Attendance</v:String>
+    
+    <!-- Timezone settings -->
+    <v:String x:Key="m_TimezoneHeader">Timezone convertion</v:String>
+    <v:String x:Key="m_TimezoneConvertFrom">Convert from</v:String>
+    <v:String x:Key="m_TimezoneConvertTo">to</v:String>
 </ResourceDictionary>

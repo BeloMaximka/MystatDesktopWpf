@@ -18,6 +18,7 @@
             <controls:NotificationSettings Margin="8"/>
             <controls:ThemeSettings Margin="8"/>
             <controls:TraySettings Margin="8"/>
+            <controls:TimezoneSettings Margin="8"/>
         </StackPanel>
     </ScrollViewer>
     
