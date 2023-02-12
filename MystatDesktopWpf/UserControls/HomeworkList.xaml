@@ -133,7 +133,7 @@
                                     <StackPanel Orientation="Horizontal" x:Name="completionTime" Visibility="Collapsed"
                                                 HorizontalAlignment="Right" VerticalAlignment="Center"
                                                 ToolTip="{DynamicResource m_UploadDate}">
-                                        <TextBlock Text="{Binding CompletionTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
+                                        <TextBlock Text="{Binding UploadedHomework.CreationTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
                                         <materialDesign:PackIcon Kind="ClockCheck" Margin="4,0,0,0"/>
                                     </StackPanel>
                                     
