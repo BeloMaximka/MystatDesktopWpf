@@ -45,30 +45,6 @@ namespace MystatDesktopWpf.SubSettings
     [JsonConverter(typeof(TimeZoneConverter))]
     public class TimeZoneConverter : JsonConverter<TimeZoneInfo>
     {
-        //public TimeZoneConverter()
-        //{
-
-        //}
-
-        //public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        //{
-        //    User user = (User)value;
-
-        //    writer.WriteValue(user.UserName);
-        //}
-
-        //public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        //{
-        //    User user = new User();
-        //    user.UserName = (string)reader.Value;
-
-        //    return user;
-        //}
-
-        //public override bool CanConvert(Type objectType)
-        //{
-        //    return objectType == typeof(User);
-        //}
         public override TimeZoneInfo? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             string? serializedTimezone = reader.GetString();
