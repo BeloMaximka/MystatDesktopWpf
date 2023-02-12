@@ -154,4 +154,10 @@
     <v:String x:Key="m_PlaceClass">Место на потоке</v:String>
     <v:String x:Key="m_AverageGrade">Средний балл</v:String>
     <v:String x:Key="m_Attendance">Посещаемость</v:String>
+
+    <!-- Timezone settings -->
+    <v:String x:Key="m_TimezoneHeader">Преобразование часовых поясов</v:String>
+    <v:String x:Key="m_TimezoneDescription">Преобразование времени в расписании с учетом часовых поясов</v:String>
+    <v:String x:Key="m_TimezoneConvertFrom">Преобразовать из</v:String>
+    <v:String x:Key="m_TimezoneConvertTo">в</v:String>
 </ResourceDictionary>

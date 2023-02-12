@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
+using MystatDesktopWpf.Services;
 using MystatDesktopWpf.UserControls;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ namespace MystatDesktopWpf.Domain
             for (int i = 0; i < schedules.Count; i++)
             {
                 double size = 18;
+                var timeStart = TimezoneConvertionService.Convert(schedules[i].StartedAt);
+                var timeEnd = TimezoneConvertionService.Convert(schedules[i].FinishedAt);
                 card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Book, Width = size, Height = size, Margin = i == 0 ? new(0, 50, 0, 0) : new(0, 10, 0, 0) });
                 card.textBox.Text += schedules[i].SubjectName + '\n';
                 card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Account, Width = size, Height = size });
@@ -45,7 +48,7 @@ namespace MystatDesktopWpf.Domain
                 card.iconPanel.Children.Add(new PackIcon { Kind = PackIconKind.Door, Width = size, Height = size });
                 string classRoom = (string)App.Current.FindResource("m_Classroom");
                 card.textBox.Text += $"{classRoom} {schedules[i].RoomName}" + '\n';
-                card.textBox.Text += $"{schedules[i].StartedAt} - {schedules[i].FinishedAt}";
+                card.textBox.Text += $"{timeStart.ToString("HH:mm")} - {timeEnd.ToString("HH:mm")}";
 
                 PackIcon icon = new() { Kind = PackIconKind.Clock, Width = size, Height = size };
                 if (i != schedules.Count - 1)
@@ -74,11 +77,13 @@ namespace MystatDesktopWpf.Domain
             foreach (var item in schedules)
             {
                 var children = mainStackPanel.Children;
+                var timeStart = TimezoneConvertionService.Convert(item.StartedAt);
+                var timeEnd = TimezoneConvertionService.Convert(item.FinishedAt);
                 children.Add(CreateScheduleLine(PackIconKind.Book, item.SubjectName));
                 children.Add(CreateScheduleLine(PackIconKind.Account, item.TeacherFullName));
                 string classRoom = (string)App.Current.FindResource("m_Classroom");
                 children.Add(CreateScheduleLine(PackIconKind.Door, $"{classRoom} {item.RoomName}"));
-                children.Add(CreateScheduleLine(PackIconKind.Clock, $"{item.StartedAt} - {item.FinishedAt}"));
+                children.Add(CreateScheduleLine(PackIconKind.Clock, $"{timeStart.ToString("HH:mm")} - {timeEnd.ToString("HH:mm")}"));
                 children.Add(new TextBlock());
             }
 

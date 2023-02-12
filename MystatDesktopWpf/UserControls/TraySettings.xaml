@@ -31,7 +31,7 @@
 
             <WrapPanel Grid.Row="1">
                 <StackPanel Margin="8">
-                    <Label Content="{DynamicResource m_MoveToTray}" FontSize="14" Margin="0,8,0,0"/>
+                    <Label Content="{DynamicResource m_MoveToTray}" FontSize="14" Margin="0,0,0,4"/>
                     <RadioButton GroupName="moveToTrayType" Content="{DynamicResource m_AlwaysTray}" Margin="0,0,0,8" IsChecked="{Binding IsAlwaysTray}"/>
                     <RadioButton GroupName="moveToTrayType" Content="{DynamicResource m_OnlyCloseTray}" Margin="0,0,0,8" IsChecked="{Binding IsCloseTray}"/>
                     <RadioButton GroupName="moveToTrayType" Content="{DynamicResource m_NoTray}" Margin="0,0,0,8" IsChecked="{Binding IsNoTray}"/>

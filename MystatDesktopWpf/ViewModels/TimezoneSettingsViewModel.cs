@@ -24,7 +24,7 @@ namespace MystatDesktopWpf.ViewModels
             }
         }public TimeZoneInfo TimezoneTo 
         { 
-            get => timezoneSubSettings.From;
+            get => timezoneSubSettings.To;
             set
             {
                 timezoneSubSettings.To = value;
