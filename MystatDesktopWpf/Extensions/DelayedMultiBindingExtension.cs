@@ -8,7 +8,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Threading;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.Extensions
 {
     [ContentProperty("Bindings")]
     internal class DelayedMultiBindingExtension : MarkupExtension, IMultiValueConverter, INotifyPropertyChanged
@@ -51,7 +51,7 @@ namespace MystatDesktopWpf.Domain
 
         public DelayedMultiBindingExtension()
         {
-            this.Bindings = new Collection<BindingBase>();
+            Bindings = new Collection<BindingBase>();
             timer = new DispatcherTimer();
             timer.Tick += Timer_Tick;
             timer.Interval = TimeSpan.FromMilliseconds(10);

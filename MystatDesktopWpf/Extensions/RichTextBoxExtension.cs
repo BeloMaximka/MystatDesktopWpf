@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.Extensions
 {
     public static class RichTextBoxExtension
     {

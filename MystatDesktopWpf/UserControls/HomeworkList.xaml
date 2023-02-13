@@ -9,6 +9,7 @@
              xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
              xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
              xmlns:api="clr-namespace:MystatAPI.Entity;assembly=MystatAPI"
+             xmlns:ext="clr-namespace:MystatDesktopWpf.Extensions"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="control">
@@ -54,10 +55,10 @@
                             <Popup x:Name="popupInfo" AllowsTransparency="True"
                                    Placement="Right" PlacementTarget="{Binding ElementName=info}">
                                 <Popup.IsOpen>
-                                    <domain:DelayedMultiBindingExtension Converter="{StaticResource PopupIsOpenConverter}" Delay="0:0:0.01">
+                                    <ext:DelayedMultiBindingExtension Converter="{StaticResource PopupIsOpenConverter}" Delay="0:0:0.01">
                                         <Binding ElementName="info" Path="IsMouseOver" Mode="OneWay" />
                                         <Binding ElementName="popupInfo" Path="IsMouseOver" Mode="OneWay" />
-                                    </domain:DelayedMultiBindingExtension>
+                                    </ext:DelayedMultiBindingExtension>
                                 </Popup.IsOpen>
                                 <!-- Popup content -->
                                 <materialDesign:Card Padding="8px">

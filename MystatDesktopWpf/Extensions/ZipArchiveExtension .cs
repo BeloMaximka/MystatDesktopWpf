@@ -2,7 +2,7 @@
 using System.IO.Compression;
 using System.Linq;
 
-namespace MystatDesktopWpf.Domain
+namespace MystatDesktopWpf.Extensions
 {
     public static class ZipArchiveExtension
     {
