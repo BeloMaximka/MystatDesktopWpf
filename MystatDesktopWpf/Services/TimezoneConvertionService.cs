@@ -11,7 +11,15 @@ namespace MystatDesktopWpf.Services
     {
         public static DateTime Convert(DateTime time)
         {
-            return TimeZoneInfo.ConvertTime(time, SettingsService.Settings.TimezoneConvertion.From, SettingsService.Settings.TimezoneConvertion.To);
+            var from = SettingsService.Settings.TimezoneConvertion.From;
+            var to = SettingsService.Settings.TimezoneConvertion.To;
+
+            if (from is null || to is null)
+            {
+                return time;
+            }
+
+            return TimeZoneInfo.ConvertTime(time, from, to);
         }
         
         public static DateTime Convert(string timeStr)

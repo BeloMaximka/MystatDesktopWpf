@@ -14,6 +14,7 @@ namespace MystatDesktopWpf.ViewModels
         private readonly TimezoneSubSettings timezoneSubSettings;
 
         public ReadOnlyCollection<TimeZoneInfo> TimeZones { get; set; }
+
         public TimeZoneInfo TimezoneFrom 
         { 
             get => timezoneSubSettings.From;
