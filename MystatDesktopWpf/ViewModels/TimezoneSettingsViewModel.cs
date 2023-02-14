@@ -1,11 +1,7 @@
 ﻿using MystatDesktopWpf.Services;
 using MystatDesktopWpf.SubSettings;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -15,16 +11,17 @@ namespace MystatDesktopWpf.ViewModels
 
         public ReadOnlyCollection<TimeZoneInfo> TimeZones { get; set; }
 
-        public TimeZoneInfo TimezoneFrom 
-        { 
+        public TimeZoneInfo TimezoneFrom
+        {
             get => timezoneSubSettings.From;
             set
             {
                 timezoneSubSettings.From = value;
                 OnPropertyChanged(nameof(TimezoneFrom));
             }
-        }public TimeZoneInfo TimezoneTo 
-        { 
+        }
+        public TimeZoneInfo TimezoneTo
+        {
             get => timezoneSubSettings.To;
             set
             {
