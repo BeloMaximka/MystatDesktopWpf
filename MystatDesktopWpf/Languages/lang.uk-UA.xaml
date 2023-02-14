@@ -167,4 +167,10 @@
     <v:String x:Key="m_EvaluateFutureLessonsAutomatically">Оцінювати майбутні заняття автоматично:</v:String>
     <v:String x:Key="m_BothEvaluationRequired">Обидві оцінки є обов'язковими для заповнення</v:String>
     <v:String x:Key="m_EvaluationError">Відбулася помилка під час спроби оцінити урок</v:String>
+
+    <!-- Timezone settings -->
+    <v:String x:Key="m_TimezoneHeader">Перетворення часових поясів</v:String>
+    <v:String x:Key="m_TimezoneDescription">Перетворення часу в розкладі з урахуванням часових поясів</v:String>
+    <v:String x:Key="m_TimezoneConvertFrom">Перетворити з</v:String>
+    <v:String x:Key="m_TimezoneConvertTo">у</v:String>
 </ResourceDictionary>

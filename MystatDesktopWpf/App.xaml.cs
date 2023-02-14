@@ -76,7 +76,7 @@ namespace MystatDesktopWpf
             }
         }
 
-        private void App_LanguageChanged(Object sender, EventArgs e)
+        private void App_LanguageChanged(object sender, EventArgs e)
         {
             SettingsService.SetPropertyValue("Language", Language.Name);
         }
