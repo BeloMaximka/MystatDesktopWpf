@@ -101,7 +101,8 @@ namespace MystatDesktopWpf.Services
         {
             if (!item.IsNotificationEnabled) return false;
 
-            var time = TimeOnly.Parse(item.DaySchedule.StartedAt).ToTimeSpan();
+            var time = TimezoneConvertionService.Convert(item.DaySchedule.StartedAt).TimeOfDay;
+            //var time = TimeOnly.Parse(item.DaySchedule.StartedAt).ToTimeSpan();
             time = time.Subtract(TimeSpan.FromMinutes(delay));
             string timerId = CreateId(item.DaySchedule);
             item.IsNotificationEnabled = TaskService.ScheduleTask(timerId, time, () => OnTimerElapsed?.Invoke(item.DaySchedule, delay));
