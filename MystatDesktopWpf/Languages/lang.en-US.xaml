@@ -9,6 +9,7 @@
     <v:String x:Key="m_ExitPopUp">Sign out</v:String>
     <v:String x:Key="m_Settings">Settings</v:String>
     <v:String x:Key="m_Schedule">Schedule</v:String>
+    <v:String x:Key="m_LessonEvaluation">Lesson evaluation</v:String>
     <v:String x:Key="m_Homework">Homework</v:String>
     <v:String x:Key="m_Main">Main</v:String>
     
@@ -154,6 +155,19 @@
     <v:String x:Key="m_PlaceClass">Place in the class</v:String>
     <v:String x:Key="m_AverageGrade">Average grade</v:String>
     <v:String x:Key="m_Attendance">Attendance</v:String>
+
+    <!-- News -->
+    <v:String x:Key="m_WhatsNew">What's new?</v:String>
+
+    <!-- Lesson evaluation -->
+
+    <v:String x:Key="m_LessonsToEvaluate">Lessons to evaluate:</v:String>
+    <v:String x:Key="m_SendWithMaxRating">Send with max rating</v:String>
+    <v:String x:Key="m_LessonQuality">Lesson quality</v:String>
+    <v:String x:Key="m_TeachersWork">Teacher's work</v:String>
+    <v:String x:Key="m_EvaluateFutureLessonsAutomatically">Evaluate future lessons automatically:</v:String>
+    <v:String x:Key="m_BothEvaluationRequired">Both evaluations are required</v:String>
+    <v:String x:Key="m_EvaluationError">An error occurred while trying to evaluate the lesson</v:String>
     
     <!-- Timezone settings -->
     <v:String x:Key="m_TimezoneHeader">Timezone convertion</v:String>

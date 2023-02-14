@@ -42,7 +42,7 @@ namespace MystatDesktopWpf.UserControls
         private void ScheduleAutoUpdate()
         {
             TaskService.CancelTask("daily-schedule-refresh");
-            TaskService.ScheduleTask("daily-schedule-refresh", DateTime.Now.AddDays(1), new TimeOnly(2, 0), () =>
+            TaskService.ScheduleTask("daily-schedule-refresh", DateTime.Now.AddDays(1), new TimeOnly(0, 5), () =>
             {
                 selectedDate = DateTime.Now;
                 Refresh();

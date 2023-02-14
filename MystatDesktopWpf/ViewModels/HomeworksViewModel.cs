@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -80,7 +81,7 @@ namespace MystatDesktopWpf.ViewModels
             AddHomework(homework);
         }
 
-        private void HomeworksViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void HomeworksViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "MaxCount")
                 OnPropertyChanged(nameof(MenuItemNotifications));

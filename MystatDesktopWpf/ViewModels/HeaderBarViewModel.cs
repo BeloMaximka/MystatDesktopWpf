@@ -35,7 +35,7 @@ namespace MystatDesktopWpf.ViewModels
         {
             Refresh();
             TaskService.CancelTask("header-bar-refresh");
-            TaskService.ScheduleTask("header-bar-refresh", DateTime.Now.AddDays(1), new TimeOnly(2, 0), () =>
+            TaskService.ScheduleTask("header-bar-refresh", TimeSpan.FromHours(8), () =>
             {
                 AutoRefresh();
             });

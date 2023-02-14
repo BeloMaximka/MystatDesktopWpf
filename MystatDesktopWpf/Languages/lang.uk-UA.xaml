@@ -9,6 +9,7 @@
     <v:String x:Key="m_ExitPopUp">Вийти з облікового запису</v:String>
     <v:String x:Key="m_Settings">Налаштування</v:String>
     <v:String x:Key="m_Schedule">Розклад</v:String>
+    <v:String x:Key="m_LessonEvaluation">Оцінка занять</v:String>
     <v:String x:Key="m_Homework">Домашні завдання</v:String>
     <v:String x:Key="m_Main">Головна</v:String>
     
@@ -154,6 +155,18 @@
     <v:String x:Key="m_PlaceClass">Місце на потоці</v:String>
     <v:String x:Key="m_AverageGrade">Середній бал</v:String>
     <v:String x:Key="m_Attendance">Відвідування</v:String>
+
+    <!-- News -->
+    <v:String x:Key="m_WhatsNew">Що нового?</v:String>
+
+    <!-- Lesson evaluation -->
+    <v:String x:Key="m_LessonsToEvaluate">Занять на оцінку:</v:String>
+    <v:String x:Key="m_SendWithMaxRating">Надіслати з макс. оцінкою</v:String>
+    <v:String x:Key="m_LessonQuality">Якість уроку</v:String>
+    <v:String x:Key="m_TeachersWork">Робота викладача</v:String>
+    <v:String x:Key="m_EvaluateFutureLessonsAutomatically">Оцінювати майбутні заняття автоматично:</v:String>
+    <v:String x:Key="m_BothEvaluationRequired">Обидві оцінки є обов'язковими для заповнення</v:String>
+    <v:String x:Key="m_EvaluationError">Відбулася помилка під час спроби оцінити урок</v:String>
 
     <!-- Timezone settings -->
     <v:String x:Key="m_TimezoneHeader">Перетворення часових поясів</v:String>

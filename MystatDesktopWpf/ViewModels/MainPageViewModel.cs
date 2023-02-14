@@ -56,7 +56,6 @@ namespace MystatDesktopWpf.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
                     await Task.Delay(delay.ProvideValueMilliseconds());
                 }
             }
@@ -81,7 +80,6 @@ namespace MystatDesktopWpf.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
                     await Task.Delay(delay.ProvideValueMilliseconds());
                 }
             }

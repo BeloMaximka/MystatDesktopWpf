@@ -20,8 +20,10 @@ namespace MystatDesktopWpf.ViewModels
             MenuItems.Add(new MainMenuItem("m_Main", typeof(MainPage), PackIconKind.Poll, PackIconKind.Poll));
             MenuItems.Add(new MainMenuItem("m_Homework", typeof(Homeworks), PackIconKind.Server, PackIconKind.Server, new HomeworksViewModel()));
             MenuItems.Add(new MainMenuItem("m_Schedule", typeof(Schedule), PackIconKind.CalendarMonth, PackIconKind.CalendarMonth));
+            MenuItems.Add(new MainMenuItem("m_LessonEvaluation", typeof(LessonEvaluation), 
+                          PackIconKind.CommentAccount, PackIconKind.CommentAccount, new LessonEvaluationViewModel(), true));
             MenuItems.Add(new MainMenuItem("m_Settings", typeof(Settings), PackIconKind.Cog, PackIconKind.Cog));
-            //MenuItems.Add(new MainMenuItem("Debug", typeof(Debug), PackIconKind.Bug, PackIconKind.Bug));
+            //MenuItems.Add(new MainMenuItem("m_Settings", typeof(Debug), PackIconKind.Bug, PackIconKind.Bug));
         }
 
         public MainMenuItem? SelectedItem
