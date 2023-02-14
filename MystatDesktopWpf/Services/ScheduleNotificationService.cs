@@ -104,7 +104,7 @@ namespace MystatDesktopWpf.Services
             var time = TimezoneConvertionService.Convert(item.DaySchedule.StartedAt);
             time = time.AddMinutes(delay * -1);
             string timerId = CreateId(item.DaySchedule);
-            TaskService.ScheduleTask(timerId, time, () => OnTimerElapsed?.Invoke(item.DaySchedule, delay));
+            TaskService.ScheduleTask(timerId, TimeOnly.FromDateTime(time), () => OnTimerElapsed?.Invoke(item.DaySchedule, delay));
 
             return item.IsNotificationEnabled;
         }

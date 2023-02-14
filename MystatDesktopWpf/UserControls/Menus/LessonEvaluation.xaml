@@ -10,6 +10,7 @@
              xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
              d:DataContext="{d:DesignInstance Type=viewmodels:LessonEvaluationViewModel}"
              mc:Ignorable="d" 
+             DataContextChanged="UserControl_DataContextChanged"
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource MaterialDesignPaper}">
     <UserControl.Resources>
@@ -27,7 +28,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="8,16,8,8" HorizontalAlignment="Right">
                     <TextBlock Text="{DynamicResource m_EvaluateFutureLessonsAutomatically}" FontSize="14" VerticalAlignment="Center"/>
-                    <ToggleButton Margin="8 0"/>
+                    <ToggleButton Margin="8 0" IsChecked="{Binding AutoLessonEvaluationEnabled}"/>
                 </StackPanel>
             </Grid>
             <ItemsControl ItemsSource="{Binding Lessons}" Margin="8 0" Grid.Row="1"

@@ -1,8 +1,12 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 using MystatDesktopWpf.ViewModels;
+using System.Linq;
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using MystatAPI.Entity;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
@@ -11,13 +15,28 @@ namespace MystatDesktopWpf.UserControls.Menus
     /// </summary>
     public partial class LessonEvaluation : UserControl, IRefreshable
     {
-        private readonly LessonEvaluationViewModel viewModel = new();
+        private LessonEvaluationViewModel viewModel;
         public LessonEvaluation()
         {
-            DataContext = viewModel;
-
             InitializeComponent();
+        }
+
+        private async void AutoRefresh()
+        {
             Refresh();
+            TaskService.CancelTask("lesson-evaluation-refresh");
+            try
+            {
+                var result = await MystatAPISingleton.Client.GetScheduleByDate(DateTime.Now.AddDays(1));
+                if (result.Length > 0)
+                {
+                    var time = TimezoneConvertionService.Convert(result.Last().FinishedAt).AddMinutes(5);
+                    TaskService.ScheduleTask("lesson-evaluation-refresh", DateTime.Now.AddDays(1), TimeOnly.FromDateTime(time), AutoRefresh);
+                    return;
+                }
+            }
+            catch { }
+            TaskService.ScheduleTask("lesson-evaluation-refresh", DateTime.Now.AddDays(1), new TimeOnly(2, 0), AutoRefresh);
         }
 
         public async void Refresh()
@@ -44,7 +63,6 @@ namespace MystatDesktopWpf.UserControls.Menus
                 }
 
                 errorText.Visibility = Visibility.Collapsed;
-                return; // temp
                 ButtonProgressAssist.SetIsIndicatorVisible(button, true);
                 try
                 {
@@ -72,6 +90,16 @@ namespace MystatDesktopWpf.UserControls.Menus
                 teacherRatingBar.Value = 5;
             }
             SendButton_Click(sender, e);
+        }
+
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is LessonEvaluationViewModel vm)
+            {
+                viewModel = vm;
+                DataContext = vm;
+                AutoRefresh();
+            }
         }
     }
 }
