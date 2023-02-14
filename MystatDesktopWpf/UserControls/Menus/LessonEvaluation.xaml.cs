@@ -32,13 +32,13 @@ namespace MystatDesktopWpf.UserControls.Menus
         {
             if (sender is Button button &&
                 button.Tag is EvaluateLessonItemWithMark item &&
-                button.Parent is StackPanel panel &&
-                panel.FindName("ErrorText") is TextBlock errorText)
+                button.Parent is FrameworkElement interal &&
+                interal.Parent is FrameworkElement parent &&
+                parent.FindName("ErrorText") is TextBlock errorText)
             {
                 if (item.LessonMark == 0 || item.TeacherMark == 0)
                 {
-                    string homeworkDownloadError = (string)FindResource("m_HomeworkDownloadError");
-                    errorText.Text = homeworkDownloadError;
+                    errorText.SetResourceReference(TextBlock.TextProperty, "m_BothEvaluationRequired");
                     errorText.Visibility = Visibility.Visible;
                     return;
                 }
@@ -52,8 +52,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                 }
                 catch
                 {
-                    string homeworkDownloadError = (string)FindResource("m_HomeworkDownloadError");
-                    errorText.Text = homeworkDownloadError;
+                    errorText.SetResourceReference(TextBlock.TextProperty, "m_EvaluationError");
                     errorText.Visibility = Visibility.Visible;
 
                 }
@@ -63,18 +62,16 @@ namespace MystatDesktopWpf.UserControls.Menus
 
         private void SendWithMaxMarksButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.Tag is EvaluateLessonItemWithMark item)
+            if (sender is Button button &&
+                button.Parent is FrameworkElement element &&
+                element.Parent is FrameworkElement parent &&
+                parent.FindName("LessonRatingBar") is RatingBar lessonRatingBar &&
+                parent.FindName("TeacherRatingBar") is RatingBar teacherRatingBar)
             {
-                if (button.Parent is FrameworkElement element &&
-                   element.Parent is FrameworkElement parent &&
-                   parent.FindName("LessonRatingBar") is RatingBar lessonRatingBar &&
-                   parent.FindName("TeacherRatingBar") is RatingBar teacherRatingBar)
-                {
-                    lessonRatingBar.Value = 5;
-                    teacherRatingBar.Value = 5;
-                }
-                SendButton_Click(sender, e);
+                lessonRatingBar.Value = 5;
+                teacherRatingBar.Value = 5;
             }
+            SendButton_Click(sender, e);
         }
     }
 }

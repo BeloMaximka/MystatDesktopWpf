@@ -45,6 +45,16 @@ namespace MystatDesktopWpf.ViewModels
                 Lessons.Remove(item);
             }
         }
+
+        public static async Task AutoEvaluateAllLessons()
+        {
+            var result = await MystatAPISingleton.Client.GetEvaluateLessonList();
+            foreach (var item in result)
+            {
+                await MystatAPISingleton.Client.EvaluateLesson(item.Key, 5, 5);
+            }
+        }
+        
     }
 
     internal class EvaluateLessonItemWithMark : EvaluateLessonItem

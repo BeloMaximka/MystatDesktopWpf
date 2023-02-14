@@ -165,4 +165,6 @@
     <v:String x:Key="m_LessonQuality">Качество урока</v:String>
     <v:String x:Key="m_TeachersWork">Работа преподавателя</v:String>
     <v:String x:Key="m_EvaluateFutureLessonsAutomatically">Оценивать будущие занятия автоматически:</v:String>
+    <v:String x:Key="m_BothEvaluationRequired">Обе оценки обязательны для заполнения</v:String>
+    <v:String x:Key="m_EvaluationError">Произошла ошибка при попытке оценить урок</v:String>
 </ResourceDictionary>
