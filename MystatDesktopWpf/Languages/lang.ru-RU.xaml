@@ -9,6 +9,7 @@
     <v:String x:Key="m_ExitPopUp">Выйти из аккаунта</v:String>
     <v:String x:Key="m_Settings">Настройки</v:String>
     <v:String x:Key="m_Schedule">Расписание</v:String>
+    <v:String x:Key="m_LessonEvaluation">Оценка занятий</v:String>
     <v:String x:Key="m_Homework">Домашние задания</v:String>
     <v:String x:Key="m_Main">Главная</v:String>
     
@@ -157,4 +158,11 @@
 
     <!-- News -->
     <v:String x:Key="m_WhatsNew">Что нового?</v:String>
+
+    <!-- Lesson evaluation -->
+    <v:String x:Key="m_LessonsToEvaluate">Занятий на оценку:</v:String>
+    <v:String x:Key="m_SendWithMaxRating">Отправить с макс. оценкой</v:String>
+    <v:String x:Key="m_LessonQuality">Качество урока</v:String>
+    <v:String x:Key="m_TeachersWork">Работа преподавателя</v:String>
+    <v:String x:Key="m_EvaluateFutureLessonsAutomatically">Оценивать будущие занятия автоматически:</v:String>
 </ResourceDictionary>
