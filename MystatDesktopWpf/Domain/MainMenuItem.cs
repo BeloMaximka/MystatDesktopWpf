@@ -2,6 +2,7 @@
 using MystatDesktopWpf.ViewModels;
 using System;
 using System.Windows;
+using System.ComponentModel;
 
 namespace MystatDesktopWpf.Domain
 {
@@ -11,7 +12,7 @@ namespace MystatDesktopWpf.Domain
         private readonly object? dataContext;
 
         public MainMenuItem(string nameKey, Type contentType, PackIconKind selectedIcon,
-            PackIconKind unselectedIcon, object? dataContext = null)
+            PackIconKind unselectedIcon, object? dataContext = null, bool preloaded = false)
         {
             this.nameKey = nameKey;
             UpdateName(null, EventArgs.Empty);
@@ -24,9 +25,12 @@ namespace MystatDesktopWpf.Domain
             this.dataContext = dataContext;
             SelectedIcon = selectedIcon;
             UnselectedIcon = unselectedIcon;
+
+            if (preloaded)
+                content = CreateContent();
         }
 
-        private void Viewmodel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Viewmodel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "MenuItemNotifications")
                 Notifications = ((INotificationCount)sender).MenuItemNotifications;

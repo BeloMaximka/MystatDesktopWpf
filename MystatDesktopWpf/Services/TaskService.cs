@@ -20,44 +20,32 @@ namespace MystatDesktopWpf.Services
 
         public static bool ScheduleTask(string id, TimeOnly time, Action callback)
         {
-            return ScheduleTask(id, DateTime.Now, time.ToTimeSpan(), callback);
+            return ScheduleTask(id, DateTime.Now, time, callback);
         }
 
-        public static bool ScheduleTask(string id, TimeSpan time, Action callback)
+        public static bool ScheduleTask(string id, TimeSpan delay, Action callback)
         {
-            var currentTimeSpan = DateTime.Now.TimeOfDay;
-            var targetTimeSpan = time;
-
-            if (currentTimeSpan > targetTimeSpan || timers.ContainsKey(id))
+            if (timers.ContainsKey(id))
             {
                 return false;
             }
 
-            TimeSpan duration = targetTimeSpan - currentTimeSpan;
-            AddTimer(id, duration, callback);
+            AddTimer(id, delay, callback);
             return true;
         }
 
         public static bool ScheduleTask(string id, DateTime day, TimeOnly time, Action callback)
         {
-            return ScheduleTask(id, day, time.ToTimeSpan(), callback);
-        }
-
-        public static bool ScheduleTask(string id, DateTime day, TimeSpan time, Action callback)
-        {
             var now = DateTime.Now;
-            var currentTimeSpan = day.TimeOfDay;
-            var targetTimeSpan = time;
+            day = day.Date + time.ToTimeSpan();
 
-            if (day <= now || timers.ContainsKey(id))
+            if (day < now)
             {
                 return false;
             }
 
-            TimeSpan duration = (currentTimeSpan - targetTimeSpan).Duration();
-
-            AddTimer(id, duration, callback);
-            return true;
+            TimeSpan duration = (day - now).Duration();
+            return ScheduleTask(id, duration, callback);
         }
 
         private static void AddTimer(string id, TimeSpan duration, Action callback)

@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="MystatDesktopWpf.UserControls.Menus.LessonEvaluation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MystatDesktopWpf.UserControls.Menus"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:viewmodels="clr-namespace:MystatDesktopWpf.ViewModels" 
+             xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
+             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
+             d:DataContext="{d:DesignInstance Type=viewmodels:LessonEvaluationViewModel}"
+             mc:Ignorable="d" 
+             DataContextChanged="UserControl_DataContextChanged"
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource MaterialDesignPaper}">
+    <UserControl.Resources>
+        <converters:FormatDateConverter x:Key="FormatDateConverter"/>
+    </UserControl.Resources>
+    <ScrollViewer>
+        <StackPanel>
+
+            <Grid Margin="16 16 16 8">
+                <StackPanel Orientation="Horizontal" Margin="8,16,8,8" HorizontalAlignment="Left">
+                    <TextBlock Text="{DynamicResource m_LessonsToEvaluate}" FontSize="16"/>
+                    <TextBlock Text="{Binding Lessons.Count}" FontSize="16" Margin="4 0 0 0"/>
+                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Visibility="Collapsed" 
+                             x:Name="LoadingProgress" Value="0" IsIndeterminate="True" Margin="8,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="8,16,8,8" HorizontalAlignment="Right">
+                    <TextBlock Text="{DynamicResource m_EvaluateFutureLessonsAutomatically}" FontSize="14" VerticalAlignment="Center"/>
+                    <ToggleButton Margin="8 0" IsChecked="{Binding AutoLessonEvaluationEnabled}"/>
+                </StackPanel>
+            </Grid>
+            <ItemsControl ItemsSource="{Binding Lessons}" Margin="8 0" Grid.Row="1"
+                      VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Pixel"
+                      VirtualizingPanel.VirtualizationMode="Recycling" Padding="8 0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card Padding="8" Margin="8" MinWidth="350" Height="350">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding VisitDate, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}" 
+                                           FontWeight="Bold" HorizontalAlignment="Center" Margin="8 0"/>
+                                    <TextBlock Text="{Binding SpecName}" HorizontalAlignment="Center" Margin="0 8"/>
+                                    <TextBlock Text="{Binding TeacherFullName}" HorizontalAlignment="Center"/>
+                                    <Separator Margin="0 8"/>
+                                    <Grid HorizontalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{DynamicResource m_LessonQuality}" VerticalAlignment="Center"/>
+                                        <materialDesign:RatingBar x:Name="LessonRatingBar" Value="{Binding LessonMark, Mode=TwoWay}"
+                                                              VerticalAlignment="Center" Margin="8 0" Grid.Column="1" />
+                                        <TextBlock Text="{DynamicResource m_TeachersWork}" Grid.Row="1" VerticalAlignment="Center"/>
+                                        <materialDesign:RatingBar x:Name="TeacherRatingBar" Value="{Binding TeacherMark, Mode=TwoWay}" 
+                                                              Grid.Column="1" Grid.Row="1" Margin="8 0" VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <Separator Margin="0 8"/>
+                                </StackPanel>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBox Text="{Binding Comment}" MaxLength="500" Margin="8 16" TextWrapping="Wrap" AcceptsReturn="True" MaxHeight="200"
+                                             materialDesign:HintAssist.Hint="{DynamicResource m_YourComment}"
+                                             Style="{DynamicResource MaterialDesignFilledTextBox}"
+                                             ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                                    <TextBlock x:Name="ErrorText"  Style="{DynamicResource MaterialDesignHelperTextBlock}"
+                                               Margin="0 4" HorizontalAlignment="Center" Visibility="Collapsed" FontSize="12"
+                                               Foreground="{DynamicResource MaterialDesignValidationErrorBrush}" Grid.Row="2"/>
+
+                                </Grid>
+
+                                <Grid Margin="0 8" Grid.Row="2">
+                                    <Button Content="{DynamicResource m_Send}" HorizontalAlignment="Left" Margin="8 0"
+                                            materialDesign:ButtonProgressAssist.Value="-1" materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                                            Click="SendButton_Click" Tag="{Binding}"/>
+                                    <Button Content="{DynamicResource m_SendWithMaxRating}" HorizontalAlignment="Right"
+                                            materialDesign:ButtonProgressAssist.Value="-1" materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+                                            Click="SendWithMaxMarksButton_Click" Tag="{Binding}"/>
+                                </Grid>
+                            </Grid>
+
+                        </materialDesign:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <wpftk:VirtualizingWrapPanel StretchItems="True" SpacingMode="None"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

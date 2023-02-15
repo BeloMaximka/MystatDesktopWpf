@@ -1,6 +1,8 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Extensions;
+using MystatDesktopWpf.Services;
 using MystatDesktopWpf.UserControls.DialogContent;
 using MystatDesktopWpf.ViewModels;
 using System;
@@ -36,6 +38,16 @@ namespace MystatDesktopWpf.UserControls.Menus
             activeList.UpdateNextPageButtonVisibility();
             uploadedList.UpdateNextPageButtonVisibility();
             checkedList.UpdateNextPageButtonVisibility();
+        }
+
+        private void ScheduleAutoUpdate()
+        {
+            TaskService.CancelTask("auto-homework-refresh");
+            TaskService.ScheduleTask("auto-homework-refresh", TimeSpan.FromHours(1), () =>
+            {
+                Refresh();
+                ScheduleAutoUpdate();
+            });
         }
 
         private void OpenFileInExplorer(string filePath)
@@ -228,6 +240,8 @@ namespace MystatDesktopWpf.UserControls.Menus
                 else
                     viewModel.LoadHomeworks();
                 viewModel.HomeworkLoaded += ViewModel_HomeworkLoaded;
+
+                ScheduleAutoUpdate();
             }
         }
     }
