@@ -167,6 +167,7 @@
     <v:String x:Key="m_EvaluateFutureLessonsAutomatically">Оценивать будущие занятия автоматически:</v:String>
     <v:String x:Key="m_BothEvaluationRequired">Обе оценки обязательны для заполнения</v:String>
     <v:String x:Key="m_EvaluationError">Произошла ошибка при попытке оценить урок</v:String>
+    <v:String x:Key="m_EvaluatedEveryting">Вы все оценили, отличная работа!</v:String>
 
     <!-- Timezone settings -->
     <v:String x:Key="m_TimezoneHeader">Преобразование часовых поясов</v:String>

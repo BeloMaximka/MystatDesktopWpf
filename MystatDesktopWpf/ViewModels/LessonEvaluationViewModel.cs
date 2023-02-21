@@ -45,7 +45,7 @@ namespace MystatDesktopWpf.ViewModels
                             await MystatAPISingleton.Client.EvaluateLesson(item.Key, 5, 5);
                         }
                         Lessons.Clear();
-                        return;
+                        break;
                     }
                     List<EvaluateLessonItemWithMark> lessons = new();
                     foreach (var item in result)

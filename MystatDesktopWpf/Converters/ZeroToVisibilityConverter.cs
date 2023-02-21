@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace MystatDesktopWpf.Converters
 {
-    internal class FormatDateConverter : IValueConverter
+    internal class ZeroToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is string text)
+            if (double.TryParse(value.ToString(), out double number))
             {
-                return DateTime.Parse(text).ToString((string)parameter);
+                return number == 0 ? Visibility.Visible : Visibility.Collapsed;
             }
             return Binding.DoNothing;
         }
