@@ -107,6 +107,17 @@
                     </Style>
                 </Style.Resources>
             </Style>
+
+            <Style TargetType="{x:Type Hyperlink}">
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="Foreground" Value="#009ec8" />
+                <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
         
     </Application.Resources>

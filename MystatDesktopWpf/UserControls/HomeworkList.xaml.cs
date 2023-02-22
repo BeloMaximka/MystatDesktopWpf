@@ -1,10 +1,15 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
+using MystatDesktopWpf.Extensions;
 using MystatDesktopWpf.UserControls.Menus;
 using MystatDesktopWpf.ViewModels;
 using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -108,12 +113,16 @@ namespace MystatDesktopWpf.UserControls
             }
         }
 
+        // Sets the content of comment popup and shows it on screen
         private void CommentButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             string comment = (string)button.Tag;
             popupComment.PlacementTarget = button;
-            commentTextBox.Text = comment;
+
+            CommentParagraph.Inlines.SetInlinesWithHyperlinksFromText(comment);
+            CommentViewer.AdjustWidthToText();
+
             popupComment.IsOpen = true;
         }
 

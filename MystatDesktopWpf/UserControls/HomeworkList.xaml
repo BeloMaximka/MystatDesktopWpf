@@ -34,12 +34,19 @@
         <!-- Popup comment -->
         <Popup x:Name="popupComment" AllowsTransparency="True" Placement="Right" StaysOpen="False">
             <!-- Popup content -->
-            <materialDesign:Card Padding="8px">
-                <TextBox x:Name="commentTextBox" Background="Transparent" MaxWidth="600"
-                         Style="{x:Null}" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap"
-                         Foreground="{DynamicResource MaterialDesignBody}">
-                </TextBox>
-            </materialDesign:Card>
+            <Border Margin="8 8 8 8" BorderThickness="1">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.6" ShadowDepth="0"/>
+                </Border.Effect>
+                <materialDesign:Card x:Name="CommentPopupCard" Padding="8px">
+                    <FlowDocumentScrollViewer x:Name="CommentViewer" VerticalScrollBarVisibility="Disabled" 
+                                              Width="Auto" MaxWidth="600" Style="{x:Null}">
+                        <FlowDocument FontFamily="{Binding ElementName=CommentPopupCard, Path=FontFamily}" FontSize="13" PagePadding="0">
+                            <Paragraph x:Name="CommentParagraph"/>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>
+                </materialDesign:Card>
+            </Border>
         </Popup>
         <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection.Items}" Width="Auto">
             <ItemsControl.ItemTemplate>
@@ -61,30 +68,35 @@
                                     </ext:DelayedMultiBindingExtension>
                                 </Popup.IsOpen>
                                 <!-- Popup content -->
-                                <materialDesign:Card Padding="8px">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel>
-                                            <materialDesign:PackIcon Kind="ClockPlus" Margin="0,0,4,0"/>
-                                            <materialDesign:PackIcon Kind="Pencil" Margin="0,0,4,0"/>
-                                            <materialDesign:PackIcon Kind="Account" Margin="0,0,4,0"/>
-                                        </StackPanel>
-                                        <TextBox Grid.Column="1" Background="Transparent" 
+                                <Border Margin="8 8 8 8" BorderThickness="1" Background="Transparent">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="10" Opacity="0.6" ShadowDepth="0"/>
+                                    </Border.Effect>
+                                    <materialDesign:Card Padding="8px">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <materialDesign:PackIcon Kind="ClockPlus" Margin="0,0,4,0"/>
+                                                <materialDesign:PackIcon Kind="Pencil" Margin="0,0,4,0"/>
+                                                <materialDesign:PackIcon Kind="Account" Margin="0,0,4,0"/>
+                                            </StackPanel>
+                                            <TextBox Grid.Column="1" Background="Transparent" 
                                                  Style="{x:Null}" IsReadOnly="True" BorderThickness="0"
                                                  Foreground="{DynamicResource MaterialDesignBody}">
-                                            <TextBox.Text>
-                                                <MultiBinding StringFormat="{}{0}&#x0a;{1}&#x0a;{2}">
-                                                    <Binding Path="CreationTime" Converter="{StaticResource FormatDateConverter}" ConverterParameter="d"/>
-                                                    <Binding Path="Theme"/>
-                                                    <Binding Path="TeacherFullName"/>
-                                                </MultiBinding>
-                                            </TextBox.Text>
-                                        </TextBox>
-                                    </Grid>
-                                </materialDesign:Card>
+                                                <TextBox.Text>
+                                                    <MultiBinding StringFormat="{}{0}&#x0a;{1}&#x0a;{2}">
+                                                        <Binding Path="CreationTime" Converter="{StaticResource FormatDateConverter}" ConverterParameter="d"/>
+                                                        <Binding Path="Theme"/>
+                                                        <Binding Path="TeacherFullName"/>
+                                                    </MultiBinding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                </Border>
                             </Popup>
                             <!-- Header -->
                             <Grid>
@@ -101,7 +113,7 @@
                                     <materialDesign:PackIcon x:Name="infoCircle" Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
                                                              Foreground="{DynamicResource MaterialDesignLightForeground}"/>
                                 </Border>
-                                
+
                             </Grid>
                             <!-- The rest -->
                             <StackPanel Grid.Row="1">
@@ -122,14 +134,14 @@
                                                              Foreground="{DynamicResource MaterialDesignBodyLight}" x:Name="markComment"
                                                              Visibility="{Binding HomeworkComment.Text, 
                                                              Converter={StaticResource NotNullOrWhiteSpaceVisibilityConverter}}"/>
-                                    
+
                                     <!-- Overdue Time -->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                 ToolTip="{DynamicResource m_DueDate}">
                                         <materialDesign:PackIcon Kind="Clock" Margin="0,0,4,0"/>
                                         <TextBlock Text="{Binding OverdueTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
                                     </StackPanel>
-                                    
+
                                     <!-- Completion Time -->
                                     <StackPanel Orientation="Horizontal" x:Name="completionTime" Visibility="Collapsed"
                                                 HorizontalAlignment="Right" VerticalAlignment="Center"
@@ -137,7 +149,7 @@
                                         <TextBlock Text="{Binding UploadedHomework.CreationTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
                                         <materialDesign:PackIcon Kind="ClockCheck" Margin="4,0,0,0"/>
                                     </StackPanel>
-                                    
+
                                     <!-- Deletion comment -->
                                     <Button Height="32" Width="32" x:Name="deletionComment" Visibility="Collapsed"
                                             HorizontalAlignment="Center"  Margin="0,0,0,0"
@@ -158,7 +170,7 @@
                                         <ColumnDefinition x:Name="deleteColumn"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <Button Height="32" Width="32" Tag="{Binding}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}" 
@@ -203,7 +215,7 @@
                                         <materialDesign:PackIcon Kind="Comment"/>
                                     </Button>
                                 </Grid>
-                                
+
                             </StackPanel>
                         </Grid>
                     </materialDesign:Card>
@@ -248,13 +260,13 @@
                     </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-            
+
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            
+
         </ItemsControl>
         <Grid>
             <Button Height="32" Width="32" x:Name="progressPageButton"
@@ -273,7 +285,7 @@
                 <materialDesign:PackIcon Kind="ChevronDown"/>
             </Button>
         </Grid>
-       
+
     </StackPanel>
 
 </UserControl>
