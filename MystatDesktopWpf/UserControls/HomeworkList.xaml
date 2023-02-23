@@ -122,7 +122,7 @@
                                             materialDesign:ElevationAssist.Elevation="Dp2"
                                             IsHitTestVisible="{Binding HomeworkComment.Text, Converter={StaticResource NotNullOrWhiteSpaceConverter}}"
                                             ToolTip="{DynamicResource m_TeacherComment}"
-                                            Click="CommentButton_Click" Tag="{Binding HomeworkComment.Text}">
+                                            Click="CommentButton_Click" Tag="{Binding HomeworkComment}">
                                         <TextBlock Text="{Binding UploadedHomework.Mark}"
                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Button>
