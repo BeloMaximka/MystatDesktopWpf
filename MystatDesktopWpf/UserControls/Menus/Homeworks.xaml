@@ -29,20 +29,20 @@
                 
                 <materialDesign:TransitionerSlide BackwardWipe="{x:Null}">
                     <ScrollViewer>
-                        <StackPanel Margin="16" DataContext="{StaticResource HomeworksViewModel}">
-                            <controls:HomeworkList x:Name="overdueList" Header="{DynamicResource m_Overdue}" 
+                        <StackPanel x:Name="HomeworkStackPanel" Margin="16" DataContext="{StaticResource HomeworksViewModel}">
+                            <controls:HomeworkList x:Name="OverdueList" Header="{DynamicResource m_Overdue}" 
                                                    HomeworkManager="{Binding ElementName=control}"/>
 
-                            <controls:HomeworkList x:Name="deletedList" Header="{DynamicResource m_Deleted}" 
+                            <controls:HomeworkList x:Name="DeletedList" Header="{DynamicResource m_Deleted}" 
                                                    HomeworkManager="{Binding ElementName=control}"/>
 
-                            <controls:HomeworkList x:Name="activeList" Header="{DynamicResource m_Current}" 
+                            <controls:HomeworkList x:Name="ActiveList" Header="{DynamicResource m_Current}" 
                                                    HomeworkManager="{Binding ElementName=control}"/>
 
-                            <controls:HomeworkList x:Name="uploadedList" Header="{DynamicResource m_Uploaded}" 
+                            <controls:HomeworkList x:Name="UploadedList" Header="{DynamicResource m_Uploaded}" 
                                                    HomeworkManager="{Binding ElementName=control}"/>
                             
-                            <controls:HomeworkList x:Name="checkedList" Header="{DynamicResource m_Checked}" 
+                            <controls:HomeworkList x:Name="CheckedList" Header="{DynamicResource m_Checked}" 
                                                    HomeworkManager="{Binding ElementName=control}"/>
                         </StackPanel>
                     </ScrollViewer>

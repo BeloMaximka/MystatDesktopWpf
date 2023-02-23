@@ -4,12 +4,11 @@ using MystatDesktopWpf.Extensions;
 using MystatDesktopWpf.UserControls.Menus;
 using MystatDesktopWpf.ViewModels;
 using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -19,6 +18,8 @@ namespace MystatDesktopWpf.UserControls
     public partial class HomeworkList : UserControl
     {
         private const int defaultPageSize = 6;
+
+        private FrameworkElement lastExtraInfoCirlce;
 
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
@@ -48,6 +49,14 @@ namespace MystatDesktopWpf.UserControls
         public HomeworkList()
         {
             InitializeComponent();
+            PopupInfo.CustomPopupPlacementCallback += PopupExtraInfoPlacement;
+        }
+
+        private CustomPopupPlacement[] PopupExtraInfoPlacement(Size popupSize, Size targetSize, Point offset)
+        {
+            CustomPopupPlacement right = new(new Point(targetSize.Width / 2 + 3, -4), PopupPrimaryAxis.Horizontal);
+            CustomPopupPlacement left = new(new Point((popupSize.Width + targetSize.Width / 2) * -1 + 8, -4), PopupPrimaryAxis.Horizontal);
+            return new CustomPopupPlacement[] { right, left };
         }
 
         private void Card_Initialized(object sender, EventArgs e)
@@ -150,6 +159,28 @@ namespace MystatDesktopWpf.UserControls
             else if (count >= defaultPageSize)
             {
                 nextPageButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Info_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is FrameworkElement element && element.Tag is Homework homework)
+            {
+                lastExtraInfoCirlce = element;
+                ExtraInfoTextBox.DataContext = homework;
+                PopupInfo.PlacementTarget = element;
+                PopupInfo.IsOpen = true;
+                this.MouseMove += Control_MouseMove;
+            }
+        }
+
+        private void Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point pt = e.GetPosition(lastExtraInfoCirlce);
+            if (!PopupInfoBorder.IsMouseOver && VisualTreeHelper.HitTest(lastExtraInfoCirlce, pt) == null)
+            {
+                PopupInfo.IsOpen = false;
+                this.MouseMove -= Control_MouseMove;
             }
         }
     }

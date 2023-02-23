@@ -48,6 +48,40 @@
                 </materialDesign:Card>
             </Border>
         </Popup>
+
+        <!-- Popup extra info -->
+        <Popup x:Name="PopupInfo" AllowsTransparency="True" Placement="Custom" StaysOpen="False">
+            <!-- Popup content -->
+            <Border x:Name="PopupInfoBorder" Margin="8" BorderThickness="1">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Opacity="0.6" ShadowDepth="0"/>
+                </Border.Effect>
+                <materialDesign:Card Padding="8px">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="ClockPlus" Margin="0,0,4,0"/>
+                            <materialDesign:PackIcon Kind="Pencil" Margin="0,0,4,0"/>
+                            <materialDesign:PackIcon Kind="Account" Margin="0,0,4,0"/>
+                        </StackPanel>
+                        <TextBox x:Name="ExtraInfoTextBox" Grid.Column="1" Background="Transparent"  Style="{x:Null}" 
+                                 IsReadOnly="True" BorderThickness="0" Foreground="{DynamicResource MaterialDesignBody}">
+                            <TextBox.Text>
+                                <MultiBinding StringFormat="{}{0}&#x0a;{1}&#x0a;{2}">
+                                    <Binding Path="CreationTime" Converter="{StaticResource FormatDateConverter}" ConverterParameter="d"/>
+                                    <Binding Path="Theme"/>
+                                    <Binding Path="TeacherFullName"/>
+                                </MultiBinding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </Grid>
+                </materialDesign:Card>
+            </Border>
+        </Popup>
+
         <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection.Items}" Width="Auto">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -58,46 +92,7 @@
                                 <RowDefinition />
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <!-- Popup extra info -->
-                            <Popup x:Name="popupInfo" AllowsTransparency="True"
-                                   Placement="Right" PlacementTarget="{Binding ElementName=info}">
-                                <Popup.IsOpen>
-                                    <ext:DelayedMultiBindingExtension Converter="{StaticResource PopupIsOpenConverter}" Delay="0:0:0.01">
-                                        <Binding ElementName="info" Path="IsMouseOver" Mode="OneWay" />
-                                        <Binding ElementName="popupInfo" Path="IsMouseOver" Mode="OneWay" />
-                                    </ext:DelayedMultiBindingExtension>
-                                </Popup.IsOpen>
-                                <!-- Popup content -->
-                                <Border Margin="8 8 8 8" BorderThickness="1" Background="Transparent">
-                                    <Border.Effect>
-                                        <DropShadowEffect BlurRadius="10" Opacity="0.6" ShadowDepth="0"/>
-                                    </Border.Effect>
-                                    <materialDesign:Card Padding="8px">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel>
-                                                <materialDesign:PackIcon Kind="ClockPlus" Margin="0,0,4,0"/>
-                                                <materialDesign:PackIcon Kind="Pencil" Margin="0,0,4,0"/>
-                                                <materialDesign:PackIcon Kind="Account" Margin="0,0,4,0"/>
-                                            </StackPanel>
-                                            <TextBox Grid.Column="1" Background="Transparent" 
-                                                 Style="{x:Null}" IsReadOnly="True" BorderThickness="0"
-                                                 Foreground="{DynamicResource MaterialDesignBody}">
-                                                <TextBox.Text>
-                                                    <MultiBinding StringFormat="{}{0}&#x0a;{1}&#x0a;{2}">
-                                                        <Binding Path="CreationTime" Converter="{StaticResource FormatDateConverter}" ConverterParameter="d"/>
-                                                        <Binding Path="Theme"/>
-                                                        <Binding Path="TeacherFullName"/>
-                                                    </MultiBinding>
-                                                </TextBox.Text>
-                                            </TextBox>
-                                        </Grid>
-                                    </materialDesign:Card>
-                                </Border>
-                            </Popup>
+
                             <!-- Header -->
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -109,8 +104,9 @@
                                 <TextBlock x:Name="subjectTextBlock" Text="{Binding SubjectName}" TextWrapping="Wrap" 
                                            Foreground="{DynamicResource MaterialDesignLightForeground}"
                                            TextAlignment="Center" VerticalAlignment="Center"/>
-                                <Border Background="Transparent" Grid.Column="1" x:Name="info" Margin="4,0,0,0">
-                                    <materialDesign:PackIcon x:Name="infoCircle" Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
+                                <Border Background="Transparent" Grid.Column="1" x:Name="Info" Margin="4,0,0,0" Tag="{Binding}"
+                                        MouseEnter="Info_MouseEnter">
+                                    <materialDesign:PackIcon x:Name="InfoCircle" Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
                                                              Foreground="{DynamicResource MaterialDesignLightForeground}"/>
                                 </Border>
 
@@ -217,6 +213,7 @@
                                 </Grid>
 
                             </StackPanel>
+
                         </Grid>
                     </materialDesign:Card>
                     <DataTemplate.Triggers>
@@ -225,7 +222,7 @@
                             <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="card" Property="AllowDrop" Value="True"/>
                             <Setter TargetName="subjectTextBlock" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
-                            <Setter TargetName="infoCircle" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                            <Setter TargetName="InfoCircle" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Overdue}">
                             <Setter TargetName="deleteColumn" Property="Width" Value="0"/>

@@ -25,6 +25,7 @@ namespace MystatDesktopWpf.UserControls.Menus
         private readonly UploadHomework uploadContent = new();
         private readonly DeleteHomework deleteContent = new();
         private readonly DonwloadHomeworkPreview downloadContent = new();
+
         public Homeworks()
         {
             InitializeComponent();
@@ -33,11 +34,11 @@ namespace MystatDesktopWpf.UserControls.Menus
         private void ViewModel_HomeworkLoaded()
         {
             transitioner.SelectedIndex = 1;
-            overdueList.UpdateNextPageButtonVisibility();
-            deletedList.UpdateNextPageButtonVisibility();
-            activeList.UpdateNextPageButtonVisibility();
-            uploadedList.UpdateNextPageButtonVisibility();
-            checkedList.UpdateNextPageButtonVisibility();
+            OverdueList.UpdateNextPageButtonVisibility();
+            DeletedList.UpdateNextPageButtonVisibility();
+            ActiveList.UpdateNextPageButtonVisibility();
+            UploadedList.UpdateNextPageButtonVisibility();
+            CheckedList.UpdateNextPageButtonVisibility();
         }
 
         private void ScheduleAutoUpdate()
@@ -229,11 +230,11 @@ namespace MystatDesktopWpf.UserControls.Menus
                 viewModel = vm;
                 uploadContent.Host = homeworkDialog;
 
-                overdueList.Collection = viewModel.Homework[HomeworkStatus.Overdue];
-                deletedList.Collection = viewModel.Homework[HomeworkStatus.Deleted];
-                activeList.Collection = viewModel.Homework[HomeworkStatus.Active];
-                uploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
-                checkedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
+                OverdueList.Collection = viewModel.Homework[HomeworkStatus.Overdue];
+                DeletedList.Collection = viewModel.Homework[HomeworkStatus.Deleted];
+                ActiveList.Collection = viewModel.Homework[HomeworkStatus.Active];
+                UploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
+                CheckedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
 
                 if (viewModel.LoadedOneTime == true)
                     ViewModel_HomeworkLoaded();
