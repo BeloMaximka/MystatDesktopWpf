@@ -127,7 +127,7 @@
                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </Button>
                                     <materialDesign:PackIcon Kind="Comment" HorizontalAlignment="Center" Margin="0,-4,-24,0"
-                                                             Foreground="{DynamicResource MaterialDesignBodyLight}" x:Name="markComment"
+                                                             Foreground="{DynamicResource MaterialDesignBody}" x:Name="markComment"
                                                              Visibility="{Binding HomeworkComment.Text, 
                                                              Converter={StaticResource NotNullOrWhiteSpaceVisibilityConverter}}"/>
 
