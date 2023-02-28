@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Linq;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -13,30 +14,75 @@ namespace MystatDesktopWpf.ViewModels
         public bool Loading { get; private set; } = false;
         public bool LoadedOnce { get; private set; } = false;
 
+        private List<Spec> specs;
+        public List<Spec> Specs { get => specs; set => SetProperty(ref specs, value); }
+
+        private readonly Spec allSpecsItem;
+        private Spec selectedSpec;
+        public Spec SelectedSpec { get => selectedSpec; private set => SetProperty(ref selectedSpec, value); }
+
         public HomeworksViewModel()
         {
             Homework[HomeworkStatus.Active].PropertyChanged += HomeworksViewModel_PropertyChanged;
             Homework[HomeworkStatus.Overdue].PropertyChanged += HomeworksViewModel_PropertyChanged;
             Homework[HomeworkStatus.Deleted].PropertyChanged += HomeworksViewModel_PropertyChanged;
+
+            allSpecsItem = new Spec()
+            {
+                Id = -1,
+                Name = "All subjecs",
+                ShortName = "All subjects"
+            };
+            selectedSpec = allSpecsItem;
+
             LoadHomework();
         }
 
+        public async Task<bool> LoadSpecs()
+        {
+            try
+            {
+                var prevSpec = selectedSpec;
+                specs = new(await MystatAPISingleton.Client.GetSpecsList());
+                specs.Insert(0, allSpecsItem);
+                OnPropertyChanged(nameof(Specs));
+
+                try
+                {
+                    SelectedSpec = Specs.First((x) => x.Id == prevSpec.Id);
+                }
+                catch (InvalidOperationException)
+                {
+                    SelectedSpec = allSpecsItem;
+                }
+                OnPropertyChanged(nameof(SelectedSpec));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         Task<bool>? homeworkTask = null;
-        public async Task<bool> LoadHomework()
+        public async Task<bool> LoadHomework(Spec? spec = null)
         {
             if (homeworkTask != null) return await homeworkTask;
 
-            homeworkTask = LoadHomework_Body();
+            homeworkTask = LoadHomework_Body(spec);
             bool result = await homeworkTask;
             homeworkTask = null;
             return result;
         }
 
-        private async Task<bool> LoadHomework_Body()
+        private async Task<bool> LoadHomework_Body(Spec? spec)
         {
             try
             {
-                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount();
+                if (spec == null) spec = selectedSpec;
+                else selectedSpec = spec;
+
+                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(spec.Id);
                 foreach (var item in homeworkCount)
                 {
                     if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
@@ -48,7 +94,7 @@ namespace MystatDesktopWpf.ViewModels
 
                 foreach (var item in Homework)
                 {
-                    var HomeworkResult = await MystatAPISingleton.Client.GetHomework(1, item.Key);
+                    var HomeworkResult = await MystatAPISingleton.Client.GetHomework(1, item.Key, spec.Id);
                     Homework[item.Key].Items = new(HomeworkResult);
                 }
 

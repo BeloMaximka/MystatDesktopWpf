@@ -225,7 +225,8 @@ namespace MystatDesktopWpf.UserControls.Menus
             if (Loading) return;
             Loading = true;
             transitioner.SelectedIndex = 0;
-            if(await viewModel.LoadHomework())
+            SpecsComboBox.SelectionChanged -= SpecsComboBox_SelectionChanged;
+            if (await viewModel.LoadSpecs() && await viewModel.LoadHomework())
             {
                 ShowHomeworkSlide();
             }
@@ -233,11 +234,12 @@ namespace MystatDesktopWpf.UserControls.Menus
             {
                 transitioner.SelectedIndex = 2; // Switch to error slider
             }
+            SpecsComboBox.SelectionChanged += SpecsComboBox_SelectionChanged;
             Loading = false;
         }
 
         // When view model is assigned outside this class
-        private void Control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        private async void Control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is HomeworksViewModel vm)
             {
@@ -251,11 +253,34 @@ namespace MystatDesktopWpf.UserControls.Menus
                 CheckedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
 
                 if (viewModel.LoadedOnce == true)
+                {
+                    SpecsComboBox.SelectionChanged -= SpecsComboBox_SelectionChanged;
+                    await viewModel.LoadSpecs();
+                    SpecsComboBox.SelectionChanged += SpecsComboBox_SelectionChanged;
                     ShowHomeworkSlide();
+                }
                 else
+                {
                     Refresh();
-
+                }
+                
                 ScheduleAutoUpdate();
+            }
+        }
+
+        private async void SpecsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(sender is ComboBox comboBox && comboBox.SelectedItem is Spec spec)
+            {
+                transitioner.SelectedIndex = 0;
+                if (await viewModel.LoadHomework(spec))
+                {
+                    ShowHomeworkSlide();
+                }
+                else
+                {
+                    transitioner.SelectedIndex = 2; // Switch to error slider
+                }
             }
         }
     }
