@@ -5,17 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:VM="clr-namespace:MystatDesktopWpf.ViewModels"
-             xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
-             xmlns:converters="clr-namespace:MystatDesktopWpf.Converters" 
-             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
+             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls" 
+             d:DataContext="{d:DesignInstance Type=VM:HomeworksViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             x:Name="control"
+             x:Name="Control"
              Background="{DynamicResource MaterialDesignPaper}" 
-             DataContextChanged="control_DataContextChanged">
-    <UserControl.Resources>
-        <VM:HomeworksViewModel x:Key="HomeworksViewModel"/>
-    </UserControl.Resources>
+             DataContextChanged="Control_DataContextChanged">
     <materialDesign:DialogHost x:Name="homeworkDialog" CloseOnClickAway="True" DialogTheme="Inherit">
         <Grid>
             <materialDesign:Transitioner x:Name="transitioner" SelectedIndex="0">
@@ -29,23 +25,37 @@
                 
                 <materialDesign:TransitionerSlide BackwardWipe="{x:Null}">
                     <ScrollViewer>
-                        <StackPanel x:Name="HomeworkStackPanel" Margin="16" DataContext="{StaticResource HomeworksViewModel}">
+                        <StackPanel x:Name="HomeworkStackPanel" Margin="16">
+                            <ComboBox x:Name="SpecsComboBox" ItemsSource="{Binding Specs}" 
+                                      SelectedItem="{Binding SelectedSpec, Mode=OneWay}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                             <controls:HomeworkList x:Name="OverdueList" Header="{DynamicResource m_Overdue}" 
-                                                   HomeworkManager="{Binding ElementName=control}"/>
+                                                   HomeworkManager="{Binding ElementName=Control}"/>
 
                             <controls:HomeworkList x:Name="DeletedList" Header="{DynamicResource m_Deleted}" 
-                                                   HomeworkManager="{Binding ElementName=control}"/>
+                                                   HomeworkManager="{Binding ElementName=Control}"/>
 
                             <controls:HomeworkList x:Name="ActiveList" Header="{DynamicResource m_Current}" 
-                                                   HomeworkManager="{Binding ElementName=control}"/>
+                                                   HomeworkManager="{Binding ElementName=Control}"/>
 
                             <controls:HomeworkList x:Name="UploadedList" Header="{DynamicResource m_Uploaded}" 
-                                                   HomeworkManager="{Binding ElementName=control}"/>
+                                                   HomeworkManager="{Binding ElementName=Control}"/>
                             
                             <controls:HomeworkList x:Name="CheckedList" Header="{DynamicResource m_Checked}" 
-                                                   HomeworkManager="{Binding ElementName=control}"/>
+                                                   HomeworkManager="{Binding ElementName=Control}"/>
                         </StackPanel>
                     </ScrollViewer>
+                </materialDesign:TransitionerSlide>
+
+                <materialDesign:TransitionerSlide BackwardWipe="{x:Null}">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               Style="{DynamicResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap"
+                               Text="{DynamicResource m_ErrorWhileLoadingHomework}"/>
                 </materialDesign:TransitionerSlide>
 
             </materialDesign:Transitioner>

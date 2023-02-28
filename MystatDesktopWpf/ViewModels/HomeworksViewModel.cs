@@ -10,53 +10,54 @@ namespace MystatDesktopWpf.ViewModels
 {
     internal class HomeworksViewModel : ViewModelBase, INotificationCount
     {
-        public event Action? HomeworkLoaded;
         public bool Loading { get; private set; } = false;
-        public bool LoadedOneTime { get; private set; } = false;
+        public bool LoadedOnce { get; private set; } = false;
 
         public HomeworksViewModel()
         {
             Homework[HomeworkStatus.Active].PropertyChanged += HomeworksViewModel_PropertyChanged;
             Homework[HomeworkStatus.Overdue].PropertyChanged += HomeworksViewModel_PropertyChanged;
             Homework[HomeworkStatus.Deleted].PropertyChanged += HomeworksViewModel_PropertyChanged;
-            LoadHomeworks();
+            LoadHomework();
         }
 
-        public async void LoadHomeworks()
+        Task<bool>? homeworkTask = null;
+        public async Task<bool> LoadHomework()
         {
-            RetryDelayProvider delay = new();
-            while (true)
+            if (homeworkTask != null) return await homeworkTask;
+
+            homeworkTask = LoadHomework_Body();
+            bool result = await homeworkTask;
+            homeworkTask = null;
+            return result;
+        }
+
+        private async Task<bool> LoadHomework_Body()
+        {
+            try
             {
-                try
+                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount();
+                foreach (var item in homeworkCount)
                 {
-                    Loading = true;
-
-                    var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount();
-                    foreach (var item in homeworkCount)
+                    if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
                     {
-                        if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
-                        {
-                            collection.MaxCount = item.Count;
-                            collection.Page = 1;
-                        }
+                        collection.MaxCount = item.Count;
+                        collection.Page = 1;
                     }
-
-                    foreach (var item in Homework)
-                    {
-                        var result = await MystatAPISingleton.Client.GetHomework(1, item.Key);
-                        Homework[item.Key].Items = new(result);
-                    }
-
-                    Loading = false;
-                    HomeworkLoaded?.Invoke();
-                    LoadedOneTime = true;
-                    return;
                 }
-                catch (Exception)
+
+                foreach (var item in Homework)
                 {
-                    await Task.Delay(delay.ProvideValueMilliseconds());
-                    continue;
+                    var HomeworkResult = await MystatAPISingleton.Client.GetHomework(1, item.Key);
+                    Homework[item.Key].Items = new(HomeworkResult);
                 }
+
+                LoadedOnce = true;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

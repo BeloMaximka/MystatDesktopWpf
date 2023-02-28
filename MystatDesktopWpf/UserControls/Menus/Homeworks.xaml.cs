@@ -31,16 +31,6 @@ namespace MystatDesktopWpf.UserControls.Menus
             InitializeComponent();
         }
 
-        private void ViewModel_HomeworkLoaded()
-        {
-            transitioner.SelectedIndex = 1;
-            OverdueList.UpdateNextPageButtonVisibility();
-            DeletedList.UpdateNextPageButtonVisibility();
-            ActiveList.UpdateNextPageButtonVisibility();
-            UploadedList.UpdateNextPageButtonVisibility();
-            CheckedList.UpdateNextPageButtonVisibility();
-        }
-
         private void ScheduleAutoUpdate()
         {
             TaskService.CancelTask("auto-homework-refresh");
@@ -51,6 +41,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             });
         }
 
+        #region Homework interactions
         private void OpenFileInExplorer(string filePath)
         {
             try
@@ -215,15 +206,38 @@ namespace MystatDesktopWpf.UserControls.Menus
                 }
             }
         }
+        #endregion
 
-        public void Refresh()
+        private void ShowHomeworkSlide()
         {
-            if (viewModel.Loading) return;
-            transitioner.SelectedIndex = 0;
-            viewModel.LoadHomeworks();
+            transitioner.SelectedIndex = 1;
+            OverdueList.UpdateNextPageButtonVisibility();
+            DeletedList.UpdateNextPageButtonVisibility();
+            ActiveList.UpdateNextPageButtonVisibility();
+            UploadedList.UpdateNextPageButtonVisibility();
+            CheckedList.UpdateNextPageButtonVisibility();
         }
 
-        private void control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        bool Loading = false;
+        public async void Refresh()
+        {
+            
+            if (Loading) return;
+            Loading = true;
+            transitioner.SelectedIndex = 0;
+            if(await viewModel.LoadHomework())
+            {
+                ShowHomeworkSlide();
+            }
+            else
+            {
+                transitioner.SelectedIndex = 2; // Switch to error slider
+            }
+            Loading = false;
+        }
+
+        // When view model is assigned outside this class
+        private void Control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is HomeworksViewModel vm)
             {
@@ -236,11 +250,10 @@ namespace MystatDesktopWpf.UserControls.Menus
                 UploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
                 CheckedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
 
-                if (viewModel.LoadedOneTime == true)
-                    ViewModel_HomeworkLoaded();
+                if (viewModel.LoadedOnce == true)
+                    ShowHomeworkSlide();
                 else
-                    viewModel.LoadHomeworks();
-                viewModel.HomeworkLoaded += ViewModel_HomeworkLoaded;
+                    Refresh();
 
                 ScheduleAutoUpdate();
             }

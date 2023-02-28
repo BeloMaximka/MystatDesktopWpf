@@ -74,6 +74,7 @@
     <v:String x:Key="m_OpenInExplorer">Open in explorer</v:String>
     <v:String x:Key="m_HomeworkDownloadError">Failed to download homework.</v:String>
     <v:String x:Key="m_FolderOpenError">Failed to open the folder.</v:String>
+    <v:String x:Key="m_ErrorWhileLoadingHomework" xml:space="preserve">¯\_(ツ)_/¯&#13;&#13;An error occurred while loading homework, please try again later.</v:String>
 
     <!-- Homework tooltips -->
     <v:String x:Key="m_TeacherComment">Teacher's comment</v:String>
