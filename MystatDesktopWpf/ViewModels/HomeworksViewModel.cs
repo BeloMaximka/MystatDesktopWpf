@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Linq;
+using Microsoft.VisualBasic.FileIO;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -90,7 +91,7 @@ namespace MystatDesktopWpf.ViewModels
                 if (spec == null) spec = selectedSpec;
                 else selectedSpec = spec;
 
-                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(spec.Id);
+                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(spec.Id == -1 ? null : spec.Id);
                 foreach (var item in homeworkCount)
                 {
                     if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
@@ -102,7 +103,7 @@ namespace MystatDesktopWpf.ViewModels
 
                 foreach (var item in Homework)
                 {
-                    var HomeworkResult = await MystatAPISingleton.Client.GetHomework(1, item.Key, spec.Id);
+                    var HomeworkResult = await MystatAPISingleton.Client.GetHomework(1, item.Key, spec.Id == -1 ? null : spec.Id);
                     Homework[item.Key].Items = new(HomeworkResult);
                 }
 
