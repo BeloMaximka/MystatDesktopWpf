@@ -5,58 +5,114 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Linq;
+using System.Xml.Linq;
+using Microsoft.VisualBasic.FileIO;
 
 namespace MystatDesktopWpf.ViewModels
 {
     internal class HomeworksViewModel : ViewModelBase, INotificationCount
     {
-        public event Action? HomeworkLoaded;
         public bool Loading { get; private set; } = false;
-        public bool LoadedOneTime { get; private set; } = false;
+        public bool LoadedOnce { get; private set; } = false;
+
+        private List<Spec> specs;
+        public List<Spec> Specs { get => specs; set => SetProperty(ref specs, value); }
+
+        private readonly Spec allSpecsItem;
+        private Spec selectedSpec;
+        public Spec SelectedSpec { get => selectedSpec; private set => SetProperty(ref selectedSpec, value); }
 
         public HomeworksViewModel()
         {
             Homework[HomeworkStatus.Active].PropertyChanged += HomeworksViewModel_PropertyChanged;
             Homework[HomeworkStatus.Overdue].PropertyChanged += HomeworksViewModel_PropertyChanged;
             Homework[HomeworkStatus.Deleted].PropertyChanged += HomeworksViewModel_PropertyChanged;
-            LoadHomeworks();
+
+            allSpecsItem = new Spec()
+            {
+                Id = -1,
+                Name = (string)App.Current.FindResource("m_AllSubjects"),
+            };
+            allSpecsItem.ShortName = allSpecsItem.Name;
+            selectedSpec = allSpecsItem;
+            App.LanguageChanged += App_LanguageChanged;
+
+            LoadHomework();
         }
 
-        public async void LoadHomeworks()
+        private void App_LanguageChanged(object? sender, EventArgs e)
         {
-            RetryDelayProvider delay = new();
-            while (true)
+            allSpecsItem.Name = (string)App.Current.FindResource("m_AllSubjects");
+            allSpecsItem.ShortName = allSpecsItem.Name;
+        }
+
+        public async Task<bool> LoadSpecs()
+        {
+            try
             {
+                var prevSpec = selectedSpec;
+                specs = new(await MystatAPISingleton.Client.GetSpecsList());
+                specs.Insert(0, allSpecsItem);
+                OnPropertyChanged(nameof(Specs));
+
                 try
                 {
-                    Loading = true;
-
-                    var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount();
-                    foreach (var item in homeworkCount)
-                    {
-                        if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
-                        {
-                            collection.MaxCount = item.Count;
-                            collection.Page = 1;
-                        }
-                    }
-
-                    foreach (var item in Homework)
-                    {
-                        var result = await MystatAPISingleton.Client.GetHomework(1, item.Key);
-                        Homework[item.Key].Items = new(result);
-                    }
-
-                    Loading = false;
-                    HomeworkLoaded?.Invoke();
-                    LoadedOneTime = true;
-                    return;
+                    SelectedSpec = Specs.First((x) => x.Id == prevSpec.Id);
                 }
-                catch (Exception)
+                catch (InvalidOperationException)
                 {
-                    await Task.Delay(delay.ProvideValueMilliseconds());
-                    continue;
+                    SelectedSpec = allSpecsItem;
                 }
+                OnPropertyChanged(nameof(SelectedSpec));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        Task<bool>? homeworkTask = null;
+        public async Task<bool> LoadHomework(Spec? spec = null)
+        {
+            if (homeworkTask != null) return await homeworkTask;
+
+            homeworkTask = LoadHomework_Body(spec);
+            bool result = await homeworkTask;
+            homeworkTask = null;
+            return result;
+        }
+
+        private async Task<bool> LoadHomework_Body(Spec? spec)
+        {
+            try
+            {
+                if (spec == null) spec = selectedSpec;
+                else selectedSpec = spec;
+
+                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(spec.Id == -1 ? null : spec.Id);
+                foreach (var item in homeworkCount)
+                {
+                    if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
+                    {
+                        collection.MaxCount = item.Count;
+                        collection.Page = 1;
+                    }
+                }
+
+                foreach (var item in Homework)
+                {
+                    var HomeworkResult = await MystatAPISingleton.Client.GetHomework(1, item.Key, spec.Id == -1 ? null : spec.Id);
+                    Homework[item.Key].Items = new(HomeworkResult);
+                }
+
+                LoadedOnce = true;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

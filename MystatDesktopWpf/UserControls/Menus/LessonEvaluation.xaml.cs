@@ -27,10 +27,23 @@ namespace MystatDesktopWpf.UserControls.Menus
             TaskService.CancelTask("lesson-evaluation-refresh");
             try
             {
-                var result = await MystatAPISingleton.Client.GetScheduleByDate(DateTime.Now.AddDays(1));
-                if (result.Length > 0)
+                // Check if there are more lessons today
+                var scheduleList = await MystatAPISingleton.Client.GetScheduleByDate(DateTime.Now);
+                if (scheduleList.Length > 0)
                 {
-                    var time = TimezoneConvertionService.Convert(result.Last().FinishedAt).AddMinutes(5);
+                    var time = TimezoneConvertionService.Convert(scheduleList.Last().FinishedAt);
+                    if (DateTime.Now < time)
+                    {
+                        TaskService.ScheduleTask("lesson-evaluation-refresh", DateTime.Now, TimeOnly.FromDateTime(time.AddMinutes(5)), AutoRefresh);
+                        return;
+                    }
+                }
+                
+                // If not - schedule for tomorrow 
+                scheduleList = await MystatAPISingleton.Client.GetScheduleByDate(DateTime.Now.AddDays(1));
+                if (scheduleList.Length > 0)
+                {
+                    var time = TimezoneConvertionService.Convert(scheduleList.Last().FinishedAt).AddMinutes(5);
                     TaskService.ScheduleTask("lesson-evaluation-refresh", DateTime.Now.AddDays(1), TimeOnly.FromDateTime(time), AutoRefresh);
                     return;
                 }

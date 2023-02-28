@@ -1,10 +1,15 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
+using MystatDesktopWpf.Extensions;
 using MystatDesktopWpf.UserControls.Menus;
 using MystatDesktopWpf.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MystatDesktopWpf.UserControls
 {
@@ -14,6 +19,8 @@ namespace MystatDesktopWpf.UserControls
     public partial class HomeworkList : UserControl
     {
         private const int defaultPageSize = 6;
+
+        private FrameworkElement lastExtraInfoCirlce;
 
         // Чтобы можно было прикрутить Binding
         public static readonly DependencyProperty CollectionProperty =
@@ -43,6 +50,7 @@ namespace MystatDesktopWpf.UserControls
         public HomeworkList()
         {
             InitializeComponent();
+            PopupInfo.CustomPopupPlacementCallback += PopupExtraInfoPlacement;
         }
 
         private void Card_Initialized(object sender, EventArgs e)
@@ -108,12 +116,35 @@ namespace MystatDesktopWpf.UserControls
             }
         }
 
+        // Sets the content of comment popup and shows it on screen
         private void CommentButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            string comment = (string)button.Tag;
             popupComment.PlacementTarget = button;
-            commentTextBox.Text = comment;
+            
+            if (button.Tag is string homeworkTaskComment)
+            {
+                CommentParagraph.Inlines.SetInlinesWithHyperlinksFromText(homeworkTaskComment);
+            }
+            else if (button.Tag is HomeworkComment teacherComment)
+            {
+                CommentParagraph.Inlines.Clear();
+                if (teacherComment.AttachmentPath == null) // No file attached, just show the text
+                {
+                    CommentParagraph.Inlines.Add(new Run(teacherComment.Text));
+                }
+                else // Add the ability to download attached file
+                {
+                    var hyperlink = new Hyperlink(new Run(teacherComment.Text))
+                    {
+                        // Adress doesn't matter. RequestNavigate won't fire without it
+                        NavigateUri = new Uri(@"https://127.0.0.1/"),
+                    };
+                    hyperlink.RequestNavigate += (sender, args) => HomeworkManager.DownloadHomework(teacherComment.AttachmentPath);
+                    CommentParagraph.Inlines.Add(hyperlink);
+                }
+            }
+            CommentViewer.AdjustWidthToText();
             popupComment.IsOpen = true;
         }
 
@@ -143,5 +174,36 @@ namespace MystatDesktopWpf.UserControls
                 nextPageButton.Visibility = Visibility.Visible;
             }
         }
+
+        #region Extra info popup mouse handling
+        // MouseOver multibinding caused many problems so I ended up with manual handling
+
+        private CustomPopupPlacement[] PopupExtraInfoPlacement(Size popupSize, Size targetSize, Point offset)
+        {
+            CustomPopupPlacement right = new(new Point(targetSize.Width / 2 + 3, -4), PopupPrimaryAxis.Horizontal);
+            CustomPopupPlacement left = new(new Point((popupSize.Width + targetSize.Width / 2) * -1 + 8, -4), PopupPrimaryAxis.Horizontal);
+            return new CustomPopupPlacement[] { right, left };
+        }
+        private void Info_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is FrameworkElement element && element.Tag is Homework homework)
+            {
+                lastExtraInfoCirlce = element;
+                ExtraInfoTextBox.DataContext = homework;
+                PopupInfo.PlacementTarget = element;
+                PopupInfo.IsOpen = true;
+                this.MouseMove += Control_MouseMove;
+            }
+        }
+        private void Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point pt = e.GetPosition(lastExtraInfoCirlce);
+            if (!PopupInfoBorder.IsMouseOver && VisualTreeHelper.HitTest(lastExtraInfoCirlce, pt) == null)
+            {
+                PopupInfo.IsOpen = false;
+                this.MouseMove -= Control_MouseMove;
+            }
+        }
+        #endregion
     }
 }

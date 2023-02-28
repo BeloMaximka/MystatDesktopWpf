@@ -2,7 +2,7 @@
 {
     internal class RetryDelayProvider
     {
-        private static readonly int[] delaysSeconds = { 1, 1, 2, 2, 4, 8, 16 };
+        private static readonly int[] delaysSeconds = { 1, 1, 2, 4, 8, 16, 32 };
         private int index = 0;
 
         private int Index

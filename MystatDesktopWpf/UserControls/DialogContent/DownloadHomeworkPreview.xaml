@@ -16,7 +16,13 @@
                  AcceptsReturn="True" MaxHeight="300" IsReadOnly="True"
                  Style="{DynamicResource MaterialDesignOutlinedTextBox}"
                  materialDesign:HintAssist.Hint="{Binding ElementName=control, Path=TextBoxHint}"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource MaterialDesignScrollBar}">
+                    <Setter Property="Margin" Value="16 0 0 0 "/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
         <Button x:Name="downloadButton" HorizontalAlignment="Center" ToolTip="{DynamicResource m_DownloadUploaded}"
                 Style="{DynamicResource MaterialDesignFloatingActionButton}" Click="Button_Click">
             <materialDesign:PackIcon Kind="FileDownload" Width="32" Height="32"/>

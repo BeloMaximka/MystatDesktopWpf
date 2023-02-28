@@ -17,7 +17,11 @@
         <converters:FormatDateConverter x:Key="FormatDateConverter"/>
     </UserControl.Resources>
     <ScrollViewer>
-        <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
             <Grid Margin="16 16 16 8">
                 <StackPanel Orientation="Horizontal" Margin="8,16,8,8" HorizontalAlignment="Left">
@@ -31,6 +35,9 @@
                     <ToggleButton Margin="8 0" IsChecked="{Binding AutoLessonEvaluationEnabled}"/>
                 </StackPanel>
             </Grid>
+            <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       Visibility="{Binding Lessons.Count,Converter={StaticResource ZeroToVisibilityConverter}}"
+                       Text="{DynamicResource m_EvaluatedEveryting}" Style="{DynamicResource MaterialDesignHeadline5TextBlock}"/>
             <ItemsControl ItemsSource="{Binding Lessons}" Margin="8 0" Grid.Row="1"
                       VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.ScrollUnit="Pixel"
                       VirtualizingPanel.VirtualizationMode="Recycling" Padding="8 0">
@@ -104,7 +111,7 @@
                 </ItemsControl.ItemsPanel>
 
             </ItemsControl>
-        </StackPanel>
+        </Grid>
     </ScrollViewer>
 
 </UserControl>

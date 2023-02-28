@@ -25,19 +25,22 @@ namespace MystatDesktopWpf.UserControls.Menus
         private readonly UploadHomework uploadContent = new();
         private readonly DeleteHomework deleteContent = new();
         private readonly DonwloadHomeworkPreview downloadContent = new();
+
         public Homeworks()
         {
             InitializeComponent();
+            App.LanguageChanged += App_LanguageChanged;
         }
 
-        private void ViewModel_HomeworkLoaded()
+        // Updating "All subjects" item in ComboBox
+        private void App_LanguageChanged(object? sender, EventArgs e)
         {
-            transitioner.SelectedIndex = 1;
-            overdueList.UpdateNextPageButtonVisibility();
-            deletedList.UpdateNextPageButtonVisibility();
-            activeList.UpdateNextPageButtonVisibility();
-            uploadedList.UpdateNextPageButtonVisibility();
-            checkedList.UpdateNextPageButtonVisibility();
+            SpecsComboBox.SelectionChanged -= SpecsComboBox_SelectionChanged;
+            var temp = SpecsComboBox.SelectedIndex;
+            SpecsComboBox.SelectedIndex = -1;
+            SpecsComboBox.Items.Refresh();
+            SpecsComboBox.SelectedIndex = temp;
+            SpecsComboBox.SelectionChanged += SpecsComboBox_SelectionChanged;
         }
 
         private void ScheduleAutoUpdate()
@@ -50,6 +53,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             });
         }
 
+        #region Homework interactions
         private void OpenFileInExplorer(string filePath)
         {
             try
@@ -214,34 +218,81 @@ namespace MystatDesktopWpf.UserControls.Menus
                 }
             }
         }
+        #endregion
 
-        public void Refresh()
+        private void ShowHomeworkSlide()
         {
-            if (viewModel.Loading) return;
-            transitioner.SelectedIndex = 0;
-            viewModel.LoadHomeworks();
+            transitioner.SelectedIndex = 1;
+            OverdueList.UpdateNextPageButtonVisibility();
+            DeletedList.UpdateNextPageButtonVisibility();
+            ActiveList.UpdateNextPageButtonVisibility();
+            UploadedList.UpdateNextPageButtonVisibility();
+            CheckedList.UpdateNextPageButtonVisibility();
         }
 
-        private void control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        bool Loading = false;
+        public async void Refresh()
+        {
+            
+            if (Loading) return;
+            Loading = true;
+            transitioner.SelectedIndex = 0;
+            SpecsComboBox.SelectionChanged -= SpecsComboBox_SelectionChanged;
+            if (await viewModel.LoadSpecs() && await viewModel.LoadHomework())
+            {
+                ShowHomeworkSlide();
+            }
+            else
+            {
+                transitioner.SelectedIndex = 2; // Switch to error slider
+            }
+            SpecsComboBox.SelectionChanged += SpecsComboBox_SelectionChanged;
+            Loading = false;
+        }
+
+        // When view model is assigned outside this class
+        private async void Control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is HomeworksViewModel vm)
             {
                 viewModel = vm;
                 uploadContent.Host = homeworkDialog;
 
-                overdueList.Collection = viewModel.Homework[HomeworkStatus.Overdue];
-                deletedList.Collection = viewModel.Homework[HomeworkStatus.Deleted];
-                activeList.Collection = viewModel.Homework[HomeworkStatus.Active];
-                uploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
-                checkedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
+                OverdueList.Collection = viewModel.Homework[HomeworkStatus.Overdue];
+                DeletedList.Collection = viewModel.Homework[HomeworkStatus.Deleted];
+                ActiveList.Collection = viewModel.Homework[HomeworkStatus.Active];
+                UploadedList.Collection = viewModel.Homework[HomeworkStatus.Uploaded];
+                CheckedList.Collection = viewModel.Homework[HomeworkStatus.Checked];
 
-                if (viewModel.LoadedOneTime == true)
-                    ViewModel_HomeworkLoaded();
+                if (viewModel.LoadedOnce == true)
+                {
+                    SpecsComboBox.SelectionChanged -= SpecsComboBox_SelectionChanged;
+                    await viewModel.LoadSpecs();
+                    SpecsComboBox.SelectionChanged += SpecsComboBox_SelectionChanged;
+                    ShowHomeworkSlide();
+                }
                 else
-                    viewModel.LoadHomeworks();
-                viewModel.HomeworkLoaded += ViewModel_HomeworkLoaded;
-
+                {
+                    Refresh();
+                }
+                
                 ScheduleAutoUpdate();
+            }
+        }
+
+        private async void SpecsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(sender is ComboBox comboBox && comboBox.SelectedItem is Spec spec)
+            {
+                transitioner.SelectedIndex = 0;
+                if (await viewModel.LoadHomework(spec))
+                {
+                    ShowHomeworkSlide();
+                }
+                else
+                {
+                    transitioner.SelectedIndex = 2; // Switch to error slider
+                }
             }
         }
     }
