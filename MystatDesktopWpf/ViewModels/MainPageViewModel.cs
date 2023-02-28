@@ -45,10 +45,13 @@ namespace MystatDesktopWpf.ViewModels
                 {
                     var result = await MystatAPISingleton.Client.GetActivities();
                     List<OptimizedActiviy> optimizedActivies = new();
-                    foreach (var activity in result)
+                    foreach (var activityLog in result)
                     {
-                        optimizedActivies.Add(new OptimizedActiviy(activity));
-                        if (activity.Badge > 0) optimizedActivies.Add(new OptimizedActiviy(activity, true));
+                        foreach (var activity in activityLog.Activity)
+                        {
+                            optimizedActivies.Add(new OptimizedActiviy(activity));
+                            if (activity.Badge > 0) optimizedActivies.Add(new OptimizedActiviy(activity, true));
+                        }
                     }
 
                     Activities = new(optimizedActivies);
