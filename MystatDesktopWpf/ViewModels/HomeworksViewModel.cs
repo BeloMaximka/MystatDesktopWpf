@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -30,12 +31,19 @@ namespace MystatDesktopWpf.ViewModels
             allSpecsItem = new Spec()
             {
                 Id = -1,
-                Name = "All subjecs",
-                ShortName = "All subjects"
+                Name = (string)App.Current.FindResource("m_AllSubjects"),
             };
+            allSpecsItem.ShortName = allSpecsItem.Name;
             selectedSpec = allSpecsItem;
+            App.LanguageChanged += App_LanguageChanged;
 
             LoadHomework();
+        }
+
+        private void App_LanguageChanged(object? sender, EventArgs e)
+        {
+            allSpecsItem.Name = (string)App.Current.FindResource("m_AllSubjects");
+            allSpecsItem.ShortName = allSpecsItem.Name;
         }
 
         public async Task<bool> LoadSpecs()

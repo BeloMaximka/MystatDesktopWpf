@@ -29,6 +29,18 @@ namespace MystatDesktopWpf.UserControls.Menus
         public Homeworks()
         {
             InitializeComponent();
+            App.LanguageChanged += App_LanguageChanged;
+        }
+
+        // Updating "All subjects" item in ComboBox
+        private void App_LanguageChanged(object? sender, EventArgs e)
+        {
+            SpecsComboBox.SelectionChanged -= SpecsComboBox_SelectionChanged;
+            var temp = SpecsComboBox.SelectedIndex;
+            SpecsComboBox.SelectedIndex = -1;
+            SpecsComboBox.Items.Refresh();
+            SpecsComboBox.SelectedIndex = temp;
+            SpecsComboBox.SelectionChanged += SpecsComboBox_SelectionChanged;
         }
 
         private void ScheduleAutoUpdate()
