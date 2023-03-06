@@ -79,7 +79,16 @@ namespace MystatDesktopWpf.Services
         {
             try
             {
-                File.WriteAllText(settingsFilePath, JsonSerializer.Serialize(Settings));
+                if (Settings?.LoginData is not null)
+                {
+                    Settings.LoginData.Password = DecpyptPassword(Settings.LoginData.Password);
+                    File.WriteAllText(settingsFilePath, JsonSerializer.Serialize(Settings));
+                    Settings.LoginData.Password = EncpyptPassword(Settings.LoginData.Password);
+                }
+                else
+                {
+                    File.WriteAllText(settingsFilePath, JsonSerializer.Serialize(Settings));
+                }
                 return true;
             }
             catch (Exception)
@@ -90,7 +99,7 @@ namespace MystatDesktopWpf.Services
 
         public static bool SetLoginData(UserLoginData loginData)
         {
-            var copy = new UserLoginData(loginData.Username, EncpyptPassword(loginData.Password));
+            var copy = new UserLoginData(loginData.Username, loginData.Password);
             return SetPropertyValue(nameof(Settings.LoginData), copy);
         }
 

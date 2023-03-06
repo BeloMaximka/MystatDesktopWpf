@@ -21,7 +21,15 @@ namespace MystatDesktopWpf.ViewModels
 
         private readonly Spec allSpecsItem;
         private Spec selectedSpec;
-        public Spec SelectedSpec { get => selectedSpec; private set => SetProperty(ref selectedSpec, value); }
+        public Spec SelectedSpec
+        {
+            get => selectedSpec;
+            private set
+            {
+                SetProperty(ref selectedSpec, value);
+                UpdateHomeworkCollectionSpecs();
+            }
+        }
 
         public HomeworksViewModel()
         {
@@ -36,6 +44,7 @@ namespace MystatDesktopWpf.ViewModels
             };
             allSpecsItem.ShortName = allSpecsItem.Name;
             selectedSpec = allSpecsItem;
+            UpdateHomeworkCollectionSpecs();
             App.LanguageChanged += App_LanguageChanged;
 
             LoadHomework();
@@ -45,6 +54,15 @@ namespace MystatDesktopWpf.ViewModels
         {
             allSpecsItem.Name = (string)App.Current.FindResource("m_AllSubjects");
             allSpecsItem.ShortName = allSpecsItem.Name;
+        }
+
+
+        public void UpdateHomeworkCollectionSpecs()
+        {
+            foreach (var item in Homework)
+            {
+                item.Value.SelectedSpec = selectedSpec;
+            }
         }
 
         public async Task<bool> LoadSpecs()
@@ -64,7 +82,6 @@ namespace MystatDesktopWpf.ViewModels
                 {
                     SelectedSpec = allSpecsItem;
                 }
-                OnPropertyChanged(nameof(SelectedSpec));
                 return true;
             }
             catch (Exception)
@@ -89,7 +106,11 @@ namespace MystatDesktopWpf.ViewModels
             try
             {
                 if (spec == null) spec = selectedSpec;
-                else selectedSpec = spec;
+                else
+                {
+                    selectedSpec = spec;
+                    UpdateHomeworkCollectionSpecs();
+                }
 
                 var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(spec.Id == -1 ? null : spec.Id);
                 foreach (var item in homeworkCount)
@@ -183,13 +204,15 @@ namespace MystatDesktopWpf.ViewModels
 
         public int Page { get; set; } = 1;
 
+        public Spec SelectedSpec { get; set; } = null!;
+
         public async Task<bool> LoadNextPage()
         {
             if (Items.Count == 0 || Items.Count == MaxCount) return false;
 
             try
             {
-                Homework[] result = await MystatAPISingleton.Client.GetHomework(++Page, items[0].Status);
+                Homework[] result = await MystatAPISingleton.Client.GetHomework(++Page, items[0].Status, SelectedSpec.Id == -1 ? null : SelectedSpec.Id);
                 foreach (var item in result)
                     Items.Add(item);
                 OnPropertyChanged(nameof(NoPages));

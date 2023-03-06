@@ -48,6 +48,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             TaskService.CancelTask("auto-homework-refresh");
             TaskService.ScheduleTask("auto-homework-refresh", TimeSpan.FromHours(1), () =>
             {
+                ignoreErrorsOnce = true;
                 Refresh();
                 ScheduleAutoUpdate();
             });
@@ -230,24 +231,26 @@ namespace MystatDesktopWpf.UserControls.Menus
             CheckedList.UpdateNextPageButtonVisibility();
         }
 
-        bool Loading = false;
+        bool loading = false;
+        bool ignoreErrorsOnce = false;
         public async void Refresh()
         {
-            
-            if (Loading) return;
-            Loading = true;
+
+            if (loading) return;
+            loading = true;
             transitioner.SelectedIndex = 0;
             SpecsComboBox.SelectionChanged -= SpecsComboBox_SelectionChanged;
             if (await viewModel.LoadSpecs() && await viewModel.LoadHomework())
             {
                 ShowHomeworkSlide();
             }
-            else
+            else if (!ignoreErrorsOnce)
             {
                 transitioner.SelectedIndex = 2; // Switch to error slider
             }
             SpecsComboBox.SelectionChanged += SpecsComboBox_SelectionChanged;
-            Loading = false;
+            loading = false;
+            ignoreErrorsOnce = false;
         }
 
         // When view model is assigned outside this class
@@ -275,14 +278,14 @@ namespace MystatDesktopWpf.UserControls.Menus
                 {
                     Refresh();
                 }
-                
+
                 ScheduleAutoUpdate();
             }
         }
 
         private async void SpecsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(sender is ComboBox comboBox && comboBox.SelectedItem is Spec spec)
+            if (sender is ComboBox comboBox && comboBox.SelectedItem is Spec spec)
             {
                 transitioner.SelectedIndex = 0;
                 if (await viewModel.LoadHomework(spec))
