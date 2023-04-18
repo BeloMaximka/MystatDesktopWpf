@@ -16,7 +16,7 @@ namespace MystatDesktopWpf.Services
         private static readonly string settingsFilePath;
         public static Settings Settings { get; private set; }
 
-        public static event Action OnSettingsChange;
+        public static event Action SettingsChanged;
 
         static SettingsService()
         {
@@ -42,11 +42,11 @@ namespace MystatDesktopWpf.Services
                     }, TaskScheduler.Default);
             };
 
-            OnSettingsChange += saveDebounced;
-            Settings.ScheduleNotification.OnPropertyChanged += OnSettingsChange;
-            Settings.Theme.OnPropertyChanged += OnSettingsChange;
-            Settings.Tray.OnPropertyChanged += OnSettingsChange;
-            Settings.TimezoneConvertion.OnPropertyChanged += OnSettingsChange;
+            SettingsChanged += saveDebounced;
+            Settings.ScheduleNotification.OnPropertyChanged += SettingsChanged;
+            Settings.Theme.OnPropertyChanged += SettingsChanged;
+            Settings.Tray.OnPropertyChanged += SettingsChanged;
+            Settings.TimezoneConvertion.OnPropertyChanged += SettingsChanged;
         }
 
         public static Settings? Load()
@@ -120,6 +120,11 @@ namespace MystatDesktopWpf.Services
             return true;
         }
 
+        public static void OnSettingsChange()
+		{
+			SettingsChanged.Invoke();
+		}
+
         private static string EncpyptPassword(string password)
         {
             StringBuilder newPass = new();
@@ -169,5 +174,7 @@ namespace MystatDesktopWpf.Services
         public TimezoneSubSettings TimezoneConvertion { get; set; } = new();
         public bool AutoLessonEvaluationEnabled { get; set; } = false;
         public string Language { get; set; }
+
+        public bool[] HomeworkSectionExpandedStates { get; set; } = { true, true, true, true, true };
     }
 }

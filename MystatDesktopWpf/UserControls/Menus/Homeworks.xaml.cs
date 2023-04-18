@@ -26,10 +26,18 @@ namespace MystatDesktopWpf.UserControls.Menus
 		private readonly UploadHomework uploadContent = new();
 		private readonly DeleteHomework deleteContent = new();
 		private readonly DonwloadHomeworkPreview downloadContent = new();
+		private readonly HomeworkList[] homeworkSections;
 
 		public Homeworks()
 		{
 			InitializeComponent();
+
+			homeworkSections = new HomeworkList[] { OverdueList, DeletedList, ActiveList, UploadedList, CheckedList };
+
+			for (int i = 0; i < homeworkSections.Length; i++)
+			{
+				homeworkSections[i].SectionNumber = i;
+			}
 			App.LanguageChanged += App_LanguageChanged;
 		}
 
@@ -224,11 +232,10 @@ namespace MystatDesktopWpf.UserControls.Menus
 		private void ShowHomeworkSlide()
 		{
 			transitioner.SelectedIndex = 1;
-			OverdueList.UpdateNextPageButtonVisibility();
-			DeletedList.UpdateNextPageButtonVisibility();
-			ActiveList.UpdateNextPageButtonVisibility();
-			UploadedList.UpdateNextPageButtonVisibility();
-			CheckedList.UpdateNextPageButtonVisibility();
+			foreach (HomeworkList section in homeworkSections)
+			{
+				section.UpdateNextPageButtonVisibility();
+			}
 		}
 
 		bool loading = false;
