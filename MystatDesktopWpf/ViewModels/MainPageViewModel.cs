@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
+using MystatDesktopWpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,16 +44,15 @@ namespace MystatDesktopWpf.ViewModels
             {
                 try
                 {
-                    var result = await MystatAPISingleton.Client.GetActivities();
-                    List<OptimizedActiviy> optimizedActivies = new();
-                    foreach (var activity in result)
+                    var result = await MystatAPICachingService.GetCachedActivities();
+                    if(result != null)
                     {
-                        optimizedActivies.Add(new OptimizedActiviy(activity));
-                        if (activity.Badge > 0) optimizedActivies.Add(new OptimizedActiviy(activity, true));
-                    }
-
-                    Activities = new(optimizedActivies);
-                    break;
+						Activities = new(MakeOptimizedActivities(result));
+					}
+					result = await MystatAPISingleton.Client.GetActivities();
+					Activities = new(MakeOptimizedActivities(result));
+                    MystatAPICachingService.UpdateCachedActivities(result);
+					break;
                 }
                 catch (Exception e)
                 {
@@ -61,6 +61,16 @@ namespace MystatDesktopWpf.ViewModels
             }
             LoadingActivities = false;
         }
+        private List<OptimizedActiviy> MakeOptimizedActivities(Activity[] activities)
+        {
+			List<OptimizedActiviy> optimizedActivies = new();
+			foreach (var activity in activities)
+			{
+				optimizedActivies.Add(new OptimizedActiviy(activity));
+				if (activity.Badge > 0) optimizedActivies.Add(new OptimizedActiviy(activity, true));
+			}
+            return optimizedActivies;
+		}
 
         public bool LoadingLeaders { get; private set; }
         public async Task LoadLeaders()

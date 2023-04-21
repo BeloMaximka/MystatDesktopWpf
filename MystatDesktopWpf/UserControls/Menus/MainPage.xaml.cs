@@ -39,7 +39,7 @@ namespace MystatDesktopWpf.UserControls.Menus
         {
             Run run = (Run)sender;
             Student student = (Student)run.DataContext;
-            if (student.Id == (await MystatAPISingleton.DeferredProfileInfo).Id)
+            if (student.Id == MystatAPISingleton.ProfileInfo.Id)
                 run.FontWeight = FontWeights.Bold;
             else if (student.Id == null)
             {
