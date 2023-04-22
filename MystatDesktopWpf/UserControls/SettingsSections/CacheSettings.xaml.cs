@@ -30,24 +30,24 @@ namespace MystatDesktopWpf.UserControls.SettingsSections
 		private async void ClearCacheButton_Click(object sender, RoutedEventArgs e)
 		{
 			ClearCacheButton.IsEnabled = false;
-			ClearCacheButton.Content = "Clearing...";
+			ClearCacheButton.SetResourceReference(Button.ContentProperty, "m_Clearing");
 			if (await MystatAPICachingService.ClearCacheAsync())
 			{
-				ClearCacheButton.Content = "Cleared!";
-				UpdateCacheSize();
+				ClearCacheButton.SetResourceReference(Button.ContentProperty, "m_Cleared");
 			}
 			else
 			{
-				ClearCacheButton.Content = "Error!";
+				ClearCacheButton.SetResourceReference(Button.ContentProperty, "m_FailedToClear");
 			}
+			UpdateCacheSize();
 			await Task.Delay(2000);
 			ClearCacheButton.IsEnabled = true;
-			ClearCacheButton.Content = "Clear cache";
+			ClearCacheButton.SetResourceReference(Button.ContentProperty, "m_ClearCache");
 		}
 
 		public async void UpdateCacheSize()
 		{
-			CacheSizeTextBlock.Text = "Calculating...";
+			CacheSizeTextBlock.SetResourceReference(TextBlock.TextProperty, "m_Calculating");
 			CacheSizeTextBlock.Text = Math.Round(await MystatAPICachingService.GetCacheSize() / 1024.0, 2) + " KB";
 		}
 	}

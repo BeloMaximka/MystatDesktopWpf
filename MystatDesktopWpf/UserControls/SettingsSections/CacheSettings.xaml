@@ -9,13 +9,13 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <materialDesign:Card Padding="8">
         <StackPanel Margin="8 0 0 0">
-            <TextBlock Text="Cache" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+            <TextBlock Text="{DynamicResource m_Cache}" HorizontalAlignment="Left" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
             <StackPanel Orientation="Horizontal" Margin="0 8">
-                <TextBlock Text="Cache size: "/>
-                <TextBlock x:Name="CacheSizeTextBlock" Text="8MB" Margin="8 0 0 0"/>
+                <TextBlock Text="{DynamicResource m_CacheSize}"/>
+                <TextBlock x:Name="CacheSizeTextBlock" Margin="8 0 0 0"/>
             </StackPanel>
             
-            <Button x:Name="ClearCacheButton" Content="Clear cache" HorizontalAlignment="Left" Click="ClearCacheButton_Click"/>
+            <Button x:Name="ClearCacheButton" Content="{DynamicResource m_ClearCache}" HorizontalAlignment="Left" Click="ClearCacheButton_Click"/>
         </StackPanel>
         
     </materialDesign:Card>
