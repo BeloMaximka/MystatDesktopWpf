@@ -1,7 +1,7 @@
 ﻿using MystatDesktopWpf.ViewModels;
 using System.Windows.Controls;
 
-namespace MystatDesktopWpf.UserControls
+namespace MystatDesktopWpf.UserControls.SettingsSections
 {
     /// <summary>
     /// Interaction logic for TraySettings.xaml

@@ -3,6 +3,7 @@ using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
 using System;
 using System.IO;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +13,28 @@ namespace MystatDesktopWpf.Services
 	internal static class MystatAPICachingService
 	{
 		private static readonly MystatAPIClient api;
-		private static readonly string cacheRootPath;
+		private static string? userCachePath;
+		private static string rootCachePath;
+
+
+		private static string UserCachePath
+		{
+			get
+			{
+				if (userCachePath == null) throw new DirectoryNotFoundException("No user directory speficied");
+				return userCachePath;
+			}
+		}
+		public static string Login
+		{
+			set
+			{
+				string encodedLogin = Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
+				
+				userCachePath = Directory.CreateDirectory(
+					Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat\cache\users\" + encodedLogin)).FullName;
+			}
+		}
 		static MystatAPICachingService()
 		{
 			api = MystatAPISingleton.Client;
@@ -20,7 +42,7 @@ namespace MystatDesktopWpf.Services
 			{
 				Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat"));
 				Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat\cache"));
-				cacheRootPath = Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat\cache\users")).FullName;
+				rootCachePath = Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat\cache\users")).FullName;
 			}
 			catch (Exception exception)
 			{
@@ -31,7 +53,7 @@ namespace MystatDesktopWpf.Services
 
 		public static async Task<ProfileInfo> GetAndUpdateCachedProfileInfo()
 		{
-			string filePath = $"{cacheRootPath}\\profileInfo.json";
+			string filePath = $"{UserCachePath}\\profileInfo.json";
 			ProfileInfo? profileInfo = null;
 			if (File.Exists(filePath))
 			{
@@ -39,13 +61,14 @@ namespace MystatDesktopWpf.Services
 				profileInfo = JsonSerializer.Deserialize<ProfileInfo>(jsonData);
 			}
 			profileInfo ??= await api.GetProfileInfo();
+			CreateUserCacheDir();
 			UpdateCachedProfileInfo(filePath, profileInfo);
 			return profileInfo;
 		}
 
 		public static async Task<MystatAPI.Entity.Activity[]?> GetCachedActivities()
 		{
-			string filePath = $"{cacheRootPath}\\activities.json";
+			string filePath = $"{UserCachePath}\\activities.json";
 			MystatAPI.Entity.Activity[]? activities = null;
 			if (File.Exists(filePath))
 			{
@@ -59,12 +82,59 @@ namespace MystatDesktopWpf.Services
 		{
 			try
 			{
-				await File.WriteAllTextAsync($"{cacheRootPath}\\activities.json", JsonSerializer.Serialize(activities));
+				CreateUserCacheDir();
+				await File.WriteAllTextAsync($"{UserCachePath}\\activities.json", JsonSerializer.Serialize(activities));
 			}
 			catch (Exception)
 			{
 				// TODO LOG
 			}
+		}
+
+		public async static Task<bool> ClearCacheAsync()
+		{
+			return await Task.Run(() =>
+			{
+				try
+				{
+					foreach (var directory in Directory.GetDirectories(rootCachePath))
+					{
+						Directory.Delete(directory, true);
+					}
+					return true;
+
+				}
+				catch (Exception)
+				{
+					return false;
+				}
+			});
+		}
+
+		public async static Task<int> GetCacheSize()
+		{
+			return await Task.Run(() =>
+			{
+				int size = 0;
+				try
+				{
+
+                    foreach (var dir in Directory.GetDirectories(rootCachePath))
+                    {
+						foreach (var file in Directory.GetFiles(dir))
+						{
+							size += file.Length;
+						}
+                    }
+                }
+				catch (Exception) {}
+				return size;
+			});
+		}
+
+		private static void CreateUserCacheDir()
+		{
+			Directory.CreateDirectory(userCachePath);
 		}
 
 		private async static void UpdateCachedProfileInfo(string path, ProfileInfo? profileInfo = null)

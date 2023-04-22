@@ -14,7 +14,8 @@ namespace MystatDesktopWpf.Domain
             var result = await Client.Login();
             if (result is MystatAuthSuccess responseSuccess)
             {
-                ProfileInfo = await MystatAPICachingService.GetAndUpdateCachedProfileInfo();
+                MystatAPICachingService.Login = Client.LoginData.Username;
+				ProfileInfo = await MystatAPICachingService.GetAndUpdateCachedProfileInfo();
 				Client.GroudId = ProfileInfo.CurrentGroupId;
 			}
             return result;
