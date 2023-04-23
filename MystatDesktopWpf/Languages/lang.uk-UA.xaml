@@ -176,4 +176,17 @@
     <v:String x:Key="m_TimezoneDescription">Перетворення часу в розкладі з урахуванням часових поясів</v:String>
     <v:String x:Key="m_TimezoneConvertFrom">Перетворити з</v:String>
     <v:String x:Key="m_TimezoneConvertTo">у</v:String>
+
+    <!-- Cache -->
+    <v:String x:Key="m_Cache">Кеш</v:String>
+    <v:String x:Key="m_CacheSize">Розмір кешу: </v:String>
+    <v:String x:Key="m_ClearCache">Очистити кеш</v:String>
+    <v:String x:Key="m_Cleared">Очищено!</v:String>
+    <v:String x:Key="m_Clearing">Очистка...</v:String>
+    <v:String x:Key="m_Calculating">Розрахунок...</v:String>
+    <v:String x:Key="m_FailedToClear">Не вдалося очистити!</v:String>
+
+    <!-- Windows settings -->
+    <v:String x:Key="m_WindowsSettings">Налаштування Windows</v:String>
+    <v:String x:Key="m_RunOnWindowsStartup">Запускати під час старту Windows</v:String>
 </ResourceDictionary>

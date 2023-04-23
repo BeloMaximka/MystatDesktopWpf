@@ -51,7 +51,7 @@ namespace MystatDesktopWpf.ViewModels
             {
                 try
                 {
-                    ProfileInfo info = await MystatAPISingleton.Client.GetProfileInfo();
+                    ProfileInfo info = await MystatAPICachingService.GetAndUpdateCachedProfileInfo();
                     Name = info.FullName;
                     Group = info.GroupName;
                     Badges = info.AchievesCount;

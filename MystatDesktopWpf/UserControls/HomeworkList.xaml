@@ -24,98 +24,102 @@
         </converters:ValueConverterGroup>
     </UserControl.Resources>
 
-    <StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="8,16,8,8"
-                    Visibility="{Binding ElementName=control, Path=Collection.MaxCount, 
-                    Converter={StaticResource NotZeroToVisibilityConverter}}">
-            <TextBlock Text="{Binding ElementName=control, Path=Header}" FontSize="16"/>
-            <TextBlock Text="{Binding ElementName=control, Path=Collection.MaxCount}" FontSize="16"/>
-        </StackPanel>
-        <!-- Popup comment -->
-        <Popup x:Name="popupComment" AllowsTransparency="True" Placement="Right" StaysOpen="False">
-            <!-- Popup content -->
-            <Border Margin="8 8 8 8" BorderThickness="1">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" Opacity="0.6" ShadowDepth="0"/>
-                </Border.Effect>
-                <materialDesign:Card x:Name="CommentPopupCard" Padding="8px">
-                    <FlowDocumentScrollViewer x:Name="CommentViewer" VerticalScrollBarVisibility="Disabled" 
+    <Expander Visibility="{Binding ElementName=control, Path=Collection.MaxCount, Converter={StaticResource NotZeroToVisibilityConverter}}"
+              x:Name="MainExpander" IsExpanded="True" Collapsed="MainExpander_Collapsed" Expanded="MainExpander_Expanded">
+        <Expander.Header>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding ElementName=control, Path=Header}" FontSize="16"/>
+                <TextBlock Text="{Binding ElementName=control, Path=Collection.MaxCount}" FontSize="16"/>
+            </StackPanel>
+        </Expander.Header>
+
+        <!-- Body -->
+        <StackPanel>
+            <!-- Popup comment -->
+            <Popup x:Name="popupComment" AllowsTransparency="True" Placement="Right" StaysOpen="False">
+                <!-- Popup content -->
+                <Border Margin="8 8 8 8" BorderThickness="1">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Opacity="0.6" ShadowDepth="0"/>
+                    </Border.Effect>
+                    <materialDesign:Card x:Name="CommentPopupCard" Padding="8px">
+                        <FlowDocumentScrollViewer x:Name="CommentViewer" VerticalScrollBarVisibility="Disabled" 
                                               Width="Auto" MaxWidth="600" Style="{x:Null}">
-                        <FlowDocument FontFamily="{Binding ElementName=CommentPopupCard, Path=FontFamily}" FontSize="13" PagePadding="0">
-                            <Paragraph x:Name="CommentParagraph"/>
-                        </FlowDocument>
-                    </FlowDocumentScrollViewer>
-                </materialDesign:Card>
-            </Border>
-        </Popup>
+                            <FlowDocument FontFamily="{Binding ElementName=CommentPopupCard, Path=FontFamily}" FontSize="13" PagePadding="0">
+                                <Paragraph x:Name="CommentParagraph"/>
+                            </FlowDocument>
+                        </FlowDocumentScrollViewer>
+                    </materialDesign:Card>
+                </Border>
+            </Popup>
 
-        <!-- Popup extra info -->
-        <Popup x:Name="PopupInfo" AllowsTransparency="True" Placement="Custom" StaysOpen="False">
-            <!-- Popup content -->
-            <Border x:Name="PopupInfoBorder" Margin="8" BorderThickness="1">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="10" Opacity="0.6" ShadowDepth="0"/>
-                </Border.Effect>
-                <materialDesign:Card Padding="8px">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <materialDesign:PackIcon Kind="ClockPlus" Margin="0,0,4,0"/>
-                            <materialDesign:PackIcon Kind="Pencil" Margin="0,0,4,0"/>
-                            <materialDesign:PackIcon Kind="Account" Margin="0,0,4,0"/>
-                        </StackPanel>
-                        <TextBox x:Name="ExtraInfoTextBox" Grid.Column="1" Background="Transparent"  Style="{x:Null}" 
-                                 IsReadOnly="True" BorderThickness="0" Foreground="{DynamicResource MaterialDesignBody}">
-                            <TextBox.Text>
-                                <MultiBinding StringFormat="{}{0}&#x0a;{1}&#x0a;{2}">
-                                    <Binding Path="CreationTime" Converter="{StaticResource FormatDateConverter}" ConverterParameter="d"/>
-                                    <Binding Path="Theme"/>
-                                    <Binding Path="TeacherFullName"/>
-                                </MultiBinding>
-                            </TextBox.Text>
-                        </TextBox>
-                    </Grid>
-                </materialDesign:Card>
-            </Border>
-        </Popup>
-
-        <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection.Items}" Width="Auto">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <materialDesign:Card x:Name="card" Width="240" Padding="8px" Margin="8px" Drop="Card_Drop"
-                                         Initialized="Card_Initialized" Tag="{Binding Status}">
+            <!-- Popup extra info -->
+            <Popup x:Name="PopupInfo" AllowsTransparency="True" Placement="Custom" StaysOpen="False">
+                <!-- Popup content -->
+                <Border x:Name="PopupInfoBorder" Margin="8" BorderThickness="1">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10" Opacity="0.6" ShadowDepth="0"/>
+                    </Border.Effect>
+                    <materialDesign:Card Padding="8px">
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="ClockPlus" Margin="0,0,4,0"/>
+                                <materialDesign:PackIcon Kind="Pencil" Margin="0,0,4,0"/>
+                                <materialDesign:PackIcon Kind="Account" Margin="0,0,4,0"/>
+                            </StackPanel>
+                            <TextBox x:Name="ExtraInfoTextBox" Grid.Column="1" Background="Transparent"  Style="{x:Null}" 
+                                 IsReadOnly="True" BorderThickness="0" Foreground="{DynamicResource MaterialDesignBody}">
+                                <TextBox.Text>
+                                    <MultiBinding StringFormat="{}{0}&#x0a;{1}&#x0a;{2}">
+                                        <Binding Path="CreationTime" Converter="{StaticResource FormatDateConverter}" ConverterParameter="d"/>
+                                        <Binding Path="Theme"/>
+                                        <Binding Path="TeacherFullName"/>
+                                    </MultiBinding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </Grid>
+                    </materialDesign:Card>
+                </Border>
+            </Popup>
 
-                            <!-- Header -->
+            <ItemsControl ItemsSource="{Binding ElementName=control, Path=Collection.Items}" Width="Auto">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Card x:Name="card" Width="240" Padding="8px" Margin="8px" Drop="Card_Drop"
+                                         Initialized="Card_Initialized" Tag="{Binding Status}">
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Border x:Name="headerBackground" Background="{DynamicResource PrimaryHueMidBrush}" 
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Header -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="headerBackground" Background="{DynamicResource PrimaryHueMidBrush}" 
                                         CornerRadius="4,4,0,0" Margin="-8" Grid.ColumnSpan="2"/>
-                                <TextBlock x:Name="subjectTextBlock" Text="{Binding SubjectName}" TextWrapping="Wrap" 
+                                    <TextBlock x:Name="subjectTextBlock" Text="{Binding SubjectName}" TextWrapping="Wrap" 
                                            Foreground="{DynamicResource MaterialDesignLightForeground}"
                                            TextAlignment="Center" VerticalAlignment="Center"/>
-                                <Border Background="Transparent" Grid.Column="1" x:Name="Info" Margin="4,0,0,0" Tag="{Binding}"
+                                    <Border Background="Transparent" Grid.Column="1" x:Name="Info" Margin="4,0,0,0" Tag="{Binding}"
                                         MouseEnter="Info_MouseEnter">
-                                    <materialDesign:PackIcon x:Name="InfoCircle" Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
+                                        <materialDesign:PackIcon x:Name="InfoCircle" Kind="InfoCircle" VerticalAlignment="Center" Width="24" Height="24"
                                                              Foreground="{DynamicResource MaterialDesignLightForeground}"/>
-                                </Border>
+                                    </Border>
 
-                            </Grid>
-                            <!-- The rest -->
-                            <StackPanel Grid.Row="1">
-                                <Grid Margin="0,16,0,0">
-                                    <!-- Mark -->
-                                    <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
+                                </Grid>
+                                <!-- The rest -->
+                                <StackPanel Grid.Row="1">
+                                    <Grid Margin="0,16,0,0">
+                                        <!-- Mark -->
+                                        <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
                                             Height="32" Width="32" x:Name="markButton" Visibility="Collapsed"
                                             Background="#1bd2c7" BorderBrush="#1bd2c7"
                                             Foreground="{DynamicResource MaterialDesignLightForeground}"
@@ -123,166 +127,168 @@
                                             IsHitTestVisible="{Binding HomeworkComment.Text, Converter={StaticResource NotNullOrWhiteSpaceConverter}}"
                                             ToolTip="{DynamicResource m_TeacherComment}"
                                             Click="CommentButton_Click" Tag="{Binding HomeworkComment}">
-                                        <TextBlock Text="{Binding UploadedHomework.Mark}"
+                                            <TextBlock Text="{Binding UploadedHomework.Mark}"
                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    </Button>
-                                    <materialDesign:PackIcon Kind="Comment" HorizontalAlignment="Center" Margin="0,-4,-24,0"
+                                        </Button>
+                                        <materialDesign:PackIcon Kind="Comment" HorizontalAlignment="Center" Margin="0,-4,-24,0"
                                                              Foreground="{DynamicResource MaterialDesignBody}" x:Name="markComment"
                                                              Visibility="{Binding HomeworkComment.Text, 
                                                              Converter={StaticResource NotNullOrWhiteSpaceVisibilityConverter}}"/>
 
-                                    <!-- Overdue Time -->
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        <!-- Overdue Time -->
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"
                                                 ToolTip="{DynamicResource m_DueDate}">
-                                        <materialDesign:PackIcon Kind="Clock" Margin="0,0,4,0"/>
-                                        <TextBlock Text="{Binding OverdueTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
-                                    </StackPanel>
+                                            <materialDesign:PackIcon Kind="Clock" Margin="0,0,4,0"/>
+                                            <TextBlock Text="{Binding OverdueTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
+                                        </StackPanel>
 
-                                    <!-- Completion Time -->
-                                    <StackPanel Orientation="Horizontal" x:Name="completionTime" Visibility="Collapsed"
+                                        <!-- Completion Time -->
+                                        <StackPanel Orientation="Horizontal" x:Name="completionTime" Visibility="Collapsed"
                                                 HorizontalAlignment="Right" VerticalAlignment="Center"
                                                 ToolTip="{DynamicResource m_UploadDate}">
-                                        <TextBlock Text="{Binding UploadedHomework.CreationTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
-                                        <materialDesign:PackIcon Kind="ClockCheck" Margin="4,0,0,0"/>
-                                    </StackPanel>
+                                            <TextBlock Text="{Binding UploadedHomework.CreationTime, Converter={StaticResource FormatDateConverter}, ConverterParameter=d}"/>
+                                            <materialDesign:PackIcon Kind="ClockCheck" Margin="4,0,0,0"/>
+                                        </StackPanel>
 
-                                    <!-- Deletion comment -->
-                                    <Button Height="32" Width="32" x:Name="deletionComment" Visibility="Collapsed"
+                                        <!-- Deletion comment -->
+                                        <Button Height="32" Width="32" x:Name="deletionComment" Visibility="Collapsed"
                                             HorizontalAlignment="Center"  Margin="0,0,0,0"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             ToolTip="{DynamicResource m_TeacherComment}"
                                             Click="CommentButton_Click" Tag="{Binding HomeworkComment.Text}">
-                                        <materialDesign:PackIcon Kind="CommentAccount"/>
-                                    </Button>
-                                </Grid>
-                                <Separator Margin="-8,8,-8,8"/>
+                                            <materialDesign:PackIcon Kind="CommentAccount"/>
+                                        </Button>
+                                    </Grid>
+                                    <Separator Margin="-8,8,-8,8"/>
 
-                                <!-- Main buttons -->
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition x:Name="deleteColumn"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
+                                    <!-- Main buttons -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition x:Name="deleteColumn"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <Button Height="32" Width="32" Tag="{Binding}"
+                                        <Button Height="32" Width="32" Tag="{Binding}"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}" 
                                             ToolTip="{DynamicResource m_DownloadWork}"
                                             Click="DownloadButton_Click">
-                                        <materialDesign:PackIcon Kind="Download"/>
-                                    </Button>
+                                            <materialDesign:PackIcon Kind="Download"/>
+                                        </Button>
 
-                                    <!-- Pseudo button with progress indication -->
-                                    <Button Height="32" Width="32" Grid.Column="1" x:Name="progressButton"
+                                        <!-- Pseudo button with progress indication -->
+                                        <Button Height="32" Width="32" Grid.Column="1" x:Name="progressButton"
                                             Style="{DynamicResource MaterialDesignFloatingActionButton}"
                                             Background="Transparent" Foreground="Transparent" BorderBrush="Transparent"
                                             IsHitTestVisible="False"
                                             materialDesign:ButtonProgressAssist.Value="-1"
                                             materialDesign:ButtonProgressAssist.IsIndeterminate="True">
-                                    </Button>
+                                        </Button>
 
-                                    <!-- Upload or download uploaded button -->
-                                    <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
+                                        <!-- Upload or download uploaded button -->
+                                        <Button Height="32" Width="32" Grid.Column="1" x:Name="uploadButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             ToolTip="{DynamicResource m_UploadWork}"
                                             Click="UploadButton_Click" Tag="{Binding}">
-                                        <materialDesign:PackIcon Kind="Upload" x:Name="uploadIcon"/>
-                                    </Button>
+                                            <materialDesign:PackIcon Kind="Upload" x:Name="uploadIcon"/>
+                                        </Button>
 
-                                    <!-- Delete button -->
-                                    <Button Height="32" Width="32" Grid.Column="2" x:Name="deleteButton"
+                                        <!-- Delete button -->
+                                        <Button Height="32" Width="32" Grid.Column="2" x:Name="deleteButton"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             ToolTip="{DynamicResource m_DeleteWork}" Tag="{Binding}">
-                                        <materialDesign:PackIcon Kind="Delete" x:Name="deleteIcon"/>
-                                    </Button>
+                                            <materialDesign:PackIcon Kind="Delete" x:Name="deleteIcon"/>
+                                        </Button>
 
-                                    <!-- Comment button -->
-                                    <Button Height="32" Width="32" Grid.Column="3"
+                                        <!-- Comment button -->
+                                        <Button Height="32" Width="32" Grid.Column="3"
                                             Style="{DynamicResource MaterialDesignIconButton}"
                                             Foreground="{DynamicResource MaterialDesignBody}"
                                             IsEnabled="{Binding Comment, Converter={StaticResource NotNullOrWhiteSpaceConverter}}"
                                             ToolTip="{DynamicResource m_WorkComment}"
                                             Click="CommentButton_Click" Tag="{Binding Comment}">
-                                        <materialDesign:PackIcon Kind="Comment"/>
-                                    </Button>
-                                </Grid>
+                                            <materialDesign:PackIcon Kind="Comment"/>
+                                        </Button>
+                                    </Grid>
 
-                            </StackPanel>
+                                </StackPanel>
 
-                        </Grid>
-                    </materialDesign:Card>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Active}">
-                            <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
-                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
-                            <Setter TargetName="subjectTextBlock" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
-                            <Setter TargetName="InfoCircle" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Overdue}">
-                            <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
-                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
-                            <Setter TargetName="headerBackground" Property="Background" Value="#fa5873"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Uploaded}">
-                            <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
-                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="uploadButton" Property="ToolTip" Value="{DynamicResource m_DownloadUploaded}"/>
-                            <Setter TargetName="headerBackground" Property="Background" Value="#ffc730"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Checked}">
-                            <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
-                            <Setter TargetName="deleteIcon" Property="Kind" Value="UploadOutline"/>
-                            <Setter TargetName="deleteButton" Property="ToolTip" Value="{DynamicResource m_RedoRequestToolTip}"/>
-                            <Setter TargetName="markButton" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="progressButton" Property="Grid.Column" Value="2"/>
-                            <Setter TargetName="uploadButton" Property="ToolTip" Value="{DynamicResource m_DownloadUploaded}"/>
-                            <Setter TargetName="headerBackground" Property="Background" Value="#1bd2c7"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Deleted}">
-                            <Setter TargetName="deletionComment" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
-                            <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="card" Property="AllowDrop" Value="True"/>
-                            <Setter TargetName="headerBackground" Property="Background" Value="#fa5873"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                            </Grid>
+                        </materialDesign:Card>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Active}">
+                                <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
+                                <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="card" Property="AllowDrop" Value="True"/>
+                                <Setter TargetName="subjectTextBlock" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                                <Setter TargetName="InfoCircle" Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Overdue}">
+                                <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
+                                <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="card" Property="AllowDrop" Value="True"/>
+                                <Setter TargetName="headerBackground" Property="Background" Value="#fa5873"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Uploaded}">
+                                <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
+                                <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="uploadButton" Property="ToolTip" Value="{DynamicResource m_DownloadUploaded}"/>
+                                <Setter TargetName="headerBackground" Property="Background" Value="#ffc730"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Checked}">
+                                <Setter TargetName="completionTime" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="uploadIcon" Property="Kind" Value="DownloadOutline"/>
+                                <Setter TargetName="deleteIcon" Property="Kind" Value="UploadOutline"/>
+                                <Setter TargetName="deleteButton" Property="ToolTip" Value="{DynamicResource m_RedoRequestToolTip}"/>
+                                <Setter TargetName="markButton" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="progressButton" Property="Grid.Column" Value="2"/>
+                                <Setter TargetName="uploadButton" Property="ToolTip" Value="{DynamicResource m_DownloadUploaded}"/>
+                                <Setter TargetName="headerBackground" Property="Background" Value="#1bd2c7"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static api:HomeworkStatus.Deleted}">
+                                <Setter TargetName="deletionComment" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="deleteColumn" Property="Width" Value="0"/>
+                                <Setter TargetName="markComment" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="card" Property="AllowDrop" Value="True"/>
+                                <Setter TargetName="headerBackground" Property="Background" Value="#fa5873"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-        </ItemsControl>
-        <Grid>
-            <Button Height="32" Width="32" x:Name="progressPageButton"
+            </ItemsControl>
+            <Grid>
+                <Button Height="32" Width="32" x:Name="progressPageButton"
                     Style="{DynamicResource MaterialDesignFloatingActionButton}"
                     Background="Transparent" Foreground="Transparent" BorderBrush="Transparent"
                     Visibility="{Binding ElementName=nextPageButton, Path=Visibility}"
                     IsHitTestVisible="False"
                     materialDesign:ButtonProgressAssist.Value="-1"
                     materialDesign:ButtonProgressAssist.IsIndeterminate="True">
-            </Button>
-            <Button x:Name="nextPageButton" Height="32" Width="32" HorizontalAlignment="Center"
+                </Button>
+                <Button x:Name="nextPageButton" Height="32" Width="32" HorizontalAlignment="Center"
                 Style="{DynamicResource MaterialDesignIconButton}"
                 Foreground="{DynamicResource MaterialDesignBody}"
                 Visibility="{Binding ElementName=control, Path=Collection.NoPages, Converter={StaticResource BooleanToVisibilityConverter}}" 
                 Click="LoadPageButton_Click">
-                <materialDesign:PackIcon Kind="ChevronDown"/>
-            </Button>
-        </Grid>
+                    <materialDesign:PackIcon Kind="ChevronDown"/>
+                </Button>
+            </Grid>
 
-    </StackPanel>
+        </StackPanel>
+    </Expander>
+    
 
 </UserControl>

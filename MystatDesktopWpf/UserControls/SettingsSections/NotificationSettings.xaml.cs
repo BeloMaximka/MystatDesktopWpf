@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MystatDesktopWpf.UserControls
+namespace MystatDesktopWpf.UserControls.SettingsSections
 {
     /// <summary>
     /// Interaction logic for NotificationSettings.xaml

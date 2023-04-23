@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MystatDesktopWpf"
              xmlns:domain="clr-namespace:MystatDesktopWpf.Domain"
-             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls"
+             xmlns:controls="clr-namespace:MystatDesktopWpf.UserControls.SettingsSections"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vm="clr-namespace:MystatDesktopWpf.ViewModels"
              xmlns:converters="clr-namespace:MystatDesktopWpf.Converters"
@@ -15,10 +15,12 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="16">
+            <controls:WindowsSettings Margin="8"/>
             <controls:NotificationSettings Margin="8"/>
             <controls:ThemeSettings Margin="8"/>
             <controls:TraySettings Margin="8"/>
             <controls:TimezoneSettings Margin="8"/>
+            <controls:CacheSettings x:Name="CacheSettings" Margin="8"/>
         </StackPanel>
     </ScrollViewer>
     

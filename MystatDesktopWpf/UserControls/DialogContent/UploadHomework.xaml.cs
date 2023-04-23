@@ -79,7 +79,7 @@ namespace MystatDesktopWpf.UserControls.DialogContent
                 fileLine.Visibility = Visibility.Visible;
 
                 string extension = Path.GetExtension(files[0]);
-                if (files?.Length != 1 || extension == ".txt" || extension == ".csv")
+                if (files?.Length != 1 || extension == ".txt" || extension == ".csv" || Directory.Exists(files[0]))
                 {
                     Archive = true;
                     fileTextBox.Visibility = Visibility.Visible;

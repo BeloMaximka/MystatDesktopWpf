@@ -35,11 +35,11 @@ namespace MystatDesktopWpf.UserControls.Menus
             leadersList.ItemsSource = viewModel.GroupLeaders;
         }
 
-        private void studentName_Initialized(object sender, EventArgs e)
+        private async void studentName_Initialized(object sender, EventArgs e)
         {
             Run run = (Run)sender;
             Student student = (Student)run.DataContext;
-            if (student.Id == MystatAPISingleton.Profile.Id)
+            if (student.Id == MystatAPISingleton.ProfileInfo.Id)
                 run.FontWeight = FontWeights.Bold;
             else if (student.Id == null)
             {
