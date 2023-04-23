@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace MystatDesktopWpf.Services
 {
-	internal static class MystatAPICachingService
+    internal static class MystatAPICachingService
 	{
 		private static readonly MystatAPIClient api;
 		private static string? userCachePath;
@@ -111,28 +111,32 @@ namespace MystatDesktopWpf.Services
 			});
 		}
 
-		public async static Task<int> GetCacheSize()
+		public async static Task<long> GetCacheSize()
 		{
 			return await Task.Run(() =>
 			{
-				int size = 0;
+				long sizeInBytes = 0;
+
 				try
 				{
 
-                    foreach (var dir in Directory.GetDirectories(rootCachePath))
+                    string[] fileNames = Directory.GetFiles(rootCachePath, "*.*", SearchOption.AllDirectories);
+
+                    foreach (string name in fileNames)
                     {
-						foreach (var file in Directory.GetFiles(dir))
-						{
-							size += file.Length;
-						}
+                        FileInfo info = new FileInfo(name);
+                        sizeInBytes += info.Length;
                     }
+
+                    return sizeInBytes;
                 }
-				catch (Exception) {}
-				return size;
+				catch (Exception) { }
+
+				return sizeInBytes;
 			});
 		}
 
-		private static void CreateUserCacheDir()
+        private static void CreateUserCacheDir()
 		{
 			Directory.CreateDirectory(userCachePath);
 		}
