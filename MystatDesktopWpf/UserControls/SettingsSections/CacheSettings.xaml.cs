@@ -21,8 +21,6 @@ namespace MystatDesktopWpf.UserControls.SettingsSections
 	/// </summary>
 	public partial class CacheSettings : UserControl
 	{
-		static string[] cacheSizeLabels = new string[] { "B", "KB", "MB", "GB" };
-
 		public CacheSettings()
 		{
 			InitializeComponent();
@@ -52,19 +50,7 @@ namespace MystatDesktopWpf.UserControls.SettingsSections
 			CacheSizeTextBlock.SetResourceReference(TextBlock.TextProperty, "m_Calculating");
 
 			long cacheSizeInBytes = await MystatAPICachingService.GetCacheSize();
-
-
-			double cacheSize = cacheSizeInBytes;
-			string label = cacheSizeLabels[0];
-
-			int i = 0;
-            while (cacheSize >= 1024)
-            {
-                cacheSize = Math.Round(cacheSize / 1024.0, 2, MidpointRounding.ToZero);
-				label = cacheSizeLabels[++i];
-            }
-
-            CacheSizeTextBlock.Text = $"{cacheSize} {label}";
+            CacheSizeTextBlock.Text = SizeFormatterService.Format(cacheSizeInBytes);
 		}
 	}
 }
