@@ -15,6 +15,7 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="16">
+            <controls:WindowsSettings Margin="8"/>
             <controls:NotificationSettings Margin="8"/>
             <controls:ThemeSettings Margin="8"/>
             <controls:TraySettings Margin="8"/>
