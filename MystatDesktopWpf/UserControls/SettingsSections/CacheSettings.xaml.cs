@@ -48,7 +48,9 @@ namespace MystatDesktopWpf.UserControls.SettingsSections
 		public async void UpdateCacheSize()
 		{
 			CacheSizeTextBlock.SetResourceReference(TextBlock.TextProperty, "m_Calculating");
-			CacheSizeTextBlock.Text = Math.Round(await MystatAPICachingService.GetCacheSize() / 1024.0, 2) + " KB";
+
+			long cacheSizeInBytes = await MystatAPICachingService.GetCacheSize();
+            CacheSizeTextBlock.Text = SizeFormatterService.Format(cacheSizeInBytes);
 		}
 	}
 }
