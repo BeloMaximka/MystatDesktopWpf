@@ -27,7 +27,7 @@
                     <ScrollViewer>
                         <StackPanel x:Name="HomeworkStackPanel" Margin="16">
                             <ComboBox x:Name="SpecsComboBox" ItemsSource="{Binding Specs}" Margin="8 0" HorizontalAlignment="Left"
-                                      SelectedItem="{Binding SelectedSpec, Mode=OneWay}" Width="430">
+                                      SelectedItem="{Binding SelectedSpec, Mode=OneWay}" Width="430" >
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}"/>

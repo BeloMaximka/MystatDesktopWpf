@@ -51,34 +51,34 @@ namespace MystatDesktopWpf.Services
 			}
 		}
 
-		public static async Task<ProfileInfo> GetAndUpdateCachedProfileInfo()
+		public static async Task<ProfileInfo> GetAndUpdateCachedProfileInfo(bool uncached = false)
 		{
 			string filePath = $"{UserCachePath}\\profileInfo.json";
 			ProfileInfo? profileInfo = null;
-			if (File.Exists(filePath))
+			if (File.Exists(filePath) && !uncached)
 			{
 				string jsonData = await File.ReadAllTextAsync(filePath);
 				profileInfo = JsonSerializer.Deserialize<ProfileInfo>(jsonData);
-			}
+            }
 			profileInfo ??= await api.GetProfileInfo();
-			CreateUserCacheDir();
+            CreateUserCacheDir();
 			UpdateCachedProfileInfo(filePath, profileInfo);
 			return profileInfo;
 		}
 
-		public static async Task<MystatAPI.Entity.Activity[]?> GetCachedActivities()
+		public static async Task<Activity[]?> GetCachedActivities()
 		{
 			string filePath = $"{UserCachePath}\\activities.json";
-			MystatAPI.Entity.Activity[]? activities = null;
+			Activity[]? activities = null;
 			if (File.Exists(filePath))
 			{
 				string jsonData = await File.ReadAllTextAsync(filePath);
-				activities = JsonSerializer.Deserialize<MystatAPI.Entity.Activity[]>(jsonData);
+				activities = JsonSerializer.Deserialize<Activity[]>(jsonData);
 			}
 			return activities;
 		}
 
-		public static async void UpdateCachedActivities(MystatAPI.Entity.Activity[] activities)
+		public static async void UpdateCachedActivities(Activity[] activities)
 		{
 			try
 			{

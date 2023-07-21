@@ -42,6 +42,7 @@ namespace MystatDesktopWpf.ViewModels
         }
 
         private bool loading = false;
+        private bool updatedOnStartup = false;
         public async void Refresh()
         {
             if (loading) return;
@@ -59,6 +60,13 @@ namespace MystatDesktopWpf.ViewModels
                     Diamonds = info.Points.First((s) => s.PointType == GamingPointTypes.Gems).PointsCount;
                     Coins = info.Points.First((s) => s.PointType == GamingPointTypes.Coins).PointsCount;
                     OnPropertyChanged(nameof(Points));
+                    if(!updatedOnStartup)
+                    {
+                        await MystatAPICachingService.GetAndUpdateCachedProfileInfo(uncached: true);
+                        updatedOnStartup = true;
+                        loading = false;
+                        Refresh();
+                    }
                     break;
                 }
                 catch (Exception)
