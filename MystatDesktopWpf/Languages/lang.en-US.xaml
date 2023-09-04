@@ -190,6 +190,8 @@
     <!-- Windows settings -->
     <v:String x:Key="m_WindowsSettings">Windows settings</v:String>
     <v:String x:Key="m_RunOnWindowsStartup">Run on Windows startup</v:String>
+    <v:String x:Key="m_AddToDesktop">Add to Desktop</v:String>
+    <v:String x:Key="m_Added">Added!</v:String>
     
     <!-- sizes -->
     <v:String x:Key="size-b">B</v:String>

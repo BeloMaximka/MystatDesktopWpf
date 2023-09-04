@@ -14,6 +14,7 @@
                 <ToggleButton x:Name="StartupToggle" Unchecked="ToggleButton_Unchecked" />
                 <TextBlock Text="{DynamicResource m_RunOnWindowsStartup}" Margin="8 0 0 0"/>
             </StackPanel>
+            <Button x:Name="AddToDesktopButton" Content="{DynamicResource m_AddToDesktop}" HorizontalAlignment="Left" Click="AddToDesktopButton_Click"/>
         </StackPanel>
 
     </materialDesign:Card>
