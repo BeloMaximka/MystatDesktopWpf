@@ -1,6 +1,7 @@
 ﻿using IWshRuntimeLibrary;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -57,5 +58,15 @@ namespace MystatDesktopWpf.UserControls.SettingsSections
 				}
 			}
 		}
-	}
+
+        private void AddToDesktopButton_Click(object sender, RoutedEventArgs e)
+        {
+			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			WshShell shell = new WshShell();
+			IWshShortcut shortcut = shell.CreateShortcut($@"{desktopPath}\Mystat Desktop.lnk");
+			shortcut.TargetPath = @$"{Directory.GetCurrentDirectory()}\MystatDesktop.exe";
+			shortcut.Description = "Shortcut for MystatDesktop";
+			shortcut.Save();
+		}
+    }
 }
