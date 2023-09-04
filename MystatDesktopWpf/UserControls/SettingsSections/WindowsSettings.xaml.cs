@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -59,7 +60,7 @@ namespace MystatDesktopWpf.UserControls.SettingsSections
 			}
 		}
 
-        private void AddToDesktopButton_Click(object sender, RoutedEventArgs e)
+        private async void AddToDesktopButton_Click(object sender, RoutedEventArgs e)
         {
 			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 			WshShell shell = new WshShell();
@@ -67,6 +68,20 @@ namespace MystatDesktopWpf.UserControls.SettingsSections
 			shortcut.TargetPath = @$"{Directory.GetCurrentDirectory()}\MystatDesktop.exe";
 			shortcut.Description = "Shortcut for MystatDesktop";
 			shortcut.Save();
-		}
+
+			// "Added!" response with 1 second delay
+			if(sender is Button button)
+			{
+				button.MinWidth = button.ActualWidth;
+                button.SetResourceReference(ContentProperty, "m_Added");
+                button.IsEnabled = false;
+
+                await Task.Delay(1000);
+
+                button.MinWidth = 0;
+                button.SetResourceReference(ContentProperty, "m_AddToDesktop");
+                button.IsEnabled = true;
+            }
+        }
     }
 }

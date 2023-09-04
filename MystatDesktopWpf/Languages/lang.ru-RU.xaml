@@ -190,6 +190,7 @@
     <v:String x:Key="m_WindowsSettings">Настройки Windows</v:String>
     <v:String x:Key="m_RunOnWindowsStartup">Запускать при старте Windows</v:String>
     <v:String x:Key="m_AddToDesktop">Добавить на Рабочий стол</v:String>
+    <v:String x:Key="m_Added">Добавлено!</v:String>
 
     <!-- sizes -->
     <v:String x:Key="size-b">Б</v:String>
