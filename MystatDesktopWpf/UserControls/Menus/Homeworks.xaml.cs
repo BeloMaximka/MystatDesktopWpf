@@ -27,18 +27,21 @@ namespace MystatDesktopWpf.UserControls.Menus
 		private readonly DeleteHomework deleteContent = new();
 		private readonly DonwloadHomeworkPreview downloadContent = new();
 		private readonly HomeworkList[] homeworkSections;
+		public static bool IsInstantiated { get; private set; } = false;
 
 		public Homeworks()
 		{
 			InitializeComponent();
+			IsInstantiated = true;
 
-			homeworkSections = new HomeworkList[] { OverdueList, DeletedList, ActiveList, UploadedList, CheckedList };
+            homeworkSections = new HomeworkList[] { OverdueList, DeletedList, ActiveList, UploadedList, CheckedList };
 
 			for (int i = 0; i < homeworkSections.Length; i++)
 			{
 				homeworkSections[i].SectionNumber = i;
 			}
 			App.LanguageChanged += App_LanguageChanged;
+			App.GroupChanged += (_, _) => Dispatcher.Invoke(Refresh);
 		}
 
 		// Updating "All subjects" item in ComboBox
@@ -264,8 +267,8 @@ namespace MystatDesktopWpf.UserControls.Menus
 			loading = false;
 		}
 
-		// When view model is assigned outside this class
-		private async void Control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        // When view model is assigned outside this class
+        private async void Control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
 		{
 			if (e.NewValue is HomeworksViewModel vm)
 			{

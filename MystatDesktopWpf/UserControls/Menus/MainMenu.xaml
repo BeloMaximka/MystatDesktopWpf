@@ -36,17 +36,48 @@
                 <StackPanel x:Name="headerBar" Orientation="Horizontal" HorizontalAlignment="Left"
                         Grid.Column="1" VerticalAlignment="Center" Margin="16,0,0,0"
                         d:DataContext="{d:DesignInstance Type=viewmodels:HeaderBarViewModel}">
-                    <TextBlock Text="{Binding Name}" Margin="0,0,16,0"/>
-                    <materialDesign:PackIcon Kind="Account"/>
-                    <TextBlock Text="{Binding Group}" Margin="4,0,16,0"/>
-                    <materialDesign:PackIcon Kind="Star" Foreground="#a67afa"/>
-                    <TextBlock Text="{Binding Points}" Margin="4,0,8,0"/>
-                    <materialDesign:PackIcon Kind="Diamond" Foreground="#73a0ec"/>
-                    <TextBlock Text="{Binding Diamonds}" Margin="4,0,8,0"/>
-                    <materialDesign:PackIcon Kind="AlphaICircle" Foreground="#ffc730"/>
-                    <TextBlock Text="{Binding Coins}" Margin="4,0,8,0"/>
-                    <materialDesign:PackIcon Kind="Prize" Foreground="#f87087"/>
-                    <TextBlock Text="{Binding Badges}" Margin="4,0,8,0"/>
+                    <TextBlock Text="{Binding Name}" Margin="0,0,16,0" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Account" VerticalAlignment="Center"/>
+                    <ContentPresenter Content="{Binding}">
+                        <!-- Presentations -->
+                        <ContentPresenter.Resources>
+                            <DataTemplate x:Key="TextPresenter">
+                                <TextBlock Text="{Binding Group}" Margin="4,0,16,0"/>
+                            </DataTemplate>
+                            <DataTemplate x:Key="ComboBoxPresenter">
+                                <ComboBox x:Name="GroupsComboBox" IsSynchronizedWithCurrentItem="True" Margin="4,0,16,0"
+                                          ItemsSource="{Binding GroupsList}" SelectedItem="{Binding Path=Group}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Name}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </DataTemplate>
+                        </ContentPresenter.Resources>
+
+                        <!-- Triggers -->
+                        <ContentPresenter.Style>
+                            <Style TargetType="{x:Type ContentPresenter}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMultipleGroups}" Value="False">
+                                        <Setter Property="ContentTemplate" Value="{StaticResource TextPresenter}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMultipleGroups}" Value="True">
+                                        <Setter Property="ContentTemplate" Value="{StaticResource ComboBoxPresenter}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentPresenter.Style>
+                    </ContentPresenter>
+                    <materialDesign:PackIcon Kind="Star" Foreground="#a67afa" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Points}" Margin="4,0,8,0" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Diamond" Foreground="#73a0ec" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Diamonds}" Margin="4,0,8,0" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="AlphaICircle" Foreground="#ffc730" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Coins}" Margin="4,0,8,0" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Prize" Foreground="#f87087" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Badges}" Margin="4,0,8,0" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
                     <Grid x:Name="updateGrid" Visibility="Collapsed">

@@ -40,8 +40,6 @@ namespace MystatDesktopWpf.Services
 			api = MystatAPISingleton.Client;
 			try
 			{
-				Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat"));
-				Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat\cache"));
 				rootCachePath = Directory.CreateDirectory(Environment.ExpandEnvironmentVariables(@"%appdata%\Mystat\cache\users")).FullName;
 			}
 			catch (Exception exception)

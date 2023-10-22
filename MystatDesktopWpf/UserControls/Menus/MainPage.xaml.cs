@@ -23,6 +23,7 @@ namespace MystatDesktopWpf.UserControls.Menus
             classRadioButton.Checked += ClassRadioButton_Checked;
             groupRadioButton.Checked += GroupRadioButton_Checked;
             Refresh();
+            App.GroupChanged += (_, _) => Dispatcher.Invoke(Refresh);
         }
 
         private void ClassRadioButton_Checked(object sender, RoutedEventArgs e)
