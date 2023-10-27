@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
+using MystatAPI.Exceptions;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Extensions;
 using MystatDesktopWpf.Services;
@@ -179,7 +180,7 @@ namespace MystatDesktopWpf.UserControls.Menus
 							foreach (var path in uploadContent.Files)
 								zip.CreateEntryFromAny(path);
 						}
-						HomeworkFile file = new(uploadContent.ArchiveName, stream.ToArray());
+						HomeworkFile file = new(uploadContent.ArchiveName, ".zip", stream.ToArray());
 
 						info = await MystatAPISingleton.Client.UploadHomeworkFile(uploadContent.Homework.Id, file, uploadContent.Comment);
 					}

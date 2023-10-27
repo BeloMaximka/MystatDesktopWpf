@@ -42,7 +42,7 @@
                         <!-- Presentations -->
                         <ContentPresenter.Resources>
                             <DataTemplate x:Key="TextPresenter">
-                                <TextBlock Text="{Binding Group}" Margin="4,0,16,0"/>
+                                <TextBlock Text="{Binding Path=Group.Name}" Margin="4,0,16,0"/>
                             </DataTemplate>
                             <DataTemplate x:Key="ComboBoxPresenter">
                                 <ComboBox x:Name="GroupsComboBox" IsSynchronizedWithCurrentItem="True" Margin="4,0,16,0"
