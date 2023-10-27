@@ -33,6 +33,7 @@ namespace MystatDesktopWpf.UserControls
             GenerateButtons();
             dateTextBlock.Text = GetMonthName(selectedDate);
             App.LanguageChanged += HandleLangChange;
+            App.GroupChanged += (_, _) => Dispatcher.Invoke(Refresh);
             LoadSchedule(selectedDate);
             ScheduleAutoUpdate();
 

@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace MystatDesktopWpf
 {
@@ -23,7 +24,7 @@ namespace MystatDesktopWpf
         public App()
         {
             InitializeComponent();
-            App.LanguageChanged += App_LanguageChanged;
+            LanguageChanged += App_LanguageChanged;
 
             Languages.Clear();
             Languages.Add(new CultureInfo("en-US")); //Нейтральная культура для этого проекта
@@ -35,6 +36,7 @@ namespace MystatDesktopWpf
 
         //Евент для оповещения всех окон приложения
         public static event EventHandler LanguageChanged;
+        public static event EventHandler GroupChanged;
 
         public static CultureInfo Language
         {
@@ -76,9 +78,14 @@ namespace MystatDesktopWpf
             }
         }
 
-        private void App_LanguageChanged(object sender, EventArgs e)
+        private void App_LanguageChanged(object? sender, EventArgs e)
         {
             SettingsService.SetPropertyValue("Language", Language.Name);
+        }
+
+        public static void NotifyGroupChanged()
+        {
+            GroupChanged.Invoke(null, null!);
         }
 
         private const string UniqueEventName = "4B41F251-D34D-419C-ACCC-4144EE501BD1";

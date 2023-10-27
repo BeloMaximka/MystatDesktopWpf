@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MystatAPI.Entity;
+using MystatAPI.Exceptions;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Extensions;
 using MystatDesktopWpf.Services;
@@ -27,18 +28,21 @@ namespace MystatDesktopWpf.UserControls.Menus
 		private readonly DeleteHomework deleteContent = new();
 		private readonly DonwloadHomeworkPreview downloadContent = new();
 		private readonly HomeworkList[] homeworkSections;
+		public static bool IsInstantiated { get; private set; } = false;
 
 		public Homeworks()
 		{
 			InitializeComponent();
+			IsInstantiated = true;
 
-			homeworkSections = new HomeworkList[] { OverdueList, DeletedList, ActiveList, UploadedList, CheckedList };
+            homeworkSections = new HomeworkList[] { OverdueList, DeletedList, ActiveList, UploadedList, CheckedList };
 
 			for (int i = 0; i < homeworkSections.Length; i++)
 			{
 				homeworkSections[i].SectionNumber = i;
 			}
 			App.LanguageChanged += App_LanguageChanged;
+			App.GroupChanged += (_, _) => Dispatcher.Invoke(Refresh);
 		}
 
 		// Updating "All subjects" item in ComboBox
@@ -176,7 +180,7 @@ namespace MystatDesktopWpf.UserControls.Menus
 							foreach (var path in uploadContent.Files)
 								zip.CreateEntryFromAny(path);
 						}
-						HomeworkFile file = new(uploadContent.ArchiveName, stream.ToArray());
+						HomeworkFile file = new(uploadContent.ArchiveName, ".zip", stream.ToArray());
 
 						info = await MystatAPISingleton.Client.UploadHomeworkFile(uploadContent.Homework.Id, file, uploadContent.Comment);
 					}
@@ -264,8 +268,8 @@ namespace MystatDesktopWpf.UserControls.Menus
 			loading = false;
 		}
 
-		// When view model is assigned outside this class
-		private async void Control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        // When view model is assigned outside this class
+        private async void Control_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
 		{
 			if (e.NewValue is HomeworksViewModel vm)
 			{

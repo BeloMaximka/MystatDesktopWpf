@@ -1,9 +1,11 @@
-﻿using MystatAPI.Entity;
+﻿using MystatAPI;
+using MystatAPI.Entity;
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -17,8 +19,32 @@ namespace MystatDesktopWpf.ViewModels
         private string name = "";
         public string Name { get => name; private set => SetProperty(ref name, value); }
 
-        private string group = "";
-        public string Group { get => group; private set => SetProperty(ref group, value); }
+        private Group group;
+        //public Group Group { get => group; set => SetProperty(ref group, value); }
+        public Group Group { get => group; set
+            {
+                int? currentGroupId = group?.Id;
+                int newGroupId = value.Id;
+                SetProperty(ref group, value);
+                if(currentGroupId is not null && currentGroupId != newGroupId)
+                {
+                    MystatAPISingleton.Client.ChangeCurrentGroup(newGroupId)
+                        .ContinueWith(success =>
+                        {
+                            if(success.Result)
+                            {
+                                // refresh all
+                                App.NotifyGroupChanged();
+                                Refresh(true);
+                            }
+                            else
+                            {
+                                // show error
+                            }
+                        });
+                }
+            }
+        }
 
         private int diamonds;
         public int Diamonds { get => diamonds; private set => SetProperty(ref diamonds, value); }
@@ -28,6 +54,12 @@ namespace MystatDesktopWpf.ViewModels
 
         private int badges;
         public int Badges { get => badges; private set => SetProperty(ref badges, value); }
+        
+        private bool isMultipleGroups;
+        public bool IsMultipleGroups { get => isMultipleGroups; private set => SetProperty(ref isMultipleGroups, value); }
+
+        private Group[] groupsList;
+        public Group[] GroupsList { get => groupsList; private set => SetProperty(ref groupsList, value); }
 
         public int Points { get => Diamonds + Coins; }
 
@@ -43,7 +75,7 @@ namespace MystatDesktopWpf.ViewModels
 
         private bool loading = false;
         private bool updatedOnStartup = false;
-        public async void Refresh()
+        public async void Refresh(bool uncached = false)
         {
             if (loading) return;
             loading = true;
@@ -52,9 +84,11 @@ namespace MystatDesktopWpf.ViewModels
             {
                 try
                 {
-                    ProfileInfo info = await MystatAPICachingService.GetAndUpdateCachedProfileInfo();
+                    ProfileInfo info = await MystatAPICachingService.GetAndUpdateCachedProfileInfo(uncached);
                     Name = info.FullName;
-                    Group = info.GroupName;
+                    Group = info.Groups.First(g => g.Id == info.CurrentGroupId);
+                    IsMultipleGroups = info.Groups.Length > 1;
+                    GroupsList = info.Groups;
                     Badges = info.AchievesCount;
 
                     Diamonds = info.Points.First((s) => s.PointType == GamingPointTypes.Gems).PointsCount;

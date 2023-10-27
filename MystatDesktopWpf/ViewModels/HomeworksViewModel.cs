@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.VisualBasic.FileIO;
+using MystatDesktopWpf.UserControls.Menus;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -46,6 +47,12 @@ namespace MystatDesktopWpf.ViewModels
             selectedSpec = allSpecsItem;
             UpdateHomeworkCollectionSpecs();
             App.LanguageChanged += App_LanguageChanged;
+            App.GroupChanged += (_, _) => { 
+                if(!Homeworks.IsInstantiated)
+                {
+                    LoadHomework();
+                }
+            };
 
             LoadHomework();
         }
