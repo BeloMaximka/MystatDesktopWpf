@@ -129,10 +129,10 @@ namespace MystatDesktopWpf.ViewModels
                     }
                 }
 
-                foreach (var item in Homework)
+                var allHomeworks = await MystatAPISingleton.Client.GetHomeworkByType(1, null, HomeworkType.Homework);
+                foreach (var dto in allHomeworks)
                 {
-                    var HomeworkResult = await MystatAPISingleton.Client.GetHomework(1, item.Key, spec.Id == -1 ? null : spec.Id);
-                    Homework[item.Key].Items = new(HomeworkResult);
+                    Homework[dto.Status].Items = new(dto.Data);
                 }
 
                 LoadedOnce = true;
@@ -219,8 +219,8 @@ namespace MystatDesktopWpf.ViewModels
 
             try
             {
-                Homework[] result = await MystatAPISingleton.Client.GetHomework(++Page, items[0].Status, SelectedSpec.Id == -1 ? null : SelectedSpec.Id);
-                foreach (var item in result)
+                HomeworkDTO result = await MystatAPISingleton.Client.GetHomework(++Page, items[0].Status, SelectedSpec.Id == -1 ? null : SelectedSpec.Id);
+                foreach (var item in result.Data)
                     Items.Add(item);
                 OnPropertyChanged(nameof(NoPages));
                 return true;
