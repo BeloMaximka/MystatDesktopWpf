@@ -20,6 +20,7 @@
             <controls:ThemeSettings Margin="8"/>
             <controls:TraySettings Margin="8"/>
             <controls:TimezoneSettings Margin="8"/>
+            <controls:ExperimentalSettings Margin="8"/>
             <controls:CacheSettings x:Name="CacheSettings" Margin="8"/>
         </StackPanel>
     </ScrollViewer>

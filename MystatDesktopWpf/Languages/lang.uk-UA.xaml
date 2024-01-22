@@ -52,7 +52,7 @@
     <v:String x:Key="m_ColorSelection">Кориговані кольори</v:String>
 
     <v:String x:Key="m_ShowFromTray">Розгорнути</v:String>
-	  <v:String x:Key="m_Exit">Закрити</v:String>
+	<v:String x:Key="m_Exit">Закрити</v:String>
     
     <v:String x:Key="m_TraySettings">Налаштування трею</v:String>
     <v:String x:Key="m_MoveToTray">Коли переміщати в трей:</v:String>
@@ -76,6 +76,8 @@
     <v:String x:Key="m_FolderOpenError">Не вдалося відкрити папку.</v:String>
     <v:String x:Key="m_ErrorWhileLoadingHomework" xml:space="preserve">¯\_(ツ)_/¯&#13;&#13;Під час завантаження домашнього завдання виникла помилка, повторіть спробу пізніше.</v:String>
     <v:String x:Key="m_AllSubjects">Всі предмети</v:String>
+    <v:String x:Key="m_HomeworkTypeHomework">Домашні завдання</v:String>
+    <v:String x:Key="m_HomeworkTypeLab">Лабораторні завдання</v:String>
 
     <!-- Homework tooltips -->
     <v:String x:Key="m_TeacherComment">Коментар викладача</v:String>
@@ -197,4 +199,9 @@
     <v:String x:Key="size-kb">КБ</v:String>
     <v:String x:Key="size-mb">МБ</v:String>
     <v:String x:Key="size-gb">ГБ</v:String>
+
+    <!-- Experimental settings -->
+    <v:String x:Key="m_ExperimentalSettings">Експерименти</v:String>
+    <v:String x:Key="m_BypassUploadRestrictions">Обхід заборони завантаження певних типів файлів (наприклад, .txt і .csv)</v:String>
+    <v:String x:Key="m_BypassUploadRestrictionsHelpText">Може вирішити проблеми із завантаженням окремих файлів, особливо файлів з кодом</v:String>
 </ResourceDictionary>

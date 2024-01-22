@@ -6,8 +6,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Linq;
-using System.Xml.Linq;
-using Microsoft.VisualBasic.FileIO;
 using MystatDesktopWpf.UserControls.Menus;
 
 namespace MystatDesktopWpf.ViewModels
@@ -19,6 +17,12 @@ namespace MystatDesktopWpf.ViewModels
 
         private List<Spec> specs;
         public List<Spec> Specs { get => specs; set => SetProperty(ref specs, value); }
+        
+        private List<HomeworkTypeListEntry> types = new List<HomeworkTypeListEntry>() {
+            new HomeworkTypeListEntry(HomeworkType.Homework, "m_HomeworkTypeHomework"),
+            new HomeworkTypeListEntry(HomeworkType.Lab, "m_HomeworkTypeLab"),
+        };
+        public List<HomeworkTypeListEntry> Types { get => types; set => SetProperty(ref types, value); }
 
         private readonly Spec allSpecsItem;
         private Spec selectedSpec;
@@ -29,6 +33,16 @@ namespace MystatDesktopWpf.ViewModels
             {
                 SetProperty(ref selectedSpec, value);
                 UpdateHomeworkCollectionSpecs();
+            }
+        }
+
+        private HomeworkTypeListEntry selectedHomeworkType;
+        public HomeworkTypeListEntry SelectedType
+        {
+            get => selectedHomeworkType;
+            private set
+            {
+                SetProperty(ref selectedHomeworkType, value);
             }
         }
 
@@ -45,6 +59,7 @@ namespace MystatDesktopWpf.ViewModels
             };
             allSpecsItem.ShortName = allSpecsItem.Name;
             selectedSpec = allSpecsItem;
+            selectedHomeworkType = types[0];
             UpdateHomeworkCollectionSpecs();
             App.LanguageChanged += App_LanguageChanged;
             App.GroupChanged += (_, _) => { 
@@ -229,6 +244,18 @@ namespace MystatDesktopWpf.ViewModels
             {
                 return false;
             }
+        }
+    }
+
+    class HomeworkTypeListEntry
+    {
+        public HomeworkType HomeworkType { get; set; }
+        public string TranslationKey { get; set; }
+
+        public HomeworkTypeListEntry(HomeworkType homeworkType, string translationKey)
+        {
+            HomeworkType = homeworkType;
+            TranslationKey = translationKey;
         }
     }
 }

@@ -17,6 +17,7 @@
             
             <!-- Converters -->
             <converters:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+            <converters:StringToResource x:Key="StringToResource" />
 
             <!-- Custom styles -->
             <Style x:Key="PopupToolButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignToolButton}">

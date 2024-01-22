@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using MystatAPI.Entity;
+using MystatDesktopWpf.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +18,7 @@ namespace MystatDesktopWpf.UserControls.DialogContent
     /// </summary>
     public partial class UploadHomework : UserControl
     {
+        public static string[] mystatForbiddenExtentions = new string[] { ".txt", ".csv", ".py" };
         public static readonly DependencyProperty HeaderProperty =
            DependencyProperty.Register("Header", typeof(string), typeof(UploadHomework));
         public string Header
@@ -79,7 +81,10 @@ namespace MystatDesktopWpf.UserControls.DialogContent
                 fileLine.Visibility = Visibility.Visible;
 
                 string extension = Path.GetExtension(files[0]);
-                if (files?.Length != 1 || extension == ".txt" || extension == ".csv" || Directory.Exists(files[0]))
+                if (
+                    files?.Length != 1 
+                    || (mystatForbiddenExtentions.Contains(extension) && !SettingsService.Settings.Experimental.BypassUploadRestrictions) 
+                    || Directory.Exists(files[0]))
                 {
                     Archive = true;
                     fileTextBox.Visibility = Visibility.Visible;

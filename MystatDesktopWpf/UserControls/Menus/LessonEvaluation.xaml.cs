@@ -2,11 +2,10 @@
 using MystatDesktopWpf.Domain;
 using MystatDesktopWpf.Services;
 using MystatDesktopWpf.ViewModels;
-using System.Linq;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using MystatAPI.Entity;
 
 namespace MystatDesktopWpf.UserControls.Menus
 {
@@ -16,6 +15,8 @@ namespace MystatDesktopWpf.UserControls.Menus
     public partial class LessonEvaluation : UserControl, IRefreshable
     {
         private LessonEvaluationViewModel viewModel;
+        private static bool autoRefreshCompleted = false;
+
         public LessonEvaluation()
         {
             InitializeComponent();
@@ -38,7 +39,7 @@ namespace MystatDesktopWpf.UserControls.Menus
                         return;
                     }
                 }
-                
+
                 // If not - schedule for tomorrow 
                 scheduleList = await MystatAPISingleton.Client.GetScheduleByDate(DateTime.Now.AddDays(1));
                 if (scheduleList.Length > 0)
