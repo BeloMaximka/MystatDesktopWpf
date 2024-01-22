@@ -47,6 +47,7 @@ namespace MystatDesktopWpf.Services
             Settings.Theme.OnPropertyChanged += SettingsChanged;
             Settings.Tray.OnPropertyChanged += SettingsChanged;
             Settings.TimezoneConvertion.OnPropertyChanged += SettingsChanged;
+            Settings.Experimental.OnPropertyChanged += SettingsChanged;
         }
 
         public static Settings? Load()
@@ -172,6 +173,7 @@ namespace MystatDesktopWpf.Services
         public ThemeSubSettings Theme { get; set; } = new();
         public TraySubSettings Tray { get; set; } = new();
         public TimezoneSubSettings TimezoneConvertion { get; set; } = new();
+        public ExperimentalFeaturesSubSettings Experimental { get; set; } = new();
         public bool AutoLessonEvaluationEnabled { get; set; } = false;
         public string Language { get; set; }
 

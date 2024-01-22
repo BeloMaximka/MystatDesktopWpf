@@ -76,6 +76,8 @@
     <v:String x:Key="m_FolderOpenError">Не удалось открыть папку.</v:String>
     <v:String x:Key="m_ErrorWhileLoadingHomework" xml:space="preserve">¯\_(ツ)_/¯&#13;&#13;При загрузке домашнего задания произошла ошибка, повторите попытку позже.</v:String>
     <v:String x:Key="m_AllSubjects">Все предметы</v:String>
+    <v:String x:Key="m_HomeworkTypeHomework">Домашние задания</v:String>
+    <v:String x:Key="m_HomeworkTypeLab">Лабораторные задания</v:String>
     
     <!-- Homework tooltips -->
     <v:String x:Key="m_TeacherComment">Комментарий преподавателя</v:String>
@@ -197,4 +199,9 @@
     <v:String x:Key="size-kb">КБ</v:String>
     <v:String x:Key="size-mb">МБ</v:String>
     <v:String x:Key="size-gb">ГБ</v:String>
+
+    <!-- Experimental settings -->
+    <v:String x:Key="m_ExperimentalSettings">Эксперименты</v:String>
+    <v:String x:Key="m_BypassUploadRestrictions">Обход запрета на загрузку определенных типов файлов (например .txt и .csv)</v:String>
+    <v:String x:Key="m_BypassUploadRestrictionsHelpText">Может решить проблемы с загрузкой отдельных файлов, особенной файлов с кодом</v:String>
 </ResourceDictionary>

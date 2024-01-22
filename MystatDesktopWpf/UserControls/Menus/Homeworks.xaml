@@ -15,7 +15,6 @@
     <materialDesign:DialogHost x:Name="homeworkDialog" CloseOnClickAway="True" DialogTheme="Inherit">
         <Grid>
             <materialDesign:Transitioner x:Name="transitioner" SelectedIndex="0">
-
                 <materialDesign:TransitionerSlide>
                     <materialDesign:TransitionerSlide.ForwardWipe>
                         <materialDesign:FadeWipe/>
@@ -26,14 +25,24 @@
                 <materialDesign:TransitionerSlide BackwardWipe="{x:Null}">
                     <ScrollViewer>
                         <StackPanel x:Name="HomeworkStackPanel" Margin="16">
-                            <ComboBox x:Name="SpecsComboBox" ItemsSource="{Binding Specs}" Margin="8 0" HorizontalAlignment="Left"
-                                      SelectedItem="{Binding SelectedSpec, Mode=OneWay}" Width="430" >
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <StackPanel Orientation="Horizontal">
+                                <!--<ComboBox x:Name="TypeComboBox"  Margin="8 0" HorizontalAlignment="Left" Width="200" ItemsSource="{Binding Types}" 
+                                          SelectedItem="{Binding SelectedType, Mode=OneWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding TranslationKey, Converter={StaticResource StringToResource}}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>-->
+                                <ComboBox x:Name="SpecsComboBox" ItemsSource="{Binding Specs}" Margin="8 0" HorizontalAlignment="Left"
+                                          SelectedItem="{Binding SelectedSpec, Mode=OneWay}" Width="430" >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
                             <controls:HomeworkList x:Name="OverdueList" Header="{DynamicResource m_Overdue}" 
                                                    HomeworkManager="{Binding ElementName=Control}"/>
 
