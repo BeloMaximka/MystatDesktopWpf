@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Linq;
 using MystatDesktopWpf.UserControls.Menus;
+using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf.ViewModels
 {

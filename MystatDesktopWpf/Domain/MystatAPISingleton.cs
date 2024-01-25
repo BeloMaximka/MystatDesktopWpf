@@ -24,6 +24,7 @@ namespace MystatDesktopWpf.Domain
         static MystatAPISingleton()
         {
             Client = new MystatAPIClient();
+            Client.BypassUploadRestrictions = SettingsService.Settings.Experimental.BypassUploadRestrictions;
         }
     }
 }
