@@ -8,6 +8,7 @@
     <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
     <AssemblyName>MystatDesktop</AssemblyName>
     <Configurations>Debug;Release</Configurations>
+	<PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

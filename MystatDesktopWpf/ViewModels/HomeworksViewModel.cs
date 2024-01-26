@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Linq;
 using MystatDesktopWpf.UserControls.Menus;
+using MystatDesktopWpf.Services;
 
 namespace MystatDesktopWpf.ViewModels
 {
@@ -113,17 +114,17 @@ namespace MystatDesktopWpf.ViewModels
         }
 
         Task<bool>? homeworkTask = null;
-        public async Task<bool> LoadHomework(Spec? spec = null)
+        public async Task<bool> LoadHomework(Spec? spec = null, HomeworkTypeListEntry? type = null)
         {
             if (homeworkTask != null) return await homeworkTask;
 
-            homeworkTask = LoadHomework_Body(spec);
+            homeworkTask = LoadHomework_Body(spec, type);
             bool result = await homeworkTask;
             homeworkTask = null;
             return result;
         }
 
-        private async Task<bool> LoadHomework_Body(Spec? spec)
+        private async Task<bool> LoadHomework_Body(Spec? spec, HomeworkTypeListEntry? type)
         {
             try
             {
@@ -134,7 +135,14 @@ namespace MystatDesktopWpf.ViewModels
                     UpdateHomeworkCollectionSpecs();
                 }
 
-                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(spec.Id == -1 ? null : spec.Id);
+                if (type == null) type = selectedHomeworkType;
+                else
+                {
+                    selectedHomeworkType = type;
+                }
+
+                int? specId = spec.Id == -1 ? null : spec.Id;
+                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(specId, type.HomeworkType);
                 foreach (var item in homeworkCount)
                 {
                     if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
@@ -144,7 +152,7 @@ namespace MystatDesktopWpf.ViewModels
                     }
                 }
 
-                var allHomeworks = await MystatAPISingleton.Client.GetHomeworkByType(1, null, HomeworkType.Homework);
+                var allHomeworks = await MystatAPISingleton.Client.GetHomeworkByType(1, specId, type.HomeworkType);
                 foreach (var dto in allHomeworks)
                 {
                     Homework[dto.Status].Items = new(dto.Data);

@@ -313,5 +313,21 @@ namespace MystatDesktopWpf.UserControls.Menus
 				}
 			}
 		}
-	}
+
+        private async void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ComboBox comboBox && comboBox.SelectedItem is HomeworkTypeListEntry type)
+            {
+                transitioner.SelectedIndex = 0;
+                if (await viewModel.LoadHomework(type: type))
+                {
+                    ShowHomeworkSlide();
+                }
+                else
+                {
+                    transitioner.SelectedIndex = 2; // Switch to error slider
+                }
+            }
+        }
+    }
 }
