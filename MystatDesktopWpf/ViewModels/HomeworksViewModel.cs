@@ -142,7 +142,7 @@ namespace MystatDesktopWpf.ViewModels
                 }
 
                 int? specId = spec.Id == -1 ? null : spec.Id;
-                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(specId);
+                var homeworkCount = await MystatAPISingleton.Client.GetHomeworkCount(specId, type.HomeworkType);
                 foreach (var item in homeworkCount)
                 {
                     if (Homework.TryGetValue(item.Status, out HomeworkCollection collection))
