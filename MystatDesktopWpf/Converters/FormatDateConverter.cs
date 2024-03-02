@@ -8,9 +8,9 @@ namespace MystatDesktopWpf.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is string text)
+            if(value is string text && DateTime.TryParse(text, out DateTime result))
             {
-                return DateTime.Parse(text).ToString((string)parameter);
+                return result.ToString((string)parameter);
             }
             return Binding.DoNothing;
         }
